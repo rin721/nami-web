@@ -21,15 +21,32 @@ async function waitForRin(page: Page) {
   await page.waitForFunction(() => customElements.get('rl-button') && customElements.get('rl-card'));
 }
 
-test('Astro docs website uses static routes, Rin UI surfaces, and clean localized copy', async ({ page }) => {
+async function readThemeTokenState(page: Page) {
+  return page.evaluate(() => {
+    const theme = document.querySelector('rl-theme') as HTMLElement;
+    const cardBase = document.querySelector('rl-card')?.shadowRoot?.querySelector('[part~="base"]') as HTMLElement;
+    const buttonBase = document.querySelector('rl-button')?.shadowRoot?.querySelector('[part~="base"]') as HTMLElement;
+    const themeStyle = getComputedStyle(theme);
+    return {
+      primary: themeStyle.getPropertyValue('--rl-color-primary').trim(),
+      surface: themeStyle.getPropertyValue('--rl-surface').trim(),
+      cardBg: getComputedStyle(cardBase).backgroundColor,
+      buttonBg: getComputedStyle(buttonBase).backgroundColor
+    };
+  });
+}
+
+test('Astro docs website has product IA, Rin UI surfaces, and clean localized copy', async ({ page }) => {
   const errors = captureConsoleErrors(page);
   await openIsolated(page, '/');
   await expect(page).toHaveURL(/\/zh-CN\/$/);
   await waitForRin(page);
 
   await expect(page.getByRole('heading', { name: 'Rin UI', exact: true })).toBeVisible();
-  await expect(page.locator('[data-product-hero]')).toContainText('面向可换肤应用');
-  await expect(page.locator('body')).toContainText('成熟技术做官网，自家组件做界面');
+  await expect(page.locator('[data-product-hero]')).toContainText('跨框架、可换肤的 Web Components UI 组件库');
+  await expect(page.locator('body')).toContainText('一个组件库应当先解决真实使用路径');
+  await expect(page.locator('body')).not.toContainText('成熟技术做官网');
+  await expect(page.locator('body')).not.toContainText('Astro + MDX');
   await expect(page.locator('rin-docs-router')).toHaveCount(0);
   await expect(page.locator('#component-docs')).toHaveCount(0);
   await expect(page.locator('rl-card').first()).toBeVisible();
@@ -48,19 +65,11 @@ test('Astro docs website uses static routes, Rin UI surfaces, and clean localize
   await expect.poll(async () =>
     page.evaluate(() => (window as Window & { __rinSoftNavMarker?: number }).__rinSoftNavMarker)
   ).toBe(1);
-  await expect(page.locator('#component-docs')).toContainText('主题与布局');
-  const componentRouteTheme = await page.evaluate(() => {
-    const theme = document.querySelector('rl-theme') as HTMLElement;
-    const cardBase = document.querySelector('rl-card')?.shadowRoot?.querySelector('[part~="base"]') as HTMLElement;
-    const buttonBase = document.querySelector('rl-button')?.shadowRoot?.querySelector('[part~="base"]') as HTMLElement;
-    const themeStyle = getComputedStyle(theme);
-    return {
-      primary: themeStyle.getPropertyValue('--rl-color-primary').trim(),
-      surface: themeStyle.getPropertyValue('--rl-surface').trim(),
-      cardBg: getComputedStyle(cardBase).backgroundColor,
-      buttonBg: getComputedStyle(buttonBase).backgroundColor
-    };
-  });
+  await expect(page.locator('#component-docs')).toContainText('基础操作');
+  await expect(page.locator('#component-docs')).toContainText('表单输入');
+  await expect(page.locator('#component-docs')).toContainText('状态展示');
+
+  const componentRouteTheme = await readThemeTokenState(page);
   expect(componentRouteTheme.primary).not.toBe('');
   expect(componentRouteTheme.surface).not.toBe('');
   expect(componentRouteTheme.cardBg).not.toBe('rgba(0, 0, 0, 0)');
@@ -75,19 +84,26 @@ test('Astro docs website uses static routes, Rin UI surfaces, and clean localize
   await page.goto('/en-US/docs/getting-started/');
   await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
 
-  await page.goto('/zh-CN/components/');
-  await expect(page.locator('#component-docs')).toContainText('主题与布局');
-  await expect(page.locator('[data-component-card="rl-button"]')).toBeVisible();
-  await expect(page.locator('[data-component-card="rl-badge"]')).toBeVisible();
-
   await page.goto('/en-US/components/button/');
-  await expect(page.getByRole('heading', { name: 'rl-button' })).toBeVisible();
+  await expect(page.locator('.section-heading h1')).toContainText('rl-button');
   await expect(page.locator('#component-docs')).toContainText('Attributes');
-  await expect(page.locator('#component-docs')).toContainText('Semantic anatomy');
+  await expect(page.locator('#component-docs')).toContainText('Events');
+  await expect(page.locator('#component-docs')).toContainText('Slots');
+  await expect(page.locator('#component-docs')).toContainText('CSS Parts');
+  await expect(page.locator('#component-docs')).toContainText('Accessibility notes');
   await expect(page.locator('#component-docs')).toContainText('--rl-button-bg');
 
-  await page.goto('/zh-CN/docs/theme-algorithm/');
-  await expect(page.locator('#doc-theme-algorithm')).toContainText('主题算法');
+  await page.goto('/zh-CN/theme/');
+  await expect(page.locator('body')).toContainText('主题系统');
+  await expect(page.locator('body')).toContainText('风格预设');
+  await expect(page.locator('body')).toContainText('开放主题算法');
+
+  await page.goto('/zh-CN/theme/style-presets/');
+  await expect(page.locator('[data-contract-stage="default-light"]')).toBeVisible();
+  await expect(page.locator('[data-contract-stage="illustration-dark"]')).toBeVisible();
+
+  await page.goto('/zh-CN/resources/quality/');
+  await expect(page.locator('body')).toContainText('质量');
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toContain('lit-localize can only be configured once');
   expect(bodyText).not.toContain('???');
@@ -95,7 +111,7 @@ test('Astro docs website uses static routes, Rin UI surfaces, and clean localize
   expect(bodyText).not.toContain('鈫');
 
   await page.goto('/en-US/tokens/');
-  await expect(page.locator('body')).toContainText('Seed, semantic, component');
+  await expect(page.locator('body')).toContainText('Seed, Semantic, Component');
   expect(errors).toEqual([]);
 });
 
@@ -104,7 +120,7 @@ test('Theme Designer exposes deterministic algorithm output and semantic customi
   await openIsolated(page, '/en-US/playground/theme-designer/');
   await waitForRin(page);
 
-  await expect(page.locator('[data-theme-designer]')).toContainText('Open algorithm, semantic output');
+  await expect(page.locator('[data-theme-designer]')).toContainText('Theme Designer');
   await expect(page.locator('[data-theme-designer]')).toContainText('Generated CSS');
 
   const designerRoot = page.locator('[data-theme-designer]');
@@ -181,6 +197,7 @@ test('Astro shell keeps visual state across static routes and uses responsive ap
       const bottom = shell.shadowRoot?.querySelector('[part="bottom"]') as HTMLElement;
       return {
         rail: getComputedStyle(rail).display,
+        railWidth: getComputedStyle(rail).width,
         top: getComputedStyle(top).display,
         bottom: getComputedStyle(bottom).display
       };
@@ -190,14 +207,14 @@ test('Astro shell keeps visual state across static routes and uses responsive ap
   const desktop = await readShellSlots();
   await page.setViewportSize({ width: 520, height: 780 });
   const mobile = await readShellSlots();
-  const responsive = { desktop, mobile };
 
-  expect(responsive.desktop.rail).not.toBe('none');
-  expect(responsive.desktop.top).toBe('none');
-  expect(responsive.desktop.bottom).toBe('none');
-  expect(responsive.mobile.rail).toBe('none');
-  expect(responsive.mobile.top).not.toBe('none');
-  expect(responsive.mobile.bottom).not.toBe('none');
+  expect(desktop.rail).not.toBe('none');
+  expect(parseFloat(desktop.railWidth)).toBeGreaterThanOrEqual(180);
+  expect(desktop.top).toBe('none');
+  expect(desktop.bottom).toBe('none');
+  expect(mobile.rail).toBe('none');
+  expect(mobile.top).not.toBe('none');
+  expect(mobile.bottom).not.toBe('none');
 
   await page.goto('/zh-CN/playground/theme-designer/');
   const designerRoot = page.locator('[data-theme-designer]');

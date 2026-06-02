@@ -1,6 +1,6 @@
 ---
 import type { RlComponentMetadata } from '@rin-labs/ui';
-import { componentPreviews } from '../lib/catalog';
+import { componentPreviews, componentUseCase } from '../lib/catalog';
 import { t, type DocsLocale } from '../lib/site';
 
 interface Props {
@@ -11,44 +11,68 @@ interface Props {
 const { item, locale } = Astro.props;
 const preview = componentPreviews.get(item.name) ?? item.usage;
 const encodedUsage = encodeURIComponent(item.usage);
+const none = locale === 'zh-CN' ? '无' : 'none';
 
 function list(values: string[]) {
-  return values.length > 0 ? values.join(', ') : 'none';
+  return values.length > 0 ? values.join(', ') : none;
 }
 ---
 
 <div class="component-reference" id="component-docs">
-  <rl-card>
-    <rl-badge slot="header" variant="primary">{item.name}</rl-badge>
-    <section class="component-preview" aria-label={t(locale, 'component.preview')} set:html={preview} />
-    <p>{item.summary}</p>
-    <section>
-      <h3>{t(locale, 'component.usage')}</h3>
+  <rl-card class="component-hero-card">
+    <rl-badge slot="header" variant="primary">{item.category}</rl-badge>
+    <section class="component-preview component-hero-preview" aria-label={t(locale, 'component.preview')} set:html={preview} />
+    <h3>{item.name}</h3>
+    <p>{componentUseCase(item.name, locale)}</p>
+  </rl-card>
+
+  <div class="component-reference-grid">
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.usage')}</h3>
+      <p>{locale === 'zh-CN' ? '复制最小示例即可在任意前端框架或原生 HTML 中使用。' : 'Copy the minimal example into any framework or plain HTML.'}</p>
       <rin-docs-code-block data-language="html" data-code={encodedUsage}></rin-docs-code-block>
-    </section>
-    <section>
-      <h3>{t(locale, 'component.api')}</h3>
+    </rl-card>
+
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.examples')}</h3>
+      <section class="component-preview" set:html={preview} />
+      <p>{locale === 'zh-CN' ? '示例使用真实 rl-* 元素渲染，受当前主题控制影响。' : 'Examples render real rl-* elements and respond to the current theme controls.'}</p>
+    </rl-card>
+
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.api')}</h3>
       <dl>
-        <dt>Category</dt><dd>{item.category}</dd>
         <dt>Attributes</dt><dd>{list(item.attributes)}</dd>
         <dt>Properties</dt><dd>{list(item.properties)}</dd>
-        <dt>Events</dt><dd>{list(item.events)}</dd>
-        <dt>Slots</dt><dd>{list(item.slots)}</dd>
-        <dt>Parts</dt><dd>{list(item.parts)}</dd>
         <dt>States</dt><dd>{list(item.states)}</dd>
       </dl>
-    </section>
-    <section class="semantic-anatomy">
-      <h3>{t(locale, 'component.anatomy')}</h3>
-      <ul>
-        {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
-      </ul>
+    </rl-card>
+
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.events')}</h3>
+      <p>{list(item.events)}</p>
+      <h3>{t(locale, 'component.slots')}</h3>
+      <p>{list(item.slots)}</p>
+      <h3>{t(locale, 'component.parts')}</h3>
+      <p>{list(item.parts)}</p>
+    </rl-card>
+
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.tokens')}</h3>
+      <p>{list(item.tokens)}</p>
       <h3>{t(locale, 'component.hooks')}</h3>
-      <ul>
+      <ul class="hook-list">
         {item.styleHooks.map((hook) => <li><code>{hook.part}:{hook.state}</code> {hook.tokens.join(', ')}</li>)}
       </ul>
-      <h3>{t(locale, 'component.tokens')}</h3>
-      <p>{list(item.tokens)}</p>
-    </section>
-  </rl-card>
+    </rl-card>
+
+    <rl-card>
+      <h3 slot="header">{t(locale, 'component.anatomy')}</h3>
+      <ul class="hook-list">
+        {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
+      </ul>
+      <h3>{t(locale, 'component.a11y')}</h3>
+      <p>{locale === 'zh-CN' ? '交互组件需要保留键盘可达、focus-visible、ARIA 状态和 disabled/loading 阻断规则。' : 'Interactive components must preserve keyboard access, focus-visible, ARIA state, and disabled/loading guards.'}</p>
+    </rl-card>
+  </div>
 </div>

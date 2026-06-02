@@ -1,0 +1,34 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import { docsLocales, localizedPath, t, type DocsLocale } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+const items = [
+  { slug: 'quality', title: locale === 'zh-CN' ? '质量基线' : 'Quality baseline' },
+  { slug: 'i18n', title: 'i18n' },
+  { slug: 'semantic-anatomy', title: locale === 'zh-CN' ? '语义结构' : 'Semantic anatomy' }
+];
+---
+
+<DocsLayout locale={locale} title={t(locale, 'resources.title')}>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">{t(locale, 'nav.resources')}</p>
+      <h1>{t(locale, 'resources.title')}</h1>
+      <p>{t(locale, 'resources.copy')}</p>
+    </div>
+    <div class="entry-grid">
+      {items.map((item) => (
+        <rl-card>
+          <rl-badge slot="header" variant="primary">{item.slug}</rl-badge>
+          <h3>{item.title}</h3>
+          <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, `/resources/${item.slug}/`)}'`}>{t(locale, 'component.open')}</rl-button>
+        </rl-card>
+      ))}
+    </div>
+  </section>
+</DocsLayout>

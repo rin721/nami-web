@@ -1,0 +1,55 @@
+---
+import DocsLayout from '../../../../components/DocsLayout.astro';
+import { docsLocales, t, type DocsLocale } from '../../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+const cssExample = `.my-rin-theme {
+  --rl-accent-50: #14b8a6;
+  --rl-color-primary: var(--rl-accent-50);
+  --rl-button-bg: var(--rl-color-primary);
+}`;
+---
+
+<DocsLayout locale={locale} title={t(locale, 'theme.algorithmTitle')}>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">{t(locale, 'nav.theme')}</p>
+      <h1>{t(locale, 'theme.algorithmTitle')}</h1>
+      <p>{t(locale, 'theme.algorithmCopy')}</p>
+    </div>
+
+    <div class="token-pipeline">
+      <rl-card>
+        <rl-badge slot="header" variant="primary">1</rl-badge>
+        <strong>Seed</strong>
+        <p>accent, mode, stylePreset, density, motion, radius, contrast</p>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">2</rl-badge>
+        <strong>Semantic</strong>
+        <p>primary, surface, text, focus, overlay, danger</p>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">3</rl-badge>
+        <strong>Component</strong>
+        <p>button, chip, input, dialog, drawer, card, badge</p>
+      </rl-card>
+    </div>
+
+    <div class="theme-designer-grid">
+      <rl-card>
+        <h3 slot="header">{locale === 'zh-CN' ? 'CSS 输出' : 'CSS output'}</h3>
+        <rin-docs-code-block data-language="css" data-code={encodeURIComponent(cssExample)}></rin-docs-code-block>
+      </rl-card>
+      <rl-card>
+        <h3 slot="header">{t(locale, 'nav.designer')}</h3>
+        <p>{t(locale, 'designer.copy')}</p>
+        <rl-button onclick={`location.href='/${locale}/playground/theme-designer/'`}>{t(locale, 'nav.designer')}</rl-button>
+      </rl-card>
+    </div>
+  </section>
+</DocsLayout>

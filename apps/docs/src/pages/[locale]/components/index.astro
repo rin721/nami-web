@@ -1,6 +1,6 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
-import { componentGroups, componentPath, componentPreviews, groupTitle, metadataByName } from '../../../lib/catalog';
+import { componentGroups, componentPath, componentPreviews, componentUseCase, groupDescription, groupTitle, metadataByName, rlComponentMetadata } from '../../../lib/catalog';
 import { docsLocales, t, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
@@ -8,19 +8,46 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.props as { locale: DocsLocale };
+const componentCount = rlComponentMetadata.length;
+const tokenCount = rlComponentMetadata.reduce((count, item) => count + item.tokens.length, 0);
 ---
 
 <DocsLayout locale={locale} title={t(locale, 'nav.components')}>
-  <section class="section">
+  <section class="section component-directory">
     <div class="section-heading">
       <p class="eyebrow">{t(locale, 'nav.components')}</p>
-      <h2>Rin UI Components</h2>
-      <p>{t(locale, 'component.reference')}</p>
+      <h1>{t(locale, 'components.title')}</h1>
+      <p>{t(locale, 'components.copy')}</p>
     </div>
+
+    <div class="directory-stats">
+      <rl-card>
+        <rl-badge slot="header" variant="primary">{componentCount}</rl-badge>
+        <h3>{t(locale, 'components.statsComponents')}</h3>
+        <p>{t(locale, 'components.statsComponentsCopy')}</p>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">{componentGroups.length}</rl-badge>
+        <h3>{t(locale, 'components.statsGroups')}</h3>
+        <p>{t(locale, 'components.statsGroupsCopy')}</p>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">{tokenCount}</rl-badge>
+        <h3>{t(locale, 'components.statsTokens')}</h3>
+        <p>{t(locale, 'components.statsTokensCopy')}</p>
+      </rl-card>
+    </div>
+
     <div id="component-docs" class="component-docs">
       {componentGroups.map((group) => (
-        <section class="component-group">
-          <h3>{groupTitle(group, locale)}</h3>
+        <section class="component-group" id={group.id}>
+          <div class="component-group-heading">
+            <div>
+              <h3>{groupTitle(group, locale)}</h3>
+              <p>{groupDescription(group, locale)}</p>
+            </div>
+            <rl-badge>{group.names.length} items</rl-badge>
+          </div>
           <div class="component-group-grid">
             {group.names.map((name) => {
               const item = metadataByName.get(name);
@@ -31,8 +58,13 @@ const { locale } = Astro.props as { locale: DocsLocale };
                   <div class="component-copy">
                     <rl-badge slot="header" variant="primary">{item.name}</rl-badge>
                     <h3>{item.name}</h3>
-                    <p>{item.summary}</p>
-                    <a class="text-link" href={componentPath(locale, item.name)}>{t(locale, 'component.open')}</a>
+                    <p>{componentUseCase(item.name, locale)}</p>
+                    <div class="component-card-meta">
+                      <rl-badge>{item.events.length} events</rl-badge>
+                      <rl-badge>{item.parts.length} parts</rl-badge>
+                      <rl-badge>{item.tokens.length} tokens</rl-badge>
+                    </div>
+                    <rl-button variant="soft" onclick={`location.href='${componentPath(locale, item.name)}'`}>{t(locale, 'component.open')}</rl-button>
                   </div>
                 </rl-card>
               );

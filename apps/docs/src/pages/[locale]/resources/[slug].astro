@@ -1,0 +1,40 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import { docsLocales, isDocsLocale, t, type DocsLocale } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const resourceSlugs = ['quality', 'i18n', 'semantic-anatomy'] as const;
+  const modules = import.meta.glob('../../../content/docs/*/*.mdx');
+  const paths = await Promise.all(Object.entries(modules).map(async ([path, loader]) => {
+    const parts = path.replace(/\.(md|mdx)$/, '').split('/');
+    const locale = parts.at(-2) ?? 'zh-CN';
+    const slug = parts.at(-1) ?? 'quality';
+    if (!isDocsLocale(locale) || !resourceSlugs.includes(slug as (typeof resourceSlugs)[number])) return null;
+    const module = await loader() as { default: unknown; frontmatter: { title: string; group?: string; description?: string } };
+    return {
+      params: { locale, slug },
+      props: {
+        Content: module.default,
+        frontmatter: module.frontmatter,
+        locale: locale as DocsLocale,
+        slug
+      }
+    };
+  }));
+  return paths.filter(Boolean);
+}
+
+const { Content, frontmatter, locale, slug } = Astro.props;
+---
+
+<DocsLayout locale={locale} title={frontmatter.title} description={frontmatter.description}>
+  <section class="section markdown-route">
+    <div class="section-heading">
+      <p class="eyebrow">{t(locale, 'nav.resources')}</p>
+      <h2>{frontmatter.title}</h2>
+    </div>
+    <article id={`resource-${slug}`} class="markdown-page">
+      <Content />
+    </article>
+  </section>
+</DocsLayout>

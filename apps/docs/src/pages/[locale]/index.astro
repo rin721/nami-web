@@ -10,16 +10,16 @@ const { locale } = Astro.props as { locale: DocsLocale };
 ---
 
 <DocsLayout locale={locale} title="Rin UI">
-  <section class="hero" data-product-hero>
+  <section class="hero product-hero" data-product-hero>
     <div class="hero-copy">
       <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>
       <h1>Rin UI</h1>
       <p class="hero-subtitle">{t(locale, 'home.subtitle')}</p>
       <p class="lead">{t(locale, 'home.lead')}</p>
       <div class="hero-actions">
-        <rl-button id="docs-open-theme">{t(locale, 'controls.theme')}</rl-button>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</rl-button>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/playground/theme-designer/')}'`}>{t(locale, 'home.openDesigner')}</rl-button>
+        <rl-button onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</rl-button>
+        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</rl-button>
+        <rl-button variant="soft" id="docs-open-theme">{t(locale, 'controls.theme')}</rl-button>
       </div>
       <div class="hero-proof">
         <rl-badge>{t(locale, 'home.framework')}</rl-badge>
@@ -28,6 +28,7 @@ const { locale } = Astro.props as { locale: DocsLocale };
         <rl-badge>{t(locale, 'home.metadata')}</rl-badge>
       </div>
     </div>
+
     <section class="hero-showcase" aria-label="Interactive component preview">
       <div class="showcase-bar">
         <rl-tab-bar data-theme-mode value="light">
@@ -38,6 +39,7 @@ const { locale } = Astro.props as { locale: DocsLocale };
       </div>
       <div class="showcase-grid">
         <rl-card class="component-wall">
+          <rl-badge slot="header" variant="primary">Live preview</rl-badge>
           <div class="preview-toolbar">
             <rl-chip checkbox selected value="token">Token</rl-chip>
             <rl-chip checkbox value="docs">Docs</rl-chip>
@@ -46,7 +48,7 @@ const { locale } = Astro.props as { locale: DocsLocale };
           <rl-input label="Search components" placeholder="button, theme, dialog" helper-text="Focus, border, and text color follow tokens.">
             <span slot="icon">/</span>
           </rl-input>
-          <rl-radio-card selected label="One source, two skins" description="Default and illustration presets share the same Web Component code."></rl-radio-card>
+          <rl-radio-card selected label="One source, two skins" description="Default and illustration presets share the same component implementation."></rl-radio-card>
           <div class="preview-actions">
             <rl-button>Primary</rl-button>
             <rl-button variant="soft">Soft</rl-button>
@@ -66,28 +68,54 @@ const { locale } = Astro.props as { locale: DocsLocale };
       </div>
     </section>
   </section>
+
   <section class="section">
     <div class="section-heading">
-      <p class="eyebrow">{t(locale, 'nav.vibe')}</p>
+      <p class="eyebrow">Paths</p>
+      <h2>{t(locale, 'home.libraryTitle')}</h2>
+      <p>{t(locale, 'home.libraryCopy')}</p>
+    </div>
+    <div class="entry-grid">
+      <rl-card>
+        <rl-badge slot="header" variant="primary">01</rl-badge>
+        <h3>{t(locale, 'nav.getStarted')}</h3>
+        <p>{t(locale, 'home.pathStartCopy')}</p>
+        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</rl-button>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">02</rl-badge>
+        <h3>{t(locale, 'nav.components')}</h3>
+        <p>{t(locale, 'home.pathComponentsCopy')}</p>
+        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</rl-button>
+      </rl-card>
+      <rl-card>
+        <rl-badge slot="header" variant="primary">03</rl-badge>
+        <h3>{t(locale, 'nav.theme')}</h3>
+        <p>{t(locale, 'home.pathThemeCopy')}</p>
+        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/')}'`}>{t(locale, 'nav.theme')}</rl-button>
+      </rl-card>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">{t(locale, 'nav.theme')}</p>
       <h2>{t(locale, 'home.vibeTitle')}</h2>
       <p>{t(locale, 'home.vibeCopy')}</p>
     </div>
-    <div class="info-grid">
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{t(locale, 'nav.docs')}</rl-badge>
-        <h3>Astro + MDX</h3>
-        <p>Content Collections, static routes, code highlighting, and production search infrastructure do the docs work.</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{t(locale, 'nav.components')}</rl-badge>
-        <h3>Rin UI surfaces</h3>
-        <p>Every visible control on the site is an <code>rl-*</code> component or an internal <code>rin-docs-*</code> element.</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{t(locale, 'nav.designer')}</rl-badge>
-        <h3>Theme Designer</h3>
-        <p>Inspect the deterministic seed → semantic → component token algorithm without changing library APIs.</p>
-      </rl-card>
+    <div class="style-split">
+      <div class="theme-contract-stage" data-rl-theme="light" data-rl-style="default">
+        <h3>Default</h3>
+        <rl-button>Save</rl-button>
+        <rl-chip selected>Selected</rl-chip>
+        <rl-input label="Project" placeholder="Rin UI"></rl-input>
+      </div>
+      <div class="theme-contract-stage rl-theme-illustration" data-rl-theme="light" data-rl-style="illustration">
+        <h3>Illustration</h3>
+        <rl-button>Save</rl-button>
+        <rl-chip selected>Selected</rl-chip>
+        <rl-input label="Project" placeholder="Rin UI"></rl-input>
+      </div>
     </div>
   </section>
 </DocsLayout>

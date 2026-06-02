@@ -25,12 +25,20 @@ rin-docs-theme-designer {
   display: block;
 }
 
+rl-app-shell::part(rail) {
+  width: 188px;
+}
+
+rl-app-shell::part(control) {
+  padding-left: 188px;
+}
+
 .rail-stack {
-  align-items: center;
+  align-items: stretch;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: 10px;
+  padding: 14px 10px;
 }
 
 .rail-stack a {
@@ -38,16 +46,39 @@ rin-docs-theme-designer {
   border-radius: var(--rl-radius-control);
   color: var(--rl-icon-color);
   display: inline-flex;
+  gap: 10px;
   font-weight: 800;
-  height: 38px;
-  justify-content: center;
+  min-height: 40px;
+  justify-content: flex-start;
+  padding: 0 10px;
   text-decoration: none;
-  width: 38px;
+  width: auto;
+}
+
+.rail-icon {
+  align-items: center;
+  background: var(--rl-hover-overlay);
+  border-radius: var(--rl-radius-control);
+  display: inline-flex;
+  font-size: 0.75rem;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.rail-label {
+  color: var(--rl-text);
+  font-size: 0.875rem;
 }
 
 .rail-stack a:hover {
   background: var(--rl-hover-overlay);
   color: var(--rl-color-primary);
+}
+
+.rail-stack a[aria-current='page'] .rail-icon {
+  background: var(--rl-color-primary);
+  color: var(--rl-text-inverse);
 }
 
 .rail-stack a[aria-current='page'],
@@ -245,6 +276,11 @@ rl-card p {
   --rl-card-gap: 12px;
 }
 
+.install-card pre {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 .section {
   border-top: 1px solid var(--rl-border);
   display: grid;
@@ -259,6 +295,9 @@ rl-card p {
 }
 
 .info-grid,
+.entry-grid,
+.directory-stats,
+.theme-system-grid,
 .theme-lab-grid,
 .theme-designer-grid,
 .theme-contract-grid,
@@ -273,9 +312,21 @@ rl-card p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.entry-grid,
+.directory-stats,
+.theme-system-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .theme-lab-grid,
 .theme-designer-grid,
 .quality-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.style-split {
+  display: grid;
+  gap: 14px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -407,6 +458,13 @@ rl-card p {
   gap: 12px;
 }
 
+.component-group-heading {
+  align-items: end;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
 .component-group > h3 {
   margin: 0;
 }
@@ -430,6 +488,13 @@ rl-card p {
   gap: 10px;
   min-height: 116px;
   padding: 14px;
+}
+
+.component-card-meta {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .mini-shell {
@@ -479,7 +544,23 @@ rl-card p {
 }
 
 .component-reference {
-  max-width: 920px;
+  display: grid;
+  gap: 16px;
+  max-width: 1080px;
+}
+
+.component-reference-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.component-hero-card {
+  --rl-card-gap: 14px;
+}
+
+.component-hero-preview {
+  min-height: 180px;
 }
 
 .component-reference dl,
@@ -502,6 +583,13 @@ rl-card dd {
   margin: 0;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.hook-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
 }
 
 .text-link {
@@ -666,6 +754,9 @@ pre code {
   .theme-contract-grid,
   .theme-designer-grid,
   .doc-index,
+  .entry-grid,
+  .directory-stats,
+  .theme-system-grid,
   .info-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -684,12 +775,22 @@ pre code {
   .theme-designer-grid,
   .quality-grid,
   .component-group-grid,
+  .component-reference-grid,
+  .style-split,
   .doc-style-live {
     grid-template-columns: 1fr;
   }
 }
 
 @media (width <= 639px) {
+  rl-app-shell::part(rail) {
+    width: 56px;
+  }
+
+  rl-app-shell::part(control) {
+    padding-left: 0;
+  }
+
   .docs-page {
     gap: 32px;
     padding: 28px 16px 88px;
@@ -708,6 +809,9 @@ pre code {
   .theme-designer-grid,
   .derived-token-tree,
   .doc-index,
+  .entry-grid,
+  .directory-stats,
+  .theme-system-grid,
   .info-grid,
   .token-pipeline {
     grid-template-columns: 1fr;
