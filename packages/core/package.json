@@ -44,6 +44,10 @@
       "types": "./dist/components/spinner.d.ts",
       "default": "./dist/components/spinner.js"
     },
+    "./page-transition": {
+      "types": "./dist/components/page-transition.d.ts",
+      "default": "./dist/components/page-transition.js"
+    },
     "./illustration": {
       "types": "./dist/components/illustration.d.ts",
       "default": "./dist/components/illustration.js"

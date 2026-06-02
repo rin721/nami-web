@@ -12,6 +12,7 @@ const entries = {
   'components/config': resolve(__dirname, 'src/components/config.ts'),
   'components/theme': resolve(__dirname, 'src/components/theme.ts'),
   'components/spinner': resolve(__dirname, 'src/components/spinner.ts'),
+  'components/page-transition': resolve(__dirname, 'src/components/page-transition.ts'),
   'components/illustration': resolve(__dirname, 'src/components/illustration.ts'),
   'components/empty': resolve(__dirname, 'src/components/empty.ts'),
   'components/result': resolve(__dirname, 'src/components/result.ts'),

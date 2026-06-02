@@ -4,11 +4,15 @@
 <body>
 <trans-unit id="nami.empty.description">
   <source>No data</source>
-  <target>无数据</target>
+  <target>暂无数据</target>
 </trans-unit>
 <trans-unit id="nami.empty.aria">
   <source>Empty state</source>
   <target>空状态</target>
+</trans-unit>
+<trans-unit id="nami.pageTransition.preparing">
+  <source>Preparing interface</source>
+  <target>正在准备界面</target>
 </trans-unit>
 <trans-unit id="nami.result.aria">
   <source>Result</source>

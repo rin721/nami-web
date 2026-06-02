@@ -6,7 +6,7 @@ order: 5
 
 # 框架接入
 
-Nami UI 第一版不需要框架 wrapper。使用标准自定义元素注册，并通过 attributes、properties 和 DOM events 传递数据。
+Nami UI 使用标准 Web Components，不需要 React、Vue 或 Astro wrapper。应用只需要注册组件、加载主题 CSS，然后通过 attributes、properties 和 DOM events 传递状态。
 
 ## 原生 HTML
 
@@ -26,7 +26,7 @@ import '@nami/themes/default.css';
 import '@nami/ui/register';
 ```
 
-在 Vue compiler options 中将 `nami-*` 标签配置为 custom elements。
+在 Vue compiler options 中把 `nami-*` 配置为 custom elements。事件可以用原生 DOM 事件监听，复杂表单可以通过 refs 设置 property。
 
 ## React
 
@@ -39,5 +39,47 @@ export function App() {
 }
 ```
 
-需要类型化 React 事件时，可以通过 refs 监听，或在项目内写一个很小的事件桥接 wrapper。
+需要类型化事件时，可以通过 refs 监听，也可以在项目内写一个很小的事件桥接 wrapper。
 
+## 页面过渡钩子
+
+`nami-page-transition` 是标准元素，框架只需要在自己的生命周期里调用 `show()`、`hide()` 或 `waitFor()`。
+
+### Astro
+
+```ts
+const transition = document.querySelector('nami-page-transition');
+
+document.addEventListener('astro:before-preparation', () => {
+  transition?.show({ appearance: 'bar' });
+});
+
+document.addEventListener('astro:page-load', () => {
+  transition?.hide({ appearance: 'bar' });
+});
+```
+
+### Vue Router
+
+```ts
+router.beforeResolve(() => {
+  document.querySelector('nami-page-transition')?.show({ appearance: 'bar' });
+});
+
+router.afterEach(() => {
+  document.querySelector('nami-page-transition')?.hide({ appearance: 'bar' });
+});
+```
+
+### 原生异步任务
+
+```ts
+const transition = document.querySelector('nami-page-transition');
+
+await transition?.waitFor(fetch('/api/profile'), {
+  appearance: 'panel',
+  minDuration: 240
+});
+```
+
+默认推荐路由切换使用 `bar`，首屏初始化使用 `veil`，只有真正阻断交互的任务才使用 `panel`。

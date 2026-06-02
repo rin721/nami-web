@@ -15,6 +15,7 @@ import type { NamiEmpty } from './components/empty';
 import type { NamiIconButton } from './components/icon-button';
 import type { NamiIllustration } from './components/illustration';
 import type { NamiInput } from './components/input';
+import type { NamiPageTransition } from './components/page-transition';
 import type { NamiRadioCard } from './components/radio-card';
 import type { NamiResult } from './components/result';
 import type { NamiSwitch } from './components/switch';
@@ -437,6 +438,66 @@ describe('@nami/ui components', () => {
     badge.remove();
   });
 
+  it('renders page transition appearances with hook methods, hidden default label, and localized aria', async () => {
+    await setLocale('en-US');
+    const transition = document.createElement('nami-page-transition') as NamiPageTransition;
+    transition.active = true;
+    transition.variant = 'inline';
+    transition.tone = 'brand';
+    transition.appearance = 'panel';
+    transition.duration = 0;
+    document.body.append(transition);
+    await transition.updateComplete;
+
+    expect(transition.hasAttribute('active')).toBe(true);
+    expect(transition.getAttribute('variant')).toBe('inline');
+    expect(transition.getAttribute('tone')).toBe('brand');
+    expect(transition.getAttribute('appearance')).toBe('panel');
+    expect(transition.getAttribute('duration')).toBe('0');
+    expect(transition.shadowRoot?.querySelector('nami-spinner')).not.toBeNull();
+    expect(transition.shadowRoot?.querySelector('[part~="base"]')?.getAttribute('aria-label')).toBe('Preparing interface');
+    expect(transition.shadowRoot?.textContent).not.toContain('Loading');
+
+    const icon = document.createElement('span');
+    icon.slot = 'icon';
+    icon.textContent = 'N';
+    transition.append(icon);
+    transition.append(document.createTextNode('Custom progress'));
+    await transition.updateComplete;
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await transition.updateComplete;
+
+    const iconSlot = transition.shadowRoot?.querySelector('slot[name="icon"]') as HTMLSlotElement;
+    expect(iconSlot.assignedElements()).toHaveLength(1);
+    expect(transition.shadowRoot?.querySelector('[part~="label"]')?.classList.contains('has-content')).toBe(true);
+
+    transition.show({ appearance: 'veil', tone: 'brand' });
+    await transition.updateComplete;
+    expect(transition.getAttribute('appearance')).toBe('veil');
+    expect(transition.shadowRoot?.querySelector('[part~="brand"]')).not.toBeNull();
+
+    const result = await transition.waitFor(Promise.resolve('done'), { appearance: 'bar', duration: 0, minDuration: 0 });
+    await transition.updateComplete;
+    expect(result).toBe('done');
+    expect(transition.getAttribute('appearance')).toBe('bar');
+    expect(transition.hasAttribute('active')).toBe(false);
+    expect(transition.shadowRoot?.querySelector('[part~="base"]')).toBeNull();
+
+    await setLocale('zh-CN');
+    transition.show({ appearance: 'panel', duration: 0 });
+    await transition.updateComplete;
+    expect(transition.shadowRoot?.querySelector('[part~="base"]')?.getAttribute('aria-label')).not.toBe('Preparing interface');
+
+    await transition.hide({ duration: 0 });
+    await transition.updateComplete;
+
+    expect(transition.hasAttribute('active')).toBe(false);
+    expect(transition.shadowRoot?.querySelector('[part~="base"]')).toBeNull();
+
+    transition.remove();
+    await setLocale('en-US');
+  });
+
   it('publishes metadata for all registered public components', () => {
     const names = namiComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
@@ -444,6 +505,7 @@ describe('@nami/ui components', () => {
       'nami-config',
       'nami-theme',
       'nami-spinner',
+      'nami-page-transition',
       'nami-illustration',
       'nami-empty',
       'nami-result',
@@ -494,6 +556,10 @@ describe('@nami/ui components', () => {
       }
       if (item.name === 'nami-icon-button') {
         (element as NamiIconButton).loading = true;
+      }
+      if (item.name === 'nami-page-transition') {
+        (element as NamiPageTransition).active = true;
+        (element as NamiPageTransition).duration = 0;
       }
       document.body.append(element);
       await element.updateComplete;

@@ -561,6 +561,12 @@ nami-card p {
   padding: 14px;
 }
 
+.component-preview-frame {
+  min-height: 128px;
+  position: relative;
+  width: 100%;
+}
+
 .component-card-meta {
   align-items: center;
   display: flex;

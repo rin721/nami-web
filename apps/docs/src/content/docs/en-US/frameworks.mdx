@@ -6,7 +6,7 @@ order: 5
 
 # Frameworks
 
-Nami UI does not require framework wrappers for the first release. Use standard custom element registration and pass data through attributes, properties, and DOM events.
+Nami UI is built from standard Web Components. You do not need React, Vue, or Astro wrappers to use the first release. Register the custom elements, load the theme CSS, then pass state through attributes, properties, and DOM events.
 
 ## Native HTML
 
@@ -26,7 +26,7 @@ import '@nami/themes/default.css';
 import '@nami/ui/register';
 ```
 
-Configure Vue to treat `nami-*` tags as custom elements in the application compiler options.
+Configure Vue to treat `nami-*` tags as custom elements in the compiler options. Listen to Nami events as native DOM events and set complex values through refs.
 
 ## React
 
@@ -41,3 +41,45 @@ export function App() {
 
 For typed React events, attach listeners through refs or bridge events in a small local wrapper.
 
+## Page Transition Hooks
+
+`nami-page-transition` is a standard custom element, so frameworks only need to call `show()`, `hide()`, or `waitFor()` from their own lifecycle hooks.
+
+### Astro
+
+```ts
+const transition = document.querySelector('nami-page-transition');
+
+document.addEventListener('astro:before-preparation', () => {
+  transition?.show({ appearance: 'bar' });
+});
+
+document.addEventListener('astro:page-load', () => {
+  transition?.hide({ appearance: 'bar' });
+});
+```
+
+### Vue Router
+
+```ts
+router.beforeResolve(() => {
+  document.querySelector('nami-page-transition')?.show({ appearance: 'bar' });
+});
+
+router.afterEach(() => {
+  document.querySelector('nami-page-transition')?.hide({ appearance: 'bar' });
+});
+```
+
+### Native Async Task
+
+```ts
+const transition = document.querySelector('nami-page-transition');
+
+await transition?.waitFor(fetch('/api/profile'), {
+  appearance: 'panel',
+  minDuration: 240
+});
+```
+
+Use `bar` for route progress, `veil` for the first app reveal, and `panel` only when the task truly blocks interaction.

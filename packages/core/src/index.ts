@@ -1,6 +1,7 @@
 export * from './components/config';
 export * from './components/theme';
 export * from './components/spinner';
+export * from './components/page-transition';
 export * from './components/illustration';
 export * from './components/empty';
 export * from './components/result';

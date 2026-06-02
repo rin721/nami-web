@@ -29,7 +29,7 @@ export const componentGroups = [
       'zh-CN': '加载、弹层、抽屉和通知，用于完成异步反馈与焦点管理。',
       'en-US': 'Loading, dialogs, drawers, and toasts for async feedback and focus management.'
     },
-    names: ['nami-spinner', 'nami-dialog', 'nami-drawer', 'nami-toast']
+    names: ['nami-spinner', 'nami-page-transition', 'nami-dialog', 'nami-drawer', 'nami-toast']
   },
   {
     id: 'layoutTheme',
@@ -65,6 +65,7 @@ export const componentPreviews = new Map<string, string>([
   ['nami-switch', '<nami-switch checked>Enabled</nami-switch>'],
   ['nami-radio-card', '<nami-radio-card selected label="Token driven" description="Selected state follows accent."></nami-radio-card>'],
   ['nami-spinner', '<nami-spinner size="md" label="Loading"></nami-spinner>'],
+  ['nami-page-transition', '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
   ['nami-dialog', '<nami-button variant="soft">Open dialog</nami-button>'],
   ['nami-drawer', '<nami-button variant="soft">Open drawer</nami-button>'],
   ['nami-toast', '<nami-button variant="soft">Show toast</nami-button>'],

@@ -12,6 +12,7 @@ import { NamiIllustration } from './components/illustration';
 import { NamiInput } from './components/input';
 import { NamiRadioCard } from './components/radio-card';
 import { NamiResult } from './components/result';
+import { NamiPageTransition } from './components/page-transition';
 import { NamiSpinner } from './components/spinner';
 import { NamiSwitch } from './components/switch';
 import { NamiTabBar } from './components/tab-bar';
@@ -23,6 +24,7 @@ export function registerNamiElements() {
   defineElement('nami-theme', NamiTheme);
   defineElement('nami-config', NamiConfig);
   defineElement('nami-spinner', NamiSpinner);
+  defineElement('nami-page-transition', NamiPageTransition);
   defineElement('nami-illustration', NamiIllustration);
   defineElement('nami-empty', NamiEmpty);
   defineElement('nami-result', NamiResult);

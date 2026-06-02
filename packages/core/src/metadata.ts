@@ -63,6 +63,19 @@ const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
     tokens: ['--nami-motion-fast', '--nami-text', '--nami-spinner-track-color']
   },
   {
+    name: 'nami-page-transition',
+    summary: 'Framework-hook driven page transition for route progress, first-paint reveal, and blocking tasks.',
+    usage: '<nami-page-transition appearance="bar" active></nami-page-transition>',
+    attributes: ['active', 'label', 'variant', 'tone', 'appearance', 'duration'],
+    properties: ['active', 'label', 'variant', 'tone', 'appearance', 'duration', 'show()', 'hide()', 'waitFor()'],
+    events: [],
+    slots: ['default', 'icon'],
+    parts: ['base', 'track', 'indicator', 'brand', 'panel', 'label'],
+    tokens: ['--nami-motion-fast', '--nami-motion-normal', '--nami-surface', '--nami-surface-overlay', '--nami-text', '--nami-color-primary', '--nami-border', '--nami-dialog-border-width', '--nami-dialog-radius', '--nami-dialog-shadow', '--nami-spinner-track-color', '--nami-style-background-pattern', '--nami-style-stroke-width'],
+    category: 'feedback',
+    states: ['default', 'loading', 'active']
+  },
+  {
     name: 'nami-illustration',
     summary: 'Token-driven status illustration.',
     usage: '<nami-illustration name="empty" size="md"></nami-illustration>',
@@ -254,6 +267,7 @@ const categoryByName = new Map<string, NamiComponentMetadata['category']>([
   ['nami-switch', 'form'],
   ['nami-radio-card', 'form'],
   ['nami-spinner', 'feedback'],
+  ['nami-page-transition', 'feedback'],
   ['nami-illustration', 'feedback'],
   ['nami-empty', 'feedback'],
   ['nami-result', 'feedback'],
@@ -285,6 +299,9 @@ const partDescriptions = new Map<string, string>([
   ['header', 'Header region for title or leading content.'],
   ['footer', 'Footer region for secondary content.'],
   ['body', 'Main content region.'],
+  ['track', 'Progress track for route and reveal transitions.'],
+  ['brand', 'Brand mark region for first-paint reveal transitions.'],
+  ['panel', 'Raised inner surface for grouped transition content.'],
   ['illustration', 'Illustration container.'],
   ['image', 'Rendered illustration artwork.'],
   ['error', 'Validation or error message region.'],

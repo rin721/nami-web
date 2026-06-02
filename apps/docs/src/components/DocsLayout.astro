@@ -52,6 +52,7 @@ function isActive(path: string) {
   <body>
     <nami-config id="docs-config" locale={locale} dir="ltr">
       <nami-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
+        <nami-page-transition id="docs-page-transition" appearance="veil" active></nami-page-transition>
         <nami-app-shell>
           <nav slot="rail" class="rail-stack" aria-label="Primary">
             {primary.map((link) => {

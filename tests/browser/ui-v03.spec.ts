@@ -18,7 +18,7 @@ async function openIsolated(page: Page, path = '/zh-CN/') {
 }
 
 async function waitForNami(page: Page) {
-  await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-card'));
+  await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-card') && customElements.get('nami-page-transition'));
 }
 
 async function readThemeTokenState(page: Page) {
@@ -43,6 +43,15 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   await waitForNami(page);
 
   await expect(page.getByRole('heading', { name: 'Nami UI', exact: true })).toBeVisible();
+  await expect(page.locator('#docs-page-transition')).toHaveCount(1);
+  await expect(page.locator('#docs-page-transition')).toHaveAttribute('appearance', 'veil');
+  await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => ({
+    show: typeof (element as HTMLElement & { show?: unknown }).show === 'function',
+    hide: typeof (element as HTMLElement & { hide?: unknown }).hide === 'function',
+    waitFor: typeof (element as HTMLElement & { waitFor?: unknown }).waitFor === 'function'
+  }))).toEqual({ show: true, hide: true, waitFor: true });
+  await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => element.hasAttribute('active'))).toBe(false);
+  await expect(page.locator('#docs-page-transition')).not.toContainText('Loading');
   await expect(page.locator('[data-product-hero]')).toContainText('跨框架、可换肤的 Web Components UI 组件库');
   await expect(page.locator('body')).toContainText('组件库官网应从真实使用路径开始');
   await expect(page.locator('body')).not.toContainText('成熟技术做官网');
@@ -58,13 +67,28 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   expect(thirdPartyVisibleShell).toBe(0);
 
   await page.evaluate(() => {
-    (window as Window & { __namiSoftNavMarker?: number }).__namiSoftNavMarker = 1;
+    const win = window as Window & { __namiSoftNavMarker?: number; __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null }> };
+    win.__namiSoftNavMarker = 1;
+    win.__namiTransitionSamples = [];
+    const sample = () => {
+      const transition = document.querySelector('#docs-page-transition');
+      win.__namiTransitionSamples?.push({
+        active: Boolean(transition?.hasAttribute('active')),
+        appearance: transition?.getAttribute('appearance') ?? null
+      });
+    };
+    sample();
+    new MutationObserver(sample).observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ['active', 'appearance'] });
   });
   await page.locator('a[href="/zh-CN/components/"]').first().click();
   await expect(page).toHaveURL(/\/zh-CN\/components\/$/);
   await expect.poll(async () =>
     page.evaluate(() => (window as Window & { __namiSoftNavMarker?: number }).__namiSoftNavMarker)
   ).toBe(1);
+  await expect.poll(async () =>
+    page.evaluate(() => (window as Window & { __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null }> }).__namiTransitionSamples?.some((sample) => sample.active && sample.appearance === 'bar'))
+  ).toBe(true);
+  await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => element.hasAttribute('active'))).toBe(false);
   await expect(page.locator('#component-docs')).toContainText('基础操作');
   await expect(page.locator('#component-docs')).toContainText('表单输入');
   await expect(page.locator('#component-docs')).toContainText('状态展示');
