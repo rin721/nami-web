@@ -75,6 +75,15 @@ export class RlTabBar extends LitElement {
 
   private syncItems() {
     const enabledItems = this.enabledItems;
+    if (enabledItems.length === 0) {
+      if (this.items.length === 0 && this.value !== '') this.value = '';
+      this.items.forEach((item) => {
+        item.setAttribute('role', 'tab');
+        item.setAttribute('aria-disabled', this.isItemDisabled(item) ? 'true' : 'false');
+        item.setAttribute('tabindex', '-1');
+      });
+      return;
+    }
     const hasEnabledValue = enabledItems.some((item) => getRovingValue(item) === this.value);
     const activeValue = hasEnabledValue ? this.value : getRovingValue(enabledItems[0]) || '';
     if (this.value !== activeValue) this.value = activeValue;

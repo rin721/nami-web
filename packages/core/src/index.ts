@@ -19,4 +19,5 @@ export * from './components/toast';
 export * from './components/app-shell';
 export * from './events';
 export * from './metadata';
+export * from './anatomy';
 export * from './localize';

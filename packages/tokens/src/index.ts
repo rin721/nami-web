@@ -8,6 +8,7 @@ export const seedTokens = [
   '--rl-radius-surface',
   '--rl-radius-tight',
   '--rl-radius-round',
+  '--rl-contrast-level',
   '--rl-shadow-color',
   '--rl-motion-fast',
   '--rl-motion-normal',

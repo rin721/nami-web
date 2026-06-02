@@ -7,6 +7,7 @@ const entries = {
   register: resolve(__dirname, 'src/register.ts'),
   themes: resolve(__dirname, 'src/themes.ts'),
   metadata: resolve(__dirname, 'src/metadata.ts'),
+  anatomy: resolve(__dirname, 'src/anatomy.ts'),
   localize: resolve(__dirname, 'src/localize.ts'),
   'components/config': resolve(__dirname, 'src/components/config.ts'),
   'components/theme': resolve(__dirname, 'src/components/theme.ts'),

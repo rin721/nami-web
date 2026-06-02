@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
+import { rlComponentAnatomy } from './anatomy';
 import './register';
 import type { RlBadge } from './components/badge';
 import type { RlButton } from './components/button';
@@ -33,6 +36,21 @@ describe('@rin-labs/ui components', () => {
     expect(theme.getAttribute('accent')).toBe('#22c55e');
     expect(theme.getAttribute('style-preset')).toBe('illustration');
     expect(theme.dataset.rlStyle).toBe('illustration');
+
+    theme.remove();
+  });
+
+  it('reflects radius and contrast theme seeds', async () => {
+    const theme = document.createElement('rl-theme') as RlTheme;
+    theme.radius = 'soft';
+    theme.contrast = 'high';
+    document.body.append(theme);
+    await theme.updateComplete;
+
+    expect(theme.getAttribute('radius')).toBe('soft');
+    expect(theme.getAttribute('contrast')).toBe('high');
+    expect(theme.dataset.rlRadius).toBe('soft');
+    expect(theme.dataset.rlContrast).toBe('high');
 
     theme.remove();
   });
@@ -441,5 +459,85 @@ describe('@rin-labs/ui components', () => {
     ]);
     expect(rlComponentMetadata.every((item) => item.usage && item.parts && customElements.get(item.name))).toBe(true);
     expect(rlComponentMetadata.flatMap((item) => item.tokens).every((token) => tokenNames.has(token))).toBe(true);
+    expect(rlComponentMetadata.every((item) => item.category && item.states.length > 0 && item.anatomy && item.styleHooks)).toBe(true);
+    expect(rlComponentAnatomy).toHaveLength(rlComponentMetadata.length);
+  });
+
+  it('keeps declared CSS parts and seed-token boundaries honest', async () => {
+    for (const item of rlComponentMetadata) {
+      const element = document.createElement(item.name) as HTMLElement & { updateComplete?: Promise<unknown> };
+      if (item.name === 'rl-empty') {
+        (element as RlEmpty).title = 'Empty';
+        (element as RlEmpty).description = 'No content';
+      }
+      if (item.name === 'rl-result') {
+        (element as RlResult).title = 'Done';
+        (element as RlResult).subTitle = 'Ready';
+      }
+      if (item.name === 'rl-input') {
+        (element as RlInput).label = 'Input';
+        (element as RlInput).helperText = 'Help';
+      }
+      if (item.name === 'rl-dialog') {
+        (element as RlDialog).label = 'Dialog';
+      }
+      if (item.name === 'rl-radio-card') {
+        (element as RlRadioCard).label = 'Radio';
+        (element as RlRadioCard).description = 'Description';
+      }
+      if (item.name === 'rl-button') {
+        (element as RlButton).loading = true;
+      }
+      if (item.name === 'rl-icon-button') {
+        (element as RlIconButton).loading = true;
+      }
+      document.body.append(element);
+      await element.updateComplete;
+
+      for (const part of item.parts) {
+        let partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        if (!partElement && item.name === 'rl-button' && part === 'icon') {
+          (element as RlButton).loading = false;
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'rl-button' && part === 'indicator') {
+          (element as RlButton).loading = true;
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'rl-icon-button' && part === 'icon') {
+          (element as RlIconButton).loading = false;
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'rl-icon-button' && part === 'indicator') {
+          (element as RlIconButton).loading = true;
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'rl-input' && part === 'description') {
+          (element as RlInput).error = '';
+          (element as RlInput).helperText = 'Help';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'rl-input' && part === 'error') {
+          (element as RlInput).error = 'Error';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        expect(partElement, `${item.name} should expose part="${part}"`).not.toBeNull();
+      }
+
+      element.remove();
+    }
+
+    const componentDir = join(process.cwd(), 'src', 'components');
+    const componentFiles = readdirSync(componentDir).filter((file) => file.endsWith('.ts') && file !== 'theme.ts');
+    for (const file of componentFiles) {
+      const source = readFileSync(join(componentDir, file), 'utf8');
+      expect(source, `${file} must not consume accent seed scale directly`).not.toMatch(/--rl-accent-(?:5|10|20|30|40|50|60|70|80|90)\b/);
+    }
   });
 });

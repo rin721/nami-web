@@ -1,5 +1,6 @@
 export interface RlComponentMetadata {
   name: string;
+  category: 'configuration' | 'layout' | 'action' | 'selection' | 'form' | 'feedback' | 'overlay' | 'status';
   summary: string;
   usage: string;
   attributes: string[];
@@ -8,9 +9,26 @@ export interface RlComponentMetadata {
   slots: string[];
   parts: string[];
   tokens: string[];
+  anatomy: RlComponentAnatomyPart[];
+  states: string[];
+  styleHooks: RlComponentStyleHook[];
 }
 
-export const rlComponentMetadata: RlComponentMetadata[] = [
+export interface RlComponentAnatomyPart {
+  part: string;
+  description: string;
+}
+
+export interface RlComponentStyleHook {
+  part: string;
+  state: string;
+  tokens: string[];
+}
+
+type RlComponentMetadataSource = Omit<RlComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'> &
+  Partial<Pick<RlComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'>>;
+
+const rlComponentMetadataSource: RlComponentMetadataSource[] = [
   {
     name: 'rl-config',
     summary: 'Global locale and text-direction boundary powered by @lit/localize.',
@@ -24,14 +42,14 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
   },
   {
     name: 'rl-theme',
-    summary: 'Theme, accent, density, and motion boundary.',
-    usage: '<rl-theme theme="light" style-preset="illustration" accent="#3b82f6"><slot /></rl-theme>',
-    attributes: ['theme', 'accent', 'density', 'motion', 'style-preset'],
-    properties: ['theme', 'accent', 'density', 'motion', 'stylePreset'],
+    summary: 'Theme, accent, density, motion, radius, contrast, and style preset boundary.',
+    usage: '<rl-theme theme="light" style-preset="illustration" accent="#3b82f6" radius="soft" contrast="high"><slot /></rl-theme>',
+    attributes: ['theme', 'accent', 'density', 'motion', 'style-preset', 'radius', 'contrast'],
+    properties: ['theme', 'accent', 'density', 'motion', 'stylePreset', 'radius', 'contrast'],
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-ink-color', '--rl-style-on-paper', '--rl-style-on-paper-muted', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern', '--rl-style-doodle-opacity', '--rl-style-paper-line-color']
+    tokens: ['--rl-accent-50', '--rl-contrast-level', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-ink-color', '--rl-style-on-paper', '--rl-style-on-paper-muted', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern', '--rl-style-doodle-opacity', '--rl-style-paper-line-color']
   },
   {
     name: 'rl-spinner',
@@ -221,3 +239,96 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     tokens: ['--rl-app-shell-border-width', '--rl-app-shell-shadow', '--rl-surface', '--rl-surface-overlay', '--rl-border', '--rl-style-background-pattern']
   }
 ];
+
+const categoryByName = new Map<string, RlComponentMetadata['category']>([
+  ['rl-config', 'configuration'],
+  ['rl-theme', 'configuration'],
+  ['rl-app-shell', 'layout'],
+  ['rl-card', 'layout'],
+  ['rl-button', 'action'],
+  ['rl-icon-button', 'action'],
+  ['rl-badge', 'status'],
+  ['rl-chip', 'selection'],
+  ['rl-tab-bar', 'selection'],
+  ['rl-input', 'form'],
+  ['rl-switch', 'form'],
+  ['rl-radio-card', 'form'],
+  ['rl-spinner', 'feedback'],
+  ['rl-illustration', 'feedback'],
+  ['rl-empty', 'feedback'],
+  ['rl-result', 'feedback'],
+  ['rl-dialog', 'overlay'],
+  ['rl-drawer', 'overlay'],
+  ['rl-toast', 'overlay']
+]);
+
+const baseStatesByCategory: Record<RlComponentMetadata['category'], string[]> = {
+  configuration: ['default'],
+  layout: ['default'],
+  action: ['default', 'hover', 'active', 'focus-visible', 'disabled', 'loading'],
+  selection: ['default', 'hover', 'active', 'focus-visible', 'disabled', 'selected'],
+  form: ['default', 'hover', 'active', 'focus-visible', 'disabled', 'checked', 'selected', 'error'],
+  feedback: ['default', 'loading'],
+  overlay: ['default', 'open', 'focus-visible'],
+  status: ['default']
+};
+
+const partDescriptions = new Map<string, string>([
+  ['base', 'Stable outer style surface exposed through CSS Parts.'],
+  ['control', 'Interactive control surface that receives state styling.'],
+  ['label', 'Primary readable label content.'],
+  ['description', 'Secondary explanatory content.'],
+  ['indicator', 'Visual state indicator such as spinner, thumb, or marker.'],
+  ['icon', 'Icon slot or visual symbol area.'],
+  ['actions', 'Action slot or grouped command area.'],
+  ['backdrop', 'Overlay backdrop surface.'],
+  ['header', 'Header region for title or leading content.'],
+  ['footer', 'Footer region for secondary content.'],
+  ['body', 'Main content region.'],
+  ['illustration', 'Illustration container.'],
+  ['image', 'Rendered illustration artwork.'],
+  ['error', 'Validation or error message region.'],
+  ['rail', 'Desktop navigation rail slot.'],
+  ['top', 'Mobile top navigation slot.'],
+  ['bottom', 'Mobile bottom navigation slot.']
+]);
+
+function anatomyForParts(parts: string[]): RlComponentAnatomyPart[] {
+  return parts.map((part) => ({
+    part,
+    description: partDescriptions.get(part) ?? 'Named style part exposed as public component anatomy.'
+  }));
+}
+
+function tokensForState(tokens: string[], state: string) {
+  if (state === 'focus-visible') return tokens.filter((token) => token.includes('focus') || token.includes('ring'));
+  if (state === 'selected' || state === 'checked') return tokens.filter((token) => token.includes('selected') || token.includes('primary') || token.includes('checked'));
+  if (state === 'hover') return tokens.filter((token) => token.includes('hover'));
+  if (state === 'loading') return tokens.filter((token) => token.includes('spinner') || token.includes('motion'));
+  if (state === 'open') return tokens.filter((token) => token.includes('dialog') || token.includes('drawer') || token.includes('toast') || token.includes('overlay'));
+  if (state === 'error') return tokens.filter((token) => token.includes('error') || token.includes('danger'));
+  return tokens;
+}
+
+function styleHooksFor(item: RlComponentMetadataSource, states: string[]): RlComponentStyleHook[] {
+  const basePart = item.parts.includes('control') ? 'control' : item.parts[0] ?? 'base';
+  return states
+    .map((state) => ({
+      part: basePart,
+      state,
+      tokens: tokensForState(item.tokens, state)
+    }))
+    .filter((hook) => hook.tokens.length > 0);
+}
+
+export const rlComponentMetadata: RlComponentMetadata[] = rlComponentMetadataSource.map((item) => {
+  const category = item.category ?? categoryByName.get(item.name) ?? 'status';
+  const states = item.states ?? baseStatesByCategory[category];
+  return {
+    ...item,
+    category,
+    anatomy: item.anatomy ?? anatomyForParts(item.parts),
+    states,
+    styleHooks: item.styleHooks ?? styleHooksFor(item, states)
+  };
+});

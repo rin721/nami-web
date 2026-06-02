@@ -26,6 +26,12 @@
       "types": "./dist/metadata.d.ts",
       "default": "./dist/metadata.js"
     },
+    "./anatomy": {
+      "types": "./dist/anatomy.d.ts",
+      "default": "./dist/anatomy.js"
+    },
+    "./rin-ui.anatomy.json": "./dist/rin-ui.anatomy.json",
+    "./rin-ui.theme.schema.json": "./dist/rin-ui.theme.schema.json",
     "./localize": {
       "types": "./dist/localize.d.ts",
       "default": "./dist/localize.js"
@@ -104,7 +110,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json --emitDeclarationOnly && vite build",
+    "build": "tsc -p tsconfig.json --emitDeclarationOnly && vite build && node ./scripts/write-machine-readable.mjs",
     "manifest": "cem analyze --litelement --globs \"src/**/*.ts\" --outdir dist",
     "test": "vitest run"
   },

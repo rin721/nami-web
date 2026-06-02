@@ -39,7 +39,8 @@ export function routeLinks(locale = currentLocale()): DocsRouteLink[] {
     }))
   ),
   { path: '/tokens', label: t('Tokens', 'docs.nav.tokens'), shortLabel: 'T', group: 'System' },
-  { path: '/playground/theme-lab', label: t('Theme Lab', 'docs.nav.lab'), shortLabel: 'P', group: 'Playground' }
+  { path: '/playground/theme-lab', label: t('Theme Lab', 'docs.nav.lab'), shortLabel: 'P', group: 'Playground' },
+  { path: '/playground/theme-designer', label: t('Theme Designer', 'docs.nav.designer'), shortLabel: 'D', group: 'Playground' }
   ];
 }
 
@@ -49,7 +50,7 @@ export function primaryNav() {
     { path: '/docs/getting-started', label: t('Docs', 'docs.nav.docs'), shortLabel: 'D' },
     { path: '/components', label: t('Components', 'docs.nav.components'), shortLabel: 'C' },
     { path: '/tokens', label: t('Tokens', 'docs.nav.tokens'), shortLabel: 'T' },
-    { path: '/playground/theme-lab', label: t('Lab', 'docs.nav.lab'), shortLabel: 'P' }
+    { path: '/playground/theme-designer', label: t('Designer', 'docs.nav.designer'), shortLabel: 'D' }
   ];
 }
 

@@ -236,6 +236,7 @@ rl-card p {
 
 .info-grid,
 .theme-lab-grid,
+.theme-designer-grid,
 .theme-contract-grid,
 .quality-grid,
 .component-group-grid,
@@ -249,6 +250,7 @@ rl-card p {
 }
 
 .theme-lab-grid,
+.theme-designer-grid,
 .quality-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -269,6 +271,65 @@ rl-card p {
   align-items: flex-start;
   display: grid;
   gap: 12px;
+}
+
+.theme-designer-output,
+.derived-token-tree {
+  display: grid;
+  gap: 12px;
+}
+
+.theme-designer-output {
+  margin-top: 18px;
+}
+
+.derived-token-tree {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.token-dl,
+.semantic-anatomy ul {
+  margin: 0;
+}
+
+.token-dl {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(92px, max-content) minmax(0, 1fr);
+}
+
+.token-dl dt {
+  color: var(--rl-text-muted);
+  font-weight: 800;
+}
+
+.token-dl dd {
+  font-family: var(--rl-font-mono);
+  font-size: 0.8125rem;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.semantic-anatomy {
+  display: grid;
+  gap: 10px;
+}
+
+.semantic-anatomy h4 {
+  margin: 8px 0 0;
+}
+
+.semantic-anatomy li {
+  color: var(--rl-text-muted);
+  line-height: 1.6;
+}
+
+.affected-components {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .control-stack > rl-chip,
@@ -579,6 +640,7 @@ pre code {
   }
 
   .theme-contract-grid,
+  .theme-designer-grid,
   .doc-index,
   .info-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -595,6 +657,7 @@ pre code {
   }
 
   .theme-lab-grid,
+  .theme-designer-grid,
   .quality-grid,
   .component-group-grid,
   .doc-style-live {
@@ -618,6 +681,8 @@ pre code {
   }
 
   .theme-contract-grid,
+  .theme-designer-grid,
+  .derived-token-tree,
   .doc-index,
   .info-grid,
   .token-pipeline {

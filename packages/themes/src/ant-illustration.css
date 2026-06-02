@@ -234,3 +234,20 @@ rl-theme[style-preset='ant-illustration'] rl-result,
 [data-rl-style='ant-illustration'] rl-result {
   --rl-radius-surface: var(--rl-style-border-radius);
 }
+
+[data-rl-contrast='high'][data-rl-style='illustration'],
+[data-rl-contrast='high'][data-rl-style='ant-illustration'],
+rl-theme[contrast='high'][style-preset='illustration'],
+rl-theme[contrast='high'][style-preset='ant-illustration'],
+.rl-theme-high-contrast.rl-theme-illustration,
+.rl-theme-high-contrast.rl-theme-ant-illustration {
+  --rl-contrast-level: high;
+  --rl-style-stroke-width: 4px;
+  --rl-button-border-width: 4px;
+  --rl-chip-border-width: 4px;
+  --rl-input-border-width: 4px;
+  --rl-radio-card-border-width: 4px;
+  --rl-tab-border-width: 4px;
+  --rl-focus-ring: 0 0 0 4px color-mix(in oklab, var(--rl-color-primary-focus), transparent 18%), 4px 4px 0 var(--rl-style-ink-color);
+  --rl-style-focus-shadow: var(--rl-focus-ring);
+}

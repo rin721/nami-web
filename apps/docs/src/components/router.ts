@@ -45,6 +45,7 @@ export class RinDocsRouter extends HTMLElement {
 
     if (path === '/tokens') return '<rin-docs-tokens-page></rin-docs-tokens-page>';
     if (path === '/playground/theme-lab') return '<rin-docs-theme-lab></rin-docs-theme-lab>';
+    if (path === '/playground/theme-designer') return '<rin-docs-theme-designer></rin-docs-theme-designer>';
 
     return `
       <section class="section">

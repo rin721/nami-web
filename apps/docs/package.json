@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@rin-labs/themes": "0.1.0",
+    "@rin-labs/tokens": "0.1.0",
     "@rin-labs/ui": "0.1.0",
     "marked": "^18.0.4",
     "vite": "^7.0.0"

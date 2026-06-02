@@ -1,4 +1,5 @@
 import { rlComponentMetadata, type RlComponentMetadata } from '@rin-labs/ui';
+import { deriveRinTheme, themeToCssText, type RlThemeSeed } from '@rin-labs/tokens/theme';
 import { componentGroups, componentGroupTitle, componentNameFromSlug, componentPreviews, componentSlug, metadataByName } from '../component-catalog';
 import { docBySlug, escapeHtml, renderMarkdown } from '../content';
 import { currentLocale, hrefForPath } from '../routes';
@@ -31,13 +32,25 @@ function renderComponentReference(item: RlComponentMetadata) {
         <p>${componentSummary(item)}</p>
         <rin-docs-code-block data-language="html" data-code="${encodeURIComponent(item.usage)}"></rin-docs-code-block>
         <dl>
+          <dt>${t('Category', 'docs.common.category')}</dt><dd>${item.category}</dd>
           <dt>${t('Attributes', 'docs.common.attributes')}</dt><dd>${renderList(item.attributes)}</dd>
           <dt>${t('Properties', 'docs.common.properties')}</dt><dd>${renderList(item.properties)}</dd>
           <dt>${t('Events', 'docs.common.events')}</dt><dd>${renderList(item.events)}</dd>
           <dt>${t('Slots', 'docs.common.slots')}</dt><dd>${renderList(item.slots)}</dd>
           <dt>${t('Parts', 'docs.common.parts')}</dt><dd>${renderList(item.parts)}</dd>
+          <dt>${t('States', 'docs.common.states')}</dt><dd>${renderList(item.states)}</dd>
           <dt>${t('CSS custom properties', 'docs.common.cssProperties')}</dt><dd>${renderList(item.tokens)}</dd>
         </dl>
+        <div class="semantic-anatomy">
+          <h4>${t('Semantic anatomy', 'docs.common.semanticAnatomy')}</h4>
+          <ul>
+            ${item.anatomy.map((part) => `<li><code>${part.part}</code> ${part.description}</li>`).join('')}
+          </ul>
+          <h4>${t('Style hooks', 'docs.common.styleHooks')}</h4>
+          <ul>
+            ${item.styleHooks.map((hook) => `<li><code>${hook.part}:${hook.state}</code> ${hook.tokens.join(', ')}</li>`).join('')}
+          </ul>
+        </div>
       </rl-card>
     </div>
   `;
@@ -309,9 +322,160 @@ export class RinDocsThemeLab extends HTMLElement {
   }
 }
 
+export class RinDocsThemeDesigner extends HTMLElement {
+  connectedCallback() {
+    this.addEventListener('rl-change', this.scheduleUpdate);
+    this.addEventListener('click', this.scheduleUpdate);
+    window.addEventListener('rin-docs-route-change', this.scheduleUpdate as EventListener);
+    this.render();
+    this.scheduleUpdate();
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('rl-change', this.scheduleUpdate);
+    this.removeEventListener('click', this.scheduleUpdate);
+    window.removeEventListener('rin-docs-route-change', this.scheduleUpdate as EventListener);
+  }
+
+  private get rootTheme() {
+    return document.querySelector('rl-theme') as HTMLElement | null;
+  }
+
+  private scheduleUpdate = () => {
+    requestAnimationFrame(() => this.updateOutput());
+  };
+
+  private readSeed(): RlThemeSeed {
+    const theme = this.rootTheme;
+    const stylePreset = theme?.getAttribute('style-preset') === 'illustration' || theme?.getAttribute('style-preset') === 'ant-illustration'
+      ? 'illustration'
+      : 'default';
+    return {
+      accent: theme?.getAttribute('accent') || '#3b82f6',
+      mode: theme?.getAttribute('theme') === 'dark' ? 'dark' : 'light',
+      stylePreset,
+      density: theme?.getAttribute('density') === 'compact' ? 'compact' : 'comfortable',
+      motion: theme?.getAttribute('motion') === 'reduced' ? 'reduced' : 'normal',
+      radius: theme?.getAttribute('radius') === 'sharp' || theme?.getAttribute('radius') === 'soft' ? theme.getAttribute('radius') as 'sharp' | 'soft' : 'round',
+      contrast: theme?.getAttribute('contrast') === 'high' ? 'high' : 'normal'
+    };
+  }
+
+  private updateOutput() {
+    const resolved = deriveRinTheme(this.readSeed());
+    const tokenTree = this.querySelector('[data-derived-token-tree]');
+    const cssBlock = this.querySelector('rin-docs-code-block[data-generated-css]') as HTMLElement | null;
+    const affected = this.querySelector('[data-affected-components]');
+    const preview = this.querySelector('[data-designer-preview]') as HTMLElement | null;
+    const cssText = themeToCssText(resolved, '.my-rin-theme');
+    const tokenEntries = [
+      ['Seed', resolved.seed],
+      ['Palette', resolved.palette],
+      ['Semantic', resolved.semantic],
+      ['Style', resolved.style],
+      ['Component', resolved.component]
+    ];
+    const derivedTokens = new Set(Object.keys(resolved.cssVars));
+    const affectedComponents = rlComponentMetadata
+      .filter((item) => item.tokens.some((token) => derivedTokens.has(token)))
+      .map((item) => item.name);
+
+    if (tokenTree) {
+      tokenTree.innerHTML = tokenEntries.map(([label, value]) => `
+        <rl-card variant="inset">
+          <rl-badge slot="header" variant="primary">${label}</rl-badge>
+          <dl class="token-dl">
+            ${Object.entries(value as Record<string, unknown>).slice(0, 12).map(([key, tokenValue]) => `<dt>${key}</dt><dd>${String(tokenValue)}</dd>`).join('')}
+          </dl>
+        </rl-card>
+      `).join('');
+    }
+
+    if (cssBlock) cssBlock.dataset.code = encodeURIComponent(cssText);
+
+    if (affected) {
+      affected.innerHTML = affectedComponents.map((name) => `<rl-badge variant="primary">${name}</rl-badge>`).join('');
+    }
+
+    if (preview) {
+      preview.style.cssText = Object.entries(resolved.cssVars).map(([token, value]) => `${token}: ${value}`).join(';');
+      preview.dataset.rlTheme = resolved.seed.mode;
+      preview.dataset.rlStyle = resolved.seed.stylePreset;
+      preview.dataset.rlDensity = resolved.seed.density;
+      preview.dataset.rlMotion = resolved.seed.motion;
+      preview.dataset.rlRadius = resolved.seed.radius;
+      preview.dataset.rlContrast = resolved.seed.contrast;
+    }
+  }
+
+  private render() {
+    this.innerHTML = `
+      <section class="section" data-theme-designer>
+        <div class="section-heading">
+          <p class="eyebrow">${t('Theme Designer', 'docs.designer.eyebrow')}</p>
+          <h2>${t('Open algorithm, semantic output', 'docs.designer.title')}</h2>
+          <p>${t('Edit seed values, inspect derived tokens, and copy deterministic CSS variables without any AI service dependency.', 'docs.designer.copy')}</p>
+        </div>
+        <div class="theme-designer-grid">
+          <rl-card>
+            <h3 slot="header">${t('Seed controls', 'docs.designer.seedControls')}</h3>
+            <div class="control-stack">
+              <rl-tab-bar data-theme-mode value="light">
+                <button value="light">${t('Light', 'docs.controls.light')}</button>
+                <button value="dark">${t('Dark', 'docs.controls.dark')}</button>
+              </rl-tab-bar>
+              <div class="swatches" aria-label="${t('Accent color', 'docs.controls.accent')}">
+                <button data-accent="#3b82f6" style="--swatch: #3b82f6">${t('Blue', 'docs.controls.blue')}</button>
+                <button data-accent="#14b8a6" style="--swatch: #14b8a6">${t('Teal', 'docs.controls.teal')}</button>
+                <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">${t('Violet', 'docs.controls.violet')}</button>
+              </div>
+              <rl-tab-bar data-radius-mode value="round">
+                <button value="sharp">${t('Sharp radius', 'docs.controls.radiusSharp')}</button>
+                <button value="soft">${t('Soft radius', 'docs.controls.radiusSoft')}</button>
+                <button value="round">${t('Round radius', 'docs.controls.radiusRound')}</button>
+              </rl-tab-bar>
+              <rl-chip data-density-toggle checkbox value="compact">${t('Compact density', 'docs.controls.compact')}</rl-chip>
+              <rl-switch data-motion-toggle>${t('Reduced motion', 'docs.controls.reducedMotion')}</rl-switch>
+              <rl-chip data-style-toggle checkbox value="illustration">${t('Illustration style', 'docs.controls.illustration')}</rl-chip>
+              <rl-chip data-contrast-toggle checkbox value="high">${t('High contrast', 'docs.controls.highContrast')}</rl-chip>
+            </div>
+          </rl-card>
+          <rl-card data-designer-preview>
+            <h3 slot="header">${t('Resolved preview', 'docs.designer.preview')}</h3>
+            <div class="theme-live-surface">
+              <rl-button>${t('Primary action', 'docs.lab.primary')}</rl-button>
+              <rl-button variant="soft">${t('Soft action', 'docs.lab.soft')}</rl-button>
+              <rl-badge variant="primary">${t('Token', 'docs.home.token')}</rl-badge>
+              <rl-chip checkbox selected value="selected">${t('Selected chip', 'docs.lab.selected')}</rl-chip>
+              <rl-input label="Search" placeholder="--rl-color-primary"></rl-input>
+              <rl-switch checked>${t('Enabled', 'docs.lab.enabled')}</rl-switch>
+              <rl-radio-card selected label="Semantic anatomy" description="Parts, states, and tokens stay explainable."></rl-radio-card>
+            </div>
+          </rl-card>
+        </div>
+        <div class="theme-designer-output">
+          <rl-card>
+            <h3 slot="header">${t('Derived token tree', 'docs.designer.tokenTree')}</h3>
+            <div data-derived-token-tree class="derived-token-tree"></div>
+          </rl-card>
+          <rl-card>
+            <h3 slot="header">${t('Generated CSS', 'docs.designer.generatedCss')}</h3>
+            <rin-docs-code-block data-generated-css data-language="css"></rin-docs-code-block>
+          </rl-card>
+          <rl-card>
+            <h3 slot="header">${t('Affected components', 'docs.designer.affected')}</h3>
+            <div data-affected-components class="affected-components"></div>
+          </rl-card>
+        </div>
+      </section>
+    `;
+  }
+}
+
 customElements.define('rin-docs-home', RinDocsHome);
 customElements.define('rin-docs-markdown-page', RinDocsMarkdownPage);
 customElements.define('rin-docs-component-index', RinDocsComponentIndex);
 customElements.define('rin-docs-component-page', RinDocsComponentPage);
 customElements.define('rin-docs-tokens-page', RinDocsTokensPage);
 customElements.define('rin-docs-theme-lab', RinDocsThemeLab);
+customElements.define('rin-docs-theme-designer', RinDocsThemeDesigner);

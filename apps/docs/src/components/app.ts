@@ -9,7 +9,9 @@ export class RinDocsApp extends HTMLElement {
     accent: '#3b82f6',
     density: 'comfortable' as 'comfortable' | 'compact',
     motion: 'normal' as 'normal' | 'reduced',
-    stylePreset: 'default' as 'default' | 'illustration'
+    stylePreset: 'default' as 'default' | 'illustration',
+    radius: 'round' as 'sharp' | 'soft' | 'round',
+    contrast: 'normal' as 'normal' | 'high'
   };
 
   connectedCallback() {
@@ -44,6 +46,8 @@ export class RinDocsApp extends HTMLElement {
       density: 'comfortable' | 'compact';
       motion: 'normal' | 'reduced';
       stylePreset: 'default' | 'illustration';
+      radius: 'sharp' | 'soft' | 'round';
+      contrast: 'normal' | 'high';
     };
   }
 
@@ -101,6 +105,12 @@ export class RinDocsApp extends HTMLElement {
     if (target.matches('[data-style-toggle]')) {
       this.visualState.stylePreset = event.detail.selected ? 'illustration' : 'default';
     }
+    if (target.matches('[data-radius-mode]')) {
+      this.visualState.radius = (event.detail.value as 'sharp' | 'soft' | 'round') ?? 'round';
+    }
+    if (target.matches('[data-contrast-toggle]')) {
+      this.visualState.contrast = event.detail.selected ? 'high' : 'normal';
+    }
     if (target.matches('[data-density-toggle]')) {
       this.visualState.density = event.detail.selected ? 'compact' : 'comfortable';
     }
@@ -119,6 +129,8 @@ export class RinDocsApp extends HTMLElement {
     theme.density = this.visualState.density;
     theme.motion = this.visualState.motion;
     theme.stylePreset = this.visualState.stylePreset;
+    theme.radius = this.visualState.radius;
+    theme.contrast = this.visualState.contrast;
   }
 
   private syncControls() {
@@ -127,6 +139,12 @@ export class RinDocsApp extends HTMLElement {
     });
     this.querySelectorAll<HTMLElement>('[data-style-toggle]').forEach((control) => {
       (control as HTMLElement & { selected: boolean }).selected = this.visualState.stylePreset === 'illustration';
+    });
+    this.querySelectorAll<HTMLElement>('[data-radius-mode]').forEach((control) => {
+      (control as HTMLElement & { value: string }).value = this.visualState.radius;
+    });
+    this.querySelectorAll<HTMLElement>('[data-contrast-toggle]').forEach((control) => {
+      (control as HTMLElement & { selected: boolean }).selected = this.visualState.contrast === 'high';
     });
     this.querySelectorAll<HTMLElement>('[data-density-toggle]').forEach((control) => {
       (control as HTMLElement & { selected: boolean }).selected = this.visualState.density === 'compact';
@@ -143,7 +161,7 @@ export class RinDocsApp extends HTMLElement {
     const locale = currentLocale();
     this.innerHTML = `
       <rl-config id="docs-config" locale="${locale}" dir="ltr">
-        <rl-theme id="docs-theme" theme="${this.visualState.theme}" density="${this.visualState.density}" motion="${this.visualState.motion}" style-preset="${this.visualState.stylePreset}" accent="${this.visualState.accent}">
+        <rl-theme id="docs-theme" theme="${this.visualState.theme}" density="${this.visualState.density}" motion="${this.visualState.motion}" style-preset="${this.visualState.stylePreset}" radius="${this.visualState.radius}" contrast="${this.visualState.contrast}" accent="${this.visualState.accent}">
           <rl-app-shell>
             <rin-docs-nav slot="rail" placement="rail"></rin-docs-nav>
             <div slot="top" class="mobile-bar">
@@ -171,6 +189,12 @@ export class RinDocsApp extends HTMLElement {
               <rl-chip data-density-toggle checkbox value="compact">${t('Compact density', 'docs.controls.compact')}</rl-chip>
               <rl-switch data-motion-toggle>${t('Reduced motion', 'docs.controls.reducedMotion')}</rl-switch>
               <rl-chip data-style-toggle checkbox value="illustration">${t('Illustration style', 'docs.controls.illustration')}</rl-chip>
+              <rl-tab-bar data-radius-mode value="${this.visualState.radius}">
+                <button value="sharp">${t('Sharp radius', 'docs.controls.radiusSharp')}</button>
+                <button value="soft">${t('Soft radius', 'docs.controls.radiusSoft')}</button>
+                <button value="round">${t('Round radius', 'docs.controls.radiusRound')}</button>
+              </rl-tab-bar>
+              <rl-chip data-contrast-toggle checkbox value="high">${t('High contrast', 'docs.controls.highContrast')}</rl-chip>
             </div>
           </rl-drawer>
         </rl-theme>

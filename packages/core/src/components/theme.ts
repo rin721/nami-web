@@ -5,6 +5,8 @@ export type RlThemeMode = 'light' | 'dark' | 'system';
 export type RlDensity = 'comfortable' | 'compact';
 export type RlMotion = 'normal' | 'reduced';
 export type RlStylePreset = 'default' | 'illustration' | 'ant-illustration';
+export type RlRadius = 'sharp' | 'soft' | 'round';
+export type RlContrast = 'normal' | 'high';
 
 export class RlTheme extends LitElement {
   static properties = {
@@ -12,6 +14,8 @@ export class RlTheme extends LitElement {
     density: { reflect: true },
     motion: { reflect: true },
     stylePreset: { attribute: 'style-preset', reflect: true },
+    radius: { reflect: true },
+    contrast: { reflect: true },
     accent: { reflect: true }
   };
 
@@ -34,6 +38,29 @@ export class RlTheme extends LitElement {
       :host([theme='dark']) {
         color-scheme: dark;
       }
+
+      :host([radius='sharp']) {
+        --rl-radius-control: 4px;
+        --rl-radius-surface: 4px;
+        --rl-radius-tight: 2px;
+      }
+
+      :host([radius='soft']) {
+        --rl-radius-control: 10px;
+        --rl-radius-surface: 8px;
+        --rl-radius-tight: 4px;
+      }
+
+      :host([radius='round']) {
+        --rl-radius-control: 999px;
+        --rl-radius-surface: 6px;
+        --rl-radius-tight: 4px;
+      }
+
+      :host([contrast='high']) {
+        --rl-contrast-level: high;
+        --rl-style-stroke-width: max(2px, var(--rl-style-stroke-width, 1px));
+      }
     `
   ];
 
@@ -41,6 +68,8 @@ export class RlTheme extends LitElement {
   declare density: RlDensity;
   declare motion: RlMotion;
   declare stylePreset: RlStylePreset;
+  declare radius: RlRadius;
+  declare contrast: RlContrast;
   declare accent: string;
 
   constructor() {
@@ -49,6 +78,8 @@ export class RlTheme extends LitElement {
     this.density = 'comfortable';
     this.motion = 'normal';
     this.stylePreset = 'default';
+    this.radius = 'round';
+    this.contrast = 'normal';
     this.accent = '';
   }
 
@@ -65,6 +96,8 @@ export class RlTheme extends LitElement {
     this.dataset.rlDensity = this.density;
     this.dataset.rlMotion = this.motion;
     this.dataset.rlStyle = this.stylePreset === 'ant-illustration' ? 'illustration' : this.stylePreset;
+    this.dataset.rlRadius = this.radius;
+    this.dataset.rlContrast = this.contrast;
   }
 
   render() {

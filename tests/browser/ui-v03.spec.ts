@@ -64,16 +64,107 @@ test('docs website uses routed onion architecture instead of a one-page dump', a
   await page.goto(`${docsUrl}#/en-US/components/button`);
   await expect(page.locator('#component-docs')).toContainText('Primary command button');
   await expect(page.locator('#component-docs')).toContainText('Attributes');
+  await expect(page.locator('#component-docs')).toContainText('Category');
+  await expect(page.locator('#component-docs')).toContainText('States');
+  await expect(page.locator('#component-docs')).toContainText('Semantic anatomy');
+  await expect(page.locator('#component-docs')).toContainText('Style hooks');
   await expect(page.locator('#component-docs')).toContainText('--rl-button-bg');
 
   await page.goto(`${docsUrl}#/zh-CN/components/button`);
   await expect(page.locator('#component-docs')).toContainText('主要命令按钮');
+
+  await page.goto(`${docsUrl}#/en-US/docs/theme-algorithm`);
+  await expect(page.locator('#doc-theme-algorithm')).toContainText('Theme Algorithm');
+  await expect(page.locator('#doc-theme-algorithm')).toContainText('seed becomes a complete token set');
+  await expect(page.locator('#doc-theme-algorithm [data-live-example]')).toHaveCount(1);
+
+  await page.goto(`${docsUrl}#/en-US/docs/semantic-anatomy`);
+  await expect(page.locator('#doc-semantic-anatomy')).toContainText('Semantic Anatomy');
+  await expect(page.locator('#doc-semantic-anatomy')).toContainText('styleHooks');
 
   await page.goto(`${docsUrl}#/en-US/tokens`);
   await expect(page.locator('rin-docs-tokens-page')).toContainText('Seed, semantic, component');
 
   await page.goto(`${docsUrl}#/zh-CN/missing/route`);
   await expect(page.locator('rin-docs-router')).toContainText('路由不存在');
+  expect(errors).toEqual([]);
+});
+
+test('theme designer exposes deterministic algorithm output and semantic customization controls', async ({ page }) => {
+  const errors = captureConsoleErrors(page);
+
+  await page.goto(`${docsUrl}#/en-US/playground/theme-designer`);
+  await expect(page.locator('[data-theme-designer]')).toContainText('Open algorithm, semantic output');
+  await expect(page.locator('[data-theme-designer]')).toContainText('Generated CSS');
+
+  await page.locator('[data-theme-designer] [data-theme-mode] button[value="dark"]').click();
+  await page.locator('[data-theme-designer] button[data-accent="#14b8a6"]').click();
+  await page.locator('[data-theme-designer] [data-radius-mode] button[value="soft"]').click();
+  await page.locator('[data-theme-designer] [data-style-toggle]').click();
+  await page.locator('[data-theme-designer] [data-contrast-toggle]').click();
+
+  const designerState = await page.evaluate(async () => {
+    await Promise.all([
+      customElements.whenDefined('rl-theme'),
+      customElements.whenDefined('rl-button'),
+      customElements.whenDefined('rl-chip'),
+      customElements.whenDefined('rl-card')
+    ]);
+    const theme = document.querySelector('rl-theme') as HTMLElement & { updateComplete: Promise<unknown> };
+    await theme.updateComplete;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+    const designer = document.querySelector('[data-theme-designer]')!;
+    const preview = designer.querySelector('[data-designer-preview]') as HTMLElement;
+    const buttonControl = preview.querySelector('rl-button')!.shadowRoot!.querySelector('button')!;
+    const cssText = designer.querySelector('rin-docs-code-block[data-generated-css] code')?.textContent ?? '';
+    const tokenTree = designer.querySelector('[data-derived-token-tree]')?.textContent ?? '';
+    const affected = designer.querySelector('[data-affected-components]')?.textContent ?? '';
+    const previewStyle = getComputedStyle(preview);
+
+    return {
+      hash: location.hash,
+      theme: theme.getAttribute('theme'),
+      accent: theme.getAttribute('accent'),
+      radius: theme.getAttribute('radius'),
+      contrast: theme.getAttribute('contrast'),
+      stylePreset: theme.getAttribute('style-preset'),
+      dataRadius: theme.getAttribute('data-rl-radius'),
+      dataContrast: theme.getAttribute('data-rl-contrast'),
+      previewMode: preview.dataset.rlTheme,
+      previewStylePreset: preview.dataset.rlStyle,
+      previewRadius: preview.dataset.rlRadius,
+      previewContrast: preview.dataset.rlContrast,
+      primaryToken: previewStyle.getPropertyValue('--rl-color-primary').trim(),
+      contrastToken: previewStyle.getPropertyValue('--rl-contrast-level').trim(),
+      borderWidth: getComputedStyle(buttonControl).borderTopWidth,
+      shadow: getComputedStyle(buttonControl).boxShadow,
+      tokenTree,
+      cssText,
+      affected
+    };
+  });
+
+  expect(designerState.hash).toBe('#/en-US/playground/theme-designer');
+  expect(designerState.theme).toBe('dark');
+  expect(designerState.accent).toBe('#14b8a6');
+  expect(designerState.radius).toBe('soft');
+  expect(designerState.contrast).toBe('high');
+  expect(designerState.stylePreset).toBe('illustration');
+  expect(designerState.dataRadius).toBe('soft');
+  expect(designerState.dataContrast).toBe('high');
+  expect(designerState.previewMode).toBe('dark');
+  expect(designerState.previewStylePreset).toBe('illustration');
+  expect(designerState.previewRadius).toBe('soft');
+  expect(designerState.previewContrast).toBe('high');
+  expect(designerState.primaryToken).toBe('#14b8a6');
+  expect(designerState.contrastToken).toBe('high');
+  expect(designerState.borderWidth).toBe('4px');
+  expect(designerState.shadow).not.toBe('none');
+  expect(designerState.tokenTree).toContain('#14b8a6');
+  expect(designerState.cssText).toContain('.my-rin-theme');
+  expect(designerState.cssText).toContain('--rl-contrast-level: high');
+  expect(designerState.affected).toContain('rl-button');
   expect(errors).toEqual([]);
 });
 

@@ -1,10 +1,31 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/tokens.json",
+  "$extensions": {
+    "org.rin-labs.theme": {
+      "derivation": "seed -> derived palette/map -> semantic -> component/style tokens",
+      "recipes": ["default", "illustration"],
+      "modes": ["light", "dark"],
+      "densities": ["comfortable", "compact"],
+      "motion": ["normal", "reduced"]
+    }
+  },
   "seed": {
+    "$extensions": {
+      "org.rin-labs.theme": {
+        "layer": "seed",
+        "allowedOverrideLevel": "theme-seed"
+      }
+    },
     "accent": {
       "50": {
         "$type": "color",
-        "$value": "#3b82f6"
+        "$value": "#3b82f6",
+        "$extensions": {
+          "org.rin-labs.theme": {
+            "semanticRole": "brand accent source",
+            "affectedComponents": ["rl-button", "rl-chip", "rl-switch", "rl-radio-card", "rl-spinner", "rl-illustration"]
+          }
+        }
       }
     },
     "radius": {
@@ -29,6 +50,18 @@
       "exit": {
         "$type": "duration",
         "$value": "150ms"
+      }
+    },
+    "contrast": {
+      "level": {
+        "$type": "string",
+        "$value": "normal",
+        "$extensions": {
+          "org.rin-labs.theme": {
+            "semanticRole": "contrast recipe selector",
+            "allowedValues": ["normal", "high"]
+          }
+        }
       }
     },
     "style": {
@@ -91,10 +124,22 @@
     }
   },
   "semantic": {
+    "$extensions": {
+      "org.rin-labs.theme": {
+        "layer": "semantic",
+        "allowedOverrideLevel": "theme-algorithm"
+      }
+    },
     "color": {
       "primary": {
         "$type": "color",
-        "$value": "{seed.accent.50}"
+        "$value": "{seed.accent.50}",
+        "$extensions": {
+          "org.rin-labs.theme": {
+            "semanticRole": "primary interactive color",
+            "affectedComponents": ["rl-button", "rl-chip", "rl-switch", "rl-radio-card", "rl-badge"]
+          }
+        }
       },
       "surface": {
         "$type": "color",
@@ -125,10 +170,22 @@
     }
   },
   "component": {
+    "$extensions": {
+      "org.rin-labs.theme": {
+        "layer": "component",
+        "allowedOverrideLevel": "component-token"
+      }
+    },
     "button": {
       "bg": {
         "$type": "color",
-        "$value": "{semantic.color.primary}"
+        "$value": "{semantic.color.primary}",
+        "$extensions": {
+          "org.rin-labs.theme": {
+            "affectedComponents": ["rl-button"],
+            "semanticRole": "button container background"
+          }
+        }
       }
     },
     "card": {

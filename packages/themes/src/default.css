@@ -10,6 +10,7 @@ rl-theme {
   --rl-radius-surface: 6px;
   --rl-radius-tight: 4px;
   --rl-radius-round: 999px;
+  --rl-contrast-level: normal;
   --rl-shadow-color: color-mix(in oklab, var(--rl-accent-50), #8a8f98 80%);
   --rl-style-stroke-width: 1px;
   --rl-style-stroke-color: var(--rl-border);
@@ -180,6 +181,39 @@ rl-theme[motion="reduced"] {
   --rl-motion-normal: 1ms;
   --rl-motion-slow: 1ms;
   --rl-motion-exit: 1ms;
+}
+
+[data-rl-radius="sharp"],
+rl-theme[radius="sharp"] {
+  --rl-radius-control: 4px;
+  --rl-radius-surface: 4px;
+  --rl-radius-tight: 2px;
+}
+
+[data-rl-radius="soft"],
+rl-theme[radius="soft"] {
+  --rl-radius-control: 10px;
+  --rl-radius-surface: 8px;
+  --rl-radius-tight: 4px;
+}
+
+[data-rl-radius="round"],
+rl-theme[radius="round"] {
+  --rl-radius-control: 999px;
+  --rl-radius-surface: 6px;
+  --rl-radius-tight: 4px;
+}
+
+[data-rl-contrast="high"],
+rl-theme[contrast="high"] {
+  --rl-contrast-level: high;
+  --rl-border: color-mix(in oklab, currentColor, transparent 62%);
+  --rl-border-strong: color-mix(in oklab, currentColor, transparent 42%);
+  --rl-style-stroke-width: max(2px, var(--rl-style-stroke-width, 1px));
+  --rl-focus-ring: 0 0 0 4px color-mix(in oklab, var(--rl-color-primary-focus), transparent 20%), 0 0 0 1px var(--rl-color-primary);
+  --rl-button-border-width: max(2px, var(--rl-button-border-width, 1px));
+  --rl-input-border-width: max(2px, var(--rl-input-border-width, 1px));
+  --rl-radio-card-border-width: max(2px, var(--rl-radio-card-border-width, 1px));
 }
 
 @media (prefers-reduced-motion: reduce) {
