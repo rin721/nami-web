@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="660" height="801" viewBox="291 222 660 801" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .main { fill: #052869; }
-    .accent { fill: #004efd; }
-    @media (prefers-color-scheme: dark) {
-      .main { fill: #dbeafe; }
-      .accent { fill: #60a5fa; }
-    }
-  </style>
-  <path class="main" d="M292 349 L291 850 L422 850 L423 535 L680 850 L651 1023 L767 1023 L931 349 L764 350 L709 671 L455 349 Z"/>
-  <path class="accent" d="M749 222 L826 222 L815 317 L767 317 Z"/>
-  <path class="accent" d="M874 222 L951 222 L931 317 L882 317 Z"/>
+<svg width="1254" height="1254" viewBox="0 0 1254 1254" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="125%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="34" flood-color="#000000" flood-opacity="0.12"/>
+      <feDropShadow dx="0" dy="-10" stdDeviation="20" flood-color="#FFFFFF" flood-opacity="0.75"/>
+    </filter>
+    <linearGradient id="tileFill" x1="627" y1="68" x2="627" y2="1186" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FDFDFD"/>
+    </linearGradient>
+  </defs>
+
+  <!-- app icon tile -->
+  <rect x="86" y="68" width="1082" height="1118" rx="210" fill="url(#tileFill)" filter="url(#softShadow)"/>
+  <rect x="86.5" y="68.5" width="1081" height="1117" rx="209.5" stroke="#FFFFFF" stroke-opacity="0.95"/>
+
+  <!-- main NY / i body: unified navy vector path -->
+  <path d="M292 349
+           L291 850
+           L422 850
+           L423 535
+           L680 850
+           L651 1023
+           L767 1023
+           L931 349
+           L764 350
+           L709 671
+           L455 349
+           Z"
+        fill="#052869"/>
+
+  <!-- two blue dots -->
+  <path d="M749 222 L826 222 L815 317 L767 317 Z" fill="#004EFD"/>
+  <path d="M874 222 L951 222 L931 317 L882 317 Z" fill="#004EFD"/>
 </svg>

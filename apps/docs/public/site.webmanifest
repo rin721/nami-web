@@ -4,7 +4,7 @@
   "description": "A cross-framework, themeable Web Components UI library.",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/brand/nami-app-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     },
