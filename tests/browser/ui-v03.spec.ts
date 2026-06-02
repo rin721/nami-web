@@ -130,9 +130,10 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   await expect(page.locator('body')).toContainText('质量');
   const bodyText = await page.locator('body').innerText();
   expect(bodyText).not.toContain('lit-localize can only be configured once');
-  expect(bodyText).not.toContain('???');
-  expect(bodyText).not.toContain('涓');
-  expect(bodyText).not.toContain('鈫');
+  const encodingSentinels = [String.fromCharCode(63, 63, 63), String.fromCharCode(0x6d93), String.fromCharCode(0x922b)];
+  for (const sentinel of encodingSentinels) {
+    expect(bodyText).not.toContain(sentinel);
+  }
 
   await page.goto('/en-US/tokens/');
   await expect(page.locator('body')).toContainText('Seed, Semantic, Component');
