@@ -14,6 +14,8 @@ describe('@rin-labs/tokens', () => {
     expect(semanticTokens).toContain('--rl-overlay-backdrop');
     expect(componentTokens).toContain('--rl-chip-selected-bg');
     expect(componentTokens).toContain('--rl-illus-primary');
+    expect(componentTokens).toContain('--rl-card-bg');
+    expect(componentTokens).toContain('--rl-badge-bg');
     expect(componentTokens).toContain('--rl-radio-card-selected-shadow');
     expect(componentTokens).toContain('--rl-soft-control-color');
     expect(componentTokens).toContain('--rl-switch-thumb-bg');
@@ -33,6 +35,8 @@ describe('@rin-labs/tokens', () => {
     expect(dtcgTokens.seed.style.doodleOpacity.$value).toBe(0);
     expect(dtcgTokens.semantic.color.overlayBackdrop.$value).toBe('rgba(0, 0, 0, 0.48)');
     expect(dtcgTokens.component.radioCard.selectedShadow.$value).toContain('{semantic.color.primary}');
+    expect(dtcgTokens.component.card.bg.$value).toBe('{semantic.color.surface}');
+    expect(dtcgTokens.component.badge.fg.$value).toBe('{semantic.color.text}');
     expect(dtcgTokens.component.switch.thumbShadow.$value).toContain('rgba');
     expect(dtcgTokens.component.spinner.trackColor.$value).toContain('rgba');
     expect(dtcgTokens.component.illustration.primary.$value).toBe('{semantic.color.primary}');

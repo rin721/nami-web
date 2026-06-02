@@ -11,6 +11,19 @@ body {
   margin: 0;
 }
 
+rin-docs-app,
+rin-docs-router,
+rin-docs-home,
+rin-docs-markdown-page,
+rin-docs-component-index,
+rin-docs-component-page,
+rin-docs-tokens-page,
+rin-docs-theme-lab,
+rin-docs-live-demo,
+rin-docs-code-block {
+  display: block;
+}
+
 .rail-stack {
   align-items: center;
   display: flex;
@@ -33,6 +46,12 @@ body {
 
 .rail-stack a:hover {
   background: var(--rl-hover-overlay);
+  color: var(--rl-color-primary);
+}
+
+.rail-stack a[aria-current='page'],
+.bottom-nav a[aria-current='page'] {
+  background: var(--rl-accent-hover-overlay);
   color: var(--rl-color-primary);
 }
 
@@ -128,7 +147,8 @@ h4 {
 .markdown-page p,
 .quality-grid p,
 .component-entry p,
-.info-grid p {
+.info-grid p,
+rl-card p {
   color: var(--rl-text-muted);
   font-size: 1.0625rem;
   line-height: 1.65;
@@ -179,8 +199,6 @@ h4 {
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
 }
 
-.component-wall,
-.install-card,
 .theme-panel,
 .theme-contract-stage,
 .info-grid article,
@@ -196,13 +214,11 @@ h4 {
 }
 
 .component-wall {
-  display: grid;
-  gap: 14px;
+  --rl-card-gap: 14px;
 }
 
 .install-card {
-  display: grid;
-  gap: 12px;
+  --rl-card-gap: 12px;
 }
 
 .section {
@@ -262,15 +278,8 @@ h4 {
   margin-bottom: 14px;
 }
 
-.token-pipeline span {
-  background: var(--rl-surface-inset);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
-  color: var(--rl-text-muted);
-  display: grid;
-  gap: 6px;
+.token-pipeline rl-card {
   min-height: 84px;
-  padding: 12px;
 }
 
 .token-pipeline strong {
@@ -376,6 +385,42 @@ h4 {
   margin: 0;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.component-reference {
+  max-width: 920px;
+}
+
+.component-reference dl,
+rl-card dl {
+  display: grid;
+  gap: 8px 14px;
+  grid-template-columns: 170px minmax(0, 1fr);
+  margin: 0;
+}
+
+.component-reference dt,
+rl-card dt {
+  color: var(--rl-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+.component-reference dd,
+rl-card dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.text-link {
+  color: var(--rl-color-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
 }
 
 .doc-index-card {
@@ -574,6 +619,11 @@ pre code {
   }
 
   .component-entry dl {
+    grid-template-columns: 1fr;
+  }
+
+  .component-reference dl,
+  rl-card dl {
     grid-template-columns: 1fr;
   }
 }

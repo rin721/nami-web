@@ -10,49 +10,65 @@ function captureConsoleErrors(page: Page) {
   return errors;
 }
 
-test('docs website renders markdown tutorials, live demos, and generated API', async ({ page }) => {
+test('docs website uses routed onion architecture instead of a one-page dump', async ({ page }) => {
   const errors = captureConsoleErrors(page);
 
   await page.goto(docsUrl);
   await expect(page.getByRole('heading', { name: 'Rin UI' })).toBeVisible();
   await expect(page.locator('[data-product-hero]')).toContainText('Web Components UI library for themeable apps.');
-  await expect(page.locator('#quick-start')).toContainText('Use standard elements');
-  await expect(page.locator('#theme-engine')).toContainText('Accent, mode, density, motion');
-  await expect(page.locator('#components')).toContainText('Browse the library surface');
-  await expect(page.locator('#doc-index')).toContainText('Getting Started');
-  await expect(page.locator('#doc-index')).toContainText('Overview');
-  await expect(page.locator('#doc-index')).toContainText('Quality');
-  await expect(page.locator('#markdown-guides')).toContainText('Tutorials are written as Markdown');
-  await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
-  await expect(page.locator('#doc-theme')).toContainText('Token Layers');
-  await expect(page.locator('#doc-frameworks')).toContainText('Vue');
-  await expect(page.locator('#component-docs')).toContainText('rl-empty');
-  await expect(page.locator('#component-docs')).toContainText('rl-result');
-  await expect(page.locator('[data-component-card="rl-button"]')).toContainText('Primary command button');
+  await expect(page.locator('rin-docs-router')).toBeVisible();
+  await expect(page.locator('#component-docs')).toHaveCount(0);
+  await expect(page.locator('#doc-getting-started')).toHaveCount(0);
 
+  const homeState = await page.evaluate(async () => {
+    await customElements.whenDefined('rl-card');
+    await customElements.whenDefined('rl-badge');
+    return {
+      cardDefined: Boolean(document.querySelector('rl-card')?.shadowRoot?.querySelector('[part~="base"]')),
+      badgeDefined: Boolean(document.querySelector('rl-badge')?.shadowRoot?.querySelector('[part~="base"]')),
+      route: location.hash || '#/'
+    };
+  });
+  expect(homeState.cardDefined).toBe(true);
+  expect(homeState.badgeDefined).toBe(true);
+  expect(homeState.route).toBe('#/');
+
+  await page.goto(`${docsUrl}#/docs/getting-started`);
+  await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
+  await expect(page.locator('#component-docs')).toHaveCount(0);
   const markdownState = await page.evaluate(async () => {
     await customElements.whenDefined('rl-button');
-    await customElements.whenDefined('rl-chip');
     const liveExamples = Array.from(document.querySelectorAll<HTMLElement>('[data-live-example]'));
-    const firstPreview = liveExamples[0]?.querySelector('.live-preview');
-    const firstButton = firstPreview?.querySelector('rl-button');
-    const firstChip = firstPreview?.querySelector('rl-chip');
+    const firstButton = liveExamples[0]?.querySelector('.live-preview rl-button');
     return {
       liveCount: liveExamples.length,
       buttonDefined: Boolean(firstButton?.shadowRoot?.querySelector('button')),
-      chipDefined: Boolean(firstChip?.shadowRoot?.querySelector('button')),
-      hasOrdinaryCode: Boolean(document.querySelector('#doc-style-presets pre code.language-html'))
+      ordinaryCodeBlocks: document.querySelectorAll('rin-docs-code-block').length
     };
   });
-
-  expect(markdownState.liveCount).toBeGreaterThanOrEqual(6);
+  expect(markdownState.liveCount).toBe(1);
   expect(markdownState.buttonDefined).toBe(true);
-  expect(markdownState.chipDefined).toBe(true);
-  expect(markdownState.hasOrdinaryCode).toBe(true);
+  expect(markdownState.ordinaryCodeBlocks).toBeGreaterThanOrEqual(2);
+
+  await page.goto(`${docsUrl}#/components`);
+  await expect(page.locator('#component-docs')).toContainText('rl-button');
+  await expect(page.locator('#component-docs')).toContainText('rl-card');
+  await expect(page.locator('[data-component-card="rl-badge"]')).toContainText('Compact status label');
+
+  await page.goto(`${docsUrl}#/components/button`);
+  await expect(page.locator('#component-docs')).toContainText('Primary command button');
+  await expect(page.locator('#component-docs')).toContainText('Attributes');
+  await expect(page.locator('#component-docs')).toContainText('--rl-button-bg');
+
+  await page.goto(`${docsUrl}#/tokens`);
+  await expect(page.locator('rin-docs-tokens-page')).toContainText('Seed, semantic, component');
+
+  await page.goto(`${docsUrl}#/missing/route`);
+  await expect(page.locator('rin-docs-router')).toContainText('Route not found');
   expect(errors).toEqual([]);
 });
 
-test('docs app shell is responsive and theme controls update the root contract', async ({ page }) => {
+test('docs app shell is responsive and theme controls persist across routes', async ({ page }) => {
   const errors = captureConsoleErrors(page);
 
   await page.goto(docsUrl);
@@ -93,18 +109,21 @@ test('docs app shell is responsive and theme controls update the root contract',
 
   await page.getByRole('button', { name: 'Theme controls' }).click();
   await expect(page.locator('#docs-theme-drawer')).toHaveAttribute('open', '');
-  await page.locator('#drawer-theme-mode button[value="dark"]').click();
+  await page.locator('#docs-theme-drawer [data-theme-mode] button[value="dark"]').click();
   await page.locator('#docs-theme-drawer button[data-accent="#14b8a6"]').click();
-  await page.locator('#drawer-compact').click();
-  await page.locator('#drawer-reduced-motion').click();
-  await page.locator('#drawer-illustration-style').click();
+  await page.locator('#docs-theme-drawer [data-density-toggle]').click();
+  await page.locator('#docs-theme-drawer [data-motion-toggle]').click();
+  await page.locator('#docs-theme-drawer [data-style-toggle]').click();
+
+  await page.evaluate(() => {
+    location.hash = '/components/button';
+  });
+  await expect(page.locator('rin-docs-component-page')).toContainText('rl-button');
 
   const themeState = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
-    const button = document.querySelector('.component-wall rl-button');
+    const button = document.querySelector('rin-docs-component-page rl-button');
     const control = button?.shadowRoot?.querySelector('button');
-    const shell = document.querySelector('rl-app-shell')?.shadowRoot?.querySelector('.shell');
-    const radio = document.querySelector('.component-wall rl-radio-card')?.shadowRoot?.querySelector('button');
     return {
       theme: theme?.getAttribute('theme'),
       accent: theme?.getAttribute('accent'),
@@ -116,10 +135,7 @@ test('docs app shell is responsive and theme controls update the root contract',
       onPaper: theme ? getComputedStyle(theme).getPropertyValue('--rl-style-on-paper').trim() : '',
       paperBg: theme ? getComputedStyle(theme).getPropertyValue('--rl-style-control-bg').trim() : '',
       borderWidth: control ? getComputedStyle(control).borderTopWidth : '',
-      radioColor: radio ? getComputedStyle(radio).color : '',
-      radioBg: radio ? getComputedStyle(radio).backgroundColor : '',
-      transition: control ? getComputedStyle(control).transitionDuration : '',
-      pattern: shell ? getComputedStyle(shell).backgroundImage : ''
+      transition: control ? getComputedStyle(control).transitionDuration : ''
     };
   });
 
@@ -133,17 +149,15 @@ test('docs app shell is responsive and theme controls update the root contract',
   expect(themeState.onPaper).toBe('#29221f');
   expect(themeState.paperBg).toContain('color-mix');
   expect(themeState.borderWidth).toBe('3px');
-  expect(themeState.radioColor).not.toBe('rgb(255, 247, 237)');
-  expect(themeState.radioBg).not.toBe('rgb(33, 29, 41)');
   expect(themeState.transition).toContain('0.001s');
-  expect(themeState.pattern).not.toBe('none');
   expect(errors).toEqual([]);
 });
 
-test('theme contract matrix covers dark illustration, density, motion, and component tokens', async ({ page }) => {
+test('theme lab route covers dark illustration, density, motion, and component tokens', async ({ page }) => {
   const errors = captureConsoleErrors(page);
 
-  await page.goto(docsUrl);
+  await page.goto(`${docsUrl}#/playground/theme-lab`);
+  await expect(page.locator('rin-docs-theme-lab')).toContainText('Stress-test the full contract');
   const matrixState = await page.evaluate(async () => {
     await Promise.all([
       customElements.whenDefined('rl-theme'),
@@ -199,6 +213,8 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
         switchBg: getComputedStyle(track).backgroundColor,
         radioBg: getComputedStyle(radioControl).backgroundColor,
         radioColor: getComputedStyle(radioControl).color,
+        cardBgToken: style.getPropertyValue('--rl-card-bg').trim(),
+        badgeBgToken: style.getPropertyValue('--rl-badge-bg').trim(),
         radioSelectedShadowToken: style.getPropertyValue('--rl-radio-card-selected-shadow').trim(),
         softControlColorToken: style.getPropertyValue('--rl-soft-control-color').trim(),
         switchThumbBgToken: style.getPropertyValue('--rl-switch-thumb-bg').trim(),
@@ -232,6 +248,8 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
     expect(state.ink).not.toBe('');
     expect(state.onPaper).not.toBe('');
     expect(state.paperLine).not.toBe('');
+    expect(state.cardBgToken).not.toBe('');
+    expect(state.badgeBgToken).not.toBe('');
     expect(state.radioSelectedShadowToken).not.toBe('');
     expect(state.switchThumbShadowToken).not.toBe('');
     expect(state.spinnerTrackToken).not.toBe('');
@@ -242,8 +260,6 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
   expect(matrixState.teal['default-light'].text).not.toBe(matrixState.teal['default-dark'].text);
   expect(matrixState.teal['illustration-light'].surface).not.toBe(matrixState.teal['illustration-dark'].surface);
   expect(matrixState.teal['illustration-light'].text).not.toBe(matrixState.teal['illustration-dark'].text);
-  expect(matrixState.teal['illustration-dark'].surface).not.toBe('#fffdf5');
-  expect(matrixState.teal['illustration-dark'].text).not.toBe('#2f2f2f');
   expect(matrixState.teal['illustration-dark'].surface).toBe('#131119');
   expect(matrixState.teal['illustration-dark'].surfaceRaised).toBe('#211d29');
   expect(matrixState.teal['illustration-dark'].ink).toBe('#261f1f');

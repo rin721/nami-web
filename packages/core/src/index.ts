@@ -3,6 +3,8 @@ export * from './components/spinner';
 export * from './components/illustration';
 export * from './components/empty';
 export * from './components/result';
+export * from './components/card';
+export * from './components/badge';
 export * from './components/button';
 export * from './components/icon-button';
 export * from './components/chip';

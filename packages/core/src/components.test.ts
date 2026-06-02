@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
 import './register';
+import type { RlBadge } from './components/badge';
 import type { RlButton } from './components/button';
+import type { RlCard } from './components/card';
 import type { RlChip } from './components/chip';
 import type { RlDialog } from './components/dialog';
 import type { RlDrawer } from './components/drawer';
@@ -340,6 +342,37 @@ describe('@rin-labs/ui components', () => {
     result.remove();
   });
 
+  it('renders card and badge with reflected variants, slots, and parts', async () => {
+    const card = document.createElement('rl-card') as RlCard;
+    const badge = document.createElement('rl-badge') as RlBadge;
+    const header = document.createElement('h3');
+    const action = document.createElement('button');
+    header.slot = 'header';
+    header.textContent = 'Card title';
+    action.slot = 'actions';
+    action.textContent = 'Action';
+    card.variant = 'inset';
+    badge.variant = 'primary';
+    badge.tone = 'solid';
+    badge.textContent = 'Stable';
+    card.append(header, document.createTextNode('Card body'), action);
+    document.body.append(card, badge);
+    await card.updateComplete;
+    await badge.updateComplete;
+
+    expect(card.getAttribute('variant')).toBe('inset');
+    expect(card.hasAttribute('has-header')).toBe(true);
+    expect(card.hasAttribute('has-actions')).toBe(true);
+    expect(card.shadowRoot?.querySelector('[part~="base"]')).not.toBeNull();
+    expect(card.shadowRoot?.querySelector('[part~="body"]')).not.toBeNull();
+    expect(badge.getAttribute('variant')).toBe('primary');
+    expect(badge.getAttribute('tone')).toBe('solid');
+    expect(badge.shadowRoot?.querySelector('[part~="base"]')).not.toBeNull();
+
+    card.remove();
+    badge.remove();
+  });
+
   it('publishes metadata for all registered public components', () => {
     const names = rlComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
@@ -349,6 +382,8 @@ describe('@rin-labs/ui components', () => {
       'rl-illustration',
       'rl-empty',
       'rl-result',
+      'rl-card',
+      'rl-badge',
       'rl-button',
       'rl-icon-button',
       'rl-chip',

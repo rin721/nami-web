@@ -67,6 +67,28 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     tokens: ['--rl-result-title-size', '--rl-result-subtitle-size', '--rl-result-gap', '--rl-result-actions-margin', '--rl-result-bg', '--rl-result-border-width', '--rl-result-border-color', '--rl-result-radius', '--rl-result-shadow']
   },
   {
+    name: 'rl-card',
+    summary: 'Token-driven content container for grouped surfaces.',
+    usage: '<rl-card><h3 slot="header">Title</h3><p>Content</p><rl-button slot="actions">Action</rl-button></rl-card>',
+    attributes: ['variant'],
+    properties: ['variant'],
+    events: [],
+    slots: ['default', 'header', 'actions', 'footer'],
+    parts: ['base', 'header', 'body', 'actions', 'footer'],
+    tokens: ['--rl-card-bg', '--rl-card-fg', '--rl-card-inset-bg', '--rl-card-border', '--rl-card-border-width', '--rl-card-radius', '--rl-card-shadow', '--rl-card-padding', '--rl-card-gap']
+  },
+  {
+    name: 'rl-badge',
+    summary: 'Compact status label for metadata and state.',
+    usage: '<rl-badge variant="primary">Token driven</rl-badge>',
+    attributes: ['variant', 'tone'],
+    properties: ['variant', 'tone'],
+    events: [],
+    slots: ['default'],
+    parts: ['base'],
+    tokens: ['--rl-badge-bg', '--rl-badge-fg', '--rl-badge-border', '--rl-badge-border-width', '--rl-badge-radius', '--rl-badge-height', '--rl-badge-font-size', '--rl-badge-padding-x']
+  },
+  {
     name: 'rl-button',
     summary: 'Primary command button.',
     usage: '<rl-button variant="soft" loading>Save</rl-button>',

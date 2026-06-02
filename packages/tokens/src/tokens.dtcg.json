@@ -131,6 +131,38 @@
         "$value": "{semantic.color.primary}"
       }
     },
+    "card": {
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color.surface}"
+      },
+      "fg": {
+        "$type": "color",
+        "$value": "{semantic.color.text}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{semantic.color.border}"
+      },
+      "shadow": {
+        "$type": "shadow",
+        "$value": "none"
+      }
+    },
+    "badge": {
+      "bg": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.05)"
+      },
+      "fg": {
+        "$type": "color",
+        "$value": "{semantic.color.text}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "transparent"
+      }
+    },
     "radioCard": {
       "selectedShadow": {
         "$type": "shadow",

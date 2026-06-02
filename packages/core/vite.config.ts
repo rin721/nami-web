@@ -12,6 +12,8 @@ const entries = {
   'components/illustration': resolve(__dirname, 'src/components/illustration.ts'),
   'components/empty': resolve(__dirname, 'src/components/empty.ts'),
   'components/result': resolve(__dirname, 'src/components/result.ts'),
+  'components/card': resolve(__dirname, 'src/components/card.ts'),
+  'components/badge': resolve(__dirname, 'src/components/badge.ts'),
   'components/button': resolve(__dirname, 'src/components/button.ts'),
   'components/icon-button': resolve(__dirname, 'src/components/icon-button.ts'),
   'components/chip': resolve(__dirname, 'src/components/chip.ts'),

@@ -20,10 +20,12 @@ export const rlParts = [
 export const rlSlots = [
   'default',
   'icon',
+  'header',
   'label',
   'title',
   'description',
   'actions',
+  'footer',
   'body',
   'illustration',
   'rail',

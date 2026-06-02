@@ -1,5 +1,7 @@
 import { RlAppShell } from './components/app-shell';
+import { RlBadge } from './components/badge';
 import { RlButton } from './components/button';
+import { RlCard } from './components/card';
 import { RlChip } from './components/chip';
 import { RlDialog } from './components/dialog';
 import { RlDrawer } from './components/drawer';
@@ -22,6 +24,8 @@ export function registerRlElements() {
   defineElement('rl-illustration', RlIllustration);
   defineElement('rl-empty', RlEmpty);
   defineElement('rl-result', RlResult);
+  defineElement('rl-card', RlCard);
+  defineElement('rl-badge', RlBadge);
   defineElement('rl-button', RlButton);
   defineElement('rl-icon-button', RlIconButton);
   defineElement('rl-chip', RlChip);
