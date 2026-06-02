@@ -98,7 +98,7 @@ export class RlSwitch extends LitElement {
   private internals: SafeElementInternals | null = attachInternalsSafe(this);
 
   updated() {
-    setSafeFormValue(this.internals, this.checked ? this.value : null);
+    setSafeFormValue(this.internals, !this.disabled && this.checked ? this.value : null);
   }
 
   formResetCallback() {

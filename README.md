@@ -15,5 +15,6 @@ Lit + TypeScript Web Components UI library with a fixed deep interaction system 
 npm install
 npm run build
 npm test
+npm run verify
 npm run dev
 ```

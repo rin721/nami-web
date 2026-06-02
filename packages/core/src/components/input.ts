@@ -16,7 +16,7 @@ export class RlInput extends LitElement {
     helperText: { attribute: 'helper-text' },
     error: { reflect: true },
     disabled: { type: Boolean, reflect: true },
-    required: { type: Boolean }
+    required: { type: Boolean, reflect: true }
   };
 
   static styles = [
@@ -130,8 +130,8 @@ export class RlInput extends LitElement {
   private metaId = `${nextId('rl-input')}-meta`;
 
   updated() {
-    setSafeFormValue(this.internals, this.value);
-    setSafeValidity(this.internals, this.error ? { customError: true } : {}, this.error, this.inputElement ?? undefined);
+    setSafeFormValue(this.internals, this.disabled ? null : this.value);
+    setSafeValidity(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? undefined);
   }
 
   formResetCallback() {
@@ -140,6 +140,40 @@ export class RlInput extends LitElement {
 
   focus() {
     this.inputElement?.focus();
+  }
+
+  checkValidity() {
+    return this.inputElement?.checkValidity() ?? Object.keys(this.validityFlags).length === 0;
+  }
+
+  reportValidity() {
+    return this.inputElement?.reportValidity() ?? this.checkValidity();
+  }
+
+  get validity() {
+    return this.inputElement?.validity;
+  }
+
+  get validationMessage() {
+    return this.error || this.inputElement?.validationMessage || '';
+  }
+
+  get willValidate() {
+    return !this.disabled;
+  }
+
+  private get validityFlags(): ValidityStateFlags {
+    if (this.disabled) return {};
+    if (this.error) return { customError: true };
+    if (this.required && !this.value) return { valueMissing: true };
+    return {};
+  }
+
+  private get validityMessage() {
+    if (this.disabled) return undefined;
+    if (this.error) return this.error;
+    if (this.required && !this.value) return `${this.label || this.name || 'Field'} is required`;
+    return undefined;
   }
 
   private handleInput(event: Event) {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
 import './register';
 import type { RlButton } from './components/button';
 import type { RlChip } from './components/chip';
@@ -42,6 +43,32 @@ describe('@rin-labs/ui components', () => {
     expect(theme.dataset.rlStyle).toBe('illustration');
 
     theme.remove();
+  });
+
+  it('reflects boolean public API attributes consistently', async () => {
+    const chip = document.createElement('rl-chip') as RlChip;
+    const input = document.createElement('rl-input') as RlInput;
+    const dialog = document.createElement('rl-dialog') as RlDialog;
+    document.body.append(chip, input, dialog);
+
+    chip.checkbox = true;
+    input.required = true;
+    dialog.closeOnBackdrop = false;
+    await chip.updateComplete;
+    await input.updateComplete;
+    await dialog.updateComplete;
+
+    expect(chip.hasAttribute('checkbox')).toBe(true);
+    expect(input.hasAttribute('required')).toBe(true);
+    expect(dialog.hasAttribute('close-on-backdrop')).toBe(false);
+
+    dialog.closeOnBackdrop = true;
+    await dialog.updateComplete;
+    expect(dialog.hasAttribute('close-on-backdrop')).toBe(true);
+
+    chip.remove();
+    input.remove();
+    dialog.remove();
   });
 
   it('reflects drawer open state through property and attribute', async () => {
@@ -214,7 +241,9 @@ describe('@rin-labs/ui components', () => {
 
     const tabChanges: unknown[] = [];
     let cardDetail: unknown = null;
+    let cardChanges = 0;
     card.addEventListener('rl-change', (event) => {
+      cardChanges += 1;
       cardDetail = (event as CustomEvent).detail;
     });
     tabs.addEventListener('rl-change', (event) => {
@@ -222,16 +251,45 @@ describe('@rin-labs/ui components', () => {
     });
 
     card.shadowRoot?.querySelector('button')?.click();
+    card.shadowRoot?.querySelector('button')?.click();
     secondTab.click();
     secondTab.click();
 
     expect(card.selected).toBe(true);
+    expect(cardChanges).toBe(1);
     expect(cardDetail).toMatchObject({ selected: true, value: 'blue' });
     expect(tabs.value).toBe('Tokens');
     expect(tabChanges).toHaveLength(1);
     expect(tabChanges[0]).toMatchObject({ value: 'Tokens' });
 
     card.remove();
+    tabs.remove();
+  });
+
+  it('skips disabled tab items during keyboard navigation', async () => {
+    const tabs = document.createElement('rl-tab-bar') as RlTabBar;
+    const firstTab = document.createElement('button');
+    const secondTab = document.createElement('button');
+    const thirdTab = document.createElement('button');
+    firstTab.value = 'One';
+    firstTab.textContent = 'One';
+    secondTab.value = 'Two';
+    secondTab.textContent = 'Two';
+    secondTab.disabled = true;
+    thirdTab.value = 'Three';
+    thirdTab.textContent = 'Three';
+    tabs.append(firstTab, secondTab, thirdTab);
+    document.body.append(tabs);
+    await tabs.updateComplete;
+
+    firstTab.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    await tabs.updateComplete;
+
+    expect(secondTab.getAttribute('aria-disabled')).toBe('true');
+    expect(secondTab.getAttribute('tabindex')).toBe('-1');
+    expect(tabs.value).toBe('Three');
+    expect(thirdTab.getAttribute('aria-selected')).toBe('true');
+
     tabs.remove();
   });
 
@@ -284,9 +342,26 @@ describe('@rin-labs/ui components', () => {
 
   it('publishes metadata for all registered public components', () => {
     const names = rlComponentMetadata.map((item) => item.name);
-    expect(names).toContain('rl-illustration');
-    expect(names).toContain('rl-empty');
-    expect(names).toContain('rl-result');
-    expect(rlComponentMetadata.every((item) => item.usage && item.parts)).toBe(true);
+    const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
+    expect(names).toEqual([
+      'rl-theme',
+      'rl-spinner',
+      'rl-illustration',
+      'rl-empty',
+      'rl-result',
+      'rl-button',
+      'rl-icon-button',
+      'rl-chip',
+      'rl-input',
+      'rl-switch',
+      'rl-radio-card',
+      'rl-tab-bar',
+      'rl-dialog',
+      'rl-drawer',
+      'rl-toast',
+      'rl-app-shell'
+    ]);
+    expect(rlComponentMetadata.every((item) => item.usage && item.parts && customElements.get(item.name))).toBe(true);
+    expect(rlComponentMetadata.flatMap((item) => item.tokens).every((token) => tokenNames.has(token))).toBe(true);
   });
 });

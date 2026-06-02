@@ -6,7 +6,7 @@ export class RlChip extends LitElement {
   static properties = {
     value: {},
     selected: { type: Boolean, reflect: true },
-    checkbox: { type: Boolean },
+    checkbox: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true }
   };
 

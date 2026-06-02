@@ -14,7 +14,8 @@
     "test": "npm run test --workspace @rin-labs/tokens && npm run test --workspace @rin-labs/ui",
     "test:browser": "playwright test",
     "dev": "npm run dev --workspace @rin-labs/playground",
-    "manifest": "npm run manifest --workspace @rin-labs/ui"
+    "manifest": "npm run manifest --workspace @rin-labs/ui",
+    "verify": "npm test && npm run build && npm run manifest && npm run test:browser"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",

@@ -20,7 +20,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-style-stroke-width', '--rl-style-offset-shadow']
+    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-style-stroke-width', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern']
   },
   {
     name: 'rl-spinner',
@@ -46,25 +46,25 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
   },
   {
     name: 'rl-empty',
-    summary: 'Ant-style empty state with illustration, description, and actions.',
+    summary: 'Illustration-ready empty state with description and actions.',
     usage: '<rl-empty title="No results" description="Try another keyword"><rl-button slot="actions">Create</rl-button></rl-empty>',
     attributes: ['illustration', 'title', 'description', 'compact'],
     properties: ['illustration', 'title', 'description', 'compact'],
     events: [],
     slots: ['illustration', 'title', 'description', 'actions'],
     parts: ['base', 'illustration', 'title', 'description', 'actions'],
-    tokens: ['--rl-empty-gap', '--rl-empty-title-color', '--rl-empty-description-color']
+    tokens: ['--rl-empty-gap', '--rl-empty-title-color', '--rl-empty-description-color', '--rl-empty-bg', '--rl-empty-border-width', '--rl-empty-border-color', '--rl-empty-radius', '--rl-empty-shadow']
   },
   {
     name: 'rl-result',
-    summary: 'Ant-style result feedback for success, error, warnings, and HTTP states.',
+    summary: 'Illustration-ready result feedback for success, error, warnings, and HTTP states.',
     usage: '<rl-result status="success" title="Done" sub-title="Everything is ready"><rl-button slot="actions">Continue</rl-button></rl-result>',
     attributes: ['status', 'title', 'sub-title', 'compact'],
     properties: ['status', 'title', 'subTitle', 'compact'],
     events: [],
     slots: ['illustration', 'title', 'description', 'actions', 'body'],
     parts: ['base', 'illustration', 'title', 'description', 'actions', 'body'],
-    tokens: ['--rl-result-title-size', '--rl-result-subtitle-size', '--rl-result-gap', '--rl-result-actions-margin']
+    tokens: ['--rl-result-title-size', '--rl-result-subtitle-size', '--rl-result-gap', '--rl-result-actions-margin', '--rl-result-bg', '--rl-result-border-width', '--rl-result-border-color', '--rl-result-radius', '--rl-result-shadow']
   },
   {
     name: 'rl-button',
@@ -75,7 +75,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-click'],
     slots: ['default', 'icon', 'actions'],
     parts: ['base', 'control', 'icon', 'label', 'indicator'],
-    tokens: ['--rl-button-bg', '--rl-button-fg', '--rl-button-border', '--rl-button-hover-bg']
+    tokens: ['--rl-button-bg', '--rl-button-fg', '--rl-button-border', '--rl-button-border-width', '--rl-button-radius', '--rl-button-shadow', '--rl-button-hover-bg']
   },
   {
     name: 'rl-icon-button',
@@ -86,7 +86,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-click'],
     slots: ['default', 'icon'],
     parts: ['base', 'control', 'icon'],
-    tokens: ['--rl-icon-button-size', '--rl-hover-overlay', '--rl-ripple']
+    tokens: ['--rl-icon-button-size', '--rl-soft-control-bg', '--rl-soft-control-border-width', '--rl-soft-control-border-color', '--rl-hover-overlay', '--rl-ripple']
   },
   {
     name: 'rl-chip',
@@ -97,7 +97,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-change', 'rl-select'],
     slots: ['default', 'icon'],
     parts: ['base', 'control', 'icon', 'label'],
-    tokens: ['--rl-chip-bg', '--rl-chip-selected-bg']
+    tokens: ['--rl-chip-bg', '--rl-chip-selected-bg', '--rl-chip-border-width', '--rl-chip-border-color', '--rl-chip-radius', '--rl-chip-shadow']
   },
   {
     name: 'rl-input',
@@ -108,7 +108,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-input', 'rl-change'],
     slots: ['icon', 'actions'],
     parts: ['base', 'control', 'label', 'description', 'error'],
-    tokens: ['--rl-input-bg', '--rl-input-border', '--rl-focus-ring']
+    tokens: ['--rl-input-bg', '--rl-input-border', '--rl-input-border-width', '--rl-input-radius', '--rl-input-shadow', '--rl-focus-ring']
   },
   {
     name: 'rl-switch',
@@ -119,7 +119,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-change'],
     slots: ['default'],
     parts: ['base', 'control', 'indicator', 'label'],
-    tokens: ['--rl-color-primary', '--rl-border', '--rl-focus-ring']
+    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
   },
   {
     name: 'rl-radio-card',
@@ -130,7 +130,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-select', 'rl-change'],
     slots: ['icon', 'label', 'description', 'actions'],
     parts: ['base', 'control', 'indicator', 'icon', 'label', 'description'],
-    tokens: ['--rl-surface-raised', '--rl-color-primary', '--rl-focus-ring']
+    tokens: ['--rl-radio-card-bg', '--rl-radio-card-border-width', '--rl-radio-card-border-color', '--rl-radio-card-radius', '--rl-radio-card-shadow', '--rl-surface-raised', '--rl-color-primary', '--rl-focus-ring']
   },
   {
     name: 'rl-tab-bar',
@@ -141,7 +141,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-select', 'rl-change'],
     slots: ['default'],
     parts: ['base'],
-    tokens: ['--rl-accent-hover-overlay', '--rl-color-primary']
+    tokens: ['--rl-tab-bg', '--rl-tab-border-width', '--rl-tab-border-color', '--rl-tab-radius', '--rl-accent-hover-overlay', '--rl-color-primary']
   },
   {
     name: 'rl-dialog',
@@ -152,7 +152,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-open', 'rl-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'label', 'description', 'actions', 'header', 'footer'],
-    tokens: ['--rl-dialog-shadow', '--rl-surface-raised', '--rl-border']
+    tokens: ['--rl-dialog-bg', '--rl-dialog-border-width', '--rl-dialog-border-color', '--rl-dialog-radius', '--rl-dialog-shadow', '--rl-surface-raised', '--rl-border']
   },
   {
     name: 'rl-drawer',
@@ -163,7 +163,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-open', 'rl-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'backdrop', 'label'],
-    tokens: ['--rl-drawer-shadow', '--rl-surface-overlay', '--rl-border']
+    tokens: ['--rl-drawer-bg', '--rl-drawer-border-width', '--rl-drawer-border-color', '--rl-drawer-shadow', '--rl-surface-overlay', '--rl-border']
   },
   {
     name: 'rl-toast',
@@ -174,7 +174,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-open', 'rl-close'],
     slots: ['default', 'icon'],
     parts: ['base', 'indicator', 'label', 'actions'],
-    tokens: ['--rl-toast-bg', '--rl-dialog-shadow', '--rl-border']
+    tokens: ['--rl-toast-bg', '--rl-toast-border-width', '--rl-toast-border-color', '--rl-toast-radius', '--rl-dialog-shadow', '--rl-border']
   },
   {
     name: 'rl-app-shell',
@@ -185,6 +185,6 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: [],
     slots: ['default', 'rail', 'top', 'bottom'],
     parts: ['base', 'rail', 'top', 'bottom', 'control'],
-    tokens: ['--rl-surface', '--rl-surface-overlay', '--rl-border']
+    tokens: ['--rl-app-shell-border-width', '--rl-app-shell-shadow', '--rl-surface', '--rl-surface-overlay', '--rl-border', '--rl-style-background-pattern']
   }
 ];

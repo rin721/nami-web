@@ -8,9 +8,27 @@ const focusableSelector = [
 ].join(',');
 
 export function getFocusableElements(container: ParentNode) {
-  return Array.from(container.querySelectorAll<HTMLElement>(focusableSelector)).filter((element) => {
-    return !element.hasAttribute('disabled') && element.tabIndex >= 0;
+  const candidates = [
+    ...Array.from(container.querySelectorAll<HTMLElement>(focusableSelector)),
+    ...getSlottedFocusableElements(container)
+  ];
+  return Array.from(new Set(candidates)).filter(isFocusableElement);
+}
+
+function getSlottedFocusableElements(container: ParentNode) {
+  return Array.from(container.querySelectorAll<HTMLSlotElement>('slot')).flatMap((slot) => {
+    return slot.assignedElements({ flatten: true }).flatMap((element) => {
+      if (!(element instanceof HTMLElement)) return [];
+      return [
+        ...(element.matches(focusableSelector) ? [element] : []),
+        ...Array.from(element.querySelectorAll<HTMLElement>(focusableSelector))
+      ];
+    });
   });
+}
+
+function isFocusableElement(element: HTMLElement) {
+  return !element.hasAttribute('disabled') && element.tabIndex >= 0;
 }
 
 export function trapFocus(event: KeyboardEvent, container: ParentNode) {

@@ -7,7 +7,7 @@ export class RlDialog extends LitElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     label: {},
-    closeOnBackdrop: { type: Boolean }
+    closeOnBackdrop: { attribute: 'close-on-backdrop', type: Boolean, reflect: true }
   };
 
   static styles = [

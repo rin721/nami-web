@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { getNextRovingIndex, getRovingValue, syncRovingItems } from '../foundation/roving-tabindex';
+import { getNextRovingIndex, getRovingValue } from '../foundation/roving-tabindex';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -61,6 +61,10 @@ export class RlTabBar extends LitElement {
     return (slot?.assignedElements({ flatten: true }) ?? []) as HTMLElement[];
   }
 
+  private get enabledItems() {
+    return this.items.filter((item) => !this.isItemDisabled(item));
+  }
+
   firstUpdated() {
     this.syncItems();
   }
@@ -70,23 +74,33 @@ export class RlTabBar extends LitElement {
   }
 
   private syncItems() {
-    const activeValue = this.value || getRovingValue(this.items[0]) || '';
-    if (!this.value && activeValue) this.value = activeValue;
+    const enabledItems = this.enabledItems;
+    const hasEnabledValue = enabledItems.some((item) => getRovingValue(item) === this.value);
+    const activeValue = hasEnabledValue ? this.value : getRovingValue(enabledItems[0]) || '';
+    if (this.value !== activeValue) this.value = activeValue;
+
     this.items.forEach((item) => {
       const itemValue = getRovingValue(item);
-      const selected = itemValue === activeValue;
+      const disabled = this.isItemDisabled(item);
+      const selected = !disabled && itemValue === activeValue;
       item.setAttribute('role', 'tab');
       item.setAttribute('aria-selected', String(selected));
+      if (disabled) {
+        item.setAttribute('aria-disabled', 'true');
+      } else {
+        item.removeAttribute('aria-disabled');
+      }
+      item.setAttribute('tabindex', selected ? '0' : '-1');
       item.removeEventListener('click', this.handleItemClick);
       item.removeEventListener('keydown', this.handleItemKeydown);
       item.addEventListener('click', this.handleItemClick);
       item.addEventListener('keydown', this.handleItemKeydown);
     });
-    syncRovingItems(this.items, activeValue);
   }
 
   private handleItemClick = (event: Event) => {
     const item = event.currentTarget as HTMLElement;
+    if (this.isItemDisabled(item)) return;
     this.selectItem(item, event);
   };
 
@@ -94,12 +108,18 @@ export class RlTabBar extends LitElement {
     if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
     const current = event.currentTarget as HTMLElement;
-    const index = this.items.indexOf(current);
-    const next = getNextRovingIndex(event.key, index, this.items.length, this.orientation);
-    const item = this.items[next];
+    const enabledItems = this.enabledItems;
+    const index = enabledItems.indexOf(current);
+    if (index < 0 || enabledItems.length === 0) return;
+    const next = getNextRovingIndex(event.key, index, enabledItems.length, this.orientation);
+    const item = enabledItems[next];
     item?.focus();
     if (item) this.selectItem(item, event);
   };
+
+  private isItemDisabled(item: HTMLElement) {
+    return item.hasAttribute('disabled') || item.getAttribute('aria-disabled') === 'true' || Boolean((item as HTMLButtonElement).disabled);
+  }
 
   private selectItem(item: HTMLElement, sourceEvent: Event) {
     const value = getRovingValue(item);

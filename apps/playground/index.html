@@ -28,7 +28,7 @@
             <div>
               <p class="eyebrow">Accent-driven Web Components</p>
               <h1>Deep interaction system, replaceable skin.</h1>
-              <p class="copy">The default surface is neutral, but hover, focus, selected, ripple, shadow, and dark mode all follow the same accent seed.</p>
+              <p class="copy">Both the neutral and illustration skins keep hover, focus, selected, ripple, shadow, and accent color in sync from the same seed.</p>
             </div>
             <div class="theme-tools">
               <rl-button id="toggle-theme" variant="soft">Toggle theme</rl-button>
@@ -54,8 +54,8 @@
 
           <section class="grid">
             <rl-radio-card selected value="blue" label="Neutral Blue" description="Community default theme."></rl-radio-card>
-            <rl-radio-card value="green" label="System Green" description="Only the accent seed changes."></rl-radio-card>
-            <rl-radio-card value="violet" label="Soft Violet" description="Component source remains untouched."></rl-radio-card>
+            <rl-radio-card value="green" label="System Green" description="Accent changes flow through both skins."></rl-radio-card>
+            <rl-radio-card value="violet" label="Soft Violet" description="Only theme tokens change; components stay untouched."></rl-radio-card>
           </section>
 
           <section class="panel">
@@ -77,7 +77,7 @@
 
       <rl-drawer id="drawer" placement="left">
         <h2 slot="label">Theme skin</h2>
-        <p>Change the accent to verify that the deep interaction model stays intact.</p>
+        <p>Change the accent to verify that default and illustration skins stay synchronized.</p>
         <div class="swatches">
           <button data-accent="#3b82f6" style="--swatch: #3b82f6">Blue</button>
           <button data-accent="#14b8a6" style="--swatch: #14b8a6">Teal</button>

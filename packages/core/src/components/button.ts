@@ -149,7 +149,24 @@ export class RlButton extends LitElement {
       return;
     }
 
-    emit(this, 'rl-click', { sourceEvent: event });
+    const shouldContinue = emit(this, 'rl-click', { sourceEvent: event }, { cancelable: true });
+    if (!shouldContinue) {
+      event.preventDefault();
+      return;
+    }
+
+    this.runFormAction();
+  }
+
+  private runFormAction() {
+    const form = this.closest('form');
+    if (!form) return;
+
+    if (this.type === 'submit') {
+      form.requestSubmit();
+    } else if (this.type === 'reset') {
+      form.reset();
+    }
   }
 
   render() {

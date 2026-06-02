@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { restoreFocus } from '../foundation/focus';
+import { getFocusableElements, restoreFocus, trapFocus } from '../foundation/focus';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -128,7 +128,7 @@ export class RlDrawer extends LitElement {
 
     if (this.open) {
       this.previousActiveElement = document.activeElement;
-      requestAnimationFrame(() => this.panelElement?.focus());
+      requestAnimationFrame(() => this.focusInitialElement());
       emit(this, 'rl-open', undefined);
     } else if (wasOpen) {
       this.restoreFocus();
@@ -139,6 +139,24 @@ export class RlDrawer extends LitElement {
 
   private get panelElement() {
     return this.renderRoot.querySelector('.panel') as HTMLElement | null;
+  }
+
+  private focusInitialElement() {
+    const panel = this.panelElement;
+    if (!panel) return;
+    const firstFocusable = getFocusableElements(panel)[0];
+    (firstFocusable ?? panel).focus();
+  }
+
+  private handlePanelKeydown(event: KeyboardEvent) {
+    const panel = this.panelElement;
+    if (!panel) return;
+    if (event.key === 'Tab' && getFocusableElements(panel).length === 0) {
+      event.preventDefault();
+      panel.focus();
+      return;
+    }
+    trapFocus(event, panel);
   }
 
   private restoreFocus() {
@@ -157,6 +175,7 @@ export class RlDrawer extends LitElement {
         aria-hidden=${this.open ? 'false' : 'true'}
         tabindex=${this.open ? '0' : '-1'}
         ?inert=${!this.open}
+        @keydown=${this.handlePanelKeydown}
       >
         <slot name="label" part="label"></slot>
         <slot></slot>

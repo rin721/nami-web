@@ -127,6 +127,7 @@ export class RlRadioCard extends LitElement {
 
   private select(event: MouseEvent) {
     if (this.disabled) return;
+    if (this.selected) return;
     this.selected = true;
     emit(this, 'rl-select', { selected: true, value: this.value, sourceEvent: event });
     emit(this, 'rl-change', { selected: true, value: this.value, sourceEvent: event });
