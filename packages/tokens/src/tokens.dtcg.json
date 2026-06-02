@@ -248,6 +248,60 @@
         "$value": "rgba(0, 0, 0, 0.28)"
       }
     },
+    "pageTransition": {
+      "barHeight": {
+        "$type": "dimension",
+        "$value": "12px",
+        "$extensions": {
+          "org.nami.theme": {
+            "affectedComponents": ["nami-page-transition"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "progressDuration": {
+        "$type": "duration",
+        "$value": "220ms",
+        "$extensions": {
+          "org.nami.theme": {
+            "affectedComponents": ["nami-page-transition"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "trackBg": {
+        "$type": "color",
+        "$value": "color-mix(in oklab, {semantic.color.primary}, {semantic.color.surface} 72%)",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "route progress track",
+            "affectedComponents": ["nami-page-transition"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "fillBg": {
+        "$type": "color",
+        "$value": "{semantic.color.primary}",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "route progress fill",
+            "affectedComponents": ["nami-page-transition"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "zIndex": {
+        "$type": "number",
+        "$value": 2147483647,
+        "$extensions": {
+          "org.nami.theme": {
+            "affectedComponents": ["nami-page-transition"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      }
+    },
     "illustration": {
       "primary": {
         "$type": "color",

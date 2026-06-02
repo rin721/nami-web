@@ -11,6 +11,8 @@
   --nami-critical-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, #64748b, transparent 74%));
   --nami-critical-rail-width: 56px;
   --nami-critical-mobile-bar-height: 56px;
+  --nami-critical-progress-height: var(--nami-page-transition-bar-height, 12px);
+  --nami-critical-progress-duration: var(--nami-page-transition-progress-duration, 220ms);
 }
 
 nami-config:not(:defined),
@@ -116,12 +118,13 @@ nami-tab-bar:not(:defined) > button {
 }
 
 nami-page-transition:not(:defined) {
-  --nami-critical-progress-bg: color-mix(in oklab, var(--nami-critical-accent), transparent 84%);
-  --nami-critical-progress-fg: linear-gradient(
-    90deg,
-    color-mix(in oklab, var(--nami-critical-accent), white 18%),
-    var(--nami-critical-accent),
-    color-mix(in oklab, var(--nami-critical-accent), #0f172a 18%)
+  --nami-critical-progress-bg: var(
+    --nami-page-transition-track-bg,
+    color-mix(in oklab, var(--nami-critical-accent), var(--nami-critical-surface) 72%)
+  );
+  --nami-critical-progress-fg: var(
+    --nami-page-transition-fill-bg,
+    color-mix(in oklab, var(--nami-critical-accent), #0f172a 8%)
   );
   display: contents;
 }
@@ -130,33 +133,37 @@ nami-page-transition[active]:not(:defined)::before {
   background: var(--nami-critical-progress-bg);
   content: '';
   display: block;
-  height: 3px;
+  height: var(--nami-critical-progress-height);
   inset: 0 0 auto;
   overflow: hidden;
   position: fixed;
-  z-index: 10000;
+  z-index: 2147483646;
 }
 
 nami-page-transition[active]:not(:defined)::after {
   animation: nami-critical-progress 1180ms cubic-bezier(0.19, 1, 0.22, 1) infinite;
   background: var(--nami-critical-progress-fg);
-  border-radius: 999px;
-  box-shadow: 0 0 18px color-mix(in oklab, var(--nami-critical-accent), transparent 55%);
+  border-radius: 0 999px 999px 0;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--nami-critical-accent), white 28%),
+    0 0 22px color-mix(in oklab, var(--nami-critical-accent), transparent 42%);
   content: '';
   display: block;
-  height: 3px;
+  height: var(--nami-critical-progress-height);
   inset-block-start: 0;
   inset-inline-start: 0;
   position: fixed;
   transform: translateX(-48%) scaleX(0.42);
   transform-origin: left center;
+  transition: width var(--nami-critical-progress-duration) cubic-bezier(0.19, 1, 0.22, 1);
   width: 58%;
-  z-index: 10001;
+  z-index: 2147483647;
 }
 
 nami-page-transition[active][style*='--nami-page-transition-progress']:not(:defined)::after {
   animation: none;
   transform: none;
+  transition: width var(--nami-critical-progress-duration) cubic-bezier(0.19, 1, 0.22, 1);
   width: var(--nami-page-transition-progress);
 }
 
@@ -282,5 +289,6 @@ nami-page-transition:defined [data-nami-transition-fallback] {
   [data-nami-transition-fallback] span::before {
     animation-duration: 1ms;
     animation-iteration-count: 1;
+    transition-duration: 1ms;
   }
 }

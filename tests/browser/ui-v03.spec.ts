@@ -107,19 +107,48 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   expect(thirdPartyVisibleShell).toBe(0);
 
   await page.evaluate(() => {
-    const win = window as Window & { __namiSoftNavMarker?: number; __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null; progress: string | null }> };
+    type RouteTransitionSample = {
+      active: boolean;
+      appearance: string | null;
+      progress: string | null;
+      persisted: string | null;
+      baseVisible: boolean;
+      trackDisplay: string | null;
+      trackHeight: number;
+      indicatorHeight: number;
+      trackBg: string | null;
+      indicatorWidth: string | null;
+      indicatorBg: string | null;
+    };
+    const transition = document.querySelector('#docs-page-transition') as HTMLElement & { __namiPersistProbe?: string } | null;
+    if (transition) transition.__namiPersistProbe = 'persisted';
+    const win = window as Window & { __namiSoftNavMarker?: number; __namiTransitionSamples?: RouteTransitionSample[]; __namiTransitionInterval?: number };
     win.__namiSoftNavMarker = 1;
     win.__namiTransitionSamples = [];
     const sample = () => {
-      const transition = document.querySelector('#docs-page-transition');
+      const transition = document.querySelector('#docs-page-transition') as HTMLElement | null;
+      const root = transition?.shadowRoot;
+      const base = root?.querySelector('.base') as HTMLElement | null;
+      const track = root?.querySelector('.track') as HTMLElement | null;
+      const indicator = root?.querySelector('.bar-indicator') as HTMLElement | null;
       win.__namiTransitionSamples?.push({
         active: Boolean(transition?.hasAttribute('active')),
         appearance: transition?.getAttribute('appearance') ?? null,
-        progress: transition?.getAttribute('progress') ?? null
+        progress: transition?.getAttribute('progress') ?? null,
+        persisted: (transition as (HTMLElement & { __namiPersistProbe?: string }) | null)?.__namiPersistProbe ?? null,
+        baseVisible: base ? getComputedStyle(base).visibility === 'visible' && Number(getComputedStyle(base).opacity) > 0 : false,
+        trackDisplay: track ? getComputedStyle(track).display : null,
+        trackHeight: track ? track.getBoundingClientRect().height : 0,
+        indicatorHeight: indicator ? indicator.getBoundingClientRect().height : 0,
+        trackBg: track ? getComputedStyle(track).backgroundColor : null,
+        indicatorWidth: indicator ? getComputedStyle(indicator).width : null,
+        indicatorBg: indicator ? getComputedStyle(indicator).backgroundColor : null
       });
     };
     sample();
     new MutationObserver(sample).observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ['active', 'appearance', 'progress'] });
+    win.__namiTransitionInterval = window.setInterval(sample, 25);
+    window.setTimeout(() => window.clearInterval(win.__namiTransitionInterval), 1500);
   });
   await page.locator('a[href="/zh-CN/components/"]').first().click();
   await expect(page).toHaveURL(/\/zh-CN\/components\/$/);
@@ -127,8 +156,11 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
     page.evaluate(() => (window as Window & { __namiSoftNavMarker?: number }).__namiSoftNavMarker)
   ).toBe(1);
   await expect.poll(async () =>
-    page.evaluate(() => (window as Window & { __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null; progress: string | null }> }).__namiTransitionSamples?.some((sample) => sample.active && sample.appearance === 'bar' && Number(sample.progress) > 0))
+    page.evaluate(() => (window as Window & { __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null; progress: string | null; persisted: string | null; baseVisible: boolean; trackDisplay: string | null; trackHeight: number; indicatorHeight: number; trackBg: string | null; indicatorWidth: string | null; indicatorBg: string | null }> }).__namiTransitionSamples?.some((sample) => sample.active && sample.appearance === 'bar' && Number(sample.progress) > 0 && sample.persisted === 'persisted' && sample.baseVisible && sample.trackDisplay === 'block' && sample.trackHeight >= 12 && Math.abs(sample.trackHeight - sample.indicatorHeight) <= 1 && sample.trackBg !== 'rgba(0, 0, 0, 0)' && sample.trackBg !== sample.indicatorBg && Number.parseFloat(sample.indicatorWidth ?? '0') > 0))
   ).toBe(true);
+  await expect.poll(async () =>
+    page.evaluate(() => (document.querySelector('#docs-page-transition') as (HTMLElement & { __namiPersistProbe?: string }) | null)?.__namiPersistProbe)
+  ).toBe('persisted');
   await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => element.hasAttribute('active'))).toBe(false);
   await expect(page.locator('#component-docs')).toContainText('基础操作');
   await expect(page.locator('#component-docs')).toContainText('表单输入');
@@ -178,6 +210,17 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
 
   await page.goto('/en-US/tokens/');
   await expect(page.locator('body')).toContainText('Seed, Semantic, Component');
+
+  await page.goto('/zh-CN/settings/transition/');
+  await expect(page.locator('.settings-heading')).toContainText('页面过渡');
+  await expect(page.locator('.settings-section-list')).toContainText('外观');
+  await expect(page.locator('nami-page-transition[data-docs-transition-preview]')).toHaveAttribute('bar-height', '12');
+  await page.locator('[data-bar-height-mode] button[value="16"]').click();
+  await expect(page.locator('#docs-page-transition')).toHaveAttribute('bar-height', '16');
+  await expect(page.locator('nami-page-transition[data-docs-transition-preview]')).toHaveAttribute('bar-height', '16');
+
+  await page.goto('/en-US/settings/appearance/');
+  await expect(page.locator('.settings-heading')).toContainText('Appearance');
   expect(errors).toEqual([]);
 });
 
@@ -347,15 +390,22 @@ test('Astro shell keeps visual state across static routes and uses responsive ap
     }))
   }));
   expect(railNav.text).toBe('');
-  expect(railNav.svgCount).toBe(6);
+  expect(railNav.svgCount).toBe(7);
   expect(railNav.labelCount).toBe(0);
   expect(railNav.labels[0]).toEqual({ aria: '首页', data: '首页', title: '首页' });
+  expect(railNav.labels.at(-1)).toEqual({ aria: '设置', data: '设置', title: '设置' });
 
   await page.locator('.rail-stack a[aria-label="首页"]').hover();
   await expect.poll(async () => page.locator('.rail-stack a[aria-label="首页"]').evaluate((item) => ({
     content: getComputedStyle(item, '::after').content,
     opacity: getComputedStyle(item, '::after').opacity
   }))).toEqual({ content: '"首页"', opacity: '1' });
+
+  await page.locator('.rail-secondary a[aria-label="设置"]').hover();
+  await expect.poll(async () => page.locator('.rail-secondary a[aria-label="设置"]').evaluate((item) => ({
+    content: getComputedStyle(item, '::after').content,
+    opacity: getComputedStyle(item, '::after').opacity
+  }))).toEqual({ content: '"设置"', opacity: '1' });
 
   await page.goto('/en-US/');
   await page.locator('.rail-stack a[aria-label="Home"]').hover();

@@ -376,6 +376,13 @@ function deriveComponent(seed: NamiResolvedThemeSeed): Record<string, string> {
     '--nami-app-shell-border-width': illustration ? 'var(--nami-style-stroke-width)' : '1px',
     '--nami-app-shell-shadow': illustration ? `4px 0 0 ${darkIllustration ? '#050506' : '#2f2f2f'}` : 'none',
     '--nami-spinner-track-color': transparent('currentColor', illustration ? 64 : 72),
+    '--nami-page-transition-bar-height': illustration ? '14px' : '12px',
+    '--nami-page-transition-progress-duration': seed.motion === 'reduced' ? '1ms' : '220ms',
+    '--nami-page-transition-track-bg': illustration
+      ? (darkIllustration ? mix('var(--nami-color-primary)', 'var(--nami-style-panel-bg)', 68) : mix('var(--nami-color-primary)', '#fff', 78))
+      : 'color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%)',
+    '--nami-page-transition-fill-bg': illustration ? 'var(--nami-color-primary)' : 'color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%)',
+    '--nami-page-transition-z-index': '2147483647',
     '--nami-illus-primary': 'var(--nami-color-primary)',
     '--nami-illus-secondary': illustration ? mix('var(--nami-color-primary)', '#fff', darkIllustration ? 38 : 58) : 'var(--nami-accent-20)',
     '--nami-illus-accent': darkIllustration ? '#ffd166' : '#f5b84b',

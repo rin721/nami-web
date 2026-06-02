@@ -4,7 +4,7 @@ import '../../../../packages/themes/src/default.css';
 import '../../../../packages/themes/src/ant-illustration.css';
 import '../styles.css';
 import { ClientRouter } from 'astro:transitions';
-import { Blocks, BookOpen, Home, Palette, Rocket, SlidersHorizontal } from '@lucide/astro';
+import { Blocks, BookOpen, Home, Palette, Rocket, Settings, SlidersHorizontal } from '@lucide/astro';
 import NamiMark from './NamiMark.astro';
 import { docsLocales, localizedPath, logicalPathFromUrl, t, type DocsLocale } from '../lib/site';
 
@@ -24,6 +24,7 @@ const primary = [
   { path: '/playground/theme-designer/', label: t(locale, 'nav.playground'), Icon: SlidersHorizontal },
   { path: '/resources/quality/', label: t(locale, 'nav.resources'), Icon: BookOpen }
 ];
+const settingsLink = { path: '/settings/appearance/', label: t(locale, 'nav.settings') };
 
 function isActive(path: string) {
   if (path === '/') return logicalPath === '/';
@@ -53,7 +54,7 @@ function isActive(path: string) {
   <body>
     <nami-config id="docs-config" locale={locale} dir="ltr">
       <nami-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
-        <nami-page-transition id="docs-page-transition" appearance="veil" active>
+        <nami-page-transition id="docs-page-transition" appearance="veil" active transition:persist="docs-page-transition">
           <span data-nami-transition-fallback>
             <NamiMark />
             <span aria-hidden="true"></span>
@@ -61,21 +62,33 @@ function isActive(path: string) {
         </nami-page-transition>
         <nami-app-shell>
           <nav slot="rail" class="rail-stack" aria-label="Primary">
-            {primary.map((link) => {
-              const Icon = link.Icon;
-              return (
-                <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'} aria-label={link.label} title={link.label} data-label={link.label}>
-                  <span class="rail-icon" aria-hidden="true"><Icon size={20} stroke-width={2.2} /></span>
-                </a>
-              );
-            })}
+            <div class="rail-primary">
+              {primary.map((link) => {
+                const Icon = link.Icon;
+                return (
+                  <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'} aria-label={link.label} title={link.label} data-label={link.label}>
+                    <span class="rail-icon" aria-hidden="true"><Icon size={20} stroke-width={2.2} /></span>
+                  </a>
+                );
+              })}
+            </div>
+            <div class="rail-secondary">
+              <a href={localizedPath(locale, settingsLink.path)} aria-current={isActive('/settings/') ? 'page' : 'false'} aria-label={settingsLink.label} title={settingsLink.label} data-label={settingsLink.label}>
+                <span class="rail-icon" aria-hidden="true"><Settings size={20} stroke-width={2.2} /></span>
+              </a>
+            </div>
           </nav>
           <div slot="top" class="mobile-bar">
             <a class="brand-link" href={localizedPath(locale, '/')}>
               <NamiMark class="brand-mark" />
               <span>Nami UI</span>
             </a>
-            <nami-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></nami-icon-button>
+            <div class="mobile-actions">
+              <a class="mobile-settings-link" href={localizedPath(locale, settingsLink.path)} aria-label={settingsLink.label} title={settingsLink.label}>
+                <Settings size={18} stroke-width={2.2} />
+              </a>
+              <nami-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></nami-icon-button>
+            </div>
           </div>
           <nav slot="bottom" class="bottom-nav" aria-label="Mobile">
             {[primary[0], primary[1], primary[2], primary[3]].map((link) => (

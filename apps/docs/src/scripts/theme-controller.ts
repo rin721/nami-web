@@ -1,18 +1,16 @@
 import { navigate } from 'astro:transitions/client';
-
-type DocsVisualState = {
-  theme: 'light' | 'dark';
-  accent: string;
-  density: 'comfortable' | 'compact';
-  motion: 'normal' | 'reduced';
-  stylePreset: 'default' | 'illustration';
-  radius: 'sharp' | 'soft' | 'round';
-  contrast: 'normal' | 'high';
-};
+import {
+  applyTransitionElementSettings,
+  defaultDocsSettings,
+  readDocsSettings,
+  writeDocsSettings,
+  type DocsSettingsState,
+  type DocsVisualState
+} from './docs-settings';
 
 type ThemeController = {
   installed: boolean;
-  state: DocsVisualState;
+  settings: DocsSettingsState;
   apply: () => void;
   sync: () => void;
 };
@@ -21,7 +19,6 @@ type DocsWindow = Window & {
   __namiDocsThemeController?: ThemeController;
 };
 
-const storageKey = 'nami-docs-visual-state';
 const locales = ['zh-CN', 'en-US'] as const;
 
 function currentLocale() {
@@ -29,29 +26,24 @@ function currentLocale() {
   return locales.includes(value as (typeof locales)[number]) ? value : 'zh-CN';
 }
 
-function readSavedState() {
-  try {
-    return JSON.parse(localStorage.getItem(storageKey) ?? '{}') as Partial<DocsVisualState>;
-  } catch {
-    return {};
-  }
-}
-
 function readRoot() {
   return document.querySelector('nami-theme') as HTMLElement & Partial<DocsVisualState> | null;
 }
 
-function initialState(): DocsVisualState {
+function initialSettings(): DocsSettingsState {
   const root = readRoot();
-  const saved = readSavedState();
+  const saved = readDocsSettings();
   return {
-    theme: saved.theme || (root?.getAttribute('theme') as DocsVisualState['theme']) || 'light',
-    accent: saved.accent || root?.getAttribute('accent') || '#3b82f6',
-    density: saved.density || (root?.getAttribute('density') as DocsVisualState['density']) || 'comfortable',
-    motion: saved.motion || (root?.getAttribute('motion') as DocsVisualState['motion']) || 'normal',
-    stylePreset: saved.stylePreset || (root?.getAttribute('style-preset') as DocsVisualState['stylePreset']) || 'default',
-    radius: saved.radius || (root?.getAttribute('radius') as DocsVisualState['radius']) || 'round',
-    contrast: saved.contrast || (root?.getAttribute('contrast') as DocsVisualState['contrast']) || 'normal'
+    ...saved,
+    visual: {
+      theme: saved.visual.theme || (root?.getAttribute('theme') as DocsVisualState['theme']) || defaultDocsSettings.visual.theme,
+      accent: saved.visual.accent || root?.getAttribute('accent') || defaultDocsSettings.visual.accent,
+      density: saved.visual.density || (root?.getAttribute('density') as DocsVisualState['density']) || defaultDocsSettings.visual.density,
+      motion: saved.visual.motion || (root?.getAttribute('motion') as DocsVisualState['motion']) || defaultDocsSettings.visual.motion,
+      stylePreset: saved.visual.stylePreset || (root?.getAttribute('style-preset') as DocsVisualState['stylePreset']) || defaultDocsSettings.visual.stylePreset,
+      radius: saved.visual.radius || (root?.getAttribute('radius') as DocsVisualState['radius']) || defaultDocsSettings.visual.radius,
+      contrast: saved.visual.contrast || (root?.getAttribute('contrast') as DocsVisualState['contrast']) || defaultDocsSettings.visual.contrast
+    }
   };
 }
 
@@ -87,27 +79,44 @@ function syncControlChecked(selector: string, checked: boolean) {
 function createController(): ThemeController {
   const controller: ThemeController = {
     installed: false,
-    state: initialState(),
+    settings: initialSettings(),
     apply: () => {
       const root = readRoot();
       if (!root) return;
-      root.theme = controller.state.theme;
-      root.accent = controller.state.accent;
-      root.density = controller.state.density;
-      root.motion = controller.state.motion;
-      root.stylePreset = controller.state.stylePreset;
-      root.radius = controller.state.radius;
-      root.contrast = controller.state.contrast;
-      localStorage.setItem(storageKey, JSON.stringify(controller.state));
+      const { visual } = controller.settings;
+      root.theme = visual.theme;
+      root.accent = visual.accent;
+      root.density = visual.density;
+      root.motion = visual.motion;
+      root.stylePreset = visual.stylePreset;
+      root.radius = visual.radius;
+      root.contrast = visual.contrast;
+      document.documentElement.dataset.namiDocsDensity = controller.settings.preferences.compactDocs ? 'compact' : 'comfortable';
+      applyTransitionElementSettings(document.querySelector('#docs-page-transition'), controller.settings);
+      document.querySelectorAll<HTMLElement>('nami-page-transition[data-docs-transition-preview]').forEach((element) => {
+        applyTransitionElementSettings(element, controller.settings);
+      });
+      writeDocsSettings(controller.settings);
     },
     sync: () => {
-      syncControlValue('[data-theme-mode]', controller.state.theme);
-      syncControlSelected('[data-style-toggle]', controller.state.stylePreset === 'illustration');
-      syncControlValue('[data-radius-mode]', controller.state.radius);
-      syncControlSelected('[data-contrast-toggle]', controller.state.contrast === 'high');
-      syncControlSelected('[data-density-toggle]', controller.state.density === 'compact');
-      syncControlChecked('[data-motion-toggle]', controller.state.motion === 'reduced');
+      const { visual, transition, preferences } = controller.settings;
+      syncControlValue('[data-theme-mode]', visual.theme);
+      syncControlSelected('[data-style-toggle]', visual.stylePreset === 'illustration');
+      syncControlValue('[data-style-preset-mode]', visual.stylePreset);
+      syncControlValue('[data-radius-mode]', visual.radius);
+      syncControlSelected('[data-contrast-toggle]', visual.contrast === 'high');
+      syncControlValue('[data-contrast-mode]', visual.contrast);
+      syncControlSelected('[data-density-toggle]', visual.density === 'compact');
+      syncControlValue('[data-density-mode]', visual.density);
+      syncControlChecked('[data-motion-toggle]', visual.motion === 'reduced');
+      syncControlValue('[data-motion-mode]', visual.motion);
       syncControlValue('[data-locale-mode]', currentLocale());
+      syncControlValue('[data-initial-transition-mode]', transition.firstLoadAppearance);
+      syncControlChecked('[data-route-bar-toggle]', transition.routeBar);
+      syncControlValue('[data-bar-height-mode]', String(transition.barHeight));
+      syncControlValue('[data-progress-duration-mode]', String(transition.progressDuration));
+      syncControlChecked('[data-remember-theme-toggle]', preferences.rememberTheme);
+      syncControlChecked('[data-compact-docs-toggle]', preferences.compactDocs);
     }
   };
   return controller;
@@ -128,7 +137,7 @@ function installDocumentListeners() {
     const target = event.target as HTMLElement;
     const accentButton = target.closest<HTMLButtonElement>('[data-accent]');
     if (accentButton) {
-      docsController.state.accent = accentButton.dataset.accent ?? '#3b82f6';
+      docsController.settings.visual.accent = accentButton.dataset.accent ?? defaultDocsSettings.visual.accent;
       docsController.apply();
       docsController.sync();
     }
@@ -141,7 +150,7 @@ function installDocumentListeners() {
       if (drawer) drawer.open = true;
     }
     if (target.id === 'docs-toggle-theme') {
-      docsController.state.theme = docsController.state.theme === 'dark' ? 'light' : 'dark';
+      docsController.settings.visual.theme = docsController.settings.visual.theme === 'dark' ? 'light' : 'dark';
       docsController.apply();
       docsController.sync();
     }
@@ -153,15 +162,28 @@ function installDocumentListeners() {
       switchLocale(String(event.detail.value ?? currentLocale()));
       return;
     }
-    if (target.matches('[data-theme-mode]')) docsController.state.theme = event.detail.value === 'dark' ? 'dark' : 'light';
-    if (target.matches('[data-style-toggle]')) docsController.state.stylePreset = event.detail.selected ? 'illustration' : 'default';
+    if (target.matches('[data-theme-mode]')) docsController.settings.visual.theme = event.detail.value === 'dark' ? 'dark' : 'light';
+    if (target.matches('[data-style-toggle]')) docsController.settings.visual.stylePreset = event.detail.selected ? 'illustration' : 'default';
+    if (target.matches('[data-style-preset-mode]')) docsController.settings.visual.stylePreset = event.detail.value === 'illustration' ? 'illustration' : 'default';
     if (target.matches('[data-radius-mode]')) {
       const value = event.detail.value;
-      docsController.state.radius = value === 'sharp' || value === 'soft' ? value : 'round';
+      docsController.settings.visual.radius = value === 'sharp' || value === 'soft' ? value : 'round';
     }
-    if (target.matches('[data-contrast-toggle]')) docsController.state.contrast = event.detail.selected ? 'high' : 'normal';
-    if (target.matches('[data-density-toggle]')) docsController.state.density = event.detail.selected ? 'compact' : 'comfortable';
-    if (target.matches('[data-motion-toggle]')) docsController.state.motion = event.detail.checked ? 'reduced' : 'normal';
+    if (target.matches('[data-contrast-toggle]')) docsController.settings.visual.contrast = event.detail.selected ? 'high' : 'normal';
+    if (target.matches('[data-contrast-mode]')) docsController.settings.visual.contrast = event.detail.value === 'high' ? 'high' : 'normal';
+    if (target.matches('[data-density-toggle]')) docsController.settings.visual.density = event.detail.selected ? 'compact' : 'comfortable';
+    if (target.matches('[data-density-mode]')) docsController.settings.visual.density = event.detail.value === 'compact' ? 'compact' : 'comfortable';
+    if (target.matches('[data-motion-toggle]')) docsController.settings.visual.motion = event.detail.checked ? 'reduced' : 'normal';
+    if (target.matches('[data-motion-mode]')) docsController.settings.visual.motion = event.detail.value === 'reduced' ? 'reduced' : 'normal';
+    if (target.matches('[data-initial-transition-mode]')) {
+      const value = String(event.detail.value ?? 'veil');
+      docsController.settings.transition.firstLoadAppearance = value === 'panel' || value === 'none' ? value : 'veil';
+    }
+    if (target.matches('[data-route-bar-toggle]')) docsController.settings.transition.routeBar = Boolean(event.detail.checked);
+    if (target.matches('[data-bar-height-mode]')) docsController.settings.transition.barHeight = Number(event.detail.value ?? 12);
+    if (target.matches('[data-progress-duration-mode]')) docsController.settings.transition.progressDuration = Number(event.detail.value ?? 220);
+    if (target.matches('[data-remember-theme-toggle]')) docsController.settings.preferences.rememberTheme = Boolean(event.detail.checked);
+    if (target.matches('[data-compact-docs-toggle]')) docsController.settings.preferences.compactDocs = Boolean(event.detail.checked);
     docsController.apply();
     docsController.sync();
   }) as EventListener);
@@ -170,9 +192,16 @@ function installDocumentListeners() {
 function setupThemeController() {
   installDocumentListeners();
   const docsController = controller();
+  docsController.settings = readDocsSettings();
   docsController.apply();
   docsController.sync();
 }
+
+window.addEventListener('nami-docs-settings-change', ((event: CustomEvent<DocsSettingsState>) => {
+  const docsController = controller();
+  docsController.settings = event.detail;
+  docsController.sync();
+}) as EventListener);
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', setupThemeController, { once: true });

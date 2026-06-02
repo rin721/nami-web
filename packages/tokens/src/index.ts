@@ -162,7 +162,12 @@ export const componentTokens = [
   '--nami-result-border-color',
   '--nami-result-radius',
   '--nami-result-shadow',
-  '--nami-spinner-track-color'
+  '--nami-spinner-track-color',
+  '--nami-page-transition-bar-height',
+  '--nami-page-transition-progress-duration',
+  '--nami-page-transition-track-bg',
+  '--nami-page-transition-fill-bg',
+  '--nami-page-transition-z-index'
 ] as const;
 
 export type SeedToken = (typeof seedTokens)[number];

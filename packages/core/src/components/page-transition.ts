@@ -18,6 +18,8 @@ export interface NamiPageTransitionOptions {
   duration?: number;
   minDuration?: number;
   progress?: number | null;
+  barHeight?: number;
+  progressDuration?: number;
 }
 
 export class NamiPageTransition extends LitElement {
@@ -29,6 +31,8 @@ export class NamiPageTransition extends LitElement {
     appearance: { reflect: true },
     duration: { type: Number, reflect: true },
     progress: { type: Number, reflect: true },
+    barHeight: { type: Number, attribute: 'bar-height', reflect: true },
+    progressDuration: { type: Number, attribute: 'progress-duration', reflect: true },
     visible: { state: true },
     hasDefaultContent: { state: true }
   };
@@ -38,18 +42,22 @@ export class NamiPageTransition extends LitElement {
     css`
       :host {
         --page-transition-backdrop: color-mix(in oklab, var(--nami-surface), transparent 8%);
-        --page-transition-bar-bg: color-mix(in oklab, var(--nami-color-primary), transparent 86%);
-        --page-transition-bar-fg: linear-gradient(
-          90deg,
-          color-mix(in oklab, var(--nami-color-primary), white 18%),
-          var(--nami-color-primary),
-          color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 20%)
+        --page-transition-bar-bg: var(
+          --nami-page-transition-track-bg,
+          color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%)
+        );
+        --page-transition-bar-fg: var(
+          --nami-page-transition-fill-bg,
+          color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%)
         );
         --page-transition-brand-ink: color-mix(in oklab, var(--nami-color-primary), black 44%);
         --page-transition-panel-bg: var(--nami-surface-overlay);
         --page-transition-panel-fg: var(--nami-text);
         --page-transition-panel-border: var(--nami-border);
         --page-transition-panel-shadow: var(--nami-dialog-shadow, 0 20px 60px color-mix(in oklab, var(--nami-shadow-color), transparent 68%));
+        --page-transition-bar-height: var(--nami-page-transition-bar-height, 12px);
+        --page-transition-progress-duration: var(--nami-page-transition-progress-duration, 220ms);
+        --page-transition-z-index: var(--nami-page-transition-z-index, 2147483647);
         color: var(--page-transition-panel-fg);
         display: contents;
       }
@@ -72,7 +80,7 @@ export class NamiPageTransition extends LitElement {
           opacity var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
           visibility var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
         visibility: hidden;
-        z-index: 999;
+        z-index: var(--page-transition-z-index);
       }
 
       :host([variant='inline']) .base {
@@ -115,9 +123,11 @@ export class NamiPageTransition extends LitElement {
 
       :host([appearance='bar']) .track {
         background: var(--page-transition-bar-bg);
-        box-shadow: 0 1px 0 color-mix(in oklab, var(--nami-color-primary), transparent 82%);
+        box-shadow:
+          inset 0 -1px 0 color-mix(in oklab, var(--nami-color-primary), transparent 64%),
+          0 8px 24px color-mix(in oklab, var(--nami-color-primary), transparent 72%);
         display: block;
-        height: 3px;
+        height: var(--page-transition-bar-height);
         inset-block-start: 0;
         inset-inline: 0;
         overflow: hidden;
@@ -132,8 +142,10 @@ export class NamiPageTransition extends LitElement {
       .bar-indicator {
         animation: nami-page-bar 1180ms var(--nami-ease-standard, ease) infinite;
         background: var(--page-transition-bar-fg);
-        border-radius: 999px;
-        box-shadow: 0 0 18px color-mix(in oklab, var(--nami-color-primary), transparent 55%);
+        border-radius: 0 999px 999px 0;
+        box-shadow:
+          0 0 0 1px color-mix(in oklab, var(--nami-color-primary), white 28%),
+          0 0 22px color-mix(in oklab, var(--nami-color-primary), transparent 42%);
         display: block;
         height: 100%;
         transform: translateX(-48%) scaleX(0.42);
@@ -144,6 +156,7 @@ export class NamiPageTransition extends LitElement {
       :host([progress]) .bar-indicator {
         animation: none;
         transform: none;
+        transition: width var(--page-transition-progress-duration) var(--nami-ease-standard, ease);
         width: var(--nami-page-transition-progress, 0%);
       }
 
@@ -200,6 +213,7 @@ export class NamiPageTransition extends LitElement {
       :host([progress]) .veil-indicator {
         animation: none;
         transform: none;
+        transition: width var(--page-transition-progress-duration) var(--nami-ease-standard, ease);
         width: var(--nami-page-transition-progress, 0%);
       }
 
@@ -257,7 +271,9 @@ export class NamiPageTransition extends LitElement {
 
       @media (prefers-reduced-motion: reduce) {
         .base,
-        .panel {
+        .panel,
+        .bar-indicator,
+        .veil-indicator {
           transition-duration: 1ms;
         }
 
@@ -281,6 +297,8 @@ export class NamiPageTransition extends LitElement {
   declare appearance: NamiPageTransitionAppearance;
   declare duration: number;
   declare progress?: number;
+  declare barHeight: number;
+  declare progressDuration: number;
   protected declare visible: boolean;
   protected declare hasDefaultContent: boolean;
 
@@ -299,6 +317,8 @@ export class NamiPageTransition extends LitElement {
     this.appearance = 'bar';
     this.duration = 240;
     this.progress = undefined;
+    this.barHeight = 12;
+    this.progressDuration = 220;
     this.visible = false;
     this.hasDefaultContent = false;
   }
@@ -320,6 +340,12 @@ export class NamiPageTransition extends LitElement {
   updated(changed: Map<string, unknown>) {
     if (changed.has('progress')) {
       this.syncProgressStyle();
+    }
+    if (changed.has('barHeight')) {
+      this.syncBarHeightStyle();
+    }
+    if (changed.has('progressDuration')) {
+      this.syncProgressDurationStyle();
     }
     if (!changed.has('active')) return;
     window.clearTimeout(this.hideTimer);
@@ -344,6 +370,8 @@ export class NamiPageTransition extends LitElement {
 
   show(options: NamiPageTransitionOptions = {}) {
     this.applyOptions(options);
+    this.visible = true;
+    this.shownAt = Date.now();
     this.active = true;
   }
 
@@ -375,6 +403,8 @@ export class NamiPageTransition extends LitElement {
     if (options.tone) this.tone = options.tone;
     if (options.variant) this.variant = options.variant;
     if (options.duration !== undefined) this.duration = options.duration;
+    if (options.barHeight !== undefined) this.barHeight = options.barHeight;
+    if (options.progressDuration !== undefined) this.progressDuration = options.progressDuration;
     if (options.progress !== undefined) {
       this.progress = options.progress === null ? undefined : options.progress;
     }
@@ -387,6 +417,22 @@ export class NamiPageTransition extends LitElement {
     }
     const value = Math.min(100, Math.max(0, Number(this.progress)));
     this.style.setProperty('--nami-page-transition-progress', `${value}%`);
+  }
+
+  private syncBarHeightStyle() {
+    if (!Number.isFinite(Number(this.barHeight)) || Number(this.barHeight) <= 0) {
+      this.style.removeProperty('--nami-page-transition-bar-height');
+      return;
+    }
+    this.style.setProperty('--nami-page-transition-bar-height', `${Number(this.barHeight)}px`);
+  }
+
+  private syncProgressDurationStyle() {
+    if (!Number.isFinite(Number(this.progressDuration)) || Number(this.progressDuration) < 0) {
+      this.style.removeProperty('--nami-page-transition-progress-duration');
+      return;
+    }
+    this.style.setProperty('--nami-page-transition-progress-duration', `${Number(this.progressDuration)}ms`);
   }
 
   private handleSlotChange(event: Event) {

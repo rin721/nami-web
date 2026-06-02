@@ -1,0 +1,17 @@
+---
+import SettingsPage from '../../../components/SettingsPage.astro';
+import { docsLocales, type DocsLocale } from '../../../lib/site';
+
+type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'experimental' | 'about';
+
+export function getStaticPaths() {
+  const sections = ['appearance', 'transition', 'language', 'preferences', 'experimental', 'about'] as const;
+  return docsLocales.flatMap((locale) =>
+    sections.map((section) => ({ params: { locale, section }, props: { locale, section } }))
+  );
+}
+
+const { locale, section } = Astro.props as { locale: DocsLocale; section: SettingsSection };
+---
+
+<SettingsPage locale={locale} section={section} />

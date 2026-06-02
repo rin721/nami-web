@@ -1,0 +1,186 @@
+---
+import DocsLayout from './DocsLayout.astro';
+import { docsLocales, localizedPath, t, type DocsLocale } from '../lib/site';
+
+type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'experimental' | 'about';
+
+interface Props {
+  locale: DocsLocale;
+  section: SettingsSection;
+}
+
+const { locale, section } = Astro.props;
+
+const sections: Array<{ id: SettingsSection; label: string; description: string }> = [
+  { id: 'appearance', label: t(locale, 'settings.appearance'), description: locale === 'zh-CN' ? '主题、色彩、风格和组件形态。' : 'Theme, color, style, and component shape.' },
+  { id: 'transition', label: t(locale, 'settings.transition'), description: locale === 'zh-CN' ? '首屏揭幕和路由顶部进度。' : 'First-paint reveal and route progress.' },
+  { id: 'language', label: t(locale, 'settings.language'), description: locale === 'zh-CN' ? '切换文档语言并保留路径。' : 'Switch docs language while keeping the path.' },
+  { id: 'preferences', label: t(locale, 'settings.preferences'), description: locale === 'zh-CN' ? '阅读与状态保留偏好。' : 'Reading and persistence preferences.' },
+  { id: 'experimental', label: t(locale, 'settings.experimental'), description: locale === 'zh-CN' ? '可逆、可测试的候选能力。' : 'Reversible and testable candidate features.' },
+  { id: 'about', label: t(locale, 'settings.about'), description: locale === 'zh-CN' ? '版本、仓库和组件库入口。' : 'Version, repository, and package entry points.' }
+];
+
+const current = sections.find((item) => item.id === section) ?? sections[0];
+---
+
+<DocsLayout locale={locale} title={`${current.label} - ${t(locale, 'settings.title')}`}>
+  <section class="section settings-shell">
+    <aside class="settings-nav" aria-label={t(locale, 'settings.title')}>
+      <div class="settings-nav-header">
+        <p class="eyebrow">{t(locale, 'settings.title')}</p>
+        <h1>{t(locale, 'settings.title')}</h1>
+        <p>{t(locale, 'settings.copy')}</p>
+      </div>
+      <nav class="settings-section-list">
+        {sections.map((item) => (
+          <a href={localizedPath(locale, `/settings/${item.id}/`)} aria-current={item.id === section ? 'page' : 'false'}>
+            <strong>{item.label}</strong>
+            <span>{item.description}</span>
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="settings-content">
+      <div class="section-heading settings-heading">
+        <p class="eyebrow">{current.label}</p>
+        <h2>{current.label}</h2>
+        <p>{current.description}</p>
+      </div>
+
+      {section === 'appearance' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.scheme')}</h3>
+            <nami-tab-bar data-theme-mode value="light">
+              <button value="light">{t(locale, 'controls.light')}</button>
+              <button value="dark">{t(locale, 'controls.dark')}</button>
+            </nami-tab-bar>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.palette')}</h3>
+            <div class="swatches" aria-label={t(locale, 'settings.palette')}>
+              <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
+              <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
+              <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
+            </div>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.style')}</h3>
+            <nami-tab-bar data-style-preset-mode value="default">
+              <button value="default">Default</button>
+              <button value="illustration">{t(locale, 'controls.illustration')}</button>
+            </nami-tab-bar>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.shape')}</h3>
+            <nami-tab-bar data-density-mode value="comfortable">
+              <button value="comfortable">Comfortable</button>
+              <button value="compact">{t(locale, 'controls.compact')}</button>
+            </nami-tab-bar>
+            <nami-tab-bar data-radius-mode value="round">
+              <button value="sharp">{t(locale, 'controls.radiusSharp')}</button>
+              <button value="soft">{t(locale, 'controls.radiusSoft')}</button>
+              <button value="round">{t(locale, 'controls.radiusRound')}</button>
+            </nami-tab-bar>
+            <nami-tab-bar data-contrast-mode value="normal">
+              <button value="normal">Normal</button>
+              <button value="high">{t(locale, 'controls.highContrast')}</button>
+            </nami-tab-bar>
+          </nami-card>
+        </div>
+      )}
+
+      {section === 'transition' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.firstLoad')}</h3>
+            <nami-tab-bar data-initial-transition-mode value="veil">
+              <button value="veil">Veil</button>
+              <button value="panel">Panel</button>
+              <button value="none">None</button>
+            </nami-tab-bar>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.routeProgress')}</h3>
+            <nami-switch data-route-bar-toggle checked>{locale === 'zh-CN' ? '显示路由顶部进度条' : 'Show route progress bar'}</nami-switch>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.barHeight')}</h3>
+            <nami-tab-bar data-bar-height-mode value="12">
+              <button value="8">8px</button>
+              <button value="12">12px</button>
+              <button value="16">16px</button>
+            </nami-tab-bar>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.progressDuration')}</h3>
+            <nami-tab-bar data-progress-duration-mode value="220">
+              <button value="160">160ms</button>
+              <button value="220">220ms</button>
+              <button value="360">360ms</button>
+            </nami-tab-bar>
+          </nami-card>
+          <nami-card class="settings-preview-card">
+            <h3 slot="header">{t(locale, 'settings.preview')}</h3>
+            <div class="settings-transition-preview">
+              <nami-page-transition data-docs-transition-preview active appearance="bar" variant="inline" progress="68" duration="0"></nami-page-transition>
+            </div>
+            <p>{locale === 'zh-CN' ? '轨道与填充保持同高，填充颜色跟随主题色。' : 'Track and fill share the same height, and the fill follows the accent color.'}</p>
+          </nami-card>
+        </div>
+      )}
+
+      {section === 'language' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">{t(locale, 'controls.locale')}</h3>
+            <nami-tab-bar data-locale-mode value={locale}>
+              {docsLocales.map((item) => <button value={item}>{item === 'zh-CN' ? '中文' : 'English'}</button>)}
+            </nami-tab-bar>
+          </nami-card>
+        </div>
+      )}
+
+      {section === 'preferences' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.rememberTheme')}</h3>
+            <nami-switch data-remember-theme-toggle checked>{locale === 'zh-CN' ? '刷新后保留当前视觉设置' : 'Keep visual settings after reload'}</nami-switch>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.compactDocs')}</h3>
+            <nami-switch data-compact-docs-toggle>{locale === 'zh-CN' ? '降低文档区块间距' : 'Reduce docs spacing'}</nami-switch>
+          </nami-card>
+        </div>
+      )}
+
+      {section === 'experimental' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.experimental')}</h3>
+            <p>{t(locale, 'settings.experimentalCopy')}</p>
+            <nami-badge variant="warning" tone="soft">{locale === 'zh-CN' ? '暂无破坏性开关' : 'No destructive toggles'}</nami-badge>
+          </nami-card>
+        </div>
+      )}
+
+      {section === 'about' && (
+        <div class="settings-grid">
+          <nami-card>
+            <h3 slot="header">Nami UI</h3>
+            <p>{t(locale, 'settings.aboutCopy')}</p>
+            <dl>
+              <dt>Package</dt>
+              <dd><code>@nami/ui</code></dd>
+              <dt>Theme CSS</dt>
+              <dd><code>@nami/themes/default.css</code></dd>
+              <dt>Static output</dt>
+              <dd><code>apps/docs/dist/</code></dd>
+            </dl>
+          </nami-card>
+        </div>
+      )}
+    </div>
+  </section>
+</DocsLayout>

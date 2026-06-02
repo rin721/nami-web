@@ -447,6 +447,8 @@ describe('@nami/ui components', () => {
     transition.appearance = 'panel';
     transition.duration = 0;
     transition.progress = 64;
+    transition.barHeight = 16;
+    transition.progressDuration = 320;
     document.body.append(transition);
     await transition.updateComplete;
 
@@ -456,7 +458,11 @@ describe('@nami/ui components', () => {
     expect(transition.getAttribute('appearance')).toBe('panel');
     expect(transition.getAttribute('duration')).toBe('0');
     expect(transition.getAttribute('progress')).toBe('64');
+    expect(transition.getAttribute('bar-height')).toBe('16');
+    expect(transition.getAttribute('progress-duration')).toBe('320');
     expect(transition.style.getPropertyValue('--nami-page-transition-progress')).toBe('64%');
+    expect(transition.style.getPropertyValue('--nami-page-transition-bar-height')).toBe('16px');
+    expect(transition.style.getPropertyValue('--nami-page-transition-progress-duration')).toBe('320ms');
     expect(transition.shadowRoot?.querySelector('nami-spinner')).not.toBeNull();
     expect(transition.shadowRoot?.querySelector('[part~="base"]')?.getAttribute('aria-label')).toBe('Preparing interface');
     expect(transition.shadowRoot?.textContent).not.toContain('Loading');
@@ -474,11 +480,15 @@ describe('@nami/ui components', () => {
     expect(iconSlot.assignedElements()).toHaveLength(1);
     expect(transition.shadowRoot?.querySelector('[part~="label"]')?.classList.contains('has-content')).toBe(true);
 
-    transition.show({ appearance: 'veil', tone: 'brand', progress: 50 });
+    transition.show({ appearance: 'veil', tone: 'brand', progress: 50, barHeight: 10, progressDuration: 180 });
     await transition.updateComplete;
     expect(transition.getAttribute('appearance')).toBe('veil');
     expect(transition.getAttribute('progress')).toBe('50');
+    expect(transition.getAttribute('bar-height')).toBe('10');
+    expect(transition.getAttribute('progress-duration')).toBe('180');
     expect(transition.style.getPropertyValue('--nami-page-transition-progress')).toBe('50%');
+    expect(transition.style.getPropertyValue('--nami-page-transition-bar-height')).toBe('10px');
+    expect(transition.style.getPropertyValue('--nami-page-transition-progress-duration')).toBe('180ms');
     expect(transition.shadowRoot?.querySelector('[part~="brand"]')).not.toBeNull();
 
     const result = await transition.waitFor(Promise.resolve('done'), { appearance: 'bar', progress: 100, duration: 0, minDuration: 0 });

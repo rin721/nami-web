@@ -1,0 +1,12 @@
+---
+import SettingsPage from '../../../components/SettingsPage.astro';
+import { docsLocales, type DocsLocale } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+---
+
+<SettingsPage locale={locale} section="appearance" />
