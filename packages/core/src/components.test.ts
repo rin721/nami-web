@@ -5,6 +5,7 @@ import type { RlBadge } from './components/badge';
 import type { RlButton } from './components/button';
 import type { RlCard } from './components/card';
 import type { RlChip } from './components/chip';
+import type { RlConfig } from './components/config';
 import type { RlDialog } from './components/dialog';
 import type { RlDrawer } from './components/drawer';
 import type { RlEmpty } from './components/empty';
@@ -17,6 +18,7 @@ import type { RlSwitch } from './components/switch';
 import type { RlTabBar } from './components/tab-bar';
 import type { RlTheme } from './components/theme';
 import type { RlToast } from './components/toast';
+import { getLocale, setLocale } from './localize';
 import { rlComponentMetadata } from './metadata';
 
 describe('@rin-labs/ui components', () => {
@@ -45,6 +47,46 @@ describe('@rin-labs/ui components', () => {
     expect(theme.dataset.rlStyle).toBe('illustration');
 
     theme.remove();
+  });
+
+  it('configures runtime locale and localizes fallback component text', async () => {
+    await setLocale('en-US');
+    const config = document.createElement('rl-config') as RlConfig;
+    const empty = document.createElement('rl-empty') as RlEmpty;
+    const spinner = document.createElement('rl-spinner');
+    const result = document.createElement('rl-result') as RlResult;
+    config.locale = 'zh-CN';
+    const statusEvents: unknown[] = [];
+    const changeEvents: unknown[] = [];
+    const localeReady = new Promise<void>((resolve) => {
+      window.addEventListener('lit-localize-status', ((event: CustomEvent) => {
+        if (event.detail.status === 'ready' && event.detail.readyLocale === 'zh-CN') resolve();
+      }) as EventListener);
+    });
+    config.addEventListener('rl-locale-status', (event) => statusEvents.push((event as CustomEvent).detail));
+    config.addEventListener('rl-change', (event) => changeEvents.push((event as CustomEvent).detail));
+    config.append(empty, spinner, result);
+    document.body.append(config);
+    await config.updateComplete;
+    await localeReady;
+    await Promise.resolve();
+    await empty.updateComplete;
+    await (spinner as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    await result.updateComplete;
+
+    expect(getLocale()).toBe('zh-CN');
+    expect(statusEvents).toContainEqual({ status: 'ready', readyLocale: 'zh-CN' });
+    expect(changeEvents.at(-1)).toMatchObject({ value: 'zh-CN', locale: 'zh-CN', dir: 'ltr' });
+    expect(empty.shadowRoot?.textContent).toContain('无数据');
+    expect(spinner.shadowRoot?.querySelector('[role="status"]')?.getAttribute('aria-label')).toBe('加载中');
+    expect(result.shadowRoot?.querySelector('section')?.getAttribute('aria-label')).toBe('结果');
+
+    empty.description = 'No data';
+    await empty.updateComplete;
+    expect(empty.shadowRoot?.textContent).toContain('No data');
+
+    config.remove();
+    await setLocale('en-US');
   });
 
   it('reflects boolean public API attributes consistently', async () => {
@@ -377,6 +419,7 @@ describe('@rin-labs/ui components', () => {
     const names = rlComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
     expect(names).toEqual([
+      'rl-config',
       'rl-theme',
       'rl-spinner',
       'rl-illustration',

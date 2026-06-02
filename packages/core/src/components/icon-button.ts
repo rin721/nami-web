@@ -1,4 +1,5 @@
 import { css, html, LitElement } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { defineElement } from '../internal/define';
 import { componentHostStyles, softControlStyles } from '../internal/styles';
@@ -50,6 +51,7 @@ export class RlIconButton extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.label = '';
     this.size = 'md';
     this.disabled = false;
@@ -80,7 +82,7 @@ export class RlIconButton extends LitElement {
         @click=${this.handleClick}
       >
         <span class="icon-motion" part="icon">
-          ${this.loading ? html`<rl-spinner size="sm" label="Loading"></rl-spinner>` : html`<slot></slot><slot name="icon"></slot>`}
+          ${this.loading ? html`<rl-spinner size="sm" label=${msg('Loading', { id: 'rl.spinner.loading' })}></rl-spinner>` : html`<slot></slot><slot name="icon"></slot>`}
         </span>
       </button>
     `;

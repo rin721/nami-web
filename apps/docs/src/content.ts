@@ -1,6 +1,7 @@
 import { marked } from 'marked';
 
 export interface DocPage {
+  locale: string;
   slug: string;
   title: string;
   group: string;
@@ -8,7 +9,12 @@ export interface DocPage {
   markdown: string;
 }
 
-const rawDocs = import.meta.glob('./content/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const rawDocs = import.meta.glob('./content/*/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+
+function localeFromPath(path: string) {
+  const parts = path.split('/');
+  return parts[2] ?? 'en-US';
+}
 
 function slugFromPath(path: string) {
   return path.split('/').pop()?.replace(/\.md$/, '') ?? path;
@@ -29,6 +35,7 @@ function parseDocPage(path: string, source: string): DocPage {
 
   const slug = slugFromPath(path);
   return {
+    locale: localeFromPath(path),
     slug,
     title: meta.get('title') ?? slug,
     group: meta.get('group') ?? 'Guide',
@@ -60,7 +67,15 @@ export const docs = Object.entries(rawDocs)
   .map(([path, source]) => parseDocPage(path, source))
   .sort((a, b) => a.order - b.order);
 
-export const docsBySlug = new Map(docs.map((doc) => [doc.slug, doc]));
+export function docsForLocale(locale: string) {
+  return docs.filter((doc) => doc.locale === locale).sort((a, b) => a.order - b.order);
+}
+
+export function docBySlug(locale: string, slug: string) {
+  return docs.find((doc) => doc.locale === locale && doc.slug === slug);
+}
+
+export const docsBySlug = new Map(docs.map((doc) => [`${doc.locale}/${doc.slug}`, doc]));
 
 export function renderMarkdown(markdown: string) {
   return marked.parse(markdown, { async: false, renderer }) as string;

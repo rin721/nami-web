@@ -16,7 +16,7 @@ The release gate is `npm run verify`. It runs unit tests, package builds, custom
 | Style presets | default and illustration share the same component source |
 | Forms | form-associated input and switch behavior |
 | A11y | focus-visible, focus trap, Escape close, keyboard tabs |
-| Browser | custom elements upgrade, shadow DOM rendering, console errors |
+| i18n | `@lit/localize` runtime mode, localized routes, fallback text |
 
 ```html live
 <div class="doc-live-stack">
@@ -29,3 +29,4 @@ The release gate is `npm run verify`. It runs unit tests, package builds, custom
 ```
 
 The docs site itself is part of the test surface, so tutorial examples should stay small, stable, and token-driven.
+

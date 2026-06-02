@@ -1,32 +1,38 @@
-import { docsBySlug } from '../content';
+import { docBySlug } from '../content';
 import { componentNameFromSlug, metadataByName } from '../component-catalog';
-import { currentPath, notifyRouteChange } from '../routes';
+import { currentRoute, hrefForPath, notifyRouteChange } from '../routes';
+import { t } from '../i18n';
 
 export class RinDocsRouter extends HTMLElement {
   connectedCallback() {
     window.addEventListener('hashchange', this.handleHashChange);
+    window.addEventListener('lit-localize-status', this.handleHashChange as EventListener);
     this.render();
   }
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.handleHashChange);
+    window.removeEventListener('lit-localize-status', this.handleHashChange as EventListener);
   }
 
   private handleHashChange = () => this.render();
 
   private render() {
-    const path = currentPath();
-    this.innerHTML = this.renderRoute(path);
-    notifyRouteChange(path);
+    const route = currentRoute();
+    if (route.needsRedirect) {
+      window.history.replaceState(null, '', hrefForPath(route.path, route.locale));
+    }
+    this.innerHTML = this.renderRoute(route.path, route.locale);
+    notifyRouteChange(route);
   }
 
-  private renderRoute(path: string) {
+  private renderRoute(path: string, locale: string) {
     if (path === '/') return '<rin-docs-home></rin-docs-home>';
 
     const docsMatch = path.match(/^\/docs\/([^/]+)$/);
     if (docsMatch) {
       const slug = docsMatch[1];
-      if (docsBySlug.has(slug)) return `<rin-docs-markdown-page slug="${slug}"></rin-docs-markdown-page>`;
+      if (docBySlug(locale, slug)) return `<rin-docs-markdown-page locale="${locale}" slug="${slug}"></rin-docs-markdown-page>`;
     }
 
     if (path === '/components') return '<rin-docs-component-index></rin-docs-component-index>';
@@ -42,8 +48,8 @@ export class RinDocsRouter extends HTMLElement {
 
     return `
       <section class="section">
-        <rl-empty title="Route not found" description="This documentation route does not exist.">
-          <rl-button slot="actions" variant="soft" onclick="location.hash='/'">Back home</rl-button>
+        <rl-empty title="${t('Route not found', 'docs.empty.routeTitle')}" description="${t('This documentation route does not exist.', 'docs.empty.routeDescription')}">
+          <rl-button slot="actions" variant="soft" onclick="location.hash='${hrefForPath('/', locale).slice(1)}'">${t('Back home', 'docs.empty.backHome')}</rl-button>
         </rl-empty>
       </section>
     `;

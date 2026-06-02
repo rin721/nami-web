@@ -1,3 +1,4 @@
+export * from './components/config';
 export * from './components/theme';
 export * from './components/spinner';
 export * from './components/illustration';
@@ -18,3 +19,4 @@ export * from './components/toast';
 export * from './components/app-shell';
 export * from './events';
 export * from './metadata';
+export * from './localize';

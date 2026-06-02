@@ -271,6 +271,12 @@ rl-card p {
   gap: 12px;
 }
 
+.control-stack > rl-chip,
+.control-stack > rl-switch,
+.control-stack > rl-tab-bar {
+  justify-self: start;
+}
+
 .token-pipeline {
   display: grid;
   gap: 10px;

@@ -15,7 +15,7 @@ test('docs website uses routed onion architecture instead of a one-page dump', a
 
   await page.goto(docsUrl);
   await expect(page.getByRole('heading', { name: 'Rin UI' })).toBeVisible();
-  await expect(page.locator('[data-product-hero]')).toContainText('Web Components UI library for themeable apps.');
+  await expect(page.locator('[data-product-hero]')).toContainText('面向可换肤应用的 Web Components UI 组件库。');
   await expect(page.locator('rin-docs-router')).toBeVisible();
   await expect(page.locator('#component-docs')).toHaveCount(0);
   await expect(page.locator('#doc-getting-started')).toHaveCount(0);
@@ -26,15 +26,18 @@ test('docs website uses routed onion architecture instead of a one-page dump', a
     return {
       cardDefined: Boolean(document.querySelector('rl-card')?.shadowRoot?.querySelector('[part~="base"]')),
       badgeDefined: Boolean(document.querySelector('rl-badge')?.shadowRoot?.querySelector('[part~="base"]')),
-      route: location.hash || '#/'
+      route: location.hash,
+      locale: document.querySelector('rl-config')?.getAttribute('locale')
     };
   });
   expect(homeState.cardDefined).toBe(true);
   expect(homeState.badgeDefined).toBe(true);
-  expect(homeState.route).toBe('#/');
+  expect(homeState.route).toBe('#/zh-CN/');
+  expect(homeState.locale).toBe('zh-CN');
 
   await page.goto(`${docsUrl}#/docs/getting-started`);
-  await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe('#/zh-CN/docs/getting-started');
+  await expect(page.locator('#doc-getting-started')).toContainText('注册全部组件');
   await expect(page.locator('#component-docs')).toHaveCount(0);
   const markdownState = await page.evaluate(async () => {
     await customElements.whenDefined('rl-button');
@@ -50,21 +53,27 @@ test('docs website uses routed onion architecture instead of a one-page dump', a
   expect(markdownState.buttonDefined).toBe(true);
   expect(markdownState.ordinaryCodeBlocks).toBeGreaterThanOrEqual(2);
 
-  await page.goto(`${docsUrl}#/components`);
+  await page.goto(`${docsUrl}#/en-US/docs/getting-started`);
+  await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
+
+  await page.goto(`${docsUrl}#/en-US/components`);
   await expect(page.locator('#component-docs')).toContainText('rl-button');
   await expect(page.locator('#component-docs')).toContainText('rl-card');
   await expect(page.locator('[data-component-card="rl-badge"]')).toContainText('Compact status label');
 
-  await page.goto(`${docsUrl}#/components/button`);
+  await page.goto(`${docsUrl}#/en-US/components/button`);
   await expect(page.locator('#component-docs')).toContainText('Primary command button');
   await expect(page.locator('#component-docs')).toContainText('Attributes');
   await expect(page.locator('#component-docs')).toContainText('--rl-button-bg');
 
-  await page.goto(`${docsUrl}#/tokens`);
+  await page.goto(`${docsUrl}#/zh-CN/components/button`);
+  await expect(page.locator('#component-docs')).toContainText('主要命令按钮');
+
+  await page.goto(`${docsUrl}#/en-US/tokens`);
   await expect(page.locator('rin-docs-tokens-page')).toContainText('Seed, semantic, component');
 
-  await page.goto(`${docsUrl}#/missing/route`);
-  await expect(page.locator('rin-docs-router')).toContainText('Route not found');
+  await page.goto(`${docsUrl}#/zh-CN/missing/route`);
+  await expect(page.locator('rin-docs-router')).toContainText('路由不存在');
   expect(errors).toEqual([]);
 });
 
@@ -107,24 +116,31 @@ test('docs app shell is responsive and theme controls persist across routes', as
   });
   expect(mobileShell).toEqual({ rail: 'none', top: 'block', bottom: 'block' });
 
-  await page.getByRole('button', { name: 'Theme controls' }).click();
+  await page.locator('#docs-open-theme').click();
   await expect(page.locator('#docs-theme-drawer')).toHaveAttribute('open', '');
   await page.locator('#docs-theme-drawer [data-theme-mode] button[value="dark"]').click();
   await page.locator('#docs-theme-drawer button[data-accent="#14b8a6"]').click();
   await page.locator('#docs-theme-drawer [data-density-toggle]').click();
   await page.locator('#docs-theme-drawer [data-motion-toggle]').click();
   await page.locator('#docs-theme-drawer [data-style-toggle]').click();
+  await page.locator('#docs-theme-drawer [data-locale-mode] button[value="en-US"]').click();
+
+  await expect.poll(() => page.evaluate(() => location.hash)).toBe('#/en-US/');
+  await expect(page.locator('[data-product-hero]')).toContainText('Web Components UI library for themeable apps.');
 
   await page.evaluate(() => {
-    location.hash = '/components/button';
+    location.hash = '/en-US/components/button';
   });
   await expect(page.locator('rin-docs-component-page')).toContainText('rl-button');
 
   const themeState = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
+    const config = document.querySelector('rl-config');
     const button = document.querySelector('rin-docs-component-page rl-button');
     const control = button?.shadowRoot?.querySelector('button');
     return {
+      locale: config?.getAttribute('locale'),
+      hash: location.hash,
       theme: theme?.getAttribute('theme'),
       accent: theme?.getAttribute('accent'),
       density: theme?.getAttribute('density'),
@@ -139,6 +155,8 @@ test('docs app shell is responsive and theme controls persist across routes', as
     };
   });
 
+  expect(themeState.locale).toBe('en-US');
+  expect(themeState.hash).toBe('#/en-US/components/button');
   expect(themeState.theme).toBe('dark');
   expect(themeState.accent).toBe('#14b8a6');
   expect(themeState.density).toBe('compact');
@@ -156,7 +174,7 @@ test('docs app shell is responsive and theme controls persist across routes', as
 test('theme lab route covers dark illustration, density, motion, and component tokens', async ({ page }) => {
   const errors = captureConsoleErrors(page);
 
-  await page.goto(`${docsUrl}#/playground/theme-lab`);
+  await page.goto(`${docsUrl}#/en-US/playground/theme-lab`);
   await expect(page.locator('rin-docs-theme-lab')).toContainText('Stress-test the full contract');
   const matrixState = await page.evaluate(async () => {
     await Promise.all([

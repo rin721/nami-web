@@ -12,6 +12,17 @@ export interface RlComponentMetadata {
 
 export const rlComponentMetadata: RlComponentMetadata[] = [
   {
+    name: 'rl-config',
+    summary: 'Global locale and text-direction boundary powered by @lit/localize.',
+    usage: '<rl-config locale="zh-CN"><rl-empty></rl-empty></rl-config>',
+    attributes: ['locale', 'dir'],
+    properties: ['locale', 'dir'],
+    events: ['rl-change', 'rl-locale-status'],
+    slots: ['default'],
+    parts: [],
+    tokens: []
+  },
+  {
     name: 'rl-theme',
     summary: 'Theme, accent, density, and motion boundary.',
     usage: '<rl-theme theme="light" style-preset="illustration" accent="#3b82f6"><slot /></rl-theme>',

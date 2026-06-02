@@ -1,4 +1,5 @@
 import { css, html, LitElement, nothing } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
@@ -135,6 +136,7 @@ export class RlButton extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.variant = 'solid';
     this.size = 'md';
     this.disabled = false;
@@ -178,7 +180,7 @@ export class RlButton extends LitElement {
         aria-busy=${this.loading ? 'true' : 'false'}
         @click=${this.handleClick}
       >
-        ${this.loading ? html`<rl-spinner size="sm" label="Loading" part="indicator"></rl-spinner>` : html`<slot name="icon" part="icon"></slot>`}
+        ${this.loading ? html`<rl-spinner size="sm" label=${msg('Loading', { id: 'rl.spinner.loading' })} part="indicator"></rl-spinner>` : html`<slot name="icon" part="icon"></slot>`}
         <span part="label"><slot></slot></span>
         ${this.loading ? nothing : html`<slot name="actions"></slot>`}
       </button>

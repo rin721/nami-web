@@ -3,6 +3,7 @@ import { RlBadge } from './components/badge';
 import { RlButton } from './components/button';
 import { RlCard } from './components/card';
 import { RlChip } from './components/chip';
+import { RlConfig } from './components/config';
 import { RlDialog } from './components/dialog';
 import { RlDrawer } from './components/drawer';
 import { RlEmpty } from './components/empty';
@@ -20,6 +21,7 @@ import { defineElement } from './internal/define';
 
 export function registerRlElements() {
   defineElement('rl-theme', RlTheme);
+  defineElement('rl-config', RlConfig);
   defineElement('rl-spinner', RlSpinner);
   defineElement('rl-illustration', RlIllustration);
   defineElement('rl-empty', RlEmpty);

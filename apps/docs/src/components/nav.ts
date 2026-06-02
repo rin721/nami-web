@@ -1,15 +1,18 @@
 import { hrefForPath, primaryNav, routeLinks, currentPath } from '../routes';
+import { t } from '../i18n';
 
 export class RinDocsNav extends HTMLElement {
   connectedCallback() {
     this.render();
     window.addEventListener('hashchange', this.handleRouteChange);
     window.addEventListener('rin-docs-route-change', this.handleRouteChange);
+    window.addEventListener('lit-localize-status', this.handleRouteChange);
   }
 
   disconnectedCallback() {
     window.removeEventListener('hashchange', this.handleRouteChange);
     window.removeEventListener('rin-docs-route-change', this.handleRouteChange);
+    window.removeEventListener('lit-localize-status', this.handleRouteChange);
   }
 
   private handleRouteChange = () => this.render();
@@ -20,8 +23,9 @@ export class RinDocsNav extends HTMLElement {
 
   private render() {
     const path = currentPath();
-    const links = this.placement === 'rail' ? primaryNav : this.placement === 'bottom' ? primaryNav.slice(0, 4) : routeLinks;
-    const label = this.placement === 'rail' ? 'Primary sections' : 'Docs sections';
+    const primary = primaryNav();
+    const links = this.placement === 'rail' ? primary : this.placement === 'bottom' ? primary.slice(0, 4) : routeLinks();
+    const label = this.placement === 'rail' ? t('Primary sections', 'docs.nav.primary') : t('Docs sections', 'docs.nav.sections');
 
     this.innerHTML = `
       <nav class="${this.placement === 'rail' ? 'rail-stack' : 'bottom-nav'}" aria-label="${label}">

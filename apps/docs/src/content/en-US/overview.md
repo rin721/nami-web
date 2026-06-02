@@ -15,7 +15,7 @@ Rin UI is a Web Components UI library for applications that need one component s
 | Components | Buttons, chips, inputs, switches, cards, tabs, overlays, shell, and status feedback |
 | Themes | Light, dark, custom accent, compact density, reduced motion |
 | Skins | Default community UI and an illustration skin powered by the same tokens |
-| Docs | Markdown tutorials plus metadata-generated component API |
+| i18n | `@lit/localize` runtime mode, locale-prefixed docs routes, and localized fallback text |
 
 ```html live
 <div class="doc-live-stack">
@@ -24,3 +24,4 @@ Rin UI is a Web Components UI library for applications that need one component s
   <rl-radio-card selected label="Replaceable skin" description="Switch style preset without changing component source."></rl-radio-card>
 </div>
 ```
+

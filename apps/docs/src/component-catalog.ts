@@ -1,13 +1,19 @@
 import { rlComponentMetadata } from '@rin-labs/ui';
+import { t } from './i18n';
 
 export const componentGroups = [
-  { title: 'Theme and Layout', names: ['rl-theme', 'rl-app-shell', 'rl-card'] },
-  { title: 'Actions and Selection', names: ['rl-button', 'rl-icon-button', 'rl-badge', 'rl-chip', 'rl-tab-bar'] },
-  { title: 'Forms', names: ['rl-input', 'rl-switch', 'rl-radio-card'] },
-  { title: 'Feedback and Overlays', names: ['rl-spinner', 'rl-dialog', 'rl-drawer', 'rl-toast', 'rl-illustration', 'rl-empty', 'rl-result'] }
+  { id: 'themeLayout', title: 'Theme and Layout', names: ['rl-config', 'rl-theme', 'rl-app-shell', 'rl-card'] },
+  { id: 'actionsSelection', title: 'Actions and Selection', names: ['rl-button', 'rl-icon-button', 'rl-badge', 'rl-chip', 'rl-tab-bar'] },
+  { id: 'forms', title: 'Forms', names: ['rl-input', 'rl-switch', 'rl-radio-card'] },
+  { id: 'feedbackOverlays', title: 'Feedback and Overlays', names: ['rl-spinner', 'rl-dialog', 'rl-drawer', 'rl-toast', 'rl-illustration', 'rl-empty', 'rl-result'] }
 ];
 
+export function componentGroupTitle(group: { id: string; title: string }) {
+  return t(group.title, `docs.group.${group.id}`);
+}
+
 export const componentPreviews = new Map<string, string>([
+  ['rl-config', '<rl-config locale="zh-CN"><rl-empty compact></rl-empty></rl-config>'],
   ['rl-theme', '<rl-theme accent="#14b8a6" style-preset="illustration"><rl-button>Scoped theme</rl-button></rl-theme>'],
   ['rl-app-shell', '<div class="mini-shell"><span>Rail</span><strong>App shell</strong><small>Responsive layout slots</small></div>'],
   ['rl-card', '<rl-card><rl-badge slot="header" variant="primary">Card</rl-badge><p>Grouped content surface.</p></rl-card>'],

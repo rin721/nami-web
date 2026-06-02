@@ -1,4 +1,5 @@
 import { css, html, LitElement } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { componentHostStyles } from '../internal/styles';
 
 export type RlSpinnerSize = 'sm' | 'md' | 'lg';
@@ -61,12 +62,13 @@ export class RlSpinner extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.size = 'md';
-    this.label = 'Loading';
+    this.label = '';
   }
 
   render() {
-    return html`<span class="indicator" part="base indicator" role="status" aria-label=${this.label}></span>`;
+    return html`<span class="indicator" part="base indicator" role="status" aria-label=${this.label || msg('Loading', { id: 'rl.spinner.loading' })}></span>`;
   }
 }
 

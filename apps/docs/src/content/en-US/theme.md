@@ -28,12 +28,3 @@ order: 2
 
 Interactive states are expected to follow the same accent seed: hover, selected, focus, switch checked, and loading indicators.
 
-## Runtime Controls
-
-The docs site uses the same public API as an application:
-
-```html
-<rl-theme theme="dark" accent="#14b8a6" density="compact" motion="reduced" style-preset="illustration">
-  <rl-button>Save</rl-button>
-</rl-theme>
-```

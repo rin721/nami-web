@@ -8,17 +8,20 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run build:packages && npm run build:apps",
+    "build": "npm run localize:build && npm run build:packages && npm run build:apps",
     "build:packages": "npm run build --workspace @rin-labs/tokens && npm run build --workspace @rin-labs/themes && npm run build --workspace @rin-labs/ui",
     "build:apps": "npm run build --workspace @rin-labs/docs",
     "test": "npm run test --workspace @rin-labs/tokens && npm run test --workspace @rin-labs/ui",
     "test:browser": "playwright test",
     "dev": "npm run dev --workspace @rin-labs/docs",
     "manifest": "npm run manifest --workspace @rin-labs/ui",
+    "localize:extract": "lit-localize extract",
+    "localize:build": "lit-localize build",
     "verify": "npm test && npm run build && npm run manifest && npm run test:browser"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@lit/localize-tools": "^0.8.2",
     "@playwright/test": "^1.60.0",
     "jsdom": "^27.0.0",
     "typescript": "^5.9.0",

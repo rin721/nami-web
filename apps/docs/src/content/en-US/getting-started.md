@@ -35,3 +35,4 @@ import '@rin-labs/ui/button';
 ```
 
 Use the full register entry for documentation sites and prototypes. Use single component entries when an application needs a smaller dependency surface.
+

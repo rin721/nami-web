@@ -40,3 +40,4 @@ export function App() {
 ```
 
 For typed React events, attach listeners through refs or bridge events in a small local wrapper.
+

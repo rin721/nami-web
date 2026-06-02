@@ -1,4 +1,5 @@
 import { css, html, LitElement, nothing } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
 import { RlIllustration, type RlIllustrationName } from './illustration';
@@ -69,22 +70,23 @@ export class RlEmpty extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.illustration = 'empty';
     this.title = '';
-    this.description = 'No data';
+    this.description = '';
     this.compact = false;
   }
 
   render() {
+    const description = this.description || msg('No data', { id: 'rl.empty.description' });
+    const label = this.title || description || msg('Empty state', { id: 'rl.empty.aria' });
     return html`
-      <section class="base" part="base" aria-label=${this.title || this.description || 'Empty state'}>
+      <section class="base" part="base" aria-label=${label}>
         <slot name="illustration" part="illustration">
           <rl-illustration name=${this.illustration} size=${this.compact ? 'sm' : 'md'}></rl-illustration>
         </slot>
         ${this.title ? html`<div class="title" part="title"><slot name="title">${this.title}</slot></div>` : nothing}
-        ${this.description
-          ? html`<div class="description" part="description"><slot name="description">${this.description}</slot></div>`
-          : nothing}
+        <div class="description" part="description"><slot name="description">${description}</slot></div>
         <div class="actions" part="actions"><slot name="actions"></slot></div>
       </section>
     `;

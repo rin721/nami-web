@@ -1,4 +1,5 @@
 import { css, html, LitElement, nothing } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
 import { RlIllustration, type RlIllustrationName } from './illustration';
@@ -88,6 +89,7 @@ export class RlResult extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.status = 'info';
     this.title = '';
     this.subTitle = '';
@@ -100,7 +102,7 @@ export class RlResult extends LitElement {
 
   render() {
     return html`
-      <section class="base" part="base" aria-label=${this.title || this.subTitle || 'Result'}>
+      <section class="base" part="base" aria-label=${this.title || this.subTitle || msg('Result', { id: 'rl.result.aria' })}>
         <slot name="illustration" part="illustration">
           <rl-illustration name=${this.illustrationName} size=${this.compact ? 'sm' : 'lg'}></rl-illustration>
         </slot>

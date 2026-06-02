@@ -7,6 +7,8 @@ const entries = {
   register: resolve(__dirname, 'src/register.ts'),
   themes: resolve(__dirname, 'src/themes.ts'),
   metadata: resolve(__dirname, 'src/metadata.ts'),
+  localize: resolve(__dirname, 'src/localize.ts'),
+  'components/config': resolve(__dirname, 'src/components/config.ts'),
   'components/theme': resolve(__dirname, 'src/components/theme.ts'),
   'components/spinner': resolve(__dirname, 'src/components/spinner.ts'),
   'components/illustration': resolve(__dirname, 'src/components/illustration.ts'),
@@ -34,7 +36,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['lit', 'lit/decorators.js'],
+      external: ['lit', 'lit/decorators.js', '@lit/localize'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'chunks/[name]-[hash].js'

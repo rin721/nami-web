@@ -1,4 +1,5 @@
 import { css, html, LitElement, nothing } from 'lit';
+import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -97,6 +98,7 @@ export class RlToast extends LitElement {
 
   constructor() {
     super();
+    updateWhenLocaleChanges(this);
     this.open = false;
     this.message = '';
     this.variant = 'neutral';
@@ -149,7 +151,7 @@ export class RlToast extends LitElement {
       <div class="base" part="base" role="status" aria-live="polite">
         <span class="indicator" part="indicator"><slot name="icon">${this.variant === 'neutral' ? nothing : html`<span aria-hidden="true">*</span>`}</slot></span>
         <span part="label"><slot>${this.message}</slot></span>
-        <button type="button" part="actions" aria-label="Close" @click=${(event: MouseEvent) => this.close(event)}>X</button>
+        <button type="button" part="actions" aria-label=${msg('Close', { id: 'rl.toast.close' })} @click=${(event: MouseEvent) => this.close(event)}>X</button>
       </div>
     `;
   }

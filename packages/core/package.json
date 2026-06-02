@@ -26,6 +26,14 @@
       "types": "./dist/metadata.d.ts",
       "default": "./dist/metadata.js"
     },
+    "./localize": {
+      "types": "./dist/localize.d.ts",
+      "default": "./dist/localize.js"
+    },
+    "./config": {
+      "types": "./dist/components/config.d.ts",
+      "default": "./dist/components/config.js"
+    },
     "./spinner": {
       "types": "./dist/components/spinner.d.ts",
       "default": "./dist/components/spinner.js"
@@ -101,6 +109,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@lit/localize": "^0.12.2",
     "@rin-labs/themes": "0.1.0",
     "@rin-labs/tokens": "0.1.0",
     "lit": "^3.0.0"

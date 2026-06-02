@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="zh-CN" source-language="en-US" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="docs.nav.home">
+  <source>Home</source>
+  <target>首页</target>
+</trans-unit>
+<trans-unit id="docs.nav.docs">
+  <source>Docs</source>
+  <target>文档</target>
+</trans-unit>
+<trans-unit id="docs.nav.components">
+  <source>Components</source>
+  <target>组件</target>
+</trans-unit>
+<trans-unit id="docs.nav.tokens">
+  <source>Tokens</source>
+  <target>令牌</target>
+</trans-unit>
+<trans-unit id="docs.nav.lab">
+  <source>Lab</source>
+  <target>实验室</target>
+</trans-unit>
+<trans-unit id="docs.route.overview">
+  <source>Overview</source>
+  <target>总览</target>
+</trans-unit>
+<trans-unit id="docs.nav.primary">
+  <source>Primary sections</source>
+  <target>主要导航</target>
+</trans-unit>
+<trans-unit id="docs.nav.sections">
+  <source>Docs sections</source>
+  <target>文档分区</target>
+</trans-unit>
+<trans-unit id="docs.mobile.toggleTheme">
+  <source>Toggle theme</source>
+  <target>切换主题</target>
+</trans-unit>
+<trans-unit id="docs.drawer.title">
+  <source>Theme controls</source>
+  <target>主题控制</target>
+</trans-unit>
+<trans-unit id="docs.controls.light">
+  <source>Light</source>
+  <target>浅色</target>
+</trans-unit>
+<trans-unit id="docs.controls.dark">
+  <source>Dark</source>
+  <target>深色</target>
+</trans-unit>
+<trans-unit id="docs.controls.blue">
+  <source>Blue</source>
+  <target>蓝色</target>
+</trans-unit>
+<trans-unit id="docs.controls.teal">
+  <source>Teal</source>
+  <target>青绿色</target>
+</trans-unit>
+<trans-unit id="docs.controls.violet">
+  <source>Violet</source>
+  <target>紫色</target>
+</trans-unit>
+<trans-unit id="docs.controls.accent">
+  <source>Accent color</source>
+  <target>主题色</target>
+</trans-unit>
+<trans-unit id="docs.controls.compact">
+  <source>Compact density</source>
+  <target>紧凑密度</target>
+</trans-unit>
+<trans-unit id="docs.controls.reducedMotion">
+  <source>Reduced motion</source>
+  <target>减少动效</target>
+</trans-unit>
+<trans-unit id="docs.controls.illustration">
+  <source>Illustration style</source>
+  <target>插画风格</target>
+</trans-unit>
+<trans-unit id="docs.toast.ready">
+  <source>Rin UI routes, tokens, and components are active.</source>
+  <target>Rin UI 路由、令牌和组件已启用。</target>
+</trans-unit>
+<trans-unit id="docs.home.eyebrow">
+  <source>Rin UI v1.1</source>
+  <target>Rin UI v1.1</target>
+</trans-unit>
+<trans-unit id="docs.home.subtitle">
+  <source>Web Components UI library for themeable apps.</source>
+  <target>面向可换肤应用的 Web Components UI 组件库。</target>
+</trans-unit>
+<trans-unit id="docs.home.lead">
+  <source>A Lit-based component system with standard custom elements, token-driven themes, default and illustration skins, routed Markdown guides, and metadata-generated API pages.</source>
+  <target>基于 Lit 的组件系统，提供标准自定义元素、令牌驱动主题、默认与插画双皮肤、分级文档路由和 metadata 生成的 API 页面。</target>
+</trans-unit>
+<trans-unit id="docs.home.themeControls">
+  <source>Theme controls</source>
+  <target>主题控制</target>
+</trans-unit>
+<trans-unit id="docs.home.showToast">
+  <source>Show toast</source>
+  <target>显示提示</target>
+</trans-unit>
+<trans-unit id="docs.home.strengths">
+  <source>Library strengths</source>
+  <target>组件库能力</target>
+</trans-unit>
+<trans-unit id="docs.home.frameworkAgnostic">
+  <source>Framework agnostic</source>
+  <target>跨框架</target>
+</trans-unit>
+<trans-unit id="docs.home.cssThemes">
+  <source>CSS variable themes</source>
+  <target>CSS 变量主题</target>
+</trans-unit>
+<trans-unit id="docs.home.accessible">
+  <source>Accessible interactions</source>
+  <target>可访问交互</target>
+</trans-unit>
+<trans-unit id="docs.home.treeShakable">
+  <source>Tree-shakable entries</source>
+  <target>可按需导入</target>
+</trans-unit>
+<trans-unit id="docs.home.preview">
+  <source>Interactive component preview</source>
+  <target>可交互组件预览</target>
+</trans-unit>
+<trans-unit id="docs.home.token">
+  <source>Token</source>
+  <target>令牌</target>
+</trans-unit>
+<trans-unit id="docs.home.docs">
+  <source>Docs</source>
+  <target>文档</target>
+</trans-unit>
+<trans-unit id="docs.home.favorite">
+  <source>Favorite</source>
+  <target>收藏</target>
+</trans-unit>
+<trans-unit id="docs.home.search">
+  <source>Search components</source>
+  <target>搜索组件</target>
+</trans-unit>
+<trans-unit id="docs.home.searchPlaceholder">
+  <source>button, theme, dialog</source>
+  <target>button、theme、dialog</target>
+</trans-unit>
+<trans-unit id="docs.home.searchHelper">
+  <source>Focus, border, and text color follow tokens.</source>
+  <target>焦点、边框和文字颜色都跟随令牌。</target>
+</trans-unit>
+<trans-unit id="docs.home.radioTitle">
+  <source>One source, two skins</source>
+  <target>一套源码，两套皮肤</target>
+</trans-unit>
+<trans-unit id="docs.home.radioDescription">
+  <source>Default and illustration presets share the same Web Component code.</source>
+  <target>默认与插画 preset 共用同一套 Web Component 代码。</target>
+</trans-unit>
+<trans-unit id="docs.home.primary">
+  <source>Primary</source>
+  <target>主要操作</target>
+</trans-unit>
+<trans-unit id="docs.home.soft">
+  <source>Soft</source>
+  <target>次要操作</target>
+</trans-unit>
+<trans-unit id="docs.home.live">
+  <source>Live</source>
+  <target>实时</target>
+</trans-unit>
+<trans-unit id="docs.home.install">
+  <source>Install</source>
+  <target>安装</target>
+</trans-unit>
+<trans-unit id="docs.home.modelEyebrow">
+  <source>Onion model</source>
+  <target>洋葱模型</target>
+</trans-unit>
+<trans-unit id="docs.home.modelTitle">
+  <source>Home introduces, routes go deep</source>
+  <target>首页介绍产品，路由承载深度内容</target>
+</trans-unit>
+<trans-unit id="docs.home.modelCopy">
+  <source>The homepage stays thin. Documentation, component API, tokens, and playground routes load only when you open them.</source>
+  <target>首页保持轻量。教程、组件 API、令牌和实验室只在对应路由打开时加载。</target>
+</trans-unit>
+<trans-unit id="docs.home.guides">
+  <source>Guides</source>
+  <target>指南</target>
+</trans-unit>
+<trans-unit id="docs.home.guidesCopy">
+  <source>Install, theme, style presets, framework integration, and quality contracts.</source>
+  <target>安装、主题、风格 preset、框架接入、i18n 和质量契约。</target>
+</trans-unit>
+<trans-unit id="docs.home.startReading">
+  <source>Start reading</source>
+  <target>开始阅读</target>
+</trans-unit>
+<trans-unit id="docs.home.library">
+  <source>Library</source>
+  <target>组件库</target>
+</trans-unit>
+<trans-unit id="docs.home.componentsCopy">
+  <source>Browse every public component with previews and metadata-driven API reference.</source>
+  <target>浏览所有公开组件，查看预览和 metadata 驱动的 API 参考。</target>
+</trans-unit>
+<trans-unit id="docs.home.viewComponents">
+  <source>View components</source>
+  <target>查看组件</target>
+</trans-unit>
+<trans-unit id="docs.home.system">
+  <source>System</source>
+  <target>系统</target>
+</trans-unit>
+<trans-unit id="docs.home.tokensLab">
+  <source>Tokens and Lab</source>
+  <target>令牌与实验室</target>
+</trans-unit>
+<trans-unit id="docs.home.tokensCopy">
+  <source>Inspect token layers or stress-test default and illustration skins in the Theme Lab.</source>
+  <target>检查令牌层级，或在主题实验室中压力测试默认与插画皮肤。</target>
+</trans-unit>
+<trans-unit id="docs.home.openLab">
+  <source>Open lab</source>
+  <target>打开实验室</target>
+</trans-unit>
+<trans-unit id="docs.common.none">
+  <source>none</source>
+  <target>无</target>
+</trans-unit>
+<trans-unit id="docs.common.openComponent">
+  <source>Open component reference</source>
+  <target>打开组件参考</target>
+</trans-unit>
+<trans-unit id="docs.common.attributes">
+  <source>Attributes</source>
+  <target>Attributes</target>
+</trans-unit>
+<trans-unit id="docs.common.properties">
+  <source>Properties</source>
+  <target>Properties</target>
+</trans-unit>
+<trans-unit id="docs.common.events">
+  <source>Events</source>
+  <target>Events</target>
+</trans-unit>
+<trans-unit id="docs.common.slots">
+  <source>Slots</source>
+  <target>Slots</target>
+</trans-unit>
+<trans-unit id="docs.common.parts">
+  <source>Parts</source>
+  <target>Parts</target>
+</trans-unit>
+<trans-unit id="docs.common.cssProperties">
+  <source>CSS custom properties</source>
+  <target>CSS custom properties</target>
+</trans-unit>
+<trans-unit id="docs.empty.routeTitle">
+  <source>Route not found</source>
+  <target>路由不存在</target>
+</trans-unit>
+<trans-unit id="docs.empty.routeDescription">
+  <source>This documentation route does not exist.</source>
+  <target>这个文档路由不存在。</target>
+</trans-unit>
+<trans-unit id="docs.empty.backHome">
+  <source>Back home</source>
+  <target>返回首页</target>
+</trans-unit>
+<trans-unit id="docs.empty.guideTitle">
+  <source>Guide not found</source>
+  <target>指南不存在</target>
+</trans-unit>
+<trans-unit id="docs.empty.guideDescription">
+  <source>Open a known documentation route.</source>
+  <target>请打开一个已知文档路由。</target>
+</trans-unit>
+<trans-unit id="docs.empty.backDocs">
+  <source>Back to docs</source>
+  <target>返回文档</target>
+</trans-unit>
+<trans-unit id="docs.empty.componentTitle">
+  <source>Component not found</source>
+  <target>组件不存在</target>
+</trans-unit>
+<trans-unit id="docs.empty.componentDescription">
+  <source>Open a known component route.</source>
+  <target>请打开一个已知组件路由。</target>
+</trans-unit>
+<trans-unit id="docs.empty.backComponents">
+  <source>Back to components</source>
+  <target>返回组件</target>
+</trans-unit>
+<trans-unit id="docs.components.eyebrow">
+  <source>Components</source>
+  <target>组件</target>
+</trans-unit>
+<trans-unit id="docs.components.title">
+  <source>Browse the library surface</source>
+  <target>浏览组件库能力面</target>
+</trans-unit>
+<trans-unit id="docs.components.copy">
+  <source>Open a component route for usage, attributes, properties, events, slots, parts, and token hooks.</source>
+  <target>打开组件路由，查看 usage、attributes、properties、events、slots、parts 和 token hooks。</target>
+</trans-unit>
+<trans-unit id="docs.component.eyebrow">
+  <source>Component API</source>
+  <target>组件 API</target>
+</trans-unit>
+<trans-unit id="docs.tokens.eyebrow">
+  <source>Tokens</source>
+  <target>令牌</target>
+</trans-unit>
+<trans-unit id="docs.tokens.title">
+  <source>Seed, semantic, component</source>
+  <target>Seed、semantic、component</target>
+</trans-unit>
+<trans-unit id="docs.tokens.copy">
+  <source>Rin UI keeps theme replacement behind CSS variables. Components consume semantic and component tokens, while style presets rewrite the surface language.</source>
+  <target>Rin UI 将换肤边界放在 CSS 变量后面。组件消费 semantic 和 component tokens，style preset 重写表层语言。</target>
+</trans-unit>
+<trans-unit id="docs.tokens.seed">
+  <source>Seed</source>
+  <target>Seed</target>
+</trans-unit>
+<trans-unit id="docs.tokens.seedCopy">
+  <source>Brand input and motion/radius defaults.</source>
+  <target>品牌输入和动效、圆角默认值。</target>
+</trans-unit>
+<trans-unit id="docs.tokens.semantic">
+  <source>Semantic</source>
+  <target>Semantic</target>
+</trans-unit>
+<trans-unit id="docs.tokens.semanticCopy">
+  <source>Meaning shared across components.</source>
+  <target>跨组件共享的语义。</target>
+</trans-unit>
+<trans-unit id="docs.tokens.component">
+  <source>Component</source>
+  <target>Component</target>
+</trans-unit>
+<trans-unit id="docs.tokens.componentCopy">
+  <source>Per-component override boundary.</source>
+  <target>单组件覆盖边界。</target>
+</trans-unit>
+<trans-unit id="docs.tokens.coverage">
+  <source>Metadata coverage</source>
+  <target>Metadata 覆盖</target>
+</trans-unit>
+<trans-unit id="docs.lab.eyebrow">
+  <source>Theme Lab</source>
+  <target>主题实验室</target>
+</trans-unit>
+<trans-unit id="docs.lab.title">
+  <source>Stress-test the full contract</source>
+  <target>压力测试完整契约</target>
+</trans-unit>
+<trans-unit id="docs.lab.copy">
+  <source>Accent, dark mode, density, motion, and style preset update through the root</source>
+  <target>主题色、暗色模式、密度、动效和 style preset 都通过根</target>
+</trans-unit>
+<trans-unit id="docs.lab.controls">
+  <source>Controls</source>
+  <target>控制项</target>
+</trans-unit>
+<trans-unit id="docs.lab.surface">
+  <source>Live surface</source>
+  <target>实时界面</target>
+</trans-unit>
+<trans-unit id="docs.lab.primary">
+  <source>Primary action</source>
+  <target>主要操作</target>
+</trans-unit>
+<trans-unit id="docs.lab.soft">
+  <source>Soft action</source>
+  <target>次要操作</target>
+</trans-unit>
+<trans-unit id="docs.lab.selected">
+  <source>Selected chip</source>
+  <target>选中标签</target>
+</trans-unit>
+<trans-unit id="docs.lab.enabled">
+  <source>Enabled</source>
+  <target>启用</target>
+</trans-unit>
+<trans-unit id="docs.lab.currentSkin">
+  <source>Current skin</source>
+  <target>当前皮肤</target>
+</trans-unit>
+<trans-unit id="docs.lab.currentSkinDescription">
+  <source>This card follows the current root theme.</source>
+  <target>这张卡片跟随当前根主题。</target>
+</trans-unit>
+<trans-unit id="docs.lab.defaultLight">
+  <source>Default light</source>
+  <target>默认浅色</target>
+</trans-unit>
+<trans-unit id="docs.lab.defaultDark">
+  <source>Default dark</source>
+  <target>默认暗色</target>
+</trans-unit>
+<trans-unit id="docs.lab.illustrationLight">
+  <source>Illustration light</source>
+  <target>插画浅色</target>
+</trans-unit>
+<trans-unit id="docs.lab.illustrationDark">
+  <source>Illustration dark</source>
+  <target>插画暗色</target>
+</trans-unit>
+<trans-unit id="docs.group.themeLayout">
+  <source>Theme and Layout</source>
+  <target>主题与布局</target>
+</trans-unit>
+<trans-unit id="docs.group.actionsSelection">
+  <source>Actions and Selection</source>
+  <target>操作与选择</target>
+</trans-unit>
+<trans-unit id="docs.group.forms">
+  <source>Forms</source>
+  <target>表单</target>
+</trans-unit>
+<trans-unit id="docs.group.feedbackOverlays">
+  <source>Feedback and Overlays</source>
+  <target>反馈与浮层</target>
+</trans-unit>
+<trans-unit id="docs.tokens.coverageCount">
+  <source><x id="0" equiv-text="${count}"/> token hooks are referenced by component metadata.</source>
+  <target><x id="0" equiv-text="${count}"/> ? token hooks ???? metadata ???</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-config.summary">
+  <source>Global locale and text-direction boundary powered by @lit/localize.</source>
+  <target>由 @lit/localize 驱动的全局语言与文本方向边界。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-theme.summary">
+  <source>Theme, accent, density, and motion boundary.</source>
+  <target>主题、主题色、密度和动效边界。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-spinner.summary">
+  <source>Small loading indicator for async states.</source>
+  <target>用于异步状态的小型加载指示器。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-illustration.summary">
+  <source>Token-driven status illustration.</source>
+  <target>由令牌驱动的状态插画。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-empty.summary">
+  <source>Illustration-ready empty state with description and actions.</source>
+  <target>支持插画的空状态，包含描述和操作。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-result.summary">
+  <source>Illustration-ready result feedback for success, error, warnings, and HTTP states.</source>
+  <target>用于成功、错误、警告和 HTTP 状态的结果反馈。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-card.summary">
+  <source>Token-driven content container for grouped surfaces.</source>
+  <target>由令牌驱动的内容容器。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-badge.summary">
+  <source>Compact status label for metadata and state.</source>
+  <target>用于元信息和状态的紧凑标签。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-button.summary">
+  <source>Primary command button.</source>
+  <target>主要命令按钮。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-icon-button.summary">
+  <source>Soft icon command button.</source>
+  <target>轻量图标命令按钮。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-chip.summary">
+  <source>Selectable tag-like control.</source>
+  <target>可选择的标签式控件。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-input.summary">
+  <source>Form-associated text input.</source>
+  <target>表单关联文本输入框。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-switch.summary">
+  <source>Form-associated switch control.</source>
+  <target>表单关联开关控件。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-radio-card.summary">
+  <source>Radio-like selectable card.</source>
+  <target>类似单选项的可选卡片。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-tab-bar.summary">
+  <source>Roving-tabindex tablist.</source>
+  <target>使用 roving tabindex 的标签页列表。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-dialog.summary">
+  <source>Modal dialog with focus management.</source>
+  <target>带焦点管理的模态对话框。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-drawer.summary">
+  <source>Off-canvas drawer with focus return.</source>
+  <target>支持焦点恢复的离屏抽屉。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-toast.summary">
+  <source>Temporary feedback toast.</source>
+  <target>临时反馈提示。</target>
+</trans-unit>
+<trans-unit id="docs.meta.rl-app-shell.summary">
+  <source>Responsive application shell.</source>
+  <target>响应式应用壳。</target>
+</trans-unit>
+<trans-unit id="rl.empty.description">
+  <source>No data</source>
+  <target>无数据</target>
+</trans-unit>
+<trans-unit id="rl.empty.aria">
+  <source>Empty state</source>
+  <target>空状态</target>
+</trans-unit>
+<trans-unit id="rl.result.aria">
+  <source>Result</source>
+  <target>结果</target>
+</trans-unit>
+<trans-unit id="rl.spinner.loading">
+  <source>Loading</source>
+  <target>加载中</target>
+</trans-unit>
+<trans-unit id="rl.toast.close">
+  <source>Close</source>
+  <target>关闭</target>
+</trans-unit>
+</body>
+</file>
+</xliff>
