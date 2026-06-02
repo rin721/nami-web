@@ -3,9 +3,11 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { componentHostStyles } from '../internal/styles';
 
 export type NamiTopProgressVariant = 'fixed' | 'inline';
+export type NamiTopProgressEffect = 'flow' | 'slide' | 'pulse';
 
 export interface NamiTopProgressOptions {
   duration?: number;
+  effect?: NamiTopProgressEffect;
   height?: number;
   label?: string;
   minDuration?: number;
@@ -17,6 +19,7 @@ export class NamiTopProgress extends LitElement {
   static properties = {
     active: { type: Boolean, reflect: true },
     duration: { type: Number, reflect: true },
+    effect: { reflect: true },
     height: { type: Number, reflect: true },
     label: {},
     progress: { type: Number, reflect: true },
@@ -30,6 +33,8 @@ export class NamiTopProgress extends LitElement {
       :host {
         --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
         --top-progress-duration: var(--nami-top-progress-duration, 220ms);
+        --top-progress-ease: var(--nami-top-progress-ease, var(--nami-ease-standard, cubic-bezier(0.19, 1, 0.22, 1)));
+        --top-progress-indeterminate-duration: var(--nami-top-progress-indeterminate-duration, 1280ms);
         --top-progress-track-bg: var(
           --nami-top-progress-track-bg,
           color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 78%)
@@ -70,7 +75,7 @@ export class NamiTopProgress extends LitElement {
         position: relative;
         transform: scaleY(0);
         transform-origin: center top;
-        transition: transform var(--top-progress-duration) var(--nami-ease-standard, ease);
+        transition: transform var(--top-progress-duration) var(--top-progress-ease);
       }
 
       :host([active]) .track {
@@ -83,8 +88,14 @@ export class NamiTopProgress extends LitElement {
       }
 
       .indicator {
-        animation: nami-top-progress-indeterminate 1280ms var(--nami-ease-standard, ease) infinite;
-        background: var(--top-progress-fill-bg);
+        animation: nami-top-progress-flow var(--top-progress-indeterminate-duration) var(--top-progress-ease) infinite;
+        background-color: var(--top-progress-fill-bg);
+        background-image: linear-gradient(
+          90deg,
+          var(--top-progress-fill-bg) 0%,
+          color-mix(in oklab, var(--top-progress-fill-bg), white 18%) 56%,
+          var(--top-progress-fill-bg) 100%
+        );
         block-size: 100%;
         border-radius: 0 999px 999px 0;
         box-shadow:
@@ -92,28 +103,147 @@ export class NamiTopProgress extends LitElement {
           0 0 18px color-mix(in oklab, var(--nami-color-primary), transparent 52%);
         display: block;
         inline-size: 46%;
+        overflow: hidden;
+        position: relative;
         transform: translateX(-62%) scaleX(0.44);
         transform-origin: left center;
+        will-change: inline-size, transform, filter;
+      }
+
+      .indicator::after {
+        animation: nami-top-progress-sheen var(--top-progress-indeterminate-duration) var(--top-progress-ease) infinite;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          color-mix(in oklab, white, transparent 52%) 48%,
+          transparent 100%
+        );
+        content: '';
+        inset: 0;
+        opacity: 0.72;
+        position: absolute;
+        transform: translateX(-130%);
       }
 
       :host([progress]) .indicator {
         animation: none;
         inline-size: var(--nami-top-progress-value, 0%);
         transform: none;
-        transition: inline-size var(--top-progress-duration) var(--nami-ease-standard, ease);
+        transition:
+          inline-size var(--top-progress-duration) var(--top-progress-ease),
+          filter var(--top-progress-duration) var(--top-progress-ease);
       }
 
-      @keyframes nami-top-progress-indeterminate {
+      :host([effect='slide']) .indicator {
+        animation-name: nami-top-progress-slide;
+        background-image: none;
+      }
+
+      :host([effect='slide']) .indicator::after {
+        display: none;
+      }
+
+      :host([effect='pulse']) .indicator {
+        animation-name: nami-top-progress-pulse;
+        background-image: none;
+        inline-size: 50%;
+      }
+
+      :host([effect='pulse']) .indicator::after {
+        animation-name: nami-top-progress-sheen-soft;
+        opacity: 0.38;
+      }
+
+      :host([progress][effect='pulse']) .indicator {
+        animation: nami-top-progress-breathe 940ms ease-in-out infinite;
+      }
+
+      @keyframes nami-top-progress-flow {
         0% {
-          transform: translateX(-62%) scaleX(0.36);
+          transform: translateX(-64%) scaleX(0.34);
         }
 
-        48% {
-          transform: translateX(74%) scaleX(0.72);
+        42% {
+          transform: translateX(34%) scaleX(0.82);
+        }
+
+        72% {
+          transform: translateX(92%) scaleX(0.58);
         }
 
         100% {
-          transform: translateX(168%) scaleX(0.32);
+          transform: translateX(166%) scaleX(0.3);
+        }
+      }
+
+      @keyframes nami-top-progress-slide {
+        0% {
+          transform: translateX(-72%) scaleX(0.42);
+        }
+
+        55% {
+          transform: translateX(80%) scaleX(0.66);
+        }
+
+        100% {
+          transform: translateX(168%) scaleX(0.38);
+        }
+      }
+
+      @keyframes nami-top-progress-pulse {
+        0% {
+          filter: brightness(0.98) saturate(0.96);
+          transform: translateX(-54%) scaleX(0.28);
+        }
+
+        46% {
+          filter: brightness(1.12) saturate(1.18);
+          transform: translateX(64%) scaleX(0.74);
+        }
+
+        100% {
+          filter: brightness(1) saturate(1);
+          transform: translateX(152%) scaleX(0.34);
+        }
+      }
+
+      @keyframes nami-top-progress-sheen {
+        0% {
+          transform: translateX(-130%);
+        }
+
+        55% {
+          transform: translateX(86%);
+        }
+
+        100% {
+          transform: translateX(150%);
+        }
+      }
+
+      @keyframes nami-top-progress-sheen-soft {
+        0%,
+        24% {
+          transform: translateX(-130%);
+        }
+
+        72% {
+          transform: translateX(96%);
+        }
+
+        100% {
+          transform: translateX(150%);
+        }
+      }
+
+      @keyframes nami-top-progress-breathe {
+        0%,
+        100% {
+          filter: brightness(1) saturate(1);
+        }
+
+        50% {
+          filter: brightness(1.12) saturate(1.14);
         }
       }
 
@@ -123,7 +253,8 @@ export class NamiTopProgress extends LitElement {
           transition-duration: 1ms;
         }
 
-        .indicator {
+        .indicator,
+        .indicator::after {
           animation-duration: 1ms;
           animation-iteration-count: 1;
         }
@@ -133,6 +264,7 @@ export class NamiTopProgress extends LitElement {
 
   declare active: boolean;
   declare duration: number;
+  declare effect: NamiTopProgressEffect;
   declare height: number;
   declare label: string;
   declare progress?: number;
@@ -149,6 +281,7 @@ export class NamiTopProgress extends LitElement {
     updateWhenLocaleChanges(this);
     this.active = false;
     this.duration = 220;
+    this.effect = 'flow';
     this.height = 4;
     this.label = '';
     this.progress = undefined;
@@ -238,6 +371,7 @@ export class NamiTopProgress extends LitElement {
 
   private applyOptions(options: NamiTopProgressOptions) {
     if (options.duration !== undefined) this.duration = options.duration;
+    if (options.effect) this.effect = options.effect;
     if (options.height !== undefined) this.height = options.height;
     if (options.label !== undefined) this.label = options.label;
     if (options.variant) this.variant = options.variant;

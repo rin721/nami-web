@@ -2,7 +2,8 @@ import { applyTopProgressElementSettings, readDocsSettings } from './docs-settin
 
 type PageAppearance = 'veil' | 'panel';
 type PageTransitionOptions = { appearance?: PageAppearance; duration?: number };
-type TopProgressOptions = { duration?: number; height?: number; progress?: number | null; variant?: 'fixed' | 'inline' };
+type TopProgressEffect = 'flow' | 'slide' | 'pulse';
+type TopProgressOptions = { duration?: number; effect?: TopProgressEffect; height?: number; progress?: number | null; variant?: 'fixed' | 'inline' };
 
 type NamiPageTransitionElement = HTMLElement & {
   active?: boolean;
@@ -14,6 +15,7 @@ type NamiPageTransitionElement = HTMLElement & {
 type NamiTopProgressElement = HTMLElement & {
   active?: boolean;
   duration?: number;
+  effect?: TopProgressEffect;
   height?: number;
   progress?: number;
   show?: (options?: TopProgressOptions) => void;
@@ -47,10 +49,13 @@ function syncTopProgressOptions(progress: NamiTopProgressElement, options: TopPr
   const settings = readDocsSettings();
   const height = options.height ?? settings.transition.barHeight;
   const duration = options.duration ?? settings.transition.progressDuration;
+  const effect = options.effect ?? settings.transition.progressEffect;
   progress.height = height;
   progress.duration = duration;
+  progress.effect = effect;
   progress.setAttribute('height', String(height));
   progress.setAttribute('duration', String(duration));
+  progress.setAttribute('effect', effect);
   progress.style.setProperty('--nami-transition-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-duration', `${duration}ms`);

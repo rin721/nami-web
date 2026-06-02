@@ -100,7 +100,9 @@ nami-theme {
   --nami-transition-progress-height: 4px;
   --nami-page-transition-z-index: 2147483646;
   --nami-top-progress-height: var(--nami-transition-progress-height);
-  --nami-top-progress-duration: 220ms;
+  --nami-top-progress-duration: 260ms;
+  --nami-top-progress-ease: var(--nami-ease-standard);
+  --nami-top-progress-indeterminate-duration: 1280ms;
   --nami-top-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%);
   --nami-top-progress-fill-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%);
   --nami-top-progress-shadow: 0 8px 24px color-mix(in oklab, var(--nami-color-primary), transparent 78%);

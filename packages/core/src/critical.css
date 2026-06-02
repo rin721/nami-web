@@ -12,7 +12,7 @@
   --nami-critical-rail-width: 56px;
   --nami-critical-mobile-bar-height: 56px;
   --nami-critical-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
-  --nami-critical-progress-duration: var(--nami-top-progress-duration, 220ms);
+  --nami-critical-progress-duration: var(--nami-top-progress-duration, 260ms);
 }
 
 nami-config:not(:defined),

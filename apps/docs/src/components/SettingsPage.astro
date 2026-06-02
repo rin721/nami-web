@@ -116,19 +116,29 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
             ></nami-input>
           </nami-card>
           <nami-card>
-            <h3 slot="header">{t(locale, 'settings.progressDuration')}</h3>
-            <nami-tab-bar data-progress-duration-mode value="220">
-              <button value="160">160ms</button>
-              <button value="220">220ms</button>
-              <button value="360">360ms</button>
+            <h3 slot="header">{t(locale, 'settings.progressEffect')}</h3>
+            <nami-tab-bar data-progress-effect-mode value="flow">
+              <button value="flow">{locale === 'zh-CN' ? '柔和流动' : 'Soft flow'}</button>
+              <button value="slide">{locale === 'zh-CN' ? '极简滑动' : 'Clean slide'}</button>
+              <button value="pulse">{locale === 'zh-CN' ? '脉冲呼吸' : 'Pulse'}</button>
             </nami-tab-bar>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.progressDuration')}</h3>
+            <nami-input
+              data-progress-duration-input
+              type="number"
+              value="260"
+              label={locale === 'zh-CN' ? '动画时长（ms）' : 'Animation duration (ms)'}
+              helper-text={locale === 'zh-CN' ? '80-1200ms；影响填充、显示与隐藏的柔和程度。' : '80-1200ms; controls the softness of fill, enter, and exit.'}
+            ></nami-input>
           </nami-card>
           <nami-card class="settings-preview-card">
             <h3 slot="header">{t(locale, 'settings.preview')}</h3>
             <div class="settings-transition-preview">
-              <nami-top-progress data-docs-top-progress-preview active variant="inline" progress="68" height="4" duration="0"></nami-top-progress>
+              <nami-top-progress data-docs-top-progress-preview active variant="inline" progress="68" height="4" duration="260" effect="flow"></nami-top-progress>
             </div>
-            <p>{locale === 'zh-CN' ? '轨道与填充保持同高；这个高度同时影响首屏揭幕进度和路由顶部进度。' : 'Track and fill share the same height; this value drives both the first reveal and route progress.'}</p>
+            <p>{locale === 'zh-CN' ? '轨道与填充保持同高；动作、时长和高度会同步到真实路由进度。' : 'Track and fill share the same height; effect, duration, and height sync to real route progress.'}</p>
           </nami-card>
         </div>
       )}

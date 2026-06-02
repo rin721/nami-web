@@ -124,7 +124,8 @@ function createController(): ThemeController {
       syncControlValue('[data-initial-transition-mode]', transition.firstLoadAppearance);
       syncControlChecked('[data-route-bar-toggle]', transition.routeBar);
       syncControlValue('[data-progress-height-input]', String(transition.barHeight));
-      syncControlValue('[data-progress-duration-mode]', String(transition.progressDuration));
+      syncControlValue('[data-progress-effect-mode]', transition.progressEffect);
+      syncControlValue('[data-progress-duration-input]', String(transition.progressDuration));
       syncControlChecked('[data-remember-theme-toggle]', preferences.rememberTheme);
       syncControlChecked('[data-compact-docs-toggle]', preferences.compactDocs);
     }
@@ -193,7 +194,13 @@ function installDocumentListeners() {
     if (target.matches('[data-progress-height-input]')) {
       docsController.settings.transition.barHeight = clampNumber(event.detail.value, defaultDocsSettings.transition.barHeight, 2, 16);
     }
-    if (target.matches('[data-progress-duration-mode]')) docsController.settings.transition.progressDuration = Number(event.detail.value ?? 220);
+    if (target.matches('[data-progress-effect-mode]')) {
+      const value = String(event.detail.value ?? 'flow');
+      docsController.settings.transition.progressEffect = value === 'slide' || value === 'pulse' ? value : 'flow';
+    }
+    if (target.matches('[data-progress-duration-input]')) {
+      docsController.settings.transition.progressDuration = clampNumber(event.detail.value, defaultDocsSettings.transition.progressDuration, 80, 1200);
+    }
     if (target.matches('[data-remember-theme-toggle]')) docsController.settings.preferences.rememberTheme = Boolean(event.detail.checked);
     if (target.matches('[data-compact-docs-toggle]')) docsController.settings.preferences.compactDocs = Boolean(event.detail.checked);
     docsController.apply();

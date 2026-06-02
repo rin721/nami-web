@@ -507,6 +507,7 @@ describe('@nami/ui components', () => {
     progress.progress = 64;
     progress.height = 16;
     progress.duration = 320;
+    progress.effect = 'pulse';
     document.body.append(progress);
     await progress.updateComplete;
 
@@ -515,16 +516,18 @@ describe('@nami/ui components', () => {
     expect(progress.getAttribute('progress')).toBe('64');
     expect(progress.getAttribute('height')).toBe('16');
     expect(progress.getAttribute('duration')).toBe('320');
+    expect(progress.getAttribute('effect')).toBe('pulse');
     expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('64%');
     expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('16px');
     expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('320ms');
     expect(progress.shadowRoot?.querySelector('[part~="track"]')?.getAttribute('aria-label')).toBe('Navigating');
 
-    progress.show({ progress: 50, height: 10, duration: 180 });
+    progress.show({ progress: 50, height: 10, duration: 180, effect: 'slide' });
     await progress.updateComplete;
     expect(progress.getAttribute('progress')).toBe('50');
     expect(progress.getAttribute('height')).toBe('10');
     expect(progress.getAttribute('duration')).toBe('180');
+    expect(progress.getAttribute('effect')).toBe('slide');
     expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('50%');
     expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('10px');
     expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('180ms');

@@ -5,6 +5,7 @@ export type DocsStylePreset = 'default' | 'illustration';
 export type DocsRadius = 'sharp' | 'soft' | 'round';
 export type DocsContrast = 'normal' | 'high';
 export type DocsInitialTransition = 'veil' | 'panel' | 'none';
+export type DocsProgressEffect = 'flow' | 'slide' | 'pulse';
 
 export type DocsVisualState = {
   theme: DocsThemeMode;
@@ -21,6 +22,7 @@ export type DocsTransitionState = {
   routeBar: boolean;
   barHeight: number;
   progressDuration: number;
+  progressEffect: DocsProgressEffect;
 };
 
 export type DocsPreferenceState = {
@@ -34,7 +36,7 @@ export type DocsSettingsState = {
   preferences: DocsPreferenceState;
 };
 
-export const docsSettingsStorageKey = 'nami-docs-settings:v2';
+export const docsSettingsStorageKey = 'nami-docs-settings:v3';
 const legacyVisualStorageKey = 'nami-docs-visual-state';
 
 export const defaultDocsSettings: DocsSettingsState = {
@@ -51,7 +53,8 @@ export const defaultDocsSettings: DocsSettingsState = {
     firstLoadAppearance: 'veil',
     routeBar: true,
     barHeight: 4,
-    progressDuration: 220
+    progressDuration: 260,
+    progressEffect: 'flow'
   },
   preferences: {
     rememberTheme: true,
@@ -94,7 +97,8 @@ function normalizeTransition(value: Partial<DocsTransitionState> = {}): DocsTran
     firstLoadAppearance: oneOf(value.firstLoadAppearance, ['veil', 'panel', 'none'] as const, defaultDocsSettings.transition.firstLoadAppearance),
     routeBar: typeof value.routeBar === 'boolean' ? value.routeBar : defaultDocsSettings.transition.routeBar,
     barHeight: numberInRange(value.barHeight, defaultDocsSettings.transition.barHeight, 2, 16),
-    progressDuration: numberInRange(value.progressDuration, defaultDocsSettings.transition.progressDuration, 1, 900)
+    progressDuration: numberInRange(value.progressDuration, defaultDocsSettings.transition.progressDuration, 80, 1200),
+    progressEffect: oneOf(value.progressEffect, ['flow', 'slide', 'pulse'] as const, defaultDocsSettings.transition.progressEffect)
   };
 }
 
@@ -130,6 +134,7 @@ export function applyTopProgressElementSettings(element: HTMLElement | null, set
   if (!element) return;
   element.setAttribute('height', String(settings.transition.barHeight));
   element.setAttribute('duration', String(settings.transition.progressDuration));
+  element.setAttribute('effect', settings.transition.progressEffect);
   element.style.setProperty('--nami-transition-progress-height', `${settings.transition.barHeight}px`);
   element.style.setProperty('--nami-top-progress-height', `${settings.transition.barHeight}px`);
   element.style.setProperty('--nami-top-progress-duration', `${settings.transition.progressDuration}ms`);

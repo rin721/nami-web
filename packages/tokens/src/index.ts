@@ -167,6 +167,8 @@ export const componentTokens = [
   '--nami-page-transition-z-index',
   '--nami-top-progress-height',
   '--nami-top-progress-duration',
+  '--nami-top-progress-ease',
+  '--nami-top-progress-indeterminate-duration',
   '--nami-top-progress-track-bg',
   '--nami-top-progress-fill-bg',
   '--nami-top-progress-shadow',

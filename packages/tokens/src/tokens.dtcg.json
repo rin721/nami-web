@@ -284,7 +284,28 @@
       },
       "duration": {
         "$type": "duration",
-        "$value": "220ms",
+        "$value": "260ms",
+        "$extensions": {
+          "org.nami.theme": {
+            "affectedComponents": ["nami-top-progress"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "ease": {
+        "$type": "cubicBezier",
+        "$value": "{seed.motion.standard}",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "progress fill easing",
+            "affectedComponents": ["nami-top-progress"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "indeterminateDuration": {
+        "$type": "duration",
+        "$value": "1280ms",
         "$extensions": {
           "org.nami.theme": {
             "affectedComponents": ["nami-top-progress"],

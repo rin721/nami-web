@@ -27,6 +27,8 @@ describe('@nami/tokens', () => {
     expect(componentTokens).toContain('--nami-page-transition-z-index');
     expect(componentTokens).toContain('--nami-top-progress-height');
     expect(componentTokens).toContain('--nami-top-progress-duration');
+    expect(componentTokens).toContain('--nami-top-progress-ease');
+    expect(componentTokens).toContain('--nami-top-progress-indeterminate-duration');
     expect(componentTokens).toContain('--nami-top-progress-track-bg');
     expect(componentTokens).toContain('--nami-top-progress-fill-bg');
     expect(componentTokens).toContain('--nami-top-progress-shadow');
@@ -59,7 +61,9 @@ describe('@nami/tokens', () => {
     expect(dtcgTokens.component.pageTransition.progressHeight.$value).toBe('4px');
     expect(dtcgTokens.component.pageTransition.zIndex.$value).toBe(2147483646);
     expect(dtcgTokens.component.topProgress.height.$value).toBe('{component.pageTransition.progressHeight}');
-    expect(dtcgTokens.component.topProgress.duration.$value).toBe('220ms');
+    expect(dtcgTokens.component.topProgress.duration.$value).toBe('260ms');
+    expect(dtcgTokens.component.topProgress.ease.$value).toBe('{seed.motion.standard}');
+    expect(dtcgTokens.component.topProgress.indeterminateDuration.$value).toBe('1280ms');
     expect(dtcgTokens.component.topProgress.trackBg.$value).toContain('{semantic.color.surface}');
     expect(dtcgTokens.component.topProgress.fillBg.$value).toBe('{semantic.color.primary}');
     expect(dtcgTokens.component.topProgress.zIndex.$value).toBe(2147483647);
@@ -88,6 +92,7 @@ describe('@nami/tokens', () => {
     expect(defaultTheme.cssVars['--nami-transition-progress-height']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(defaultTheme.cssVars['--nami-top-progress-duration']).toBe('1ms');
+    expect(defaultTheme.cssVars['--nami-top-progress-indeterminate-duration']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-top-progress-track-bg']).toContain('var(--nami-surface)');
     expect(defaultTheme.cssVars['--nami-top-progress-fill-bg']).toContain('var(--nami-color-primary)');
 
