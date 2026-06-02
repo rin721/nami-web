@@ -15,5 +15,6 @@
 'nami.result.aria': `结果`,
 'nami.spinner.loading': `加载中`,
 'nami.toast.close': `关闭`,
+'nami.topProgress.navigating': `正在切换页面`,
     };
   

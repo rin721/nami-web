@@ -126,10 +126,10 @@ export function updateDocsSettings(updater: (settings: DocsSettingsState) => Doc
   return next;
 }
 
-export function applyTransitionElementSettings(element: HTMLElement | null, settings = readDocsSettings()) {
+export function applyTopProgressElementSettings(element: HTMLElement | null, settings = readDocsSettings()) {
   if (!element) return;
-  element.setAttribute('bar-height', String(settings.transition.barHeight));
-  element.setAttribute('progress-duration', String(settings.transition.progressDuration));
-  element.style.setProperty('--nami-page-transition-bar-height', `${settings.transition.barHeight}px`);
-  element.style.setProperty('--nami-page-transition-progress-duration', `${settings.transition.progressDuration}ms`);
+  element.setAttribute('height', String(settings.transition.barHeight));
+  element.setAttribute('duration', String(settings.transition.progressDuration));
+  element.style.setProperty('--nami-top-progress-height', `${settings.transition.barHeight}px`);
+  element.style.setProperty('--nami-top-progress-duration', `${settings.transition.progressDuration}ms`);
 }

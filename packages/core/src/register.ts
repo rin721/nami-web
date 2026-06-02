@@ -18,6 +18,7 @@ import { NamiSwitch } from './components/switch';
 import { NamiTabBar } from './components/tab-bar';
 import { NamiTheme } from './components/theme';
 import { NamiToast } from './components/toast';
+import { NamiTopProgress } from './components/top-progress';
 import { defineElement } from './internal/define';
 
 export function registerNamiElements() {
@@ -25,6 +26,7 @@ export function registerNamiElements() {
   defineElement('nami-config', NamiConfig);
   defineElement('nami-spinner', NamiSpinner);
   defineElement('nami-page-transition', NamiPageTransition);
+  defineElement('nami-top-progress', NamiTopProgress);
   defineElement('nami-illustration', NamiIllustration);
   defineElement('nami-empty', NamiEmpty);
   defineElement('nami-result', NamiResult);

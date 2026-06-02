@@ -43,31 +43,33 @@ For typed React events, attach listeners through refs or bridge events in a smal
 
 ## Page Transition Hooks
 
-`nami-page-transition` is a standard custom element, so frameworks only need to call `show()`, `hide()`, or `waitFor()` from their own lifecycle hooks.
+Use `nami-top-progress` for route progress. Use `nami-page-transition` for the first app reveal and truly blocking tasks. Both are standard custom elements, so frameworks only need to call methods from their own lifecycle hooks.
 
 ### Astro
 
 ```ts
-const transition = document.querySelector('nami-page-transition');
+const progress = document.querySelector('nami-top-progress');
 
 document.addEventListener('astro:before-preparation', () => {
-  transition?.show({ appearance: 'bar' });
+  progress?.show({ progress: 12 });
 });
 
-document.addEventListener('astro:page-load', () => {
-  transition?.hide({ appearance: 'bar' });
+document.addEventListener('astro:after-preparation', () => {
+  progress?.finish();
 });
 ```
 
 ### Vue Router
 
 ```ts
+const progress = document.querySelector('nami-top-progress');
+
 router.beforeResolve(() => {
-  document.querySelector('nami-page-transition')?.show({ appearance: 'bar' });
+  progress?.show({ progress: 16 });
 });
 
 router.afterEach(() => {
-  document.querySelector('nami-page-transition')?.hide({ appearance: 'bar' });
+  progress?.finish();
 });
 ```
 
@@ -82,4 +84,4 @@ await transition?.waitFor(fetch('/api/profile'), {
 });
 ```
 
-Use `bar` for route progress, `veil` for the first app reveal, and `panel` only when the task truly blocks interaction.
+Use `nami-top-progress` for route changes, `appearance="veil"` for the first app reveal, and `appearance="panel"` only when the task truly blocks interaction.

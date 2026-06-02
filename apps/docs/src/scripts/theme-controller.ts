@@ -1,6 +1,6 @@
 import { navigate } from 'astro:transitions/client';
 import {
-  applyTransitionElementSettings,
+  applyTopProgressElementSettings,
   defaultDocsSettings,
   readDocsSettings,
   writeDocsSettings,
@@ -92,9 +92,9 @@ function createController(): ThemeController {
       root.radius = visual.radius;
       root.contrast = visual.contrast;
       document.documentElement.dataset.namiDocsDensity = controller.settings.preferences.compactDocs ? 'compact' : 'comfortable';
-      applyTransitionElementSettings(document.querySelector('#docs-page-transition'), controller.settings);
-      document.querySelectorAll<HTMLElement>('nami-page-transition[data-docs-transition-preview]').forEach((element) => {
-        applyTransitionElementSettings(element, controller.settings);
+      applyTopProgressElementSettings(document.querySelector('#docs-top-progress'), controller.settings);
+      document.querySelectorAll<HTMLElement>('nami-top-progress[data-docs-top-progress-preview]').forEach((element) => {
+        applyTopProgressElementSettings(element, controller.settings);
       });
       writeDocsSettings(controller.settings);
     },
@@ -113,7 +113,7 @@ function createController(): ThemeController {
       syncControlValue('[data-locale-mode]', currentLocale());
       syncControlValue('[data-initial-transition-mode]', transition.firstLoadAppearance);
       syncControlChecked('[data-route-bar-toggle]', transition.routeBar);
-      syncControlValue('[data-bar-height-mode]', String(transition.barHeight));
+      syncControlValue('[data-progress-height-mode]', String(transition.barHeight));
       syncControlValue('[data-progress-duration-mode]', String(transition.progressDuration));
       syncControlChecked('[data-remember-theme-toggle]', preferences.rememberTheme);
       syncControlChecked('[data-compact-docs-toggle]', preferences.compactDocs);
@@ -180,7 +180,7 @@ function installDocumentListeners() {
       docsController.settings.transition.firstLoadAppearance = value === 'panel' || value === 'none' ? value : 'veil';
     }
     if (target.matches('[data-route-bar-toggle]')) docsController.settings.transition.routeBar = Boolean(event.detail.checked);
-    if (target.matches('[data-bar-height-mode]')) docsController.settings.transition.barHeight = Number(event.detail.value ?? 12);
+    if (target.matches('[data-progress-height-mode]')) docsController.settings.transition.barHeight = Number(event.detail.value ?? 12);
     if (target.matches('[data-progress-duration-mode]')) docsController.settings.transition.progressDuration = Number(event.detail.value ?? 220);
     if (target.matches('[data-remember-theme-toggle]')) docsController.settings.preferences.rememberTheme = Boolean(event.detail.checked);
     if (target.matches('[data-compact-docs-toggle]')) docsController.settings.preferences.compactDocs = Boolean(event.detail.checked);

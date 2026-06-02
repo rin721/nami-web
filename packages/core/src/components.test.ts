@@ -22,6 +22,7 @@ import type { NamiSwitch } from './components/switch';
 import type { NamiTabBar } from './components/tab-bar';
 import type { NamiTheme } from './components/theme';
 import type { NamiToast } from './components/toast';
+import type { NamiTopProgress } from './components/top-progress';
 import { getLocale, setLocale } from './localize';
 import { namiComponentMetadata } from './metadata';
 
@@ -96,7 +97,7 @@ describe('@nami/ui components', () => {
     expect(getLocale()).toBe('zh-CN');
     expect(statusEvents).toContainEqual({ status: 'ready', readyLocale: 'zh-CN' });
     expect(changeEvents.at(-1)).toMatchObject({ value: 'zh-CN', locale: 'zh-CN', dir: 'ltr' });
-    expect(empty.shadowRoot?.textContent).toContain('无数据');
+    expect(empty.shadowRoot?.textContent).toContain('暂无数据');
     expect(spinner.shadowRoot?.querySelector('[role="status"]')?.getAttribute('aria-label')).toBe('加载中');
     expect(result.shadowRoot?.querySelector('section')?.getAttribute('aria-label')).toBe('结果');
 
@@ -438,7 +439,7 @@ describe('@nami/ui components', () => {
     badge.remove();
   });
 
-  it('renders page transition appearances with hook methods, hidden default label, and localized aria', async () => {
+  it('renders page transition veil and panel appearances with hook methods, hidden default label, and localized aria', async () => {
     await setLocale('en-US');
     const transition = document.createElement('nami-page-transition') as NamiPageTransition;
     transition.active = true;
@@ -446,9 +447,6 @@ describe('@nami/ui components', () => {
     transition.tone = 'brand';
     transition.appearance = 'panel';
     transition.duration = 0;
-    transition.progress = 64;
-    transition.barHeight = 16;
-    transition.progressDuration = 320;
     document.body.append(transition);
     await transition.updateComplete;
 
@@ -457,12 +455,6 @@ describe('@nami/ui components', () => {
     expect(transition.getAttribute('tone')).toBe('brand');
     expect(transition.getAttribute('appearance')).toBe('panel');
     expect(transition.getAttribute('duration')).toBe('0');
-    expect(transition.getAttribute('progress')).toBe('64');
-    expect(transition.getAttribute('bar-height')).toBe('16');
-    expect(transition.getAttribute('progress-duration')).toBe('320');
-    expect(transition.style.getPropertyValue('--nami-page-transition-progress')).toBe('64%');
-    expect(transition.style.getPropertyValue('--nami-page-transition-bar-height')).toBe('16px');
-    expect(transition.style.getPropertyValue('--nami-page-transition-progress-duration')).toBe('320ms');
     expect(transition.shadowRoot?.querySelector('nami-spinner')).not.toBeNull();
     expect(transition.shadowRoot?.querySelector('[part~="base"]')?.getAttribute('aria-label')).toBe('Preparing interface');
     expect(transition.shadowRoot?.textContent).not.toContain('Loading');
@@ -480,30 +472,21 @@ describe('@nami/ui components', () => {
     expect(iconSlot.assignedElements()).toHaveLength(1);
     expect(transition.shadowRoot?.querySelector('[part~="label"]')?.classList.contains('has-content')).toBe(true);
 
-    transition.show({ appearance: 'veil', tone: 'brand', progress: 50, barHeight: 10, progressDuration: 180 });
+    transition.show({ appearance: 'veil', tone: 'brand' });
     await transition.updateComplete;
     expect(transition.getAttribute('appearance')).toBe('veil');
-    expect(transition.getAttribute('progress')).toBe('50');
-    expect(transition.getAttribute('bar-height')).toBe('10');
-    expect(transition.getAttribute('progress-duration')).toBe('180');
-    expect(transition.style.getPropertyValue('--nami-page-transition-progress')).toBe('50%');
-    expect(transition.style.getPropertyValue('--nami-page-transition-bar-height')).toBe('10px');
-    expect(transition.style.getPropertyValue('--nami-page-transition-progress-duration')).toBe('180ms');
     expect(transition.shadowRoot?.querySelector('[part~="brand"]')).not.toBeNull();
 
-    const result = await transition.waitFor(Promise.resolve('done'), { appearance: 'bar', progress: 100, duration: 0, minDuration: 0 });
+    const result = await transition.waitFor(Promise.resolve('done'), { appearance: 'panel', duration: 0, minDuration: 0 });
     await transition.updateComplete;
     expect(result).toBe('done');
-    expect(transition.getAttribute('appearance')).toBe('bar');
-    expect(transition.getAttribute('progress')).toBe('100');
+    expect(transition.getAttribute('appearance')).toBe('panel');
     expect(transition.hasAttribute('active')).toBe(false);
     expect(transition.shadowRoot?.querySelector('[part~="base"]')).toBeNull();
 
     await setLocale('zh-CN');
-    transition.show({ appearance: 'panel', progress: null, duration: 0 });
+    transition.show({ appearance: 'panel', duration: 0 });
     await transition.updateComplete;
-    expect(transition.hasAttribute('progress')).toBe(false);
-    expect(transition.style.getPropertyValue('--nami-page-transition-progress')).toBe('');
     expect(transition.shadowRoot?.querySelector('[part~="base"]')?.getAttribute('aria-label')).not.toBe('Preparing interface');
 
     await transition.hide({ duration: 0 });
@@ -516,6 +499,50 @@ describe('@nami/ui components', () => {
     await setLocale('en-US');
   });
 
+  it('renders top progress with determinate fill, hook methods, and reflected configuration', async () => {
+    await setLocale('en-US');
+    const progress = document.createElement('nami-top-progress') as NamiTopProgress;
+    progress.active = true;
+    progress.variant = 'inline';
+    progress.progress = 64;
+    progress.height = 16;
+    progress.duration = 320;
+    document.body.append(progress);
+    await progress.updateComplete;
+
+    expect(progress.hasAttribute('active')).toBe(true);
+    expect(progress.getAttribute('variant')).toBe('inline');
+    expect(progress.getAttribute('progress')).toBe('64');
+    expect(progress.getAttribute('height')).toBe('16');
+    expect(progress.getAttribute('duration')).toBe('320');
+    expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('64%');
+    expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('16px');
+    expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('320ms');
+    expect(progress.shadowRoot?.querySelector('[part~="track"]')?.getAttribute('aria-label')).toBe('Navigating');
+
+    progress.show({ progress: 50, height: 10, duration: 180 });
+    await progress.updateComplete;
+    expect(progress.getAttribute('progress')).toBe('50');
+    expect(progress.getAttribute('height')).toBe('10');
+    expect(progress.getAttribute('duration')).toBe('180');
+    expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('50%');
+    expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('10px');
+    expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('180ms');
+
+    progress.set(null);
+    await progress.updateComplete;
+    expect(progress.hasAttribute('progress')).toBe(false);
+    expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('');
+
+    const result = await progress.waitFor(Promise.resolve('done'), { progress: 12, duration: 0, minDuration: 0 });
+    await progress.updateComplete;
+    expect(result).toBe('done');
+    expect(progress.hasAttribute('active')).toBe(false);
+    expect(progress.shadowRoot?.querySelector('[part~="base"]')).toBeNull();
+
+    progress.remove();
+  });
+
   it('publishes metadata for all registered public components', () => {
     const names = namiComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
@@ -524,6 +551,7 @@ describe('@nami/ui components', () => {
       'nami-theme',
       'nami-spinner',
       'nami-page-transition',
+      'nami-top-progress',
       'nami-illustration',
       'nami-empty',
       'nami-result',
@@ -578,6 +606,11 @@ describe('@nami/ui components', () => {
       if (item.name === 'nami-page-transition') {
         (element as NamiPageTransition).active = true;
         (element as NamiPageTransition).duration = 0;
+      }
+      if (item.name === 'nami-top-progress') {
+        (element as NamiTopProgress).active = true;
+        (element as NamiTopProgress).duration = 0;
+        (element as NamiTopProgress).progress = 48;
       }
       document.body.append(element);
       await element.updateComplete;

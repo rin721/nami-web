@@ -23,11 +23,13 @@ describe('@nami/tokens', () => {
     expect(componentTokens).toContain('--nami-switch-thumb-bg');
     expect(componentTokens).toContain('--nami-switch-thumb-shadow');
     expect(componentTokens).toContain('--nami-spinner-track-color');
-    expect(componentTokens).toContain('--nami-page-transition-bar-height');
-    expect(componentTokens).toContain('--nami-page-transition-progress-duration');
-    expect(componentTokens).toContain('--nami-page-transition-track-bg');
-    expect(componentTokens).toContain('--nami-page-transition-fill-bg');
     expect(componentTokens).toContain('--nami-page-transition-z-index');
+    expect(componentTokens).toContain('--nami-top-progress-height');
+    expect(componentTokens).toContain('--nami-top-progress-duration');
+    expect(componentTokens).toContain('--nami-top-progress-track-bg');
+    expect(componentTokens).toContain('--nami-top-progress-fill-bg');
+    expect(componentTokens).toContain('--nami-top-progress-shadow');
+    expect(componentTokens).toContain('--nami-top-progress-z-index');
   });
 
   it('keeps the motion contract explicit', () => {
@@ -53,11 +55,12 @@ describe('@nami/tokens', () => {
     expect(dtcgTokens.component.switch.thumbBg.$value).toBe('{semantic.color.surface}');
     expect(dtcgTokens.component.switch.thumbShadow.$value).toContain('rgba');
     expect(dtcgTokens.component.spinner.trackColor.$value).toContain('rgba');
-    expect(dtcgTokens.component.pageTransition.barHeight.$value).toBe('12px');
-    expect(dtcgTokens.component.pageTransition.progressDuration.$value).toBe('220ms');
-    expect(dtcgTokens.component.pageTransition.trackBg.$value).toContain('{semantic.color.surface}');
-    expect(dtcgTokens.component.pageTransition.fillBg.$value).toBe('{semantic.color.primary}');
-    expect(dtcgTokens.component.pageTransition.zIndex.$value).toBe(2147483647);
+    expect(dtcgTokens.component.pageTransition.zIndex.$value).toBe(2147483646);
+    expect(dtcgTokens.component.topProgress.height.$value).toBe('12px');
+    expect(dtcgTokens.component.topProgress.duration.$value).toBe('220ms');
+    expect(dtcgTokens.component.topProgress.trackBg.$value).toContain('{semantic.color.surface}');
+    expect(dtcgTokens.component.topProgress.fillBg.$value).toBe('{semantic.color.primary}');
+    expect(dtcgTokens.component.topProgress.zIndex.$value).toBe(2147483647);
     expect(dtcgTokens.component.illustration.primary.$value).toBe('{semantic.color.primary}');
   });
 
@@ -80,14 +83,14 @@ describe('@nami/tokens', () => {
     expect(defaultTheme.cssVars['--nami-radius-control']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-contrast-level']).toBe('high');
     expect(defaultTheme.cssVars['--nami-button-border-width']).toBe('2px');
-    expect(defaultTheme.cssVars['--nami-page-transition-bar-height']).toBe('12px');
-    expect(defaultTheme.cssVars['--nami-page-transition-progress-duration']).toBe('1ms');
-    expect(defaultTheme.cssVars['--nami-page-transition-track-bg']).toContain('var(--nami-surface)');
-    expect(defaultTheme.cssVars['--nami-page-transition-fill-bg']).toContain('var(--nami-color-primary)');
+    expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('12px');
+    expect(defaultTheme.cssVars['--nami-top-progress-duration']).toBe('1ms');
+    expect(defaultTheme.cssVars['--nami-top-progress-track-bg']).toContain('var(--nami-surface)');
+    expect(defaultTheme.cssVars['--nami-top-progress-fill-bg']).toContain('var(--nami-color-primary)');
 
     expect(illustrationTheme.cssVars['--nami-accent-50']).toBe('#8b5cf6');
     expect(illustrationTheme.cssVars['--nami-style-stroke-width']).toBe('4px');
-    expect(illustrationTheme.cssVars['--nami-page-transition-bar-height']).toBe('14px');
+    expect(illustrationTheme.cssVars['--nami-top-progress-height']).toBe('14px');
     expect(illustrationTheme.cssVars['--nami-style-on-paper']).toBe('#29221f');
     expect(illustrationTheme.cssVars['--nami-card-bg']).toBe('var(--nami-style-control-bg)');
     expect(illustrationTheme.cssVars['--nami-style-background-pattern']).toContain('radial-gradient');

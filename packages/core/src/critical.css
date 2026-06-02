@@ -11,8 +11,8 @@
   --nami-critical-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, #64748b, transparent 74%));
   --nami-critical-rail-width: 56px;
   --nami-critical-mobile-bar-height: 56px;
-  --nami-critical-progress-height: var(--nami-page-transition-bar-height, 12px);
-  --nami-critical-progress-duration: var(--nami-page-transition-progress-duration, 220ms);
+  --nami-critical-progress-height: var(--nami-top-progress-height, 12px);
+  --nami-critical-progress-duration: var(--nami-top-progress-duration, 220ms);
 }
 
 nami-config:not(:defined),
@@ -117,19 +117,19 @@ nami-tab-bar:not(:defined) > button {
   padding: 0 12px;
 }
 
-nami-page-transition:not(:defined) {
+nami-top-progress:not(:defined) {
   --nami-critical-progress-bg: var(
-    --nami-page-transition-track-bg,
+    --nami-top-progress-track-bg,
     color-mix(in oklab, var(--nami-critical-accent), var(--nami-critical-surface) 72%)
   );
   --nami-critical-progress-fg: var(
-    --nami-page-transition-fill-bg,
+    --nami-top-progress-fill-bg,
     color-mix(in oklab, var(--nami-critical-accent), #0f172a 8%)
   );
   display: contents;
 }
 
-nami-page-transition[active]:not(:defined)::before {
+nami-top-progress[active]:not(:defined)::before {
   background: var(--nami-critical-progress-bg);
   content: '';
   display: block;
@@ -140,7 +140,7 @@ nami-page-transition[active]:not(:defined)::before {
   z-index: 2147483646;
 }
 
-nami-page-transition[active]:not(:defined)::after {
+nami-top-progress[active]:not(:defined)::after {
   animation: nami-critical-progress 1180ms cubic-bezier(0.19, 1, 0.22, 1) infinite;
   background: var(--nami-critical-progress-fg);
   border-radius: 0 999px 999px 0;
@@ -160,11 +160,17 @@ nami-page-transition[active]:not(:defined)::after {
   z-index: 2147483647;
 }
 
-nami-page-transition[active][style*='--nami-page-transition-progress']:not(:defined)::after {
+nami-top-progress[active][style*='--nami-top-progress-value']:not(:defined)::after {
   animation: none;
   transform: none;
   transition: width var(--nami-critical-progress-duration) cubic-bezier(0.19, 1, 0.22, 1);
-  width: var(--nami-page-transition-progress);
+  width: var(--nami-top-progress-value);
+}
+
+nami-page-transition:not(:defined) {
+  --nami-critical-progress-bg: color-mix(in oklab, var(--nami-critical-accent), transparent 88%);
+  --nami-critical-progress-fg: color-mix(in oklab, var(--nami-critical-accent), #0f172a 8%);
+  display: contents;
 }
 
 nami-page-transition[active][appearance='veil']:not(:defined) {
@@ -285,7 +291,7 @@ nami-page-transition:defined [data-nami-transition-fallback] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  nami-page-transition[active]:not(:defined)::after,
+  nami-top-progress[active]:not(:defined)::after,
   [data-nami-transition-fallback] span::before {
     animation-duration: 1ms;
     animation-iteration-count: 1;

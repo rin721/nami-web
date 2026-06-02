@@ -1,4 +1,4 @@
-export const NAMI_PREFIX = 'rl' as const;
+export const NAMI_PREFIX = 'nami' as const;
 
 export const seedTokens = [
   '--nami-accent-50',
@@ -163,11 +163,13 @@ export const componentTokens = [
   '--nami-result-radius',
   '--nami-result-shadow',
   '--nami-spinner-track-color',
-  '--nami-page-transition-bar-height',
-  '--nami-page-transition-progress-duration',
-  '--nami-page-transition-track-bg',
-  '--nami-page-transition-fill-bg',
-  '--nami-page-transition-z-index'
+  '--nami-page-transition-z-index',
+  '--nami-top-progress-height',
+  '--nami-top-progress-duration',
+  '--nami-top-progress-track-bg',
+  '--nami-top-progress-fill-bg',
+  '--nami-top-progress-shadow',
+  '--nami-top-progress-z-index'
 ] as const;
 
 export type SeedToken = (typeof seedTokens)[number];

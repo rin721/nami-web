@@ -26,6 +26,10 @@
   <source>Close</source>
   <target>关闭</target>
 </trans-unit>
+<trans-unit id="nami.topProgress.navigating">
+  <source>Navigating</source>
+  <target>正在切换页面</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

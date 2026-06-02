@@ -8,8 +8,8 @@ export const componentGroups = [
     id: 'actions',
     title: { 'zh-CN': '基础操作', 'en-US': 'Actions' },
     description: {
-      'zh-CN': '按钮、图标按钮、标签和可选择 chip，用于命令、过滤和轻量状态。',
-      'en-US': 'Buttons, icon buttons, badges, and chips for commands, filters, and lightweight state.'
+      'zh-CN': '按钮、图标按钮、徽标、标签与标签栏，用于命令、筛选和轻量状态。',
+      'en-US': 'Buttons, icon buttons, badges, chips, and tabs for commands, filters, and lightweight state.'
     },
     names: ['nami-button', 'nami-icon-button', 'nami-badge', 'nami-chip', 'nami-tab-bar']
   },
@@ -17,7 +17,7 @@ export const componentGroups = [
     id: 'inputs',
     title: { 'zh-CN': '表单输入', 'en-US': 'Form input' },
     description: {
-      'zh-CN': '支持表单参与、键盘交互和错误状态的输入组件。',
+      'zh-CN': '支持表单参与、键盘交互与错误状态的输入组件。',
       'en-US': 'Input controls with form participation, keyboard behavior, and validation states.'
     },
     names: ['nami-input', 'nami-switch', 'nami-radio-card']
@@ -26,16 +26,16 @@ export const componentGroups = [
     id: 'feedback',
     title: { 'zh-CN': '反馈与浮层', 'en-US': 'Feedback and overlays' },
     description: {
-      'zh-CN': '加载、弹层、抽屉和通知，用于完成异步反馈与焦点管理。',
-      'en-US': 'Loading, dialogs, drawers, and toasts for async feedback and focus management.'
+      'zh-CN': '加载、页面过渡、顶部进度、弹层、抽屉和通知，用于异步反馈与焦点管理。',
+      'en-US': 'Loading, page transitions, top progress, dialogs, drawers, and toasts for async feedback and focus management.'
     },
-    names: ['nami-spinner', 'nami-page-transition', 'nami-dialog', 'nami-drawer', 'nami-toast']
+    names: ['nami-spinner', 'nami-page-transition', 'nami-top-progress', 'nami-dialog', 'nami-drawer', 'nami-toast']
   },
   {
     id: 'layoutTheme',
     title: { 'zh-CN': '布局与主题', 'en-US': 'Layout and theme' },
     description: {
-      'zh-CN': '应用壳、卡片、主题边界和全局配置，支撑跨页面的设计系统。',
+      'zh-CN': '应用壳、卡片、主题边界与全局配置，支撑跨页面的设计系统结构。',
       'en-US': 'App shell, cards, theme boundaries, and global config for design-system structure.'
     },
     names: ['nami-config', 'nami-theme', 'nami-app-shell', 'nami-card']
@@ -66,6 +66,7 @@ export const componentPreviews = new Map<string, string>([
   ['nami-radio-card', '<nami-radio-card selected label="Token driven" description="Selected state follows accent."></nami-radio-card>'],
   ['nami-spinner', '<nami-spinner size="md" label="Loading"></nami-spinner>'],
   ['nami-page-transition', '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
+  ['nami-top-progress', '<div class="component-preview-frame progress-preview-frame"><nami-top-progress active variant="inline" progress="64" height="12" duration="0"></nami-top-progress></div>'],
   ['nami-dialog', '<nami-button variant="soft">Open dialog</nami-button>'],
   ['nami-drawer', '<nami-button variant="soft">Open drawer</nami-button>'],
   ['nami-toast', '<nami-button variant="soft">Show toast</nami-button>'],
@@ -88,6 +89,8 @@ const componentUseCases = new Map<string, LocalizedText>([
   ['nami-switch', { 'zh-CN': '表示设置项开关，并参与表单提交。', 'en-US': 'Represent settings toggles and participate in forms.' }],
   ['nami-radio-card', { 'zh-CN': '用卡片呈现单选项和配置选择。', 'en-US': 'Present single-choice options and configuration choices as cards.' }],
   ['nami-spinner', { 'zh-CN': '显示局部加载状态。', 'en-US': 'Show local loading state.' }],
+  ['nami-page-transition', { 'zh-CN': '处理首屏揭幕和阻断式任务过渡。', 'en-US': 'Handle first-paint reveal and blocking task transitions.' }],
+  ['nami-top-progress', { 'zh-CN': '在框架路由钩子中显示顶部进度轨道与填充。', 'en-US': 'Show a top progress track and fill from framework route hooks.' }],
   ['nami-dialog', { 'zh-CN': '承载需要焦点管理的模态任务。', 'en-US': 'Host modal tasks that need focus management.' }],
   ['nami-drawer', { 'zh-CN': '在移动端或辅助流程中打开侧向面板。', 'en-US': 'Open side panels for mobile or secondary workflows.' }],
   ['nami-toast', { 'zh-CN': '显示短时反馈和操作结果。', 'en-US': 'Show short feedback and operation results.' }],

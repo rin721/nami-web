@@ -1,75 +1,84 @@
-import { applyTransitionElementSettings, readDocsSettings } from './docs-settings';
+import { applyTopProgressElementSettings, readDocsSettings } from './docs-settings';
 
-type TransitionAppearance = 'bar' | 'veil' | 'panel';
-type TransitionOptions = { appearance?: TransitionAppearance; duration?: number; progress?: number | null; barHeight?: number; progressDuration?: number };
+type PageAppearance = 'veil' | 'panel';
+type PageTransitionOptions = { appearance?: PageAppearance; duration?: number };
+type TopProgressOptions = { duration?: number; height?: number; progress?: number | null; variant?: 'fixed' | 'inline' };
 
 type NamiPageTransitionElement = HTMLElement & {
   active?: boolean;
-  appearance?: TransitionAppearance;
-  progress?: number;
-  barHeight?: number;
-  progressDuration?: number;
-  show?: (options?: TransitionOptions) => void;
-  hide?: (options?: TransitionOptions) => Promise<void>;
+  appearance?: PageAppearance;
+  show?: (options?: PageTransitionOptions) => void;
+  hide?: (options?: PageTransitionOptions) => Promise<void>;
 };
 
-const requiredElements = ['nami-config', 'nami-theme', 'nami-app-shell', 'nami-page-transition', 'nami-button', 'nami-card'];
-const routeBarMinimumMs = 420;
-const routeBarExitMs = 160;
+type NamiTopProgressElement = HTMLElement & {
+  active?: boolean;
+  duration?: number;
+  height?: number;
+  progress?: number;
+  show?: (options?: TopProgressOptions) => void;
+  hide?: (options?: TopProgressOptions) => Promise<void>;
+  finish?: (options?: TopProgressOptions) => Promise<void>;
+};
 
-function readTransition() {
+const requiredElements = ['nami-config', 'nami-theme', 'nami-app-shell', 'nami-page-transition', 'nami-top-progress', 'nami-button', 'nami-card'];
+const routeMinimumMs = 420;
+const routeExitMs = 160;
+
+function readPageTransition() {
   return document.querySelector('#docs-page-transition') as NamiPageTransitionElement | null;
 }
 
-let routeProgressTimer = 0;
-let routeHideTimer = 0;
-let routeActive = false;
-let routeStartedAt = 0;
-let initialRevealApplied = false;
+function readTopProgress() {
+  return document.querySelector('#docs-top-progress') as NamiTopProgressElement | null;
+}
 
-function syncTransitionOptions(transition: NamiPageTransitionElement, options: TransitionOptions) {
+function syncFallbackActive(element: HTMLElement, active: boolean) {
+  if (active) {
+    (element as HTMLElement & { active?: boolean }).active = true;
+    element.setAttribute('active', '');
+  } else {
+    (element as HTMLElement & { active?: boolean }).active = false;
+    element.removeAttribute('active');
+  }
+}
+
+function syncTopProgressOptions(progress: NamiTopProgressElement, options: TopProgressOptions) {
   const settings = readDocsSettings();
-  const barHeight = options.barHeight ?? settings.transition.barHeight;
-  const progressDuration = options.progressDuration ?? settings.transition.progressDuration;
-  transition.barHeight = barHeight;
-  transition.progressDuration = progressDuration;
-  transition.setAttribute('bar-height', String(barHeight));
-  transition.setAttribute('progress-duration', String(progressDuration));
-  transition.style.setProperty('--nami-page-transition-bar-height', `${barHeight}px`);
-  transition.style.setProperty('--nami-page-transition-progress-duration', `${progressDuration}ms`);
-  if (options.appearance) {
-    transition.appearance = options.appearance;
-    transition.setAttribute('appearance', options.appearance);
+  const height = options.height ?? settings.transition.barHeight;
+  const duration = options.duration ?? settings.transition.progressDuration;
+  progress.height = height;
+  progress.duration = duration;
+  progress.setAttribute('height', String(height));
+  progress.setAttribute('duration', String(duration));
+  progress.style.setProperty('--nami-top-progress-height', `${height}px`);
+  progress.style.setProperty('--nami-top-progress-duration', `${duration}ms`);
+  if (options.variant) {
+    progress.setAttribute('variant', options.variant);
   }
   if (options.progress !== undefined) {
     if (options.progress === null) {
-      transition.progress = undefined;
-      transition.removeAttribute('progress');
-      transition.style.removeProperty('--nami-page-transition-progress');
+      progress.progress = undefined;
+      progress.removeAttribute('progress');
+      progress.style.removeProperty('--nami-top-progress-value');
     } else {
-      transition.progress = options.progress;
-      transition.setAttribute('progress', String(options.progress));
-      transition.style.setProperty('--nami-page-transition-progress', `${Math.min(100, Math.max(0, options.progress))}%`);
+      progress.progress = options.progress;
+      progress.setAttribute('progress', String(options.progress));
+      progress.style.setProperty('--nami-top-progress-value', `${Math.min(100, Math.max(0, options.progress))}%`);
     }
   }
 }
 
-function syncFallbackActive(transition: NamiPageTransitionElement, active: boolean) {
-  if (active) {
-    transition.active = true;
-    transition.setAttribute('active', '');
-  } else {
-    transition.active = false;
-    transition.removeAttribute('active');
-  }
-}
-
-function setTransition(active: boolean, options: TransitionOptions = {}) {
-  const transition = readTransition();
+function setPageTransition(active: boolean, options: PageTransitionOptions = {}) {
+  const transition = readPageTransition();
   if (!transition) return;
-
-  applyTransitionElementSettings(transition);
-  syncTransitionOptions(transition, options);
+  if (options.appearance) {
+    transition.appearance = options.appearance;
+    transition.setAttribute('appearance', options.appearance);
+  }
+  if (options.duration !== undefined) {
+    transition.setAttribute('duration', String(options.duration));
+  }
 
   if (active && transition.show) {
     syncFallbackActive(transition, true);
@@ -80,8 +89,24 @@ function setTransition(active: boolean, options: TransitionOptions = {}) {
     void transition.hide(options);
     return;
   }
-
   syncFallbackActive(transition, active);
+}
+
+function setTopProgress(active: boolean, options: TopProgressOptions = {}) {
+  const progress = readTopProgress();
+  if (!progress) return;
+  applyTopProgressElementSettings(progress);
+  syncTopProgressOptions(progress, options);
+  if (active && progress.show) {
+    syncFallbackActive(progress, true);
+    progress.show(options);
+    return;
+  }
+  if (!active && progress.hide) {
+    void progress.hide(options);
+    return;
+  }
+  syncFallbackActive(progress, active);
 }
 
 function nextFrame() {
@@ -100,22 +125,25 @@ async function waitForPageReady() {
   await nextFrame();
 }
 
+let routeProgressTimer = 0;
+let routeHideTimer = 0;
+let routeActive = false;
+let routeStartedAt = 0;
+let initialRevealApplied = false;
 let readyToken = 0;
 
 async function hideWhenReady() {
   const token = ++readyToken;
   const settings = readDocsSettings();
-  const transition = readTransition();
-  if (transition && settings.transition.firstLoadAppearance !== 'none' && !routeActive && !initialRevealApplied) {
+  if (settings.transition.firstLoadAppearance !== 'none' && !routeActive && !initialRevealApplied) {
     initialRevealApplied = true;
-    const appearance = settings.transition.firstLoadAppearance === 'panel' ? 'panel' : 'veil';
-    setTransition(true, { appearance, progress: null });
+    setPageTransition(true, { appearance: settings.transition.firstLoadAppearance === 'panel' ? 'panel' : 'veil' });
   }
   await waitForPageReady();
   if (token === readyToken) {
     document.documentElement.dataset.namiReady = 'true';
     if (routeActive) return;
-    setTransition(false, { progress: null });
+    setPageTransition(false);
   }
 }
 
@@ -123,7 +151,7 @@ document.addEventListener('astro:before-preparation', () => {
   const settings = readDocsSettings();
   if (!settings.transition.routeBar) {
     routeActive = false;
-    setTransition(false, { appearance: 'bar', progress: null });
+    setTopProgress(false, { progress: null });
     return;
   }
   window.clearTimeout(routeProgressTimer);
@@ -131,9 +159,9 @@ document.addEventListener('astro:before-preparation', () => {
   routeActive = true;
   routeStartedAt = performance.now();
   document.documentElement.dataset.namiReady = 'false';
-  setTransition(true, { appearance: 'bar', progress: 18, duration: routeBarExitMs, barHeight: settings.transition.barHeight, progressDuration: settings.transition.progressDuration });
+  setTopProgress(true, { progress: 12, duration: settings.transition.progressDuration, height: settings.transition.barHeight });
   routeProgressTimer = window.setTimeout(() => {
-    setTransition(true, { appearance: 'bar', progress: 58, duration: routeBarExitMs, barHeight: settings.transition.barHeight, progressDuration: settings.transition.progressDuration });
+    setTopProgress(true, { progress: 62, duration: settings.transition.progressDuration, height: settings.transition.barHeight });
   }, 120);
 });
 
@@ -142,11 +170,11 @@ document.addEventListener('astro:after-preparation', () => {
   if (!settings.transition.routeBar) return;
   window.clearTimeout(routeProgressTimer);
   const elapsed = performance.now() - routeStartedAt;
-  const hideDelay = Math.max(180, routeBarMinimumMs - elapsed);
-  setTransition(true, { appearance: 'bar', progress: 100, duration: routeBarExitMs, barHeight: settings.transition.barHeight, progressDuration: settings.transition.progressDuration });
+  const hideDelay = Math.max(180, routeMinimumMs - elapsed);
+  setTopProgress(true, { progress: 100, duration: settings.transition.progressDuration, height: settings.transition.barHeight });
   routeHideTimer = window.setTimeout(() => {
     routeActive = false;
-    setTransition(false, { appearance: 'bar', progress: null, duration: routeBarExitMs, barHeight: settings.transition.barHeight, progressDuration: settings.transition.progressDuration });
+    setTopProgress(false, { progress: null, duration: routeExitMs, height: settings.transition.barHeight });
   }, hideDelay);
 });
 
@@ -159,8 +187,8 @@ document.addEventListener('astro:page-load', () => {
 });
 
 window.addEventListener('nami-docs-settings-change', () => {
-  const transition = readTransition();
-  if (transition) applyTransitionElementSettings(transition);
+  const progress = readTopProgress();
+  if (progress) applyTopProgressElementSettings(progress);
 });
 
 void hideWhenReady();
