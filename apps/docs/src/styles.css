@@ -140,10 +140,18 @@ nami-docs-theme-designer {
   border-radius: var(--nami-radius-control);
   color: var(--nami-text);
   display: inline-flex;
+  gap: 8px;
   font-weight: 900;
   min-height: 36px;
   padding: 0 12px;
   text-decoration: none;
+}
+
+.brand-link img {
+  display: block;
+  flex: 0 0 auto;
+  height: 22px;
+  width: 22px;
 }
 
 .brand-link:hover {
@@ -207,6 +215,28 @@ h1 {
   letter-spacing: 0;
   line-height: 0.9;
   margin: 0;
+}
+
+.hero-title {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 2.4vw, 24px);
+}
+
+.hero-title-icon {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: clamp(58px, 9vw, 104px);
+  width: clamp(48px, 7.4vw, 86px);
+}
+
+.hero-title-icon img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
 }
 
 h2 {

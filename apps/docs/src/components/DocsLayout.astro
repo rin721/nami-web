@@ -35,7 +35,14 @@ function isActive(path: string) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title === 'Nami UI' ? t(locale, 'site.title') : `${title} · Nami UI`}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="mask-icon" href="/brand/nami-mask-icon.svg" color="#0b2a6f" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:title" content={title === 'Nami UI' ? t(locale, 'site.title') : `${title} | Nami UI`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/brand/nami-logo.svg" />
+    <meta name="twitter:card" content="summary" />
+    <title>{title === 'Nami UI' ? t(locale, 'site.title') : `${title} | Nami UI`}</title>
     <script>
       import '../scripts/register-nami.ts';
     </script>
@@ -56,7 +63,10 @@ function isActive(path: string) {
             })}
           </nav>
           <div slot="top" class="mobile-bar">
-            <a class="brand-link" href={localizedPath(locale, '/')}>Nami UI</a>
+            <a class="brand-link" href={localizedPath(locale, '/')}>
+              <img src="/brand/nami-mark.svg" alt="" width="22" height="22" />
+              <span>Nami UI</span>
+            </a>
             <nami-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></nami-icon-button>
           </div>
           <nav slot="bottom" class="bottom-nav" aria-label="Mobile">

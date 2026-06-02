@@ -13,7 +13,13 @@ const { locale } = Astro.props as { locale: DocsLocale };
   <section class="hero product-hero" data-product-hero>
     <div class="hero-copy">
       <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>
-      <h1>Nami UI</h1>
+      <h1 class="hero-title">
+        <picture class="hero-title-icon" aria-hidden="true">
+          <source srcset="/brand/nami-mark-night.svg" media="(prefers-color-scheme: dark)" />
+          <img src="/brand/nami-mark.svg" alt="" width="660" height="801" />
+        </picture>
+        <span>Nami UI</span>
+      </h1>
       <p class="hero-subtitle">{t(locale, 'home.subtitle')}</p>
       <p class="lead">{t(locale, 'home.lead')}</p>
       <div class="hero-actions">

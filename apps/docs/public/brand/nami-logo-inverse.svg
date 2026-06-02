@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1180" height="801" viewBox="0 0 1180 801" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(-291 -222)">
+    <path d="M292 349 L291 850 L422 850 L423 535 L680 850 L651 1023 L767 1023 L931 349 L764 350 L709 671 L455 349 Z" fill="#FFFFFF"/>
+    <path d="M749 222 L826 222 L815 317 L767 317 Z" fill="#FFFFFF"/>
+    <path d="M874 222 L951 222 L931 317 L882 317 Z" fill="#FFFFFF"/>
+  </g>
+  <text x="735" y="520" fill="#FFFFFF" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="178" font-weight="850" letter-spacing="0">nami</text>
+</svg>

@@ -1,0 +1,27 @@
+{
+  "name": "Nami UI",
+  "short_name": "Nami UI",
+  "description": "A cross-framework, themeable Web Components UI library.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/brand/nami-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/nami-mark-mono.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "monochrome"
+    }
+  ],
+  "theme_color": "#3b82f6",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}
