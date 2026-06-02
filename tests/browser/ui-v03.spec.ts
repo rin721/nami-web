@@ -21,6 +21,46 @@ async function waitForNami(page: Page) {
   await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-card') && customElements.get('nami-page-transition'));
 }
 
+async function delayScripts(page: Page, delayMs = 1800) {
+  await page.route('**/*', async (route) => {
+    if (route.request().resourceType() === 'script') {
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+    await route.continue();
+  });
+}
+
+async function readPreUpgradeState(page: Page) {
+  return page.evaluate(() => {
+    const transition = document.querySelector('nami-page-transition') as HTMLElement;
+    const fallback = transition?.querySelector('[data-nami-transition-fallback]') as HTMLElement;
+    const shell = document.querySelector('nami-app-shell') as HTMLElement;
+    const rail = shell?.querySelector('[slot="rail"]') as HTMLElement;
+    const top = shell?.querySelector('[slot="top"]') as HTMLElement;
+    const bottom = shell?.querySelector('[slot="bottom"]') as HTMLElement;
+    const main = shell?.querySelector('main') as HTMLElement;
+    const button = shell?.querySelector('nami-button') as HTMLElement;
+    const chip = shell?.querySelector('nami-chip') as HTMLElement;
+    return {
+      transitionDefined: Boolean(customElements.get('nami-page-transition')),
+      appShellDefined: Boolean(customElements.get('nami-app-shell')),
+      transitionDisplay: getComputedStyle(transition).display,
+      transitionPosition: getComputedStyle(transition).position,
+      fallbackDisplay: fallback ? getComputedStyle(fallback).display : '',
+      railDisplay: rail ? getComputedStyle(rail).display : '',
+      railPosition: rail ? getComputedStyle(rail).position : '',
+      railWidth: rail ? getComputedStyle(rail).width : '',
+      topDisplay: top ? getComputedStyle(top).display : '',
+      bottomDisplay: bottom ? getComputedStyle(bottom).display : '',
+      mainPaddingLeft: main ? getComputedStyle(main).paddingLeft : '',
+      mainPaddingTop: main ? getComputedStyle(main).paddingTop : '',
+      buttonDisplay: button ? getComputedStyle(button).display : '',
+      buttonRadius: button ? getComputedStyle(button).borderRadius : '',
+      chipDisplay: chip ? getComputedStyle(chip).display : ''
+    };
+  });
+}
+
 async function readThemeTokenState(page: Page) {
   return page.evaluate(() => {
     const theme = document.querySelector('nami-theme') as HTMLElement;
@@ -67,18 +107,19 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   expect(thirdPartyVisibleShell).toBe(0);
 
   await page.evaluate(() => {
-    const win = window as Window & { __namiSoftNavMarker?: number; __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null }> };
+    const win = window as Window & { __namiSoftNavMarker?: number; __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null; progress: string | null }> };
     win.__namiSoftNavMarker = 1;
     win.__namiTransitionSamples = [];
     const sample = () => {
       const transition = document.querySelector('#docs-page-transition');
       win.__namiTransitionSamples?.push({
         active: Boolean(transition?.hasAttribute('active')),
-        appearance: transition?.getAttribute('appearance') ?? null
+        appearance: transition?.getAttribute('appearance') ?? null,
+        progress: transition?.getAttribute('progress') ?? null
       });
     };
     sample();
-    new MutationObserver(sample).observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ['active', 'appearance'] });
+    new MutationObserver(sample).observe(document.body, { attributes: true, childList: true, subtree: true, attributeFilter: ['active', 'appearance', 'progress'] });
   });
   await page.locator('a[href="/zh-CN/components/"]').first().click();
   await expect(page).toHaveURL(/\/zh-CN\/components\/$/);
@@ -86,7 +127,7 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
     page.evaluate(() => (window as Window & { __namiSoftNavMarker?: number }).__namiSoftNavMarker)
   ).toBe(1);
   await expect.poll(async () =>
-    page.evaluate(() => (window as Window & { __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null }> }).__namiTransitionSamples?.some((sample) => sample.active && sample.appearance === 'bar'))
+    page.evaluate(() => (window as Window & { __namiTransitionSamples?: Array<{ active: boolean; appearance: string | null; progress: string | null }> }).__namiTransitionSamples?.some((sample) => sample.active && sample.appearance === 'bar' && Number(sample.progress) > 0))
   ).toBe(true);
   await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => element.hasAttribute('active'))).toBe(false);
   await expect(page.locator('#component-docs')).toContainText('基础操作');
@@ -138,6 +179,56 @@ test('Astro docs website has product IA, Nami UI surfaces, and clean localized c
   await page.goto('/en-US/tokens/');
   await expect(page.locator('body')).toContainText('Seed, Semantic, Component');
   expect(errors).toEqual([]);
+});
+
+test('critical CSS protects slow-network pre-upgrade layout in Astro and standalone fixture', async ({ page, context }) => {
+  const errors = captureConsoleErrors(page);
+  await delayScripts(page);
+  await page.setViewportSize({ width: 1280, height: 780 });
+  await page.goto('/zh-CN/', { waitUntil: 'commit' });
+  await page.locator('nami-page-transition[active]').waitFor({ state: 'attached' });
+  await expect(page.locator('nami-page-transition[active] [data-nami-transition-fallback]')).toBeVisible();
+
+  const desktopPreUpgrade = await readPreUpgradeState(page);
+  expect(desktopPreUpgrade.transitionDefined).toBe(false);
+  expect(desktopPreUpgrade.appShellDefined).toBe(false);
+  expect(desktopPreUpgrade.transitionDisplay).toBe('flex');
+  expect(desktopPreUpgrade.transitionPosition).toBe('fixed');
+  expect(desktopPreUpgrade.fallbackDisplay).toBe('flex');
+  expect(desktopPreUpgrade.railDisplay).toBe('flex');
+  expect(desktopPreUpgrade.railPosition).toBe('fixed');
+  expect(parseFloat(desktopPreUpgrade.railWidth)).toBeCloseTo(56, 0);
+  expect(desktopPreUpgrade.topDisplay).toBe('none');
+  expect(desktopPreUpgrade.bottomDisplay).toBe('none');
+  expect(parseFloat(desktopPreUpgrade.mainPaddingLeft)).toBeGreaterThanOrEqual(56);
+  expect(['inline-flex', 'flex']).toContain(desktopPreUpgrade.buttonDisplay);
+  expect(['inline-flex', 'flex']).toContain(desktopPreUpgrade.chipDisplay);
+
+  await waitForNami(page);
+  await expect.poll(async () => page.locator('#docs-page-transition').evaluate((element) => element.hasAttribute('active'))).toBe(false);
+
+  const fixture = await context.newPage();
+  const fixtureErrors = captureConsoleErrors(fixture);
+  await delayScripts(fixture);
+  await fixture.setViewportSize({ width: 520, height: 780 });
+  await fixture.goto('/fixtures/nami-critical/', { waitUntil: 'commit' });
+  await fixture.locator('nami-page-transition[active]').waitFor({ state: 'attached' });
+  await expect(fixture.locator('nami-page-transition[active] [data-nami-transition-fallback]')).toBeVisible();
+
+  const mobilePreUpgrade = await readPreUpgradeState(fixture);
+  expect(mobilePreUpgrade.transitionDefined).toBe(false);
+  expect(mobilePreUpgrade.appShellDefined).toBe(false);
+  expect(mobilePreUpgrade.railDisplay).toBe('none');
+  expect(mobilePreUpgrade.topDisplay).not.toBe('none');
+  expect(mobilePreUpgrade.bottomDisplay).not.toBe('none');
+  expect(parseFloat(mobilePreUpgrade.mainPaddingLeft)).toBeCloseTo(0, 0);
+  expect(parseFloat(mobilePreUpgrade.mainPaddingTop)).toBeGreaterThanOrEqual(56);
+
+  await waitForNami(fixture);
+  await expect(fixture.locator('nami-app-shell')).toBeVisible();
+  expect(errors).toEqual([]);
+  expect(fixtureErrors).toEqual([]);
+  await fixture.close();
 });
 
 test('Theme Designer exposes deterministic algorithm output and semantic customization controls', async ({ page }) => {

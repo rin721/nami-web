@@ -17,6 +17,7 @@ export interface NamiPageTransitionOptions {
   variant?: NamiPageTransitionVariant;
   duration?: number;
   minDuration?: number;
+  progress?: number | null;
 }
 
 export class NamiPageTransition extends LitElement {
@@ -27,6 +28,7 @@ export class NamiPageTransition extends LitElement {
     tone: { reflect: true },
     appearance: { reflect: true },
     duration: { type: Number, reflect: true },
+    progress: { type: Number, reflect: true },
     visible: { state: true },
     hasDefaultContent: { state: true }
   };
@@ -139,6 +141,12 @@ export class NamiPageTransition extends LitElement {
         width: 58%;
       }
 
+      :host([progress]) .bar-indicator {
+        animation: none;
+        transform: none;
+        width: var(--nami-page-transition-progress, 0%);
+      }
+
       :host([appearance='veil']) .veil {
         align-items: center;
         display: flex;
@@ -187,6 +195,12 @@ export class NamiPageTransition extends LitElement {
         transform: translateX(-52%) scaleX(0.44);
         transform-origin: left center;
         width: 64%;
+      }
+
+      :host([progress]) .veil-indicator {
+        animation: none;
+        transform: none;
+        width: var(--nami-page-transition-progress, 0%);
       }
 
       :host([appearance='panel']) .panel {
@@ -266,6 +280,7 @@ export class NamiPageTransition extends LitElement {
   declare tone: NamiPageTransitionTone;
   declare appearance: NamiPageTransitionAppearance;
   declare duration: number;
+  declare progress?: number;
   protected declare visible: boolean;
   protected declare hasDefaultContent: boolean;
 
@@ -283,6 +298,7 @@ export class NamiPageTransition extends LitElement {
     this.tone = 'surface';
     this.appearance = 'bar';
     this.duration = 240;
+    this.progress = undefined;
     this.visible = false;
     this.hasDefaultContent = false;
   }
@@ -302,6 +318,9 @@ export class NamiPageTransition extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    if (changed.has('progress')) {
+      this.syncProgressStyle();
+    }
     if (!changed.has('active')) return;
     window.clearTimeout(this.hideTimer);
     if (this.active) {
@@ -356,6 +375,18 @@ export class NamiPageTransition extends LitElement {
     if (options.tone) this.tone = options.tone;
     if (options.variant) this.variant = options.variant;
     if (options.duration !== undefined) this.duration = options.duration;
+    if (options.progress !== undefined) {
+      this.progress = options.progress === null ? undefined : options.progress;
+    }
+  }
+
+  private syncProgressStyle() {
+    if (this.progress === undefined || this.progress === null || Number.isNaN(Number(this.progress))) {
+      this.style.removeProperty('--nami-page-transition-progress');
+      return;
+    }
+    const value = Math.min(100, Math.max(0, Number(this.progress)));
+    this.style.setProperty('--nami-page-transition-progress', `${value}%`);
   }
 
   private handleSlotChange(event: Event) {

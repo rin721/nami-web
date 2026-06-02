@@ -65,9 +65,9 @@ const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
   {
     name: 'nami-page-transition',
     summary: 'Framework-hook driven page transition for route progress, first-paint reveal, and blocking tasks.',
-    usage: '<nami-page-transition appearance="bar" active></nami-page-transition>',
-    attributes: ['active', 'label', 'variant', 'tone', 'appearance', 'duration'],
-    properties: ['active', 'label', 'variant', 'tone', 'appearance', 'duration', 'show()', 'hide()', 'waitFor()'],
+    usage: '<nami-page-transition appearance="bar" progress="64" active></nami-page-transition>',
+    attributes: ['active', 'label', 'variant', 'tone', 'appearance', 'duration', 'progress'],
+    properties: ['active', 'label', 'variant', 'tone', 'appearance', 'duration', 'progress', 'show()', 'hide()', 'waitFor()'],
     events: [],
     slots: ['default', 'icon'],
     parts: ['base', 'track', 'indicator', 'brand', 'panel', 'label'],

@@ -1,6 +1,7 @@
 ---
-import '@nami/themes/default.css';
-import '@nami/themes/ant-illustration.css';
+import '../../../../packages/core/src/critical.css';
+import '../../../../packages/themes/src/default.css';
+import '../../../../packages/themes/src/ant-illustration.css';
 import '../styles.css';
 import { ClientRouter } from 'astro:transitions';
 import { Blocks, BookOpen, Home, Palette, Rocket, SlidersHorizontal } from '@lucide/astro';
@@ -52,7 +53,12 @@ function isActive(path: string) {
   <body>
     <nami-config id="docs-config" locale={locale} dir="ltr">
       <nami-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
-        <nami-page-transition id="docs-page-transition" appearance="veil" active></nami-page-transition>
+        <nami-page-transition id="docs-page-transition" appearance="veil" active>
+          <span data-nami-transition-fallback>
+            <NamiMark />
+            <span aria-hidden="true"></span>
+          </span>
+        </nami-page-transition>
         <nami-app-shell>
           <nav slot="rail" class="rail-stack" aria-label="Primary">
             {primary.map((link) => {

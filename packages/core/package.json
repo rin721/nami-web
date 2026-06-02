@@ -32,6 +32,7 @@
     },
     "./nami-ui.anatomy.json": "./dist/nami-ui.anatomy.json",
     "./nami-ui.theme.schema.json": "./dist/nami-ui.theme.schema.json",
+    "./critical.css": "./dist/critical.css",
     "./localize": {
       "types": "./dist/localize.d.ts",
       "default": "./dist/localize.js"
@@ -114,7 +115,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json --emitDeclarationOnly && vite build && node ./scripts/write-machine-readable.mjs",
+    "build": "tsc -p tsconfig.json --emitDeclarationOnly && vite build && node ./scripts/write-machine-readable.mjs && node ./scripts/copy-css.mjs",
     "manifest": "cem analyze --litelement --globs \"src/**/*.ts\" --outdir dist",
     "test": "vitest run"
   },

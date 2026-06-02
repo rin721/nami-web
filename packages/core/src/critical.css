@@ -1,0 +1,286 @@
+:root {
+  --nami-critical-accent: var(--nami-color-primary, var(--nami-accent-50, #3b82f6));
+  --nami-critical-surface: var(--nami-surface, #fff);
+  --nami-critical-surface-overlay: var(--nami-surface-overlay, color-mix(in oklab, #fff, transparent 10%));
+  --nami-critical-surface-raised: var(--nami-surface-raised, #fff);
+  --nami-critical-border: var(--nami-border, color-mix(in oklab, #000, transparent 88%));
+  --nami-critical-text: var(--nami-text, #171717);
+  --nami-critical-muted: var(--nami-text-muted, #667085);
+  --nami-critical-radius-control: var(--nami-radius-control, 999px);
+  --nami-critical-radius-surface: var(--nami-radius-surface, 8px);
+  --nami-critical-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, #64748b, transparent 74%));
+  --nami-critical-rail-width: 56px;
+  --nami-critical-mobile-bar-height: 56px;
+}
+
+nami-config:not(:defined),
+nami-theme:not(:defined) {
+  display: contents;
+}
+
+nami-app-shell:not(:defined) {
+  background: var(--nami-critical-surface);
+  color: var(--nami-critical-text);
+  display: block;
+  min-height: 100dvh;
+}
+
+nami-app-shell:not(:defined) [slot='rail'] {
+  align-items: center;
+  background: var(--nami-critical-surface-overlay);
+  border-right: 1px solid var(--nami-critical-border);
+  bottom: 0;
+  box-shadow: var(--nami-critical-shadow);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  left: 0;
+  padding: 8px 0;
+  position: fixed;
+  top: 0;
+  width: var(--nami-critical-rail-width);
+  z-index: 20;
+}
+
+nami-app-shell:not(:defined) [slot='top'],
+nami-app-shell:not(:defined) [slot='bottom'] {
+  display: none;
+}
+
+nami-app-shell:not(:defined) > main {
+  box-sizing: border-box;
+  min-height: 100dvh;
+  padding-left: var(--nami-critical-rail-width);
+}
+
+nami-app-shell:not(:defined) > .docs-page {
+  padding-left: calc(var(--nami-critical-rail-width) + 40px);
+}
+
+nami-button:not(:defined),
+nami-chip:not(:defined),
+nami-badge:not(:defined),
+nami-icon-button:not(:defined) {
+  align-items: center;
+  background: color-mix(in oklab, var(--nami-critical-accent), transparent 90%);
+  border: 1px solid color-mix(in oklab, var(--nami-critical-accent), transparent 54%);
+  border-radius: var(--nami-critical-radius-control);
+  color: var(--nami-critical-accent);
+  display: inline-flex;
+  font: inherit;
+  font-weight: 800;
+  min-height: 34px;
+  padding: 0 14px;
+  vertical-align: middle;
+}
+
+nami-card:not(:defined),
+nami-empty:not(:defined),
+nami-result:not(:defined),
+nami-radio-card:not(:defined) {
+  background: var(--nami-critical-surface-raised);
+  border: 1px solid var(--nami-critical-border);
+  border-radius: var(--nami-critical-radius-surface);
+  box-sizing: border-box;
+  color: var(--nami-critical-text);
+  display: block;
+  padding: 16px;
+}
+
+nami-input:not(:defined),
+nami-switch:not(:defined),
+nami-tab-bar:not(:defined) {
+  color: var(--nami-critical-text);
+  display: inline-flex;
+  min-height: 34px;
+}
+
+nami-tab-bar:not(:defined) {
+  align-items: center;
+  background: color-mix(in oklab, var(--nami-critical-text), transparent 96%);
+  border-radius: var(--nami-critical-radius-control);
+  gap: 2px;
+  padding: 2px;
+}
+
+nami-tab-bar:not(:defined) > button {
+  background: transparent;
+  border: 0;
+  border-radius: var(--nami-critical-radius-control);
+  color: var(--nami-critical-muted);
+  font: inherit;
+  font-weight: 800;
+  min-height: 30px;
+  padding: 0 12px;
+}
+
+nami-page-transition:not(:defined) {
+  --nami-critical-progress-bg: color-mix(in oklab, var(--nami-critical-accent), transparent 84%);
+  --nami-critical-progress-fg: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--nami-critical-accent), white 18%),
+    var(--nami-critical-accent),
+    color-mix(in oklab, var(--nami-critical-accent), #0f172a 18%)
+  );
+  display: contents;
+}
+
+nami-page-transition[active]:not(:defined)::before {
+  background: var(--nami-critical-progress-bg);
+  content: '';
+  display: block;
+  height: 3px;
+  inset: 0 0 auto;
+  overflow: hidden;
+  position: fixed;
+  z-index: 10000;
+}
+
+nami-page-transition[active]:not(:defined)::after {
+  animation: nami-critical-progress 1180ms cubic-bezier(0.19, 1, 0.22, 1) infinite;
+  background: var(--nami-critical-progress-fg);
+  border-radius: 999px;
+  box-shadow: 0 0 18px color-mix(in oklab, var(--nami-critical-accent), transparent 55%);
+  content: '';
+  display: block;
+  height: 3px;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  position: fixed;
+  transform: translateX(-48%) scaleX(0.42);
+  transform-origin: left center;
+  width: 58%;
+  z-index: 10001;
+}
+
+nami-page-transition[active][style*='--nami-page-transition-progress']:not(:defined)::after {
+  animation: none;
+  transform: none;
+  width: var(--nami-page-transition-progress);
+}
+
+nami-page-transition[active][appearance='veil']:not(:defined) {
+  align-items: center;
+  background:
+    var(--nami-style-background-pattern, none),
+    color-mix(in oklab, var(--nami-critical-surface), transparent 8%);
+  background-size: var(--nami-style-background-size, auto);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 9999;
+}
+
+nami-page-transition:not(:defined) [data-nami-transition-fallback] {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+  inline-size: min(72vw, 260px);
+}
+
+nami-page-transition[active][appearance='veil']:not(:defined) [data-nami-transition-fallback] {
+  display: flex;
+}
+
+nami-page-transition:defined [data-nami-transition-fallback] {
+  display: none;
+}
+
+[data-nami-transition-fallback] svg {
+  color: color-mix(in oklab, var(--nami-critical-accent), #06142f 44%);
+  display: block;
+  filter: drop-shadow(0 12px 28px color-mix(in oklab, var(--nami-critical-accent), transparent 78%));
+  height: 86px;
+  width: 108px;
+}
+
+[data-nami-transition-fallback] .nami-mark-main {
+  fill: currentColor;
+}
+
+[data-nami-transition-fallback] .nami-mark-dots {
+  fill: var(--nami-critical-accent);
+}
+
+[data-nami-transition-fallback] span {
+  background: var(--nami-critical-progress-bg);
+  border-radius: 999px;
+  display: block;
+  height: 4px;
+  inline-size: min(100%, 180px);
+  overflow: hidden;
+}
+
+[data-nami-transition-fallback] span::before {
+  animation: nami-critical-progress 1320ms cubic-bezier(0.19, 1, 0.22, 1) infinite;
+  background: var(--nami-critical-progress-fg);
+  border-radius: inherit;
+  content: '';
+  display: block;
+  height: 100%;
+  transform: translateX(-52%) scaleX(0.44);
+  transform-origin: left center;
+  width: 64%;
+}
+
+@keyframes nami-critical-progress {
+  0% {
+    transform: translateX(-56%) scaleX(0.36);
+  }
+
+  55% {
+    transform: translateX(74%) scaleX(0.68);
+  }
+
+  100% {
+    transform: translateX(158%) scaleX(0.32);
+  }
+}
+
+@media (width <= 639px) {
+  nami-app-shell:not(:defined) [slot='rail'] {
+    display: none;
+  }
+
+  nami-app-shell:not(:defined) [slot='top'],
+  nami-app-shell:not(:defined) [slot='bottom'] {
+    align-items: center;
+    background: var(--nami-critical-surface-overlay);
+    border-color: var(--nami-critical-border);
+    box-shadow: var(--nami-critical-shadow);
+    box-sizing: border-box;
+    display: flex;
+    height: var(--nami-critical-mobile-bar-height);
+    left: 0;
+    position: fixed;
+    right: 0;
+    z-index: 20;
+  }
+
+  nami-app-shell:not(:defined) [slot='top'] {
+    border-bottom: 1px solid var(--nami-critical-border);
+    top: 0;
+  }
+
+  nami-app-shell:not(:defined) [slot='bottom'] {
+    border-top: 1px solid var(--nami-critical-border);
+    bottom: 0;
+  }
+
+  nami-app-shell:not(:defined) > main,
+  nami-app-shell:not(:defined) > .docs-page {
+    padding: var(--nami-critical-mobile-bar-height) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nami-page-transition[active]:not(:defined)::after,
+  [data-nami-transition-fallback] span::before {
+    animation-duration: 1ms;
+    animation-iteration-count: 1;
+  }
+}
