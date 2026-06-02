@@ -147,8 +147,21 @@ nami-docs-theme-designer {
   text-decoration: none;
 }
 
-.brand-link img {
+.nami-mark {
+  --nami-logo-accent: var(--nami-color-primary);
+  --nami-logo-ink: color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 38%);
   display: block;
+}
+
+.nami-mark-main {
+  fill: var(--nami-logo-ink);
+}
+
+.nami-mark-dots {
+  fill: var(--nami-logo-accent);
+}
+
+.brand-mark {
   flex: 0 0 auto;
   height: 22px;
   width: 22px;
@@ -225,18 +238,9 @@ h1 {
 }
 
 .hero-title-icon {
-  align-items: center;
-  display: inline-flex;
   flex: 0 0 auto;
   height: clamp(58px, 9vw, 104px);
   width: clamp(48px, 7.4vw, 86px);
-}
-
-.hero-title-icon img {
-  display: block;
-  height: 100%;
-  object-fit: contain;
-  width: 100%;
 }
 
 h2 {

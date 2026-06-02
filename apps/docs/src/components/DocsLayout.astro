@@ -4,6 +4,7 @@ import '@nami/themes/ant-illustration.css';
 import '../styles.css';
 import { ClientRouter } from 'astro:transitions';
 import { Blocks, BookOpen, Home, Palette, Rocket, SlidersHorizontal } from '@lucide/astro';
+import NamiMark from './NamiMark.astro';
 import { docsLocales, localizedPath, logicalPathFromUrl, t, type DocsLocale } from '../lib/site';
 
 interface Props {
@@ -64,7 +65,7 @@ function isActive(path: string) {
           </nav>
           <div slot="top" class="mobile-bar">
             <a class="brand-link" href={localizedPath(locale, '/')}>
-              <img src="/brand/nami-mark.svg" alt="" width="22" height="22" />
+              <NamiMark class="brand-mark" />
               <span>Nami UI</span>
             </a>
             <nami-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></nami-icon-button>

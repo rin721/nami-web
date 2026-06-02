@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+}
+
+const className = Astro.props.class ?? '';
+---
+
+<svg
+  class:list={['nami-mark', className]}
+  viewBox="291 222 660 801"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    class="nami-mark-main"
+    d="M292 349 L291 850 L422 850 L423 535 L680 850 L651 1023 L767 1023 L931 349 L764 350 L709 671 L455 349 Z"
+  />
+  <path class="nami-mark-dots" d="M749 222 L826 222 L815 317 L767 317 Z" />
+  <path class="nami-mark-dots" d="M874 222 L951 222 L931 317 L882 317 Z" />
+</svg>

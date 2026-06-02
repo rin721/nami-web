@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../components/DocsLayout.astro';
+import NamiMark from '../../components/NamiMark.astro';
 import { docsLocales, localizedPath, t, type DocsLocale } from '../../lib/site';
 
 export function getStaticPaths() {
@@ -14,10 +15,7 @@ const { locale } = Astro.props as { locale: DocsLocale };
     <div class="hero-copy">
       <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>
       <h1 class="hero-title">
-        <picture class="hero-title-icon" aria-hidden="true">
-          <source srcset="/brand/nami-mark-night.svg" media="(prefers-color-scheme: dark)" />
-          <img src="/brand/nami-mark.svg" alt="" width="660" height="801" />
-        </picture>
+        <NamiMark class="hero-title-icon" />
         <span>Nami UI</span>
       </h1>
       <p class="hero-subtitle">{t(locale, 'home.subtitle')}</p>
