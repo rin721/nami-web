@@ -1,0 +1,27 @@
+{
+  "name": "ui-labs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build:packages && npm run build:apps",
+    "build:packages": "npm run build --workspace @rin-labs/tokens && npm run build --workspace @rin-labs/themes && npm run build --workspace @rin-labs/ui",
+    "build:apps": "npm run build --workspace @rin-labs/docs && npm run build --workspace @rin-labs/playground",
+    "test": "npm run test --workspace @rin-labs/tokens && npm run test --workspace @rin-labs/ui",
+    "test:browser": "playwright test",
+    "dev": "npm run dev --workspace @rin-labs/playground",
+    "manifest": "npm run manifest --workspace @rin-labs/ui"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@playwright/test": "^1.60.0",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0",
+    "vitest": "^4.0.0"
+  }
+}

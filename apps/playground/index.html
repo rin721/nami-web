@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rin Labs UI Playground</title>
+  </head>
+  <body>
+    <rl-theme id="theme" theme="light" density="comfortable" style-preset="default" accent="#3b82f6">
+      <rl-app-shell>
+        <div slot="rail" class="rail-stack">
+          <rl-icon-button label="Home" selected><span slot="icon">H</span></rl-icon-button>
+          <rl-icon-button label="Search"><span slot="icon">S</span></rl-icon-button>
+          <rl-icon-button label="Settings" id="open-drawer"><span slot="icon">G</span></rl-icon-button>
+        </div>
+        <div slot="top" class="mobile-bar">
+          <strong>Rin UI</strong>
+          <rl-icon-button label="Settings" id="open-drawer-mobile"><span slot="icon">G</span></rl-icon-button>
+        </div>
+        <div slot="bottom" class="bottom-nav">
+          <rl-icon-button label="Home" selected><span slot="icon">H</span></rl-icon-button>
+          <rl-icon-button label="Search"><span slot="icon">S</span></rl-icon-button>
+          <rl-icon-button label="Settings"><span slot="icon">G</span></rl-icon-button>
+        </div>
+
+        <main class="page">
+          <section class="hero">
+            <div>
+              <p class="eyebrow">Accent-driven Web Components</p>
+              <h1>Deep interaction system, replaceable skin.</h1>
+              <p class="copy">The default surface is neutral, but hover, focus, selected, ripple, shadow, and dark mode all follow the same accent seed.</p>
+            </div>
+            <div class="theme-tools">
+              <rl-button id="toggle-theme" variant="soft">Toggle theme</rl-button>
+              <rl-button id="notify">Show toast</rl-button>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="section-title">
+              <h2>Soft Controls</h2>
+              <rl-chip checkbox selected value="keyword">Keyword</rl-chip>
+              <rl-chip checkbox value="tag">Tag</rl-chip>
+              <rl-chip checkbox value="user">User</rl-chip>
+            </div>
+            <div class="toolbar">
+              <rl-button>Primary</rl-button>
+              <rl-button variant="soft">Soft</rl-button>
+              <rl-button variant="outline">Outline</rl-button>
+              <rl-button variant="ghost">Ghost</rl-button>
+              <rl-icon-button label="Favorite"><span slot="icon">F</span></rl-icon-button>
+            </div>
+          </section>
+
+          <section class="grid">
+            <rl-radio-card selected value="blue" label="Neutral Blue" description="Community default theme."></rl-radio-card>
+            <rl-radio-card value="green" label="System Green" description="Only the accent seed changes."></rl-radio-card>
+            <rl-radio-card value="violet" label="Soft Violet" description="Component source remains untouched."></rl-radio-card>
+          </section>
+
+          <section class="panel">
+            <rl-tab-bar value="Overview">
+              <button value="Overview">Overview</button>
+              <button value="Tokens">Tokens</button>
+              <button value="Motion">Motion</button>
+            </rl-tab-bar>
+            <div class="form-row">
+              <rl-input label="Search" placeholder="Try a token name" helper-text="Focus ring, border, and text colors are token-driven.">
+                <span slot="icon">/</span>
+              </rl-input>
+              <rl-switch checked>Reduced decoration</rl-switch>
+            </div>
+          </section>
+
+        </main>
+      </rl-app-shell>
+
+      <rl-drawer id="drawer" placement="left">
+        <h2 slot="label">Theme skin</h2>
+        <p>Change the accent to verify that the deep interaction model stays intact.</p>
+        <div class="swatches">
+          <button data-accent="#3b82f6" style="--swatch: #3b82f6">Blue</button>
+          <button data-accent="#14b8a6" style="--swatch: #14b8a6">Teal</button>
+          <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">Violet</button>
+        </div>
+        <div class="theme-settings">
+          <rl-chip id="density-toggle" checkbox value="compact">Compact density</rl-chip>
+          <rl-switch id="motion-toggle">Reduced motion</rl-switch>
+          <rl-chip id="style-toggle" checkbox value="illustration">Illustration style</rl-chip>
+        </div>
+      </rl-drawer>
+      <rl-dialog id="dialog" label="Replaceable surface">
+        Components consume semantic and component tokens. The visible skin can change without editing component internals.
+        <rl-button slot="actions" id="close-dialog" variant="soft">Close</rl-button>
+      </rl-dialog>
+    </rl-theme>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

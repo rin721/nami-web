@@ -1,0 +1,107 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/tokens.json",
+  "seed": {
+    "accent": {
+      "50": {
+        "$type": "color",
+        "$value": "#3b82f6"
+      }
+    },
+    "radius": {
+      "control": {
+        "$type": "dimension",
+        "$value": "999px"
+      },
+      "surface": {
+        "$type": "dimension",
+        "$value": "6px"
+      }
+    },
+    "motion": {
+      "fast": {
+        "$type": "duration",
+        "$value": "120ms"
+      },
+      "normal": {
+        "$type": "duration",
+        "$value": "250ms"
+      },
+      "exit": {
+        "$type": "duration",
+        "$value": "150ms"
+      }
+    },
+    "style": {
+      "strokeWidth": {
+        "$type": "dimension",
+        "$value": "1px"
+      },
+      "strokeColor": {
+        "$type": "color",
+        "$value": "{semantic.color.border}"
+      },
+      "offsetShadow": {
+        "$type": "shadow",
+        "$value": "none"
+      },
+      "controlBg": {
+        "$type": "color",
+        "$value": "transparent"
+      },
+      "panelBg": {
+        "$type": "color",
+        "$value": "{semantic.color.surface}"
+      },
+      "paperBg": {
+        "$type": "color",
+        "$value": "#fff7fb"
+      },
+      "borderRadius": {
+        "$type": "dimension",
+        "$value": "{seed.radius.surface}"
+      }
+    }
+  },
+  "semantic": {
+    "color": {
+      "primary": {
+        "$type": "color",
+        "$value": "{seed.accent.50}"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "#ffffff"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "#171717"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.12)"
+      }
+    }
+  },
+  "component": {
+    "button": {
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color.primary}"
+      }
+    },
+    "illustration": {
+      "primary": {
+        "$type": "color",
+        "$value": "{semantic.color.primary}"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "#8ec5ff"
+      },
+      "line": {
+        "$type": "color",
+        "$value": "#5b6472"
+      }
+    }
+  }
+}
