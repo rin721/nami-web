@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.1",
+    "@lucide/astro": "^1.17.0",
     "@rin-labs/themes": "0.1.0",
     "@rin-labs/tokens": "0.1.0",
     "@rin-labs/ui": "0.1.0",

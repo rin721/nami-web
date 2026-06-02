@@ -25,20 +25,12 @@ rin-docs-theme-designer {
   display: block;
 }
 
-rl-app-shell::part(rail) {
-  width: 188px;
-}
-
-rl-app-shell::part(control) {
-  padding-left: 188px;
-}
-
 .rail-stack {
-  align-items: stretch;
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 14px 10px;
+  padding: 8px 0;
 }
 
 .rail-stack a {
@@ -46,29 +38,66 @@ rl-app-shell::part(control) {
   border-radius: var(--rl-radius-control);
   color: var(--rl-icon-color);
   display: inline-flex;
-  gap: 10px;
   font-weight: 800;
-  min-height: 40px;
-  justify-content: flex-start;
-  padding: 0 10px;
+  height: 40px;
+  justify-content: center;
+  position: relative;
   text-decoration: none;
-  width: auto;
+  width: 40px;
 }
 
 .rail-icon {
   align-items: center;
-  background: var(--rl-hover-overlay);
-  border-radius: var(--rl-radius-control);
   display: inline-flex;
-  font-size: 0.75rem;
-  height: 24px;
+  height: 20px;
   justify-content: center;
-  width: 24px;
+  width: 20px;
 }
 
-.rail-label {
+.rail-icon svg {
+  display: block;
+  height: 20px;
+  width: 20px;
+}
+
+.rail-stack a::after {
+  background: var(--rl-surface-overlay);
+  border: 1px solid var(--rl-border);
+  border-radius: var(--rl-radius-control);
+  box-shadow: var(--rl-app-shell-shadow, 0 12px 32px color-mix(in oklab, var(--rl-shadow-color), transparent 72%));
   color: var(--rl-text);
+  content: attr(data-label);
   font-size: 0.875rem;
+  font-weight: 800;
+  left: calc(100% + 10px);
+  line-height: 1;
+  opacity: 0;
+  padding: 9px 11px;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-4px, -50%);
+  transition: opacity var(--rl-duration-fast) var(--rl-motion-standard), transform var(--rl-duration-fast) var(--rl-motion-standard);
+  white-space: nowrap;
+  z-index: 50;
+}
+
+.rail-stack a::before {
+  background: var(--rl-surface-overlay);
+  border: 1px solid var(--rl-border);
+  border-right: 0;
+  border-top: 0;
+  content: '';
+  height: 8px;
+  left: calc(100% + 6px);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-4px, -50%) rotate(45deg);
+  transition: opacity var(--rl-duration-fast) var(--rl-motion-standard), transform var(--rl-duration-fast) var(--rl-motion-standard);
+  width: 8px;
+  z-index: 51;
 }
 
 .rail-stack a:hover {
@@ -76,9 +105,17 @@ rl-app-shell::part(control) {
   color: var(--rl-color-primary);
 }
 
-.rail-stack a[aria-current='page'] .rail-icon {
-  background: var(--rl-color-primary);
-  color: var(--rl-text-inverse);
+.rail-stack a:hover::after,
+.rail-stack a:hover::before,
+.rail-stack a:focus-visible::after,
+.rail-stack a:focus-visible::before {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+.rail-stack a:focus-visible {
+  outline: 2px solid var(--rl-focus-ring);
+  outline-offset: 2px;
 }
 
 .rail-stack a[aria-current='page'],
@@ -783,14 +820,6 @@ pre code {
 }
 
 @media (width <= 639px) {
-  rl-app-shell::part(rail) {
-    width: 56px;
-  }
-
-  rl-app-shell::part(control) {
-    padding-left: 0;
-  }
-
   .docs-page {
     gap: 32px;
     padding: 28px 16px 88px;

@@ -195,9 +195,11 @@ test('Astro shell keeps visual state across static routes and uses responsive ap
       const rail = shell.shadowRoot?.querySelector('[part="rail"]') as HTMLElement;
       const top = shell.shadowRoot?.querySelector('[part="top"]') as HTMLElement;
       const bottom = shell.shadowRoot?.querySelector('[part="bottom"]') as HTMLElement;
+      const control = shell.shadowRoot?.querySelector('[part="control"]') as HTMLElement;
       return {
         rail: getComputedStyle(rail).display,
         railWidth: getComputedStyle(rail).width,
+        controlPaddingLeft: getComputedStyle(control).paddingLeft,
         top: getComputedStyle(top).display,
         bottom: getComputedStyle(bottom).display
       };
@@ -209,12 +211,42 @@ test('Astro shell keeps visual state across static routes and uses responsive ap
   const mobile = await readShellSlots();
 
   expect(desktop.rail).not.toBe('none');
-  expect(parseFloat(desktop.railWidth)).toBeGreaterThanOrEqual(180);
+  expect(parseFloat(desktop.railWidth)).toBeCloseTo(56, 0);
+  expect(parseFloat(desktop.controlPaddingLeft)).toBeCloseTo(56, 0);
   expect(desktop.top).toBe('none');
   expect(desktop.bottom).toBe('none');
   expect(mobile.rail).toBe('none');
   expect(mobile.top).not.toBe('none');
   expect(mobile.bottom).not.toBe('none');
+
+  await page.setViewportSize({ width: 1280, height: 780 });
+  const railNav = await page.locator('.rail-stack').evaluate((nav) => ({
+    text: nav.textContent?.trim() ?? '',
+    svgCount: nav.querySelectorAll('svg.lucide').length,
+    labelCount: nav.querySelectorAll('.rail-label').length,
+    labels: Array.from(nav.querySelectorAll('a')).map((item) => ({
+      aria: item.getAttribute('aria-label'),
+      data: item.getAttribute('data-label'),
+      title: item.getAttribute('title')
+    }))
+  }));
+  expect(railNav.text).toBe('');
+  expect(railNav.svgCount).toBe(6);
+  expect(railNav.labelCount).toBe(0);
+  expect(railNav.labels[0]).toEqual({ aria: '首页', data: '首页', title: '首页' });
+
+  await page.locator('.rail-stack a[aria-label="首页"]').hover();
+  await expect.poll(async () => page.locator('.rail-stack a[aria-label="首页"]').evaluate((item) => ({
+    content: getComputedStyle(item, '::after').content,
+    opacity: getComputedStyle(item, '::after').opacity
+  }))).toEqual({ content: '"首页"', opacity: '1' });
+
+  await page.goto('/en-US/');
+  await page.locator('.rail-stack a[aria-label="Home"]').hover();
+  await expect.poll(async () => page.locator('.rail-stack a[aria-label="Home"]').evaluate((item) => ({
+    content: getComputedStyle(item, '::after').content,
+    opacity: getComputedStyle(item, '::after').opacity
+  }))).toEqual({ content: '"Home"', opacity: '1' });
 
   await page.goto('/zh-CN/playground/theme-designer/');
   const designerRoot = page.locator('[data-theme-designer]');
