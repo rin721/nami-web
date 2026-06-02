@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "vite build"
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build && pagefind --site dist"
   },
   "dependencies": {
+    "@astrojs/mdx": "^6.0.1",
     "@rin-labs/themes": "0.1.0",
     "@rin-labs/tokens": "0.1.0",
     "@rin-labs/ui": "0.1.0",
-    "marked": "^18.0.4",
-    "vite": "^7.0.0"
+    "astro": "^6.4.2",
+    "i18next": "^26.3.0",
+    "pagefind": "^1.5.2",
+    "shiki": "^4.1.0"
   }
 }

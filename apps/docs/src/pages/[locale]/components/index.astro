@@ -1,0 +1,45 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import { componentGroups, componentPath, componentPreviews, groupTitle, metadataByName } from '../../../lib/catalog';
+import { docsLocales, t, type DocsLocale } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+---
+
+<DocsLayout locale={locale} title={t(locale, 'nav.components')}>
+  <section class="section">
+    <div class="section-heading">
+      <p class="eyebrow">{t(locale, 'nav.components')}</p>
+      <h2>Rin UI Components</h2>
+      <p>{t(locale, 'component.reference')}</p>
+    </div>
+    <div id="component-docs" class="component-docs">
+      {componentGroups.map((group) => (
+        <section class="component-group">
+          <h3>{groupTitle(group, locale)}</h3>
+          <div class="component-group-grid">
+            {group.names.map((name) => {
+              const item = metadataByName.get(name);
+              if (!item) return null;
+              return (
+                <rl-card data-component-card={item.name}>
+                  <div class="component-preview" set:html={componentPreviews.get(item.name) ?? item.usage} />
+                  <div class="component-copy">
+                    <rl-badge slot="header" variant="primary">{item.name}</rl-badge>
+                    <h3>{item.name}</h3>
+                    <p>{item.summary}</p>
+                    <a class="text-link" href={componentPath(locale, item.name)}>{t(locale, 'component.open')}</a>
+                  </div>
+                </rl-card>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+</DocsLayout>

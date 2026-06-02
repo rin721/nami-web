@@ -1,0 +1,22 @@
+---
+title: Style Presets
+group: Guide
+order: 3
+---
+
+# Style Presets
+
+The component source stays the same while the visual skin changes through tokens. The default preset is a neutral community UI. The illustration preset adds thick strokes, offset shadows, paper-like surfaces, and hand-drawn background texture.
+
+<rin-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-style-live%22%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Ch3%3EDefault%3C%2Fh3%3E%0A%20%20%20%20%3Crl-button%3EPrimary%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-chip%20checkbox%20selected%3ESelected%3C%2Frl-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%20%20%3Cdiv%20class%3D%22rl-theme-illustration%22%3E%0A%20%20%20%20%3Ch3%3EIllustration%3C%2Fh3%3E%0A%20%20%20%20%3Crl-button%3EPrimary%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-chip%20checkbox%20selected%3ESelected%3C%2Frl-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E"></rin-docs-live-demo>
+
+## Preset API
+
+```html
+<rl-theme style-preset="default"></rl-theme>
+<rl-theme style-preset="illustration"></rl-theme>
+<rl-theme style-preset="ant-illustration"></rl-theme>
+```
+
+`ant-illustration` remains a compatibility alias. The public behavior is the same as `illustration`.
+

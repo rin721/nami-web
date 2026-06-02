@@ -1,0 +1,22 @@
+---
+title: 主题引擎
+group: 指南
+order: 2
+---
+
+# 主题引擎
+
+`rl-theme` 是视觉主题边界。它控制嵌套组件的 seed accent、主题模式、密度、动效和 style preset。
+
+<rin-docs-live-demo data-code="%3Crl-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22light%22%20density%3D%22comfortable%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Crl-button%3E%E4%BF%9D%E5%AD%98%E4%BF%AE%E6%94%B9%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-input%20label%3D%22%E6%90%9C%E7%B4%A2%22%20placeholder%3D%22%E8%AF%95%E8%AF%95%20token%20%E5%90%8D%E7%A7%B0%22%3E%3C%2Frl-input%3E%0A%20%20%20%20%3Crl-switch%20checked%3E%E5%90%AF%E7%94%A8%3C%2Frl-switch%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Frl-theme%3E"></rin-docs-live-demo>
+
+## Token 层级
+
+| 层级 | 示例 | 作用 |
+| --- | --- | --- |
+| Seed | `--rl-accent-50`, `--rl-motion-normal` | 品牌和动效输入 |
+| Semantic | `--rl-color-primary`, `--rl-surface`, `--rl-text` | 跨组件共享语义 |
+| Component | `--rl-button-bg`, `--rl-chip-selected-bg` | 单组件覆盖边界 |
+
+hover、selected、focus、switch checked 和 loading indicator 都应该跟随同一个 accent seed。
+

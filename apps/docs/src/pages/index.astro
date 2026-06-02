@@ -1,0 +1,25 @@
+---
+import { defaultLocale, localizedPath } from '../lib/site';
+const target = localizedPath(defaultLocale, '/');
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <script is:inline>
+      const hash = window.location.hash.replace(/^#/, '');
+      if (hash.startsWith('/')) {
+        let normalized = hash.endsWith('/') ? hash : `${hash}/`;
+        if (!/^\/(zh-CN|en-US)(\/|$)/.test(normalized)) normalized = `/zh-CN${normalized}`;
+        window.location.replace(normalized);
+      } else {
+        window.location.replace('/zh-CN/');
+      }
+    </script>
+  </head>
+  <body>
+    <a href={target}>Rin UI</a>
+  </body>
+</html>

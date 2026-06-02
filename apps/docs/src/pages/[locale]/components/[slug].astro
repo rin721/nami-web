@@ -1,0 +1,33 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import ComponentReference from '../../../components/ComponentReference.astro';
+import { metadataByName, rlComponentMetadata } from '../../../lib/catalog';
+import { componentNameFromSlug, componentSlug, docsLocales, t, type DocsLocale } from '../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.flatMap((locale) =>
+    rlComponentMetadata.map((item) => ({
+      params: { locale, slug: componentSlug(item.name) },
+      props: { locale, item }
+    }))
+  );
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+const item = Astro.props.item ?? metadataByName.get(componentNameFromSlug(Astro.params.slug ?? ''));
+---
+
+<DocsLayout locale={locale} title={item?.name ?? t(locale, 'component.reference')}>
+  {item ? (
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{t(locale, 'component.reference')}</p>
+        <h2>{item.name}</h2>
+        <p>{item.summary}</p>
+      </div>
+      <ComponentReference item={item} locale={locale} />
+    </section>
+  ) : (
+    <rl-empty title={t(locale, 'notFound.title')}></rl-empty>
+  )}
+</DocsLayout>

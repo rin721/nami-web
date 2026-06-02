@@ -1,0 +1,37 @@
+---
+title: 主题算法
+group: 指南
+order: 3.5
+---
+
+# 主题算法
+
+Rin UI 的主题是确定性的。少量 seed 会沿着固定路径生成完整 token：
+
+| 层级 | 作用 |
+| --- | --- |
+| Seed | 用户选择的 accent、模式、圆角、密度、动效、对比度、风格 preset |
+| Palette / Map | 派生 accent 色阶和中性色辅助值 |
+| Semantic | primary、surface、text、border、focus、overlay 等语义角色 |
+| Component | button 背景、chip selected 背景、dialog 阴影等组件钩子 |
+| Style | 插画风格的墨线、纸张、描边、涂鸦、偏移阴影等风格身份 |
+
+<rin-docs-live-demo data-code="%3Crl-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22dark%22%20style-preset%3D%22illustration%22%20radius%3D%22soft%22%20contrast%3D%22high%22%3E%0A%20%20%3Crl-card%3E%0A%20%20%20%20%3Crl-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3E%E7%AE%97%E6%B3%95%E6%B4%BE%E7%94%9F%3C%2Frl-badge%3E%0A%20%20%20%20%3Crl-button%3E%E4%B8%BB%E8%A6%81%E6%8C%89%E9%92%AE%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-chip%20checkbox%20selected%20value%3D%22theme%22%3E%E9%80%89%E4%B8%AD%20token%3C%2Frl-chip%3E%0A%20%20%3C%2Frl-card%3E%0A%3C%2Frl-theme%3E"></rin-docs-live-demo>
+
+当工具需要在浏览器外读取同一套契约时，使用 `@rin-labs/tokens/theme`。
+
+```ts
+import { deriveRinTheme, themeToCssText } from '@rin-labs/tokens/theme';
+
+const theme = deriveRinTheme({
+  accent: '#14b8a6',
+  mode: 'dark',
+  stylePreset: 'illustration',
+  radius: 'soft',
+  contrast: 'high'
+});
+
+const css = themeToCssText(theme, '.my-rin-theme');
+```
+
+这套算法是 CSS-first 的。它不调用 AI 服务，只是让设计系统足够清晰，使人和工具都能理解。

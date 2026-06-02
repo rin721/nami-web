@@ -1,0 +1,106 @@
+---
+import '@rin-labs/themes/default.css';
+import '@rin-labs/themes/ant-illustration.css';
+import '../styles.css';
+import { ClientRouter } from 'astro:transitions';
+import { docsLocales, localizedPath, logicalPathFromUrl, t, type DocsLocale } from '../lib/site';
+
+interface Props {
+  locale: DocsLocale;
+  title?: string;
+  description?: string;
+}
+
+const { locale, title = 'Rin UI', description = t(locale, 'site.description') } = Astro.props;
+const logicalPath = logicalPathFromUrl(Astro.url.pathname, locale);
+const primary = [
+  { path: '/', label: t(locale, 'nav.home'), shortLabel: 'R' },
+  { path: '/docs/getting-started/', label: t(locale, 'nav.docs'), shortLabel: 'D' },
+  { path: '/components/', label: t(locale, 'nav.components'), shortLabel: 'C' },
+  { path: '/tokens/', label: t(locale, 'nav.tokens'), shortLabel: 'T' },
+  { path: '/playground/theme-designer/', label: t(locale, 'nav.designer'), shortLabel: 'D' }
+];
+
+function isActive(path: string) {
+  if (path === '/') return logicalPath === '/';
+  return logicalPath.startsWith(path);
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title === 'Rin UI' ? t(locale, 'site.title') : `${title} · Rin UI`}</title>
+    <script>
+      import '../scripts/register-rin.ts';
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <rl-config id="docs-config" locale={locale} dir="ltr">
+      <rl-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
+        <rl-app-shell>
+          <nav slot="rail" class="rail-stack" aria-label="Primary">
+            {primary.map((link) => (
+              <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'} title={link.label}>
+                {link.shortLabel}
+              </a>
+            ))}
+          </nav>
+          <div slot="top" class="mobile-bar">
+            <a class="brand-link" href={localizedPath(locale, '/')}>Rin UI</a>
+            <rl-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></rl-icon-button>
+          </div>
+          <nav slot="bottom" class="bottom-nav" aria-label="Mobile">
+            {primary.slice(0, 4).map((link) => (
+              <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <main class="docs-page">
+            <slot />
+          </main>
+        </rl-app-shell>
+        <rl-drawer id="docs-theme-drawer" placement="right">
+          <h2 slot="label">{t(locale, 'controls.theme')}</h2>
+          <div class="control-stack">
+            <rl-tab-bar data-locale-mode value={locale}>
+              {docsLocales.map((item) => <button value={item}>{item === 'zh-CN' ? '中文' : 'English'}</button>)}
+            </rl-tab-bar>
+            <rl-tab-bar data-theme-mode value="light">
+              <button value="light">{t(locale, 'controls.light')}</button>
+              <button value="dark">{t(locale, 'controls.dark')}</button>
+            </rl-tab-bar>
+            <div class="swatches" aria-label="Accent">
+              <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
+              <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
+              <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
+            </div>
+            <rl-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</rl-chip>
+            <rl-switch data-motion-toggle>{t(locale, 'controls.reduced')}</rl-switch>
+            <rl-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</rl-chip>
+            <rl-tab-bar data-radius-mode value="round">
+              <button value="sharp">{t(locale, 'controls.radiusSharp')}</button>
+              <button value="soft">{t(locale, 'controls.radiusSoft')}</button>
+              <button value="round">{t(locale, 'controls.radiusRound')}</button>
+            </rl-tab-bar>
+            <rl-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</rl-chip>
+            <rl-input label="Search" placeholder="Pagefind"></rl-input>
+          </div>
+        </rl-drawer>
+      </rl-theme>
+    </rl-config>
+    <script is:inline>
+      const hash = window.location.hash.replace(/^#/, '');
+      if (hash.startsWith('/')) {
+        let normalized = hash.endsWith('/') ? hash : `${hash}/`;
+        if (!/^\/(zh-CN|en-US)(\/|$)/.test(normalized)) normalized = `/zh-CN${normalized}`;
+        window.location.replace(normalized);
+      }
+    </script>
+  </body>
+</html>

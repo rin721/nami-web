@@ -4,4 +4,6 @@ artifacts/
 playwright-report/
 test-results/
 .vite/
+.astro/
+*.log
 *.tsbuildinfo

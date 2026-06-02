@@ -1,0 +1,34 @@
+---
+title: Getting Started
+group: Guide
+order: 1
+---
+
+# Getting Started
+
+Rin UI is a Lit-based Web Components library. It works in native HTML, Vue, React, and other frontend stacks because the public surface is standard custom elements, attributes, events, slots, CSS variables, and CSS parts.
+
+## Install
+
+```bash
+npm install @rin-labs/ui @rin-labs/themes
+```
+
+## Register all components
+
+<rin-docs-live-demo data-code="%3Crl-button%3EPrimary%20action%3C%2Frl-button%3E%0A%3Crl-button%20variant%3D%22soft%22%3ESecondary%20action%3C%2Frl-button%3E%0A%3Crl-chip%20checkbox%20selected%20value%3D%22docs%22%3EDocs%3C%2Frl-chip%3E"></rin-docs-live-demo>
+
+```ts
+import '@rin-labs/themes/default.css';
+import '@rin-labs/ui/register';
+```
+
+## Import one component
+
+```ts
+import '@rin-labs/themes/default.css';
+import '@rin-labs/ui/button';
+```
+
+Use the full register entry for documentation sites and prototypes. Use single component entries when an application needs a smaller dependency surface.
+

@@ -14,7 +14,7 @@ export class RlInput extends LitElement {
     placeholder: {},
     label: {},
     helperText: { attribute: 'helper-text' },
-    error: { reflect: true },
+    error: { reflect: true, useDefault: true },
     disabled: { type: Boolean, reflect: true },
     required: { type: Boolean, reflect: true }
   };

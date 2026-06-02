@@ -1,0 +1,26 @@
+---
+title: i18n
+group: Guide
+order: 7
+---
+
+# i18n
+
+Rin UI uses `@lit/localize` in runtime mode. The active locale can change without a page reload, and localized Lit components re-render when the locale module is ready.
+
+## Runtime boundary
+
+<rin-docs-live-demo data-code="%3Crl-config%20locale%3D%22zh-CN%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Crl-empty%20compact%3E%3C%2Frl-empty%3E%0A%20%20%20%20%3Crl-spinner%3E%3C%2Frl-spinner%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Frl-config%3E"></rin-docs-live-demo>
+
+`rl-config` is a global locale controller. It is separate from `rl-theme`, so language and visual theme remain independent.
+
+## Rules
+
+| Rule | Why |
+| --- | --- |
+| Use `msg()` for component fallback text | It lets `@lit/localize` extract and replace strings |
+| Use `msg(str\`...\`)` for dynamic plain text | It preserves placeholders for translation |
+| Keep long tutorials in locale Markdown files | Docs remain readable and easy to edit |
+| Do not concatenate translatable sentences | Word order changes by language |
+| Use `Intl` for dates and numbers | Formatting is locale specific |
+

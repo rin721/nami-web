@@ -1,0 +1,64 @@
+---
+import { t, type DocsLocale } from '../lib/site';
+
+interface Props {
+  locale: DocsLocale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">{t(locale, 'nav.lab')}</p>
+    <h2>{t(locale, 'lab.title')}</h2>
+    <p>{t(locale, 'lab.copy')}</p>
+  </div>
+  <div class="theme-lab-grid">
+    <rl-card>
+      <h3 slot="header">{t(locale, 'controls.theme')}</h3>
+      <div class="control-stack">
+        <rl-tab-bar data-theme-mode value="light">
+          <button value="light">{t(locale, 'controls.light')}</button>
+          <button value="dark">{t(locale, 'controls.dark')}</button>
+        </rl-tab-bar>
+        <div class="swatches">
+          <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
+          <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
+          <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
+        </div>
+        <rl-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</rl-chip>
+        <rl-switch data-motion-toggle>{t(locale, 'controls.reduced')}</rl-switch>
+        <rl-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</rl-chip>
+      </div>
+    </rl-card>
+    <rl-card>
+      <h3 slot="header">Live surface</h3>
+      <div class="theme-live-surface">
+        <rl-button>Primary action</rl-button>
+        <rl-button variant="soft">Soft action</rl-button>
+        <rl-chip checkbox selected value="active">Selected chip</rl-chip>
+        <rl-switch checked>Enabled</rl-switch>
+        <rl-radio-card selected label="Current skin" description="This card follows the current root theme."></rl-radio-card>
+      </div>
+    </rl-card>
+  </div>
+  <div class="theme-contract-grid">
+    <section class="theme-contract-stage" data-contract-stage="default-light">
+      <h3>Default light</h3>
+      <div class="contract-controls"><rl-button>Primary</rl-button><rl-chip checkbox selected value="default-light">Selected</rl-chip><rl-switch checked>On</rl-switch><rl-radio-card selected label="Card" description="Light neutral tokens."></rl-radio-card><rl-button loading>Loading</rl-button></div>
+    </section>
+    <section class="theme-contract-stage rl-theme-dark" data-contract-stage="default-dark">
+      <h3>Default dark</h3>
+      <div class="contract-controls"><rl-button>Primary</rl-button><rl-chip checkbox selected value="default-dark">Selected</rl-chip><rl-switch checked>On</rl-switch><rl-radio-card selected label="Card" description="Dark neutral tokens."></rl-radio-card><rl-button loading>Loading</rl-button></div>
+    </section>
+    <section class="theme-contract-stage rl-theme-illustration" data-contract-stage="illustration-light">
+      <h3>Illustration light</h3>
+      <div class="contract-controls"><rl-button>Primary</rl-button><rl-chip checkbox selected value="illustration-light">Selected</rl-chip><rl-switch checked>On</rl-switch><rl-radio-card selected label="Paper card" description="Light hand-drawn controls."></rl-radio-card><rl-button loading>Loading</rl-button></div>
+    </section>
+    <section class="theme-contract-stage rl-theme-dark rl-theme-illustration" data-contract-stage="illustration-dark">
+      <h3>Illustration dark</h3>
+      <div class="contract-controls"><rl-button>Primary</rl-button><rl-chip checkbox selected value="illustration-dark">Selected</rl-chip><rl-switch checked>On</rl-switch><rl-radio-card selected label="Night paper card" description="Dark shell, paper controls, ink stroke."></rl-radio-card><rl-button loading>Loading</rl-button></div>
+    </section>
+  </div>
+</section>

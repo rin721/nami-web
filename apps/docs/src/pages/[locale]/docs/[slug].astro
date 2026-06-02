@@ -1,0 +1,38 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import { isDocsLocale, type DocsLocale } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob('../../../content/docs/*/*.mdx');
+  const paths = await Promise.all(Object.entries(modules).map(async ([path, loader]) => {
+    const module = await loader() as { default: unknown; frontmatter: { title: string; group?: string; description?: string } };
+    const parts = path.replace(/\.(md|mdx)$/, '').split('/');
+    const locale = parts.at(-2) ?? 'zh-CN';
+    const slug = parts.at(-1) ?? 'overview';
+    return {
+      params: { locale, slug },
+      props: {
+        Content: module.default,
+        frontmatter: module.frontmatter,
+        locale: locale as DocsLocale,
+        slug
+      }
+    };
+  }));
+  return paths.filter((item) => isDocsLocale(item.params.locale));
+}
+
+const { Content, frontmatter, locale, slug } = Astro.props;
+---
+
+<DocsLayout locale={locale} title={frontmatter.title} description={frontmatter.description}>
+  <section class="section markdown-route">
+    <div class="section-heading">
+      <p class="eyebrow">{frontmatter.group ?? 'Guide'}</p>
+      <h2>{frontmatter.title}</h2>
+    </div>
+    <article id={`doc-${slug}`} class="markdown-page">
+      <Content />
+    </article>
+  </section>
+</DocsLayout>

@@ -264,8 +264,12 @@ describe('@rin-labs/ui components', () => {
   it('updates input error state and emits typed value changes', async () => {
     const input = document.createElement('rl-input') as RlInput;
     input.label = 'Search';
-    input.error = 'Required';
     document.body.append(input);
+    await input.updateComplete;
+
+    expect(input.hasAttribute('error')).toBe(false);
+
+    input.error = 'Required';
     await input.updateComplete;
 
     let detail: unknown = null;

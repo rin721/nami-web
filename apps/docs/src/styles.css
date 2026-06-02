@@ -11,16 +11,17 @@ body {
   margin: 0;
 }
 
-rin-docs-app,
-rin-docs-router,
-rin-docs-home,
-rin-docs-markdown-page,
-rin-docs-component-index,
-rin-docs-component-page,
-rin-docs-tokens-page,
-rin-docs-theme-lab,
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 180ms;
+    animation-timing-function: var(--rl-motion-standard);
+  }
+}
+
 rin-docs-live-demo,
-rin-docs-code-block {
+rin-docs-code-block,
+rin-docs-theme-designer {
   display: block;
 }
 
@@ -64,10 +65,33 @@ rin-docs-code-block {
   padding: 0 14px;
 }
 
+.brand-link {
+  align-items: center;
+  background: var(--rl-hover-overlay);
+  border: 1px solid var(--rl-border);
+  border-radius: var(--rl-radius-control);
+  color: var(--rl-text);
+  display: inline-flex;
+  font-weight: 900;
+  min-height: 36px;
+  padding: 0 12px;
+  text-decoration: none;
+}
+
+.brand-link:hover {
+  background: var(--rl-accent-hover-overlay);
+  color: var(--rl-color-primary);
+}
+
 .bottom-nav a {
+  align-items: center;
+  border-radius: var(--rl-radius-control);
   color: var(--rl-text-muted);
+  display: inline-flex;
   font-size: 0.875rem;
   font-weight: 700;
+  min-height: 34px;
+  padding: 0 10px;
   text-decoration: none;
 }
 

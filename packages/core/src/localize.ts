@@ -11,7 +11,13 @@ const localeLoaders: Record<RlTargetLocaleCode, () => Promise<LocaleModule>> = {
   'zh-CN': () => import('./generated/locales/zh-CN')
 };
 
-const localization = configureLocalization({
+type RlLocalization = ReturnType<typeof configureLocalization>;
+
+const localizationStore = globalThis as typeof globalThis & {
+  __rinLabsLocalization?: RlLocalization;
+};
+
+const localization = localizationStore.__rinLabsLocalization ??= configureLocalization({
   sourceLocale,
   targetLocales,
   loadLocale: (locale) => localeLoaders[locale as RlTargetLocaleCode]()
@@ -30,4 +36,3 @@ export function normalizeLocale(locale: string | null | undefined): RlLocaleCode
 export function setLocale(locale: string) {
   return localization.setLocale(normalizeLocale(locale));
 }
-

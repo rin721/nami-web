@@ -1,0 +1,22 @@
+---
+title: Theme Engine
+group: Guide
+order: 2
+---
+
+# Theme Engine
+
+`rl-theme` is the theme boundary. It controls the seed accent, theme mode, density, motion, and style preset for all nested components.
+
+<rin-docs-live-demo data-code="%3Crl-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22light%22%20density%3D%22comfortable%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Crl-button%3ESave%20changes%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-input%20label%3D%22Search%22%20placeholder%3D%22Try%20a%20token%20name%22%3E%3C%2Frl-input%3E%0A%20%20%20%20%3Crl-switch%20checked%3EEnabled%3C%2Frl-switch%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Frl-theme%3E"></rin-docs-live-demo>
+
+## Token Layers
+
+| Layer | Examples | Purpose |
+| --- | --- | --- |
+| Seed | `--rl-accent-50`, `--rl-motion-normal` | Brand and motion inputs |
+| Semantic | `--rl-color-primary`, `--rl-surface`, `--rl-text` | Shared meaning |
+| Component | `--rl-button-bg`, `--rl-chip-selected-bg` | Per-component control |
+
+Interactive states are expected to follow the same accent seed: hover, selected, focus, switch checked, and loading indicators.
+

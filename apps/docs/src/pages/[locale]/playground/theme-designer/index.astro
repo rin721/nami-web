@@ -1,0 +1,15 @@
+---
+import DocsLayout from '../../../../components/DocsLayout.astro';
+import ThemeDesigner from '../../../../components/ThemeDesigner.astro';
+import { docsLocales, t, type DocsLocale } from '../../../../lib/site';
+
+export function getStaticPaths() {
+  return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: DocsLocale };
+---
+
+<DocsLayout locale={locale} title={t(locale, 'nav.designer')}>
+  <ThemeDesigner locale={locale} />
+</DocsLayout>

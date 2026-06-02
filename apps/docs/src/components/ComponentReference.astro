@@ -1,0 +1,54 @@
+---
+import type { RlComponentMetadata } from '@rin-labs/ui';
+import { componentPreviews } from '../lib/catalog';
+import { t, type DocsLocale } from '../lib/site';
+
+interface Props {
+  item: RlComponentMetadata;
+  locale: DocsLocale;
+}
+
+const { item, locale } = Astro.props;
+const preview = componentPreviews.get(item.name) ?? item.usage;
+const encodedUsage = encodeURIComponent(item.usage);
+
+function list(values: string[]) {
+  return values.length > 0 ? values.join(', ') : 'none';
+}
+---
+
+<div class="component-reference" id="component-docs">
+  <rl-card>
+    <rl-badge slot="header" variant="primary">{item.name}</rl-badge>
+    <section class="component-preview" aria-label={t(locale, 'component.preview')} set:html={preview} />
+    <p>{item.summary}</p>
+    <section>
+      <h3>{t(locale, 'component.usage')}</h3>
+      <rin-docs-code-block data-language="html" data-code={encodedUsage}></rin-docs-code-block>
+    </section>
+    <section>
+      <h3>{t(locale, 'component.api')}</h3>
+      <dl>
+        <dt>Category</dt><dd>{item.category}</dd>
+        <dt>Attributes</dt><dd>{list(item.attributes)}</dd>
+        <dt>Properties</dt><dd>{list(item.properties)}</dd>
+        <dt>Events</dt><dd>{list(item.events)}</dd>
+        <dt>Slots</dt><dd>{list(item.slots)}</dd>
+        <dt>Parts</dt><dd>{list(item.parts)}</dd>
+        <dt>States</dt><dd>{list(item.states)}</dd>
+      </dl>
+    </section>
+    <section class="semantic-anatomy">
+      <h3>{t(locale, 'component.anatomy')}</h3>
+      <ul>
+        {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
+      </ul>
+      <h3>{t(locale, 'component.hooks')}</h3>
+      <ul>
+        {item.styleHooks.map((hook) => <li><code>{hook.part}:{hook.state}</code> {hook.tokens.join(', ')}</li>)}
+      </ul>
+      <h3>{t(locale, 'component.tokens')}</h3>
+      <p>{list(item.tokens)}</p>
+    </section>
+  </rl-card>
+</div>
