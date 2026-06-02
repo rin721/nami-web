@@ -51,6 +51,7 @@ function syncTopProgressOptions(progress: NamiTopProgressElement, options: TopPr
   progress.duration = duration;
   progress.setAttribute('height', String(height));
   progress.setAttribute('duration', String(duration));
+  progress.style.setProperty('--nami-transition-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-duration', `${duration}ms`);
   if (options.variant) {
@@ -72,6 +73,8 @@ function syncTopProgressOptions(progress: NamiTopProgressElement, options: TopPr
 function setPageTransition(active: boolean, options: PageTransitionOptions = {}) {
   const transition = readPageTransition();
   if (!transition) return;
+  const settings = readDocsSettings();
+  transition.style.setProperty('--nami-transition-progress-height', `${settings.transition.barHeight}px`);
   if (options.appearance) {
     transition.appearance = options.appearance;
     transition.setAttribute('appearance', options.appearance);

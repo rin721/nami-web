@@ -112,6 +112,14 @@ nami-theme[style-preset='ant-illustration'],
   --nami-soft-control-border-color: var(--nami-style-stroke-color);
   --nami-switch-thumb-shadow: 2px 2px 0 var(--nami-style-ink-color);
   --nami-spinner-track-color: color-mix(in oklab, currentColor, transparent 64%);
+  --nami-transition-progress-height: 5px;
+  --nami-page-transition-z-index: 2147483646;
+  --nami-top-progress-height: var(--nami-transition-progress-height);
+  --nami-top-progress-duration: 220ms;
+  --nami-top-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), #fff 78%);
+  --nami-top-progress-fill-bg: var(--nami-color-primary);
+  --nami-top-progress-shadow: 0 4px 0 var(--nami-style-ink-color);
+  --nami-top-progress-z-index: 2147483647;
   --nami-app-shell-border-width: var(--nami-style-stroke-width);
   --nami-app-shell-shadow: 4px 0 0 #2f2f2f;
   --nami-empty-bg: var(--nami-style-control-bg);
@@ -203,6 +211,8 @@ nami-theme[theme='dark'][style-preset='ant-illustration'],
   --nami-empty-title-color: var(--nami-style-on-paper);
   --nami-empty-description-color: var(--nami-style-on-paper-muted);
   --nami-spinner-track-color: color-mix(in oklab, currentColor, transparent 58%);
+  --nami-top-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-style-panel-bg) 68%);
+  --nami-top-progress-shadow: 0 4px 0 #050506;
   --nami-illus-secondary: color-mix(in oklab, var(--nami-color-primary), #fff 38%);
   --nami-illus-accent: #ffd166;
   --nami-illus-muted: color-mix(in oklab, var(--nami-style-on-paper-muted), transparent 24%);

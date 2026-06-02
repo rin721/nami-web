@@ -97,6 +97,14 @@ nami-theme {
   --nami-radio-card-selected-shadow: 0 0 0 1px var(--nami-color-primary), var(--nami-focus-ring);
   --nami-switch-thumb-shadow: 0 1px 4px color-mix(in oklab, var(--nami-shadow-color), transparent 64%);
   --nami-spinner-track-color: color-mix(in oklab, currentColor, transparent 72%);
+  --nami-transition-progress-height: 4px;
+  --nami-page-transition-z-index: 2147483646;
+  --nami-top-progress-height: var(--nami-transition-progress-height);
+  --nami-top-progress-duration: 220ms;
+  --nami-top-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%);
+  --nami-top-progress-fill-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%);
+  --nami-top-progress-shadow: 0 8px 24px color-mix(in oklab, var(--nami-color-primary), transparent 78%);
+  --nami-top-progress-z-index: 2147483647;
   --nami-illus-primary: var(--nami-color-primary);
   --nami-illus-secondary: var(--nami-accent-20);
   --nami-illus-accent: #f5b84b;

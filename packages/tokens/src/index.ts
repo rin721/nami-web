@@ -163,6 +163,7 @@ export const componentTokens = [
   '--nami-result-radius',
   '--nami-result-shadow',
   '--nami-spinner-track-color',
+  '--nami-transition-progress-height',
   '--nami-page-transition-z-index',
   '--nami-top-progress-height',
   '--nami-top-progress-duration',

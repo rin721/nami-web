@@ -34,7 +34,7 @@ export type DocsSettingsState = {
   preferences: DocsPreferenceState;
 };
 
-export const docsSettingsStorageKey = 'nami-docs-settings:v1';
+export const docsSettingsStorageKey = 'nami-docs-settings:v2';
 const legacyVisualStorageKey = 'nami-docs-visual-state';
 
 export const defaultDocsSettings: DocsSettingsState = {
@@ -50,7 +50,7 @@ export const defaultDocsSettings: DocsSettingsState = {
   transition: {
     firstLoadAppearance: 'veil',
     routeBar: true,
-    barHeight: 12,
+    barHeight: 4,
     progressDuration: 220
   },
   preferences: {
@@ -93,7 +93,7 @@ function normalizeTransition(value: Partial<DocsTransitionState> = {}): DocsTran
   return {
     firstLoadAppearance: oneOf(value.firstLoadAppearance, ['veil', 'panel', 'none'] as const, defaultDocsSettings.transition.firstLoadAppearance),
     routeBar: typeof value.routeBar === 'boolean' ? value.routeBar : defaultDocsSettings.transition.routeBar,
-    barHeight: numberInRange(value.barHeight, defaultDocsSettings.transition.barHeight, 6, 24),
+    barHeight: numberInRange(value.barHeight, defaultDocsSettings.transition.barHeight, 2, 16),
     progressDuration: numberInRange(value.progressDuration, defaultDocsSettings.transition.progressDuration, 1, 900)
   };
 }
@@ -130,6 +130,7 @@ export function applyTopProgressElementSettings(element: HTMLElement | null, set
   if (!element) return;
   element.setAttribute('height', String(settings.transition.barHeight));
   element.setAttribute('duration', String(settings.transition.progressDuration));
+  element.style.setProperty('--nami-transition-progress-height', `${settings.transition.barHeight}px`);
   element.style.setProperty('--nami-top-progress-height', `${settings.transition.barHeight}px`);
   element.style.setProperty('--nami-top-progress-duration', `${settings.transition.progressDuration}ms`);
 }

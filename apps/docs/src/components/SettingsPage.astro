@@ -107,11 +107,13 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.barHeight')}</h3>
-            <nami-tab-bar data-progress-height-mode value="12">
-              <button value="8">8px</button>
-              <button value="12">12px</button>
-              <button value="16">16px</button>
-            </nami-tab-bar>
+            <nami-input
+              data-progress-height-input
+              type="number"
+              value="4"
+              label={locale === 'zh-CN' ? '进度高度（px）' : 'Progress height (px)'}
+              helper-text={locale === 'zh-CN' ? '2-16px；首屏揭幕与路由顶部进度共用。' : '2-16px; shared by first reveal and route progress.'}
+            ></nami-input>
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.progressDuration')}</h3>
@@ -124,9 +126,9 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
           <nami-card class="settings-preview-card">
             <h3 slot="header">{t(locale, 'settings.preview')}</h3>
             <div class="settings-transition-preview">
-              <nami-top-progress data-docs-top-progress-preview active variant="inline" progress="68" height="12" duration="0"></nami-top-progress>
+              <nami-top-progress data-docs-top-progress-preview active variant="inline" progress="68" height="4" duration="0"></nami-top-progress>
             </div>
-            <p>{locale === 'zh-CN' ? '轨道与填充保持同高，填充颜色跟随主题色。' : 'Track and fill share the same height, and the fill follows the accent color.'}</p>
+            <p>{locale === 'zh-CN' ? '轨道与填充保持同高；这个高度同时影响首屏揭幕进度和路由顶部进度。' : 'Track and fill share the same height; this value drives both the first reveal and route progress.'}</p>
           </nami-card>
         </div>
       )}

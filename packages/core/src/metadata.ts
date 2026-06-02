@@ -71,20 +71,20 @@ const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
     events: [],
     slots: ['default', 'icon'],
     parts: ['base', 'track', 'indicator', 'brand', 'panel', 'label'],
-    tokens: ['--nami-motion-fast', '--nami-motion-normal', '--nami-surface', '--nami-surface-overlay', '--nami-text', '--nami-color-primary', '--nami-border', '--nami-dialog-border-width', '--nami-dialog-radius', '--nami-dialog-shadow', '--nami-spinner-track-color', '--nami-style-background-pattern', '--nami-style-stroke-width', '--nami-page-transition-z-index'],
+    tokens: ['--nami-motion-fast', '--nami-motion-normal', '--nami-surface', '--nami-surface-overlay', '--nami-text', '--nami-color-primary', '--nami-border', '--nami-dialog-border-width', '--nami-dialog-radius', '--nami-dialog-shadow', '--nami-spinner-track-color', '--nami-style-background-pattern', '--nami-style-stroke-width', '--nami-transition-progress-height', '--nami-page-transition-z-index'],
     category: 'feedback',
     states: ['default', 'loading', 'active']
   },
   {
     name: 'nami-top-progress',
     summary: 'Route progress indicator with equal-height track and fill, designed for framework navigation hooks.',
-    usage: '<nami-top-progress active progress="64" height="12"></nami-top-progress>',
+    usage: '<nami-top-progress active progress="64" height="4"></nami-top-progress>',
     attributes: ['active', 'progress', 'height', 'duration', 'variant', 'label'],
     properties: ['active', 'progress', 'height', 'duration', 'variant', 'label', 'show()', 'set()', 'finish()', 'hide()', 'waitFor()'],
     events: [],
     slots: [],
     parts: ['base', 'track', 'indicator'],
-    tokens: ['--nami-top-progress-height', '--nami-top-progress-duration', '--nami-top-progress-track-bg', '--nami-top-progress-fill-bg', '--nami-top-progress-shadow', '--nami-top-progress-z-index'],
+    tokens: ['--nami-transition-progress-height', '--nami-top-progress-height', '--nami-top-progress-duration', '--nami-top-progress-track-bg', '--nami-top-progress-fill-bg', '--nami-top-progress-shadow', '--nami-top-progress-z-index'],
     category: 'feedback',
     states: ['default', 'loading', 'active']
   },

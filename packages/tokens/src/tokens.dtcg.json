@@ -249,6 +249,17 @@
       }
     },
     "pageTransition": {
+      "progressHeight": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "shared transition progress height",
+            "affectedComponents": ["nami-page-transition", "nami-top-progress"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
       "zIndex": {
         "$type": "number",
         "$value": 2147483646,
@@ -263,7 +274,7 @@
     "topProgress": {
       "height": {
         "$type": "dimension",
-        "$value": "12px",
+        "$value": "{component.pageTransition.progressHeight}",
         "$extensions": {
           "org.nami.theme": {
             "affectedComponents": ["nami-top-progress"],

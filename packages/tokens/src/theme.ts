@@ -376,8 +376,9 @@ function deriveComponent(seed: NamiResolvedThemeSeed): Record<string, string> {
     '--nami-app-shell-border-width': illustration ? 'var(--nami-style-stroke-width)' : '1px',
     '--nami-app-shell-shadow': illustration ? `4px 0 0 ${darkIllustration ? '#050506' : '#2f2f2f'}` : 'none',
     '--nami-spinner-track-color': transparent('currentColor', illustration ? 64 : 72),
+    '--nami-transition-progress-height': illustration ? '5px' : '4px',
     '--nami-page-transition-z-index': '2147483646',
-    '--nami-top-progress-height': illustration ? '14px' : '12px',
+    '--nami-top-progress-height': 'var(--nami-transition-progress-height)',
     '--nami-top-progress-duration': seed.motion === 'reduced' ? '1ms' : '220ms',
     '--nami-top-progress-track-bg': illustration
       ? (darkIllustration ? mix('var(--nami-color-primary)', 'var(--nami-style-panel-bg)', 68) : mix('var(--nami-color-primary)', '#fff', 78))

@@ -28,7 +28,7 @@ export class NamiTopProgress extends LitElement {
     componentHostStyles,
     css`
       :host {
-        --top-progress-height: var(--nami-top-progress-height, 12px);
+        --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
         --top-progress-duration: var(--nami-top-progress-duration, 220ms);
         --top-progress-track-bg: var(
           --nami-top-progress-track-bg,
@@ -149,7 +149,7 @@ export class NamiTopProgress extends LitElement {
     updateWhenLocaleChanges(this);
     this.active = false;
     this.duration = 220;
-    this.height = 12;
+    this.height = 4;
     this.label = '';
     this.progress = undefined;
     this.variant = 'fixed';

@@ -46,6 +46,7 @@ export class NamiPageTransition extends LitElement {
         );
         --page-transition-progress-bg: color-mix(in oklab, var(--nami-color-primary), transparent 88%);
         --page-transition-progress-fg: color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%);
+        --page-transition-progress-height: var(--nami-transition-progress-height, 4px);
         --page-transition-z-index: var(--nami-page-transition-z-index, 2147483646);
         color: var(--page-transition-panel-fg);
         display: contents;
@@ -129,7 +130,7 @@ export class NamiPageTransition extends LitElement {
         background: var(--page-transition-progress-bg);
         border-radius: 999px;
         display: block;
-        height: 4px;
+        height: var(--page-transition-progress-height);
         inline-size: min(100%, 180px);
         overflow: hidden;
       }

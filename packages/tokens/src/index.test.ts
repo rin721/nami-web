@@ -23,6 +23,7 @@ describe('@nami/tokens', () => {
     expect(componentTokens).toContain('--nami-switch-thumb-bg');
     expect(componentTokens).toContain('--nami-switch-thumb-shadow');
     expect(componentTokens).toContain('--nami-spinner-track-color');
+    expect(componentTokens).toContain('--nami-transition-progress-height');
     expect(componentTokens).toContain('--nami-page-transition-z-index');
     expect(componentTokens).toContain('--nami-top-progress-height');
     expect(componentTokens).toContain('--nami-top-progress-duration');
@@ -55,8 +56,9 @@ describe('@nami/tokens', () => {
     expect(dtcgTokens.component.switch.thumbBg.$value).toBe('{semantic.color.surface}');
     expect(dtcgTokens.component.switch.thumbShadow.$value).toContain('rgba');
     expect(dtcgTokens.component.spinner.trackColor.$value).toContain('rgba');
+    expect(dtcgTokens.component.pageTransition.progressHeight.$value).toBe('4px');
     expect(dtcgTokens.component.pageTransition.zIndex.$value).toBe(2147483646);
-    expect(dtcgTokens.component.topProgress.height.$value).toBe('12px');
+    expect(dtcgTokens.component.topProgress.height.$value).toBe('{component.pageTransition.progressHeight}');
     expect(dtcgTokens.component.topProgress.duration.$value).toBe('220ms');
     expect(dtcgTokens.component.topProgress.trackBg.$value).toContain('{semantic.color.surface}');
     expect(dtcgTokens.component.topProgress.fillBg.$value).toBe('{semantic.color.primary}');
@@ -83,14 +85,16 @@ describe('@nami/tokens', () => {
     expect(defaultTheme.cssVars['--nami-radius-control']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-contrast-level']).toBe('high');
     expect(defaultTheme.cssVars['--nami-button-border-width']).toBe('2px');
-    expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('12px');
+    expect(defaultTheme.cssVars['--nami-transition-progress-height']).toBe('4px');
+    expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(defaultTheme.cssVars['--nami-top-progress-duration']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-top-progress-track-bg']).toContain('var(--nami-surface)');
     expect(defaultTheme.cssVars['--nami-top-progress-fill-bg']).toContain('var(--nami-color-primary)');
 
     expect(illustrationTheme.cssVars['--nami-accent-50']).toBe('#8b5cf6');
     expect(illustrationTheme.cssVars['--nami-style-stroke-width']).toBe('4px');
-    expect(illustrationTheme.cssVars['--nami-top-progress-height']).toBe('14px');
+    expect(illustrationTheme.cssVars['--nami-transition-progress-height']).toBe('5px');
+    expect(illustrationTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(illustrationTheme.cssVars['--nami-style-on-paper']).toBe('#29221f');
     expect(illustrationTheme.cssVars['--nami-card-bg']).toBe('var(--nami-style-control-bg)');
     expect(illustrationTheme.cssVars['--nami-style-background-pattern']).toContain('radial-gradient');

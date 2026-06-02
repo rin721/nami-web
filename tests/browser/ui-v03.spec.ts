@@ -134,7 +134,7 @@ test('route navigation uses a filled top progress bar instead of a page-transiti
       sample.active &&
       sample.persisted === 'persisted' &&
       Number(sample.progress) > 0 &&
-      sample.trackHeight >= 8 &&
+      sample.trackHeight >= 3 &&
       Math.abs(sample.trackHeight - sample.indicatorHeight) <= 1 &&
       sample.trackBg !== 'rgba(0, 0, 0, 0)' &&
       sample.indicatorBg !== 'rgba(0, 0, 0, 0)' &&
@@ -256,11 +256,14 @@ test('settings transition route configures top progress preview and persisted ro
 
   await expect(page.locator('.settings-heading')).toContainText('页面过渡');
   await expect(page.locator('.settings-section-list')).toContainText('外观');
-  await expect(page.locator('nami-top-progress[data-docs-top-progress-preview]')).toHaveAttribute('height', '12');
+  await expect(page.locator('nami-top-progress[data-docs-top-progress-preview]')).toHaveAttribute('height', '4');
   await expect(page.locator('nami-top-progress[data-docs-top-progress-preview]')).toHaveAttribute('progress', '68');
-  await page.locator('[data-progress-height-mode] button[value="16"]').click();
-  await expect(page.locator('#docs-top-progress')).toHaveAttribute('height', '16');
-  await expect(page.locator('nami-top-progress[data-docs-top-progress-preview]')).toHaveAttribute('height', '16');
+  await page.locator('[data-progress-height-input]').evaluate((element) => {
+    (element as HTMLElement & { value: string }).value = '6';
+    element.dispatchEvent(new CustomEvent('nami-change', { bubbles: true, composed: true, detail: { value: '6' } }));
+  });
+  await expect(page.locator('#docs-top-progress')).toHaveAttribute('height', '6');
+  await expect(page.locator('nami-top-progress[data-docs-top-progress-preview]')).toHaveAttribute('height', '6');
 
   const preview = await page.locator('nami-top-progress[data-docs-top-progress-preview]').evaluate((element) => {
     const track = element.shadowRoot?.querySelector('[part~="track"]') as HTMLElement;
@@ -272,7 +275,7 @@ test('settings transition route configures top progress preview and persisted ro
       indicatorBg: getComputedStyle(indicator).backgroundColor
     };
   });
-  expect(preview.trackHeight).toBeGreaterThanOrEqual(16);
+  expect(preview.trackHeight).toBeGreaterThanOrEqual(6);
   expect(Math.abs(preview.trackHeight - preview.indicatorHeight)).toBeLessThanOrEqual(1);
   expect(preview.trackBg).not.toBe(preview.indicatorBg);
   expect(errors).toEqual([]);
