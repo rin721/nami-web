@@ -64,7 +64,7 @@ export class RlInput extends LitElement {
       input {
         background: transparent;
         border: 0;
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         flex: 1 1 auto;
         font: inherit;
         min-width: 0;
@@ -73,7 +73,7 @@ export class RlInput extends LitElement {
       }
 
       input::placeholder {
-        color: var(--rl-text-muted);
+        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
       }
 
       .meta {

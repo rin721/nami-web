@@ -22,7 +22,7 @@ export class RlRadioCard extends LitElement {
         background: var(--rl-radio-card-bg, var(--rl-surface-raised));
         border: var(--rl-radio-card-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-radio-card-border-color, var(--rl-border));
         border-radius: var(--rl-radio-card-radius, var(--rl-radius-surface, 6px));
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         cursor: pointer;
         display: grid;
         font: inherit;
@@ -104,7 +104,7 @@ export class RlRadioCard extends LitElement {
       }
 
       .description {
-        color: var(--rl-text-muted);
+        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
         font-size: 0.875rem;
       }
     `

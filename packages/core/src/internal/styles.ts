@@ -24,7 +24,7 @@ export const softControlStyles = css`
     background: var(--rl-soft-control-bg, transparent);
     border: var(--rl-soft-control-border-width, 0) solid var(--rl-soft-control-border-color, transparent);
     border-radius: var(--rl-radius-control, 999px);
-    color: var(--rl-icon-color, var(--rl-text-muted, #666b74));
+    color: var(--rl-soft-control-color, var(--rl-icon-color, var(--rl-text-muted, #666b74)));
     cursor: pointer;
     display: inline-flex;
     flex-shrink: 0;

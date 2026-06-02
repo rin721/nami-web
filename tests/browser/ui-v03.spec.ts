@@ -14,15 +14,21 @@ test('docs website renders markdown tutorials, live demos, and generated API', a
   const errors = captureConsoleErrors(page);
 
   await page.goto(docsUrl);
-  await expect(page.getByRole('heading', { name: 'Markdown tutorials for a token-driven Web Components library.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Rin UI' })).toBeVisible();
+  await expect(page.locator('[data-product-hero]')).toContainText('Web Components UI library for themeable apps.');
+  await expect(page.locator('#quick-start')).toContainText('Use standard elements');
+  await expect(page.locator('#theme-engine')).toContainText('Accent, mode, density, motion');
+  await expect(page.locator('#components')).toContainText('Browse the library surface');
   await expect(page.locator('#doc-index')).toContainText('Getting Started');
+  await expect(page.locator('#doc-index')).toContainText('Overview');
   await expect(page.locator('#doc-index')).toContainText('Quality');
-  await expect(page.locator('#markdown-docs')).toContainText('Rendered from Markdown');
+  await expect(page.locator('#markdown-guides')).toContainText('Tutorials are written as Markdown');
   await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
   await expect(page.locator('#doc-theme')).toContainText('Token Layers');
   await expect(page.locator('#doc-frameworks')).toContainText('Vue');
   await expect(page.locator('#component-docs')).toContainText('rl-empty');
   await expect(page.locator('#component-docs')).toContainText('rl-result');
+  await expect(page.locator('[data-component-card="rl-button"]')).toContainText('Primary command button');
 
   const markdownState = await page.evaluate(async () => {
     await customElements.whenDefined('rl-button');
@@ -39,7 +45,7 @@ test('docs website renders markdown tutorials, live demos, and generated API', a
     };
   });
 
-  expect(markdownState.liveCount).toBeGreaterThanOrEqual(5);
+  expect(markdownState.liveCount).toBeGreaterThanOrEqual(6);
   expect(markdownState.buttonDefined).toBe(true);
   expect(markdownState.chipDefined).toBe(true);
   expect(markdownState.hasOrdinaryCode).toBe(true);
@@ -52,7 +58,7 @@ test('docs app shell is responsive and theme controls update the root contract',
   await page.goto(docsUrl);
   const defaultStyle = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
-    const button = document.querySelector('.hero-preview rl-button');
+    const button = document.querySelector('.component-wall rl-button');
     const control = button?.shadowRoot?.querySelector('button');
     return {
       preset: theme?.getAttribute('style-preset'),
@@ -95,9 +101,10 @@ test('docs app shell is responsive and theme controls update the root contract',
 
   const themeState = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
-    const button = document.querySelector('.hero-preview rl-button');
+    const button = document.querySelector('.component-wall rl-button');
     const control = button?.shadowRoot?.querySelector('button');
     const shell = document.querySelector('rl-app-shell')?.shadowRoot?.querySelector('.shell');
+    const radio = document.querySelector('.component-wall rl-radio-card')?.shadowRoot?.querySelector('button');
     return {
       theme: theme?.getAttribute('theme'),
       accent: theme?.getAttribute('accent'),
@@ -106,7 +113,11 @@ test('docs app shell is responsive and theme controls update the root contract',
       stylePreset: theme?.getAttribute('style-preset'),
       dataStyle: theme?.getAttribute('data-rl-style'),
       accentVar: theme ? getComputedStyle(theme).getPropertyValue('--rl-accent-50').trim() : '',
+      onPaper: theme ? getComputedStyle(theme).getPropertyValue('--rl-style-on-paper').trim() : '',
+      paperBg: theme ? getComputedStyle(theme).getPropertyValue('--rl-style-control-bg').trim() : '',
       borderWidth: control ? getComputedStyle(control).borderTopWidth : '',
+      radioColor: radio ? getComputedStyle(radio).color : '',
+      radioBg: radio ? getComputedStyle(radio).backgroundColor : '',
       transition: control ? getComputedStyle(control).transitionDuration : '',
       pattern: shell ? getComputedStyle(shell).backgroundImage : ''
     };
@@ -119,7 +130,11 @@ test('docs app shell is responsive and theme controls update the root contract',
   expect(themeState.stylePreset).toBe('illustration');
   expect(themeState.dataStyle).toBe('illustration');
   expect(themeState.accentVar).toBe('#14b8a6');
+  expect(themeState.onPaper).toBe('#29221f');
+  expect(themeState.paperBg).toContain('color-mix');
   expect(themeState.borderWidth).toBe('3px');
+  expect(themeState.radioColor).not.toBe('rgb(255, 247, 237)');
+  expect(themeState.radioBg).not.toBe('rgb(33, 29, 41)');
   expect(themeState.transition).toContain('0.001s');
   expect(themeState.pattern).not.toBe('none');
   expect(errors).toEqual([]);
@@ -168,7 +183,13 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
         accent: style.getPropertyValue('--rl-accent-50').trim(),
         primary: style.getPropertyValue('--rl-color-primary').trim(),
         surface: style.getPropertyValue('--rl-surface').trim(),
+        surfaceRaised: style.getPropertyValue('--rl-surface-raised').trim(),
         text: style.getPropertyValue('--rl-text').trim(),
+        ink: style.getPropertyValue('--rl-style-ink-color').trim(),
+        onPaper: style.getPropertyValue('--rl-style-on-paper').trim(),
+        doodleOpacity: style.getPropertyValue('--rl-style-doodle-opacity').trim(),
+        paperLine: style.getPropertyValue('--rl-style-paper-line-color').trim(),
+        paperBg: style.getPropertyValue('--rl-style-control-bg').trim(),
         pattern: getComputedStyle(stage).backgroundImage,
         borderWidth: getComputedStyle(buttonControl).borderTopWidth,
         buttonBg: getComputedStyle(buttonControl).backgroundColor,
@@ -176,7 +197,11 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
         buttonTransition: getComputedStyle(buttonControl).transitionDuration,
         chipBg: getComputedStyle(chipControl).backgroundColor,
         switchBg: getComputedStyle(track).backgroundColor,
+        radioBg: getComputedStyle(radioControl).backgroundColor,
+        radioColor: getComputedStyle(radioControl).color,
         radioSelectedShadowToken: style.getPropertyValue('--rl-radio-card-selected-shadow').trim(),
+        softControlColorToken: style.getPropertyValue('--rl-soft-control-color').trim(),
+        switchThumbBgToken: style.getPropertyValue('--rl-switch-thumb-bg').trim(),
         switchThumbShadowToken: style.getPropertyValue('--rl-switch-thumb-shadow').trim(),
         spinnerTrackToken: style.getPropertyValue('--rl-spinner-track-color').trim(),
         spinnerBorderColor: getComputedStyle(spinnerIndicator).borderLeftColor
@@ -204,6 +229,9 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
   for (const state of Object.values(matrixState.teal)) {
     expect(state.accent).toBe('#14b8a6');
     expect(state.primary).toBe('#14b8a6');
+    expect(state.ink).not.toBe('');
+    expect(state.onPaper).not.toBe('');
+    expect(state.paperLine).not.toBe('');
     expect(state.radioSelectedShadowToken).not.toBe('');
     expect(state.switchThumbShadowToken).not.toBe('');
     expect(state.spinnerTrackToken).not.toBe('');
@@ -216,6 +244,16 @@ test('theme contract matrix covers dark illustration, density, motion, and compo
   expect(matrixState.teal['illustration-light'].text).not.toBe(matrixState.teal['illustration-dark'].text);
   expect(matrixState.teal['illustration-dark'].surface).not.toBe('#fffdf5');
   expect(matrixState.teal['illustration-dark'].text).not.toBe('#2f2f2f');
+  expect(matrixState.teal['illustration-dark'].surface).toBe('#131119');
+  expect(matrixState.teal['illustration-dark'].surfaceRaised).toBe('#211d29');
+  expect(matrixState.teal['illustration-dark'].ink).toBe('#261f1f');
+  expect(matrixState.teal['illustration-dark'].onPaper).toBe('#29221f');
+  expect(matrixState.teal['illustration-dark'].doodleOpacity).toBe('0.34');
+  expect(matrixState.teal['illustration-dark'].paperBg).toContain('color-mix');
+  expect(matrixState.teal['illustration-dark'].radioColor).not.toBe(matrixState.teal['illustration-dark'].text);
+  expect(matrixState.teal['illustration-dark'].radioBg).not.toBe(matrixState.teal['default-dark'].radioBg);
+  expect(matrixState.teal['illustration-dark'].softControlColorToken).toBe('#29221f');
+  expect(matrixState.teal['illustration-dark'].switchThumbBgToken).toContain('color-mix');
 
   expect(matrixState.teal['default-light'].borderWidth).toBe('1px');
   expect(matrixState.teal['illustration-light'].borderWidth).toBe('3px');

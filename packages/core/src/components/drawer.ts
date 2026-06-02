@@ -31,7 +31,7 @@ export class RlDrawer extends LitElement {
         background: var(--rl-drawer-bg, var(--rl-surface-overlay));
         border: var(--rl-drawer-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-drawer-border-color, var(--rl-border));
         box-shadow: var(--rl-drawer-shadow);
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         max-height: 100dvh;
         max-width: 100dvw;
         overflow: auto;

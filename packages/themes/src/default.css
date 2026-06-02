@@ -13,12 +13,17 @@ rl-theme {
   --rl-shadow-color: color-mix(in oklab, var(--rl-accent-50), #8a8f98 80%);
   --rl-style-stroke-width: 1px;
   --rl-style-stroke-color: var(--rl-border);
+  --rl-style-ink-color: var(--rl-text);
+  --rl-style-on-paper: var(--rl-text);
+  --rl-style-on-paper-muted: var(--rl-text-muted);
   --rl-style-offset-shadow: none;
   --rl-style-control-bg: transparent;
   --rl-style-panel-bg: var(--rl-surface-raised);
   --rl-style-paper-bg: var(--rl-surface);
   --rl-style-border-radius: var(--rl-radius-surface);
   --rl-style-background-pattern: none;
+  --rl-style-doodle-opacity: 0;
+  --rl-style-paper-line-color: var(--rl-border);
   --rl-style-focus-shadow: var(--rl-focus-ring);
   --rl-motion-fast: 120ms;
   --rl-motion-normal: 250ms;

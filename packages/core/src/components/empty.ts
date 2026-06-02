@@ -22,7 +22,7 @@ export class RlEmpty extends LitElement {
 
       .base {
         align-items: center;
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         display: grid;
         background: var(--rl-empty-bg, transparent);
         border: var(--rl-empty-border-width, 0) solid var(--rl-empty-border-color, transparent);

@@ -55,7 +55,7 @@ export class RlToast extends LitElement {
         border: var(--rl-toast-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-toast-border-color, var(--rl-border));
         border-radius: var(--rl-toast-radius, var(--rl-radius-surface, 6px));
         box-shadow: var(--rl-dialog-shadow);
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         display: flex;
         gap: var(--rl-space-3, 10px);
         min-height: 44px;
@@ -74,7 +74,7 @@ export class RlToast extends LitElement {
         background: transparent;
         border: 0;
         border-radius: var(--rl-radius-control, 999px);
-        color: var(--rl-icon-color);
+        color: var(--rl-style-on-paper-muted, var(--rl-icon-color));
         cursor: pointer;
         height: 30px;
         width: 30px;

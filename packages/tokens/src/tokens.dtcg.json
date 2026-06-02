@@ -40,6 +40,18 @@
         "$type": "color",
         "$value": "{semantic.color.border}"
       },
+      "inkColor": {
+        "$type": "color",
+        "$value": "{semantic.color.text}"
+      },
+      "onPaper": {
+        "$type": "color",
+        "$value": "{semantic.color.text}"
+      },
+      "onPaperMuted": {
+        "$type": "color",
+        "$value": "{semantic.color.textMuted}"
+      },
       "offsetShadow": {
         "$type": "shadow",
         "$value": "none"
@@ -64,6 +76,14 @@
         "$type": "string",
         "$value": "none"
       },
+      "doodleOpacity": {
+        "$type": "number",
+        "$value": 0
+      },
+      "paperLineColor": {
+        "$type": "color",
+        "$value": "{semantic.color.border}"
+      },
       "focusShadow": {
         "$type": "shadow",
         "$value": "{semantic.focus.ring}"
@@ -83,6 +103,10 @@
       "text": {
         "$type": "color",
         "$value": "#171717"
+      },
+      "textMuted": {
+        "$type": "color",
+        "$value": "#666b74"
       },
       "border": {
         "$type": "color",
@@ -114,9 +138,19 @@
       }
     },
     "switch": {
+      "thumbBg": {
+        "$type": "color",
+        "$value": "{semantic.color.surface}"
+      },
       "thumbShadow": {
         "$type": "shadow",
         "$value": "0 1px 4px rgba(0, 0, 0, 0.24)"
+      }
+    },
+    "softControl": {
+      "color": {
+        "$type": "color",
+        "$value": "{semantic.color.text}"
       }
     },
     "spinner": {

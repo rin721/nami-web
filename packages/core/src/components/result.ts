@@ -34,7 +34,7 @@ export class RlResult extends LitElement {
 
       .base {
         align-items: center;
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         display: grid;
         background: var(--rl-result-bg, transparent);
         border: var(--rl-result-border-width, 0) solid var(--rl-result-border-color, transparent);
@@ -51,21 +51,21 @@ export class RlResult extends LitElement {
       }
 
       .title {
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         font-size: var(--rl-result-title-size, 1.5rem);
         font-weight: 800;
         line-height: 1.25;
       }
 
       .description {
-        color: var(--rl-text-muted);
+        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
         font-size: var(--rl-result-subtitle-size, 0.95rem);
         line-height: 1.6;
         max-width: 54ch;
       }
 
       .body {
-        color: var(--rl-text-muted);
+        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
         max-width: 62ch;
         width: 100%;
       }

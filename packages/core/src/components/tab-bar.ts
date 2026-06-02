@@ -31,7 +31,7 @@ export class RlTabBar extends LitElement {
         background: var(--rl-tab-bg, transparent);
         border: var(--rl-tab-border-width, 0) solid var(--rl-tab-border-color, transparent);
         border-radius: var(--rl-tab-radius, var(--rl-radius-control, 999px));
-        color: var(--rl-icon-color);
+        color: var(--rl-style-on-paper, var(--rl-icon-color));
         cursor: pointer;
         min-height: var(--rl-control-height-md, 40px);
         padding: 0 14px;

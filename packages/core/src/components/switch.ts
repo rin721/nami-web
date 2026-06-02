@@ -46,7 +46,7 @@ export class RlSwitch extends LitElement {
       }
 
       .thumb {
-        background: var(--rl-surface-raised);
+        background: var(--rl-switch-thumb-bg, var(--rl-surface-raised));
         border-radius: 50%;
         box-shadow: var(--rl-switch-thumb-shadow, 0 1px 4px color-mix(in oklab, var(--rl-shadow-color), transparent 64%));
         height: 22px;

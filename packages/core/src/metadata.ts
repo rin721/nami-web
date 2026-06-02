@@ -20,7 +20,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern']
+    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-ink-color', '--rl-style-on-paper', '--rl-style-on-paper-muted', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern', '--rl-style-doodle-opacity', '--rl-style-paper-line-color']
   },
   {
     name: 'rl-spinner',
@@ -86,7 +86,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-click'],
     slots: ['default', 'icon'],
     parts: ['base', 'control', 'icon'],
-    tokens: ['--rl-icon-button-size', '--rl-soft-control-bg', '--rl-soft-control-border-width', '--rl-soft-control-border-color', '--rl-hover-overlay', '--rl-ripple']
+    tokens: ['--rl-icon-button-size', '--rl-soft-control-bg', '--rl-soft-control-color', '--rl-soft-control-border-width', '--rl-soft-control-border-color', '--rl-hover-overlay', '--rl-ripple']
   },
   {
     name: 'rl-chip',
@@ -119,7 +119,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-change'],
     slots: ['default'],
     parts: ['base', 'control', 'indicator', 'label'],
-    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-switch-thumb-shadow', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
+    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-switch-thumb-bg', '--rl-switch-thumb-shadow', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
   },
   {
     name: 'rl-radio-card',

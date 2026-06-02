@@ -22,7 +22,7 @@ export class RlChip extends LitElement {
         background: var(--rl-chip-bg, var(--rl-hover-overlay));
         border: var(--rl-chip-border-width, 0) solid var(--rl-chip-border-color, transparent);
         border-radius: var(--rl-chip-radius, var(--rl-radius-control, 999px));
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         cursor: pointer;
         display: inline-flex;
         font: inherit;

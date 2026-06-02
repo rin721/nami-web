@@ -18,7 +18,7 @@ export class RlDialog extends LitElement {
         border: var(--rl-dialog-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-dialog-border-color, var(--rl-border));
         border-radius: var(--rl-dialog-radius, var(--rl-radius-surface, 6px));
         box-shadow: var(--rl-dialog-shadow);
-        color: var(--rl-text);
+        color: var(--rl-style-on-paper, var(--rl-text));
         margin: auto;
         max-width: min(560px, calc(100vw - 32px));
         min-width: min(420px, calc(100vw - 32px));
@@ -55,7 +55,7 @@ export class RlDialog extends LitElement {
         background: transparent;
         border: 0;
         border-radius: var(--rl-radius-control, 999px);
-        color: var(--rl-icon-color);
+        color: var(--rl-style-on-paper-muted, var(--rl-icon-color));
         cursor: pointer;
         height: 36px;
         width: 36px;

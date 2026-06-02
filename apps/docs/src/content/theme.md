@@ -1,10 +1,10 @@
 ---
-title: Theme
+title: Theme Engine
 group: Guide
 order: 2
 ---
 
-# Theme
+# Theme Engine
 
 `rl-theme` is the theme boundary. It controls the seed accent, theme mode, density, motion, and style preset for all nested components.
 
@@ -27,3 +27,13 @@ order: 2
 | Component | `--rl-button-bg`, `--rl-chip-selected-bg` | Per-component control |
 
 Interactive states are expected to follow the same accent seed: hover, selected, focus, switch checked, and loading indicators.
+
+## Runtime Controls
+
+The docs site uses the same public API as an application:
+
+```html
+<rl-theme theme="dark" accent="#14b8a6" density="compact" motion="reduced" style-preset="illustration">
+  <rl-button>Save</rl-button>
+</rl-theme>
+```

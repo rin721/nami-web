@@ -10,18 +10,23 @@ rl-theme[style-preset='ant-illustration'],
   --rl-radius-tight: 8px;
   --rl-shadow-color: #2f2f2f;
   --rl-style-stroke-width: 3px;
-  --rl-style-stroke-color: #2f2f2f;
-  --rl-style-offset-shadow: 5px 5px 0 #2f2f2f;
+  --rl-style-ink-color: #2f2f2f;
+  --rl-style-stroke-color: var(--rl-style-ink-color);
+  --rl-style-on-paper: #2f2f2f;
+  --rl-style-on-paper-muted: #62656b;
+  --rl-style-offset-shadow: 5px 5px 0 var(--rl-style-ink-color);
   --rl-style-control-bg: #fffefe;
   --rl-style-panel-bg: color-mix(in oklab, #fff3f7, #fff 18%);
   --rl-style-paper-bg: #fff8fb;
   --rl-style-border-radius: 16px;
-  --rl-style-focus-shadow: 0 0 0 4px color-mix(in oklab, var(--rl-color-primary), transparent 70%), 4px 4px 0 #2f2f2f;
+  --rl-style-doodle-opacity: 0.42;
+  --rl-style-paper-line-color: color-mix(in oklab, var(--rl-style-ink-color), transparent 84%);
+  --rl-style-focus-shadow: 0 0 0 4px color-mix(in oklab, var(--rl-color-primary), transparent 70%), 4px 4px 0 var(--rl-style-ink-color);
   --rl-style-background-pattern:
-    radial-gradient(circle at 12% 22%, color-mix(in oklab, #8ed9ff, transparent 62%) 0 12px, transparent 13px),
-    radial-gradient(circle at 86% 16%, color-mix(in oklab, #ffd85d, transparent 48%) 0 9px, transparent 10px),
-    radial-gradient(circle at 72% 78%, color-mix(in oklab, #ffb7d0, transparent 64%) 0 18px, transparent 19px),
-    linear-gradient(135deg, transparent 0 46%, color-mix(in oklab, #2f2f2f, transparent 84%) 47% 49%, transparent 50%),
+    radial-gradient(circle at 12% 22%, rgb(142 217 255 / var(--rl-style-doodle-opacity)) 0 12px, transparent 13px),
+    radial-gradient(circle at 86% 16%, rgb(255 216 93 / var(--rl-style-doodle-opacity)) 0 9px, transparent 10px),
+    radial-gradient(circle at 72% 78%, rgb(255 183 208 / var(--rl-style-doodle-opacity)) 0 18px, transparent 19px),
+    linear-gradient(135deg, transparent 0 46%, var(--rl-style-paper-line-color) 47% 49%, transparent 50%),
     linear-gradient(25deg, transparent 0 70%, color-mix(in oklab, var(--rl-accent-50), transparent 82%) 71% 73%, transparent 74%);
   --rl-surface: #fffdf5;
   --rl-surface-raised: var(--rl-style-control-bg);
@@ -63,6 +68,7 @@ rl-theme[style-preset='ant-illustration'],
   --rl-input-radius: 12px;
   --rl-input-shadow: 3px 3px 0 #2f2f2f;
   --rl-switch-track-bg: #fffefe;
+  --rl-switch-thumb-bg: var(--rl-style-paper-bg);
   --rl-switch-border-width: var(--rl-style-stroke-width);
   --rl-switch-border-color: var(--rl-style-stroke-color);
   --rl-radio-card-bg: var(--rl-style-control-bg);
@@ -89,9 +95,10 @@ rl-theme[style-preset='ant-illustration'],
   --rl-toast-border-color: var(--rl-style-stroke-color);
   --rl-toast-radius: 14px;
   --rl-soft-control-bg: #fffefe;
+  --rl-soft-control-color: var(--rl-style-on-paper);
   --rl-soft-control-border-width: var(--rl-style-stroke-width);
   --rl-soft-control-border-color: var(--rl-style-stroke-color);
-  --rl-switch-thumb-shadow: 2px 2px 0 #2f2f2f;
+  --rl-switch-thumb-shadow: 2px 2px 0 var(--rl-style-ink-color);
   --rl-spinner-track-color: color-mix(in oklab, currentColor, transparent 64%);
   --rl-app-shell-border-width: var(--rl-style-stroke-width);
   --rl-app-shell-shadow: 4px 0 0 #2f2f2f;
@@ -115,8 +122,8 @@ rl-theme[style-preset='ant-illustration'],
   --rl-illus-size-md: 140px;
   --rl-illus-size-lg: 184px;
   --rl-empty-gap: 12px;
-  --rl-empty-title-color: var(--rl-text);
-  --rl-empty-description-color: var(--rl-text-muted);
+  --rl-empty-title-color: var(--rl-style-on-paper);
+  --rl-empty-description-color: var(--rl-style-on-paper-muted);
   --rl-result-title-size: 1.5rem;
   --rl-result-subtitle-size: 0.95rem;
   --rl-result-gap: 14px;
@@ -130,28 +137,33 @@ rl-theme[theme='dark'][style-preset='ant-illustration'],
 .rl-theme-dark.rl-theme-illustration,
 .rl-theme-dark.rl-theme-ant-illustration {
   --rl-shadow-color: #000;
-  --rl-style-stroke-color: #f3eadf;
-  --rl-style-offset-shadow: 5px 5px 0 #050506;
-  --rl-style-control-bg: #242128;
-  --rl-style-panel-bg: color-mix(in oklab, #2a232c, var(--rl-accent-50) 8%);
-  --rl-style-paper-bg: #1e1b22;
+  --rl-style-ink-color: #261f1f;
+  --rl-style-stroke-color: var(--rl-style-ink-color);
+  --rl-style-on-paper: #29221f;
+  --rl-style-on-paper-muted: #6b5f58;
+  --rl-style-offset-shadow: 6px 6px 0 #050506;
+  --rl-style-control-bg: color-mix(in oklab, #fff8ea, var(--rl-accent-50) 5%);
+  --rl-style-panel-bg: color-mix(in oklab, #fff1f5, var(--rl-accent-50) 7%);
+  --rl-style-paper-bg: color-mix(in oklab, #fffdf3, var(--rl-accent-50) 4%);
+  --rl-style-doodle-opacity: 0.34;
+  --rl-style-paper-line-color: rgb(38 31 31 / 0.18);
   --rl-style-focus-shadow: 0 0 0 4px color-mix(in oklab, var(--rl-color-primary), transparent 58%), 4px 4px 0 #050506;
   --rl-style-background-pattern:
-    radial-gradient(circle at 12% 22%, color-mix(in oklab, #8ed9ff, transparent 82%) 0 12px, transparent 13px),
-    radial-gradient(circle at 86% 16%, color-mix(in oklab, #ffd85d, transparent 76%) 0 9px, transparent 10px),
-    radial-gradient(circle at 72% 78%, color-mix(in oklab, #ffb7d0, transparent 82%) 0 18px, transparent 19px),
-    linear-gradient(135deg, transparent 0 46%, color-mix(in oklab, var(--rl-style-stroke-color), transparent 88%) 47% 49%, transparent 50%),
-    linear-gradient(25deg, transparent 0 70%, color-mix(in oklab, var(--rl-accent-50), transparent 76%) 71% 73%, transparent 74%);
-  --rl-surface: #16141a;
-  --rl-surface-raised: var(--rl-style-control-bg);
-  --rl-surface-inset: #1d2028;
-  --rl-surface-overlay: color-mix(in oklab, #242128, transparent 8%);
-  --rl-border: var(--rl-style-stroke-color);
-  --rl-border-strong: var(--rl-style-stroke-color);
+    radial-gradient(circle at 10% 18%, rgb(142 217 255 / var(--rl-style-doodle-opacity)) 0 14px, transparent 15px),
+    radial-gradient(circle at 88% 14%, rgb(255 216 93 / var(--rl-style-doodle-opacity)) 0 10px, transparent 11px),
+    radial-gradient(circle at 74% 80%, rgb(255 183 208 / var(--rl-style-doodle-opacity)) 0 20px, transparent 21px),
+    linear-gradient(135deg, transparent 0 46%, color-mix(in oklab, #fff7ed, transparent 82%) 47% 49%, transparent 50%),
+    linear-gradient(25deg, transparent 0 70%, color-mix(in oklab, var(--rl-accent-50), transparent 62%) 71% 73%, transparent 74%);
+  --rl-surface: #131119;
+  --rl-surface-raised: #211d29;
+  --rl-surface-inset: #191620;
+  --rl-surface-overlay: color-mix(in oklab, #211d29, transparent 12%);
+  --rl-border: color-mix(in oklab, #fff7ed, transparent 78%);
+  --rl-border-strong: color-mix(in oklab, #fff7ed, transparent 66%);
   --rl-text: #fff7ed;
-  --rl-text-muted: #cabfb2;
+  --rl-text-muted: #d0c4b7;
   --rl-text-inverse: #fff;
-  --rl-icon-color: #ded4c8;
+  --rl-icon-color: #f3eadf;
   --rl-hover-overlay: color-mix(in oklab, var(--rl-accent-50), transparent 84%);
   --rl-ripple: color-mix(in oklab, var(--rl-accent-50), transparent 72%);
   --rl-overlay-backdrop: color-mix(in oklab, #000, transparent 28%);
@@ -163,15 +175,19 @@ rl-theme[theme='dark'][style-preset='ant-illustration'],
   --rl-color-danger: #ff7875;
   --rl-accent-hover-overlay: color-mix(in oklab, var(--rl-accent-50), transparent 82%);
   --rl-button-fg: #fff;
-  --rl-chip-bg: color-mix(in oklab, var(--rl-accent-50), transparent 84%);
+  --rl-chip-bg: var(--rl-style-control-bg);
   --rl-input-bg: var(--rl-style-control-bg);
   --rl-switch-track-bg: var(--rl-style-control-bg);
+  --rl-switch-thumb-bg: var(--rl-style-paper-bg);
   --rl-soft-control-bg: var(--rl-style-control-bg);
+  --rl-soft-control-color: var(--rl-style-on-paper);
   --rl-switch-thumb-shadow: 2px 2px 0 #050506;
+  --rl-empty-title-color: var(--rl-style-on-paper);
+  --rl-empty-description-color: var(--rl-style-on-paper-muted);
   --rl-spinner-track-color: color-mix(in oklab, currentColor, transparent 58%);
   --rl-illus-secondary: color-mix(in oklab, var(--rl-color-primary), #fff 38%);
   --rl-illus-accent: #ffd166;
-  --rl-illus-muted: color-mix(in oklab, var(--rl-text-muted), transparent 34%);
+  --rl-illus-muted: color-mix(in oklab, var(--rl-style-on-paper-muted), transparent 24%);
   --rl-illus-bg: color-mix(in oklab, var(--rl-color-primary), transparent 84%);
 }
 
