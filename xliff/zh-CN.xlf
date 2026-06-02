@@ -236,19 +236,19 @@
 </trans-unit>
 <trans-unit id="docs.common.attributes">
   <source>Attributes</source>
-  <target>??</target>
+  <target>HTML 属性</target>
 </trans-unit>
 <trans-unit id="docs.common.properties">
   <source>Properties</source>
-  <target>Properties</target>
+  <target>JS 属性</target>
 </trans-unit>
 <trans-unit id="docs.common.events">
   <source>Events</source>
-  <target>??</target>
+  <target>事件</target>
 </trans-unit>
 <trans-unit id="docs.common.slots">
   <source>Slots</source>
-  <target>??</target>
+  <target>插槽</target>
 </trans-unit>
 <trans-unit id="docs.common.parts">
   <source>Parts</source>
@@ -256,7 +256,7 @@
 </trans-unit>
 <trans-unit id="docs.common.cssProperties">
   <source>CSS custom properties</source>
-  <target>CSS ?????</target>
+  <target>CSS 自定义属性</target>
 </trans-unit>
 <trans-unit id="docs.empty.routeTitle">
   <source>Route not found</source>
@@ -324,7 +324,7 @@
 </trans-unit>
 <trans-unit id="docs.tokens.seed">
   <source>Seed</source>
-  <target>Seed</target>
+  <target>Seed 输入</target>
 </trans-unit>
 <trans-unit id="docs.tokens.seedCopy">
   <source>Brand input and motion/radius defaults.</source>
@@ -332,7 +332,7 @@
 </trans-unit>
 <trans-unit id="docs.tokens.semantic">
   <source>Semantic</source>
-  <target>??</target>
+  <target>语义</target>
 </trans-unit>
 <trans-unit id="docs.tokens.semanticCopy">
   <source>Meaning shared across components.</source>
@@ -340,7 +340,7 @@
 </trans-unit>
 <trans-unit id="docs.tokens.component">
   <source>Component</source>
-  <target>??</target>
+  <target>组件</target>
 </trans-unit>
 <trans-unit id="docs.tokens.componentCopy">
   <source>Per-component override boundary.</source>
@@ -428,7 +428,7 @@
 </trans-unit>
 <trans-unit id="docs.tokens.coverageCount">
   <source><x id="0" equiv-text="${count}"/> token hooks are referenced by component metadata.</source>
-  <target><x id="0" equiv-text="${count}"/> ? token hooks ???? metadata ???</target>
+  <target>组件 metadata 引用了 <x id="0" equiv-text="${count}"/> 个 token hooks。</target>
 </trans-unit>
 <trans-unit id="docs.meta.rl-config.summary">
   <source>Global locale and text-direction boundary powered by @lit/localize.</source>
@@ -436,7 +436,7 @@
 </trans-unit>
 <trans-unit id="docs.meta.rl-theme.summary">
   <source>Theme, accent, density, motion, radius, contrast, and style preset boundary.</source>
-  <target>主题、主题色、密度和动效边界。</target>
+  <target>主题、主题色、密度、动效、圆角、对比度和风格 preset 边界。</target>
 </trans-unit>
 <trans-unit id="docs.meta.rl-spinner.summary">
   <source>Small loading indicator for async states.</source>
@@ -528,71 +528,71 @@
 </trans-unit>
 <trans-unit id="docs.nav.designer">
   <source>Designer</source>
-  <target>???</target>
+  <target>设计器</target>
 </trans-unit>
 <trans-unit id="docs.controls.radiusSharp">
   <source>Sharp radius</source>
-  <target>????</target>
+  <target>直角圆角</target>
 </trans-unit>
 <trans-unit id="docs.controls.radiusSoft">
   <source>Soft radius</source>
-  <target>????</target>
+  <target>柔和圆角</target>
 </trans-unit>
 <trans-unit id="docs.controls.radiusRound">
   <source>Round radius</source>
-  <target>????</target>
+  <target>圆形圆角</target>
 </trans-unit>
 <trans-unit id="docs.controls.highContrast">
   <source>High contrast</source>
-  <target>????</target>
+  <target>高对比度</target>
 </trans-unit>
 <trans-unit id="docs.common.category">
   <source>Category</source>
-  <target>??</target>
+  <target>分类</target>
 </trans-unit>
 <trans-unit id="docs.common.states">
   <source>States</source>
-  <target>??</target>
+  <target>状态</target>
 </trans-unit>
 <trans-unit id="docs.common.semanticAnatomy">
   <source>Semantic anatomy</source>
-  <target>????</target>
+  <target>语义结构</target>
 </trans-unit>
 <trans-unit id="docs.common.styleHooks">
   <source>Style hooks</source>
-  <target>????</target>
+  <target>样式钩子</target>
 </trans-unit>
 <trans-unit id="docs.designer.eyebrow">
   <source>Theme Designer</source>
-  <target>?????</target>
+  <target>主题设计器</target>
 </trans-unit>
 <trans-unit id="docs.designer.title">
   <source>Open algorithm, semantic output</source>
-  <target>?????????</target>
+  <target>开放算法，语义输出</target>
 </trans-unit>
 <trans-unit id="docs.designer.copy">
   <source>Edit seed values, inspect derived tokens, and copy deterministic CSS variables without any AI service dependency.</source>
-  <target>?? seed ?????? token???????? CSS ???????? AI ???</target>
+  <target>编辑 seed 值，查看派生 token，并复制确定性的 CSS 变量，不依赖任何 AI 服务。</target>
 </trans-unit>
 <trans-unit id="docs.designer.seedControls">
   <source>Seed controls</source>
-  <target>Seed ??</target>
+  <target>Seed 控制</target>
 </trans-unit>
 <trans-unit id="docs.designer.preview">
   <source>Resolved preview</source>
-  <target>????</target>
+  <target>派生预览</target>
 </trans-unit>
 <trans-unit id="docs.designer.tokenTree">
   <source>Derived token tree</source>
-  <target>?? token ?</target>
+  <target>派生 token 树</target>
 </trans-unit>
 <trans-unit id="docs.designer.generatedCss">
   <source>Generated CSS</source>
-  <target>??? CSS</target>
+  <target>生成的 CSS</target>
 </trans-unit>
 <trans-unit id="docs.designer.affected">
   <source>Affected components</source>
-  <target>?????</target>
+  <target>受影响组件</target>
 </trans-unit>
 </body>
 </file>
