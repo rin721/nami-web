@@ -59,6 +59,14 @@
       "borderRadius": {
         "$type": "dimension",
         "$value": "{seed.radius.surface}"
+      },
+      "backgroundPattern": {
+        "$type": "string",
+        "$value": "none"
+      },
+      "focusShadow": {
+        "$type": "shadow",
+        "$value": "{semantic.focus.ring}"
       }
     }
   },
@@ -79,6 +87,16 @@
       "border": {
         "$type": "color",
         "$value": "rgba(0, 0, 0, 0.12)"
+      },
+      "overlayBackdrop": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.48)"
+      }
+    },
+    "focus": {
+      "ring": {
+        "$type": "shadow",
+        "$value": "0 0 0 3px rgba(59, 130, 246, 0.38)"
       }
     }
   },
@@ -87,6 +105,24 @@
       "bg": {
         "$type": "color",
         "$value": "{semantic.color.primary}"
+      }
+    },
+    "radioCard": {
+      "selectedShadow": {
+        "$type": "shadow",
+        "$value": "0 0 0 1px {semantic.color.primary}, {semantic.focus.ring}"
+      }
+    },
+    "switch": {
+      "thumbShadow": {
+        "$type": "shadow",
+        "$value": "0 1px 4px rgba(0, 0, 0, 0.24)"
+      }
+    },
+    "spinner": {
+      "trackColor": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.28)"
       }
     },
     "illustration": {

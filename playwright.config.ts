@@ -10,20 +10,12 @@ export default defineConfig({
     baseURL: 'http://127.0.0.1:5173',
     trace: 'on-first-retry'
   },
-  webServer: [
-    {
-      command: 'npm run dev --workspace @rin-labs/playground -- --port 5173',
-      url: 'http://127.0.0.1:5173',
-      reuseExistingServer: true,
-      timeout: 30_000
-    },
-    {
-      command: 'npm run dev --workspace @rin-labs/docs -- --port 5174',
-      url: 'http://127.0.0.1:5174',
-      reuseExistingServer: true,
-      timeout: 30_000
-    }
-  ],
+  webServer: {
+    command: 'npm run dev --workspace @rin-labs/docs -- --port 5173',
+    url: 'http://127.0.0.1:5173',
+    reuseExistingServer: true,
+    timeout: 30_000
+  },
   projects: [
     {
       name: 'chromium',

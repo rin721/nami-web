@@ -34,7 +34,7 @@ export class RlSpinner extends LitElement {
 
       .indicator {
         animation: rl-spinner-rotate 900ms linear infinite;
-        border: 2px solid color-mix(in oklab, currentColor, transparent 72%);
+        border: 2px solid var(--rl-spinner-track-color, color-mix(in oklab, currentColor, transparent 72%));
         border-radius: 50%;
         border-top-color: currentColor;
         display: inline-block;

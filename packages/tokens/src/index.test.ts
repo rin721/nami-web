@@ -8,8 +8,12 @@ describe('@rin-labs/tokens', () => {
     expect(seedTokens).toContain('--rl-style-stroke-width');
     expect(seedTokens).toContain('--rl-style-offset-shadow');
     expect(semanticTokens).toContain('--rl-focus-ring');
+    expect(semanticTokens).toContain('--rl-overlay-backdrop');
     expect(componentTokens).toContain('--rl-chip-selected-bg');
     expect(componentTokens).toContain('--rl-illus-primary');
+    expect(componentTokens).toContain('--rl-radio-card-selected-shadow');
+    expect(componentTokens).toContain('--rl-switch-thumb-shadow');
+    expect(componentTokens).toContain('--rl-spinner-track-color');
   });
 
   it('keeps the motion contract explicit', () => {
@@ -20,6 +24,10 @@ describe('@rin-labs/tokens', () => {
   it('keeps a DTCG-style token source for future generation', () => {
     expect(dtcgTokens.seed.accent['50'].$value).toBe('#3b82f6');
     expect(dtcgTokens.seed.style.strokeWidth.$value).toBe('1px');
+    expect(dtcgTokens.semantic.color.overlayBackdrop.$value).toBe('rgba(0, 0, 0, 0.48)');
+    expect(dtcgTokens.component.radioCard.selectedShadow.$value).toContain('{semantic.color.primary}');
+    expect(dtcgTokens.component.switch.thumbShadow.$value).toContain('rgba');
+    expect(dtcgTokens.component.spinner.trackColor.$value).toContain('rgba');
     expect(dtcgTokens.component.illustration.primary.$value).toBe('{semantic.color.primary}');
   });
 });

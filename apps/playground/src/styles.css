@@ -110,6 +110,63 @@ h1 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.theme-matrix {
+  display: grid;
+  gap: 18px;
+}
+
+.theme-matrix .section-title {
+  align-items: end;
+}
+
+.theme-matrix .section-title p {
+  color: var(--rl-text-muted);
+  flex: 1 1 320px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.theme-contract-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.theme-contract-stage {
+  background: var(--rl-surface-raised);
+  border: 1px solid var(--rl-border);
+  border-radius: var(--rl-radius-surface);
+  color: var(--rl-text);
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.theme-contract-stage.rl-theme-illustration {
+  background-color: var(--rl-surface);
+  background-image: var(--rl-style-background-pattern);
+  background-size: 360px 260px, 320px 220px, 420px 300px, 180px 180px, 240px 240px;
+  border-color: var(--rl-style-stroke-color);
+  border-width: var(--rl-style-stroke-width);
+  box-shadow: var(--rl-style-offset-shadow);
+}
+
+.theme-contract-stage h3 {
+  margin: 0;
+}
+
+.contract-controls {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contract-controls rl-radio-card {
+  flex: 1 1 100%;
+}
+
 .illustration-grid {
   display: grid;
   gap: 14px;
@@ -156,7 +213,17 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .theme-contract-grid {
+    grid-template-columns: 1fr;
+  }
+
   .illustration-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (640px <= width <= 1040px) {
+  .theme-contract-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

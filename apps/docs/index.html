@@ -3,149 +3,192 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rin Labs UI Docs</title>
+    <title>Rin UI Documentation</title>
   </head>
   <body>
-    <rl-theme id="docs-theme" theme="light" density="comfortable" motion="normal" accent="#3b82f6">
+    <rl-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" accent="#3b82f6">
       <rl-app-shell>
         <nav slot="rail" class="rail-stack" aria-label="Docs sections">
           <a href="#overview" aria-label="Overview">O</a>
-          <a href="#theme" aria-label="Theme">T</a>
-          <a href="#style-presets" aria-label="Style Presets">S</a>
-          <a href="#components" aria-label="Components">C</a>
-          <a href="#frameworks" aria-label="Frameworks">F</a>
+          <a href="#getting-started" aria-label="Getting Started">G</a>
+          <a href="#theme-lab" aria-label="Theme Lab">T</a>
+          <a href="#markdown-docs" aria-label="Tutorials">M</a>
+          <a href="#component-api" aria-label="Components">C</a>
+          <a href="#quality" aria-label="Quality">Q</a>
         </nav>
+
         <div slot="top" class="mobile-bar">
-          <strong>Rin UI Docs</strong>
+          <strong>Rin UI</strong>
           <rl-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></rl-icon-button>
         </div>
+
         <nav slot="bottom" class="bottom-nav" aria-label="Docs sections">
-          <a href="#overview">Overview</a>
-          <a href="#theme">Theme</a>
-          <a href="#style-presets">Styles</a>
-          <a href="#components">API</a>
+          <a href="#overview">Home</a>
+          <a href="#theme-lab">Theme</a>
+          <a href="#markdown-docs">Docs</a>
+          <a href="#component-api">API</a>
         </nav>
 
         <main class="docs-page">
           <section id="overview" class="hero">
-            <p class="eyebrow">Rin Labs UI v0.5</p>
-            <h1>Stable Web Components, replaceable skins.</h1>
-            <p class="lead">A Lit-based component library with fixed interaction rules, typed events, token-driven themes, and framework-neutral delivery.</p>
-            <div class="hero-actions">
-              <rl-button id="docs-open-theme">Theme controls</rl-button>
-              <rl-button variant="soft" id="docs-show-toast">Show toast</rl-button>
+            <div class="hero-copy">
+              <p class="eyebrow">Rin UI v0.8</p>
+              <h1>Markdown tutorials for a token-driven Web Components library.</h1>
+              <p class="lead">Build with Lit custom elements, replaceable skins, typed metadata, live Markdown examples, and a docs site that tests the same contracts it teaches.</p>
+              <div class="hero-actions">
+                <rl-button id="docs-open-theme">Theme controls</rl-button>
+                <rl-button variant="soft" id="docs-show-toast">Show toast</rl-button>
+              </div>
             </div>
+            <section class="hero-preview" aria-label="Interactive component preview">
+              <div class="preview-toolbar">
+                <rl-chip checkbox selected value="docs">Docs</rl-chip>
+                <rl-chip checkbox value="theme">Theme</rl-chip>
+                <rl-icon-button label="Favorite" selected><span slot="icon">F</span></rl-icon-button>
+              </div>
+              <rl-input label="Search" placeholder="Try a token name" helper-text="Theme, border, and focus state are token-driven.">
+                <span slot="icon">/</span>
+              </rl-input>
+              <rl-radio-card selected label="Replaceable skin" description="Default and illustration presets share one component source."></rl-radio-card>
+              <div class="preview-actions">
+                <rl-button>Primary</rl-button>
+                <rl-button variant="soft">Soft</rl-button>
+              </div>
+            </section>
           </section>
 
-          <section id="theme" class="section">
+          <section id="getting-started" class="section">
             <div class="section-heading">
-              <p class="eyebrow">Theme Contract</p>
-              <h2>Seed, semantic, component tokens</h2>
+              <p class="eyebrow">Website Map</p>
+              <h2>One official site, Markdown-driven tutorials</h2>
+              <p>The site shell stays interactive while tutorial pages are authored as Markdown files and rendered into this page.</p>
             </div>
-            <div class="token-grid">
-              <article>
-                <h3>Seed</h3>
-                <code>--rl-accent-50</code>
-                <code>--rl-font-sans</code>
-                <code>--rl-radius-control</code>
-                <code>--rl-motion-normal</code>
-              </article>
-              <article>
-                <h3>Semantic</h3>
-                <code>--rl-color-primary</code>
-                <code>--rl-surface</code>
-                <code>--rl-text-muted</code>
-                <code>--rl-focus-ring</code>
-              </article>
-              <article>
-                <h3>Component</h3>
-                <code>--rl-button-bg</code>
-                <code>--rl-chip-selected-bg</code>
-                <code>--rl-dialog-shadow</code>
-                <code>--rl-toast-bg</code>
-              </article>
-            </div>
+            <div id="doc-index" class="doc-index"></div>
           </section>
 
-          <section class="section">
+          <section id="theme-lab" class="section">
             <div class="section-heading">
-              <p class="eyebrow">Examples</p>
-              <h2>Component states</h2>
+              <p class="eyebrow">Theme Lab</p>
+              <h2>Switch the contract, not the components</h2>
+              <p>Accent, dark mode, density, motion, and style preset all flow through one <code>rl-theme</code> boundary.</p>
             </div>
-            <div class="example-row">
-              <rl-button>Primary</rl-button>
-              <rl-button variant="soft">Soft</rl-button>
-              <rl-button loading>Loading</rl-button>
-              <rl-icon-button label="Favorite" selected><span slot="icon">F</span></rl-icon-button>
-              <rl-chip checkbox selected value="community">Community</rl-chip>
-              <rl-switch checked>Enabled</rl-switch>
+            <div class="theme-lab-grid">
+              <article class="theme-panel">
+                <h3>Controls</h3>
+                <div class="control-stack">
+                  <rl-tab-bar id="docs-theme-mode" value="light">
+                    <button value="light">Light</button>
+                    <button value="dark">Dark</button>
+                  </rl-tab-bar>
+                  <div class="swatches">
+                    <button data-accent="#3b82f6" style="--swatch: #3b82f6">Blue</button>
+                    <button data-accent="#14b8a6" style="--swatch: #14b8a6">Teal</button>
+                    <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">Violet</button>
+                  </div>
+                  <rl-chip id="docs-compact" checkbox value="compact">Compact density</rl-chip>
+                  <rl-switch id="docs-reduced-motion">Reduced motion</rl-switch>
+                  <rl-chip id="docs-illustration-style" checkbox value="illustration">Illustration style</rl-chip>
+                </div>
+              </article>
+              <article class="theme-panel">
+                <h3>Live surface</h3>
+                <div class="theme-live-surface">
+                  <rl-button>Primary action</rl-button>
+                  <rl-button variant="soft">Soft action</rl-button>
+                  <rl-chip checkbox selected value="active">Selected chip</rl-chip>
+                  <rl-switch checked>Enabled</rl-switch>
+                  <rl-radio-card selected label="Current skin" description="This card follows the current root theme."></rl-radio-card>
+                </div>
+              </article>
             </div>
           </section>
 
           <section id="style-presets" class="section">
             <div class="section-heading">
-              <p class="eyebrow">Style Presets</p>
-              <h2>Same components, different skins</h2>
-              <p>Both skins consume the same accent seed; the illustration preset changes shape language, not the theme-control model.</p>
+              <p class="eyebrow">Theme Contract Matrix</p>
+              <h2>Default and illustration share the same rules</h2>
+              <p>These four stages prove light, dark, accent, density, motion, and component token boundaries together.</p>
             </div>
-            <div class="preset-compare">
-              <section class="preset-stage">
-                <h3>Default style</h3>
-                <div class="preset-demo">
+            <div class="theme-contract-grid">
+              <section class="theme-contract-stage" data-contract-stage="default-light">
+                <h3>Default light</h3>
+                <div class="contract-controls">
                   <rl-button>Primary</rl-button>
-                  <rl-button variant="soft">Soft</rl-button>
-                  <rl-chip checkbox selected value="default">Chip</rl-chip>
-                  <rl-input label="Keyword" placeholder="Search tokens"></rl-input>
-                  <rl-radio-card selected label="Neutral" description="Default community skin."></rl-radio-card>
-                  <rl-empty title="No matching content" description="Try changing the filter.">
-                    <rl-button slot="actions" variant="soft">Create item</rl-button>
-                  </rl-empty>
+                  <rl-chip checkbox selected value="default-light">Selected</rl-chip>
+                  <rl-switch checked>On</rl-switch>
+                  <rl-radio-card selected label="Card" description="Light neutral tokens."></rl-radio-card>
+                  <rl-button loading>Loading</rl-button>
                 </div>
               </section>
-              <section class="preset-stage rl-theme-illustration">
-                <h3>Illustration style</h3>
-                <div class="preset-demo">
+              <section class="theme-contract-stage rl-theme-dark" data-contract-stage="default-dark">
+                <h3>Default dark</h3>
+                <div class="contract-controls">
                   <rl-button>Primary</rl-button>
-                  <rl-button variant="soft">Soft</rl-button>
-                  <rl-chip checkbox selected value="illustration">Chip</rl-chip>
-                  <rl-input label="Keyword" placeholder="Search tokens"></rl-input>
-                  <rl-radio-card selected label="Hand drawn" description="Same component source, different theme preset."></rl-radio-card>
-                  <rl-result status="success" title="Operation complete" sub-title="The workflow finished with illustration tokens.">
-                    <rl-button slot="actions">Continue</rl-button>
-                  </rl-result>
+                  <rl-chip checkbox selected value="default-dark">Selected</rl-chip>
+                  <rl-switch checked>On</rl-switch>
+                  <rl-radio-card selected label="Card" description="Dark neutral tokens."></rl-radio-card>
+                  <rl-button loading>Loading</rl-button>
+                </div>
+              </section>
+              <section class="theme-contract-stage rl-theme-illustration" data-contract-stage="illustration-light">
+                <h3>Illustration light</h3>
+                <div class="contract-controls">
+                  <rl-button>Primary</rl-button>
+                  <rl-chip checkbox selected value="illustration-light">Selected</rl-chip>
+                  <rl-switch checked>On</rl-switch>
+                  <rl-radio-card selected label="Card" description="Light hand-drawn tokens."></rl-radio-card>
+                  <rl-button loading>Loading</rl-button>
+                </div>
+              </section>
+              <section class="theme-contract-stage rl-theme-dark rl-theme-illustration" data-contract-stage="illustration-dark">
+                <h3>Illustration dark</h3>
+                <div class="contract-controls">
+                  <rl-button>Primary</rl-button>
+                  <rl-chip checkbox selected value="illustration-dark">Selected</rl-chip>
+                  <rl-switch checked>On</rl-switch>
+                  <rl-radio-card selected label="Card" description="Dark hand-drawn tokens."></rl-radio-card>
+                  <rl-button loading>Loading</rl-button>
                 </div>
               </section>
             </div>
           </section>
 
-          <section id="components" class="section">
+          <section id="markdown-docs" class="section">
+            <div class="section-heading">
+              <p class="eyebrow">Tutorials</p>
+              <h2>Rendered from Markdown</h2>
+              <p>Markdown can teach with prose, tables, ordinary code blocks, and live Web Components examples.</p>
+            </div>
+            <div id="markdown-pages" class="markdown-pages"></div>
+          </section>
+
+          <section id="component-api" class="section">
             <div class="section-heading">
               <p class="eyebrow">Component API</p>
-              <h2>Attributes, events, slots, parts</h2>
+              <h2>Metadata-generated reference</h2>
+              <p>Attributes, events, slots, parts, and token hooks come from the library metadata.</p>
             </div>
             <div id="component-docs" class="component-docs"></div>
           </section>
 
-          <section id="frameworks" class="section">
+          <section id="quality" class="section">
             <div class="section-heading">
-              <p class="eyebrow">Frameworks</p>
-              <h2>Native, Vue, React consumption</h2>
+              <p class="eyebrow">Quality</p>
+              <h2>Docs are part of the release surface</h2>
+              <p>The website is covered by browser tests: custom element upgrade, Markdown live demos, theme switching, responsive app shell, and zero console errors.</p>
             </div>
-            <div class="framework-grid">
+            <div class="quality-grid">
               <article>
-                <h3>Native HTML</h3>
-                <pre><code>&lt;script type="module" src="@rin-labs/ui/register"&gt;&lt;/script&gt;
-&lt;rl-button&gt;Save&lt;/rl-button&gt;</code></pre>
+                <h3>Release gate</h3>
+                <pre><code>npm run verify</code></pre>
               </article>
               <article>
-                <h3>Vue</h3>
-                <pre><code>import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';</code></pre>
+                <h3>Framework-neutral</h3>
+                <p>Native HTML, Vue, and React consume the same custom elements.</p>
               </article>
               <article>
-                <h3>React</h3>
-                <pre><code>import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';</code></pre>
+                <h3>A11y baseline</h3>
+                <p>Focus-visible, keyboard tabs, focus trap, dialog and drawer escape behavior stay under test.</p>
               </article>
             </div>
           </section>
@@ -155,7 +198,7 @@ import '@rin-labs/ui/register';</code></pre>
       <rl-drawer id="docs-theme-drawer" placement="right">
         <h2 slot="label">Theme controls</h2>
         <div class="control-stack">
-          <rl-tab-bar id="docs-theme-mode" value="light">
+          <rl-tab-bar id="drawer-theme-mode" value="light">
             <button value="light">Light</button>
             <button value="dark">Dark</button>
           </rl-tab-bar>
@@ -164,12 +207,13 @@ import '@rin-labs/ui/register';</code></pre>
             <button data-accent="#14b8a6" style="--swatch: #14b8a6">Teal</button>
             <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">Violet</button>
           </div>
-          <rl-chip id="docs-compact" checkbox value="compact">Compact density</rl-chip>
-          <rl-switch id="docs-reduced-motion">Reduced motion</rl-switch>
-          <rl-chip id="docs-illustration-style" checkbox value="illustration">Illustration style</rl-chip>
+          <rl-chip id="drawer-compact" checkbox value="compact">Compact density</rl-chip>
+          <rl-switch id="drawer-reduced-motion">Reduced motion</rl-switch>
+          <rl-chip id="drawer-illustration-style" checkbox value="illustration">Illustration style</rl-chip>
         </div>
       </rl-drawer>
     </rl-theme>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

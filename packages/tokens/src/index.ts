@@ -55,6 +55,7 @@ export const semanticTokens = [
   '--rl-icon-color',
   '--rl-hover-overlay',
   '--rl-ripple',
+  '--rl-overlay-backdrop',
   '--rl-focus-ring'
 ] as const;
 
@@ -84,11 +85,13 @@ export const componentTokens = [
   '--rl-switch-track-bg',
   '--rl-switch-border-width',
   '--rl-switch-border-color',
+  '--rl-switch-thumb-shadow',
   '--rl-radio-card-bg',
   '--rl-radio-card-border-width',
   '--rl-radio-card-border-color',
   '--rl-radio-card-radius',
   '--rl-radio-card-shadow',
+  '--rl-radio-card-selected-shadow',
   '--rl-tab-bg',
   '--rl-tab-border-width',
   '--rl-tab-border-color',
@@ -133,7 +136,8 @@ export const componentTokens = [
   '--rl-result-border-width',
   '--rl-result-border-color',
   '--rl-result-radius',
-  '--rl-result-shadow'
+  '--rl-result-shadow',
+  '--rl-spinner-track-color'
 ] as const;
 
 export type SeedToken = (typeof seedTokens)[number];

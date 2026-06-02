@@ -29,7 +29,7 @@ export class RlDialog extends LitElement {
       }
 
       dialog::backdrop {
-        background: color-mix(in oklab, #000, transparent 52%);
+        background: var(--rl-overlay-backdrop, color-mix(in oklab, #000, transparent 52%));
         backdrop-filter: blur(8px);
       }
 

@@ -20,7 +20,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-style-stroke-width', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern']
+    tokens: ['--rl-accent-50', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern']
   },
   {
     name: 'rl-spinner',
@@ -31,7 +31,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: [],
     slots: [],
     parts: ['base', 'indicator'],
-    tokens: ['--rl-motion-fast', '--rl-text']
+    tokens: ['--rl-motion-fast', '--rl-text', '--rl-spinner-track-color']
   },
   {
     name: 'rl-illustration',
@@ -119,7 +119,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-change'],
     slots: ['default'],
     parts: ['base', 'control', 'indicator', 'label'],
-    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
+    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-switch-thumb-shadow', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
   },
   {
     name: 'rl-radio-card',
@@ -130,7 +130,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-select', 'rl-change'],
     slots: ['icon', 'label', 'description', 'actions'],
     parts: ['base', 'control', 'indicator', 'icon', 'label', 'description'],
-    tokens: ['--rl-radio-card-bg', '--rl-radio-card-border-width', '--rl-radio-card-border-color', '--rl-radio-card-radius', '--rl-radio-card-shadow', '--rl-surface-raised', '--rl-color-primary', '--rl-focus-ring']
+    tokens: ['--rl-radio-card-bg', '--rl-radio-card-border-width', '--rl-radio-card-border-color', '--rl-radio-card-radius', '--rl-radio-card-shadow', '--rl-radio-card-selected-shadow', '--rl-surface-raised', '--rl-color-primary', '--rl-focus-ring']
   },
   {
     name: 'rl-tab-bar',
@@ -152,7 +152,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-open', 'rl-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'label', 'description', 'actions', 'header', 'footer'],
-    tokens: ['--rl-dialog-bg', '--rl-dialog-border-width', '--rl-dialog-border-color', '--rl-dialog-radius', '--rl-dialog-shadow', '--rl-surface-raised', '--rl-border']
+    tokens: ['--rl-dialog-bg', '--rl-dialog-border-width', '--rl-dialog-border-color', '--rl-dialog-radius', '--rl-dialog-shadow', '--rl-overlay-backdrop', '--rl-surface-raised', '--rl-border']
   },
   {
     name: 'rl-drawer',
@@ -163,7 +163,7 @@ export const rlComponentMetadata: RlComponentMetadata[] = [
     events: ['rl-open', 'rl-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'backdrop', 'label'],
-    tokens: ['--rl-drawer-bg', '--rl-drawer-border-width', '--rl-drawer-border-color', '--rl-drawer-shadow', '--rl-surface-overlay', '--rl-border']
+    tokens: ['--rl-drawer-bg', '--rl-drawer-border-width', '--rl-drawer-border-color', '--rl-drawer-shadow', '--rl-overlay-backdrop', '--rl-surface-overlay', '--rl-border']
   },
   {
     name: 'rl-toast',

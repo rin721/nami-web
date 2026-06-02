@@ -17,7 +17,7 @@ export class RlDrawer extends LitElement {
       }
 
       .backdrop {
-        background: color-mix(in oklab, #000, transparent 55%);
+        background: var(--rl-overlay-backdrop, color-mix(in oklab, #000, transparent 55%));
         backdrop-filter: blur(8px);
         inset: 0;
         opacity: 0;

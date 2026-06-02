@@ -1,18 +1,58 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-test('playground renders core controls and responsive style presets', async ({ page }) => {
+const docsUrl = 'http://127.0.0.1:5173/';
+
+function captureConsoleErrors(page: Page) {
   const errors: string[] = [];
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text());
   });
+  return errors;
+}
 
-  await page.goto('http://127.0.0.1:5173/');
-  await expect(page.getByRole('heading', { name: 'Soft Controls' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Ant Illustration States' })).toHaveCount(0);
+test('docs website renders markdown tutorials, live demos, and generated API', async ({ page }) => {
+  const errors = captureConsoleErrors(page);
 
+  await page.goto(docsUrl);
+  await expect(page.getByRole('heading', { name: 'Markdown tutorials for a token-driven Web Components library.' })).toBeVisible();
+  await expect(page.locator('#doc-index')).toContainText('Getting Started');
+  await expect(page.locator('#doc-index')).toContainText('Quality');
+  await expect(page.locator('#markdown-docs')).toContainText('Rendered from Markdown');
+  await expect(page.locator('#doc-getting-started')).toContainText('Register all components');
+  await expect(page.locator('#doc-theme')).toContainText('Token Layers');
+  await expect(page.locator('#doc-frameworks')).toContainText('Vue');
+  await expect(page.locator('#component-docs')).toContainText('rl-empty');
+  await expect(page.locator('#component-docs')).toContainText('rl-result');
+
+  const markdownState = await page.evaluate(async () => {
+    await customElements.whenDefined('rl-button');
+    await customElements.whenDefined('rl-chip');
+    const liveExamples = Array.from(document.querySelectorAll<HTMLElement>('[data-live-example]'));
+    const firstPreview = liveExamples[0]?.querySelector('.live-preview');
+    const firstButton = firstPreview?.querySelector('rl-button');
+    const firstChip = firstPreview?.querySelector('rl-chip');
+    return {
+      liveCount: liveExamples.length,
+      buttonDefined: Boolean(firstButton?.shadowRoot?.querySelector('button')),
+      chipDefined: Boolean(firstChip?.shadowRoot?.querySelector('button')),
+      hasOrdinaryCode: Boolean(document.querySelector('#doc-style-presets pre code.language-html'))
+    };
+  });
+
+  expect(markdownState.liveCount).toBeGreaterThanOrEqual(5);
+  expect(markdownState.buttonDefined).toBe(true);
+  expect(markdownState.chipDefined).toBe(true);
+  expect(markdownState.hasOrdinaryCode).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test('docs app shell is responsive and theme controls update the root contract', async ({ page }) => {
+  const errors = captureConsoleErrors(page);
+
+  await page.goto(docsUrl);
   const defaultStyle = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
-    const button = document.querySelector('rl-button');
+    const button = document.querySelector('.hero-preview rl-button');
     const control = button?.shadowRoot?.querySelector('button');
     return {
       preset: theme?.getAttribute('style-preset'),
@@ -45,142 +85,161 @@ test('playground renders core controls and responsive style presets', async ({ p
   });
   expect(mobileShell).toEqual({ rail: 'none', top: 'block', bottom: 'block' });
 
-  await page.locator('#open-drawer-mobile').click();
-  await expect(page.locator('#drawer')).toHaveAttribute('open', '');
-  await page.getByRole('checkbox', { name: 'Illustration style' }).click();
-  const illustrationStyle = await page.evaluate(() => {
-    const theme = document.querySelector('rl-theme');
-    const button = document.querySelector('rl-button');
-    const control = button?.shadowRoot?.querySelector('button');
-    const shell = document.querySelector('rl-app-shell')?.shadowRoot?.querySelector('.shell');
-    return {
-      preset: theme?.getAttribute('style-preset'),
-      dataStyle: theme?.getAttribute('data-rl-style'),
-      borderWidth: control ? getComputedStyle(control).borderTopWidth : '',
-      shadow: control ? getComputedStyle(control).boxShadow : '',
-      backgroundImage: shell ? getComputedStyle(shell).backgroundImage : ''
-    };
-  });
-  expect(illustrationStyle.preset).toBe('illustration');
-  expect(illustrationStyle.dataStyle).toBe('illustration');
-  expect(illustrationStyle.borderWidth).toBe('3px');
-  expect(illustrationStyle.shadow).not.toBe(defaultStyle.shadow);
-  expect(illustrationStyle.backgroundImage).not.toBe('none');
-  expect(errors).toEqual([]);
-});
-
-test('illustration style keeps accent-driven colors in sync', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
-  });
-
-  await page.goto('http://127.0.0.1:5173/');
-  const syncState = await page.evaluate(async () => {
-    await customElements.whenDefined('rl-theme');
-    await customElements.whenDefined('rl-button');
-    await customElements.whenDefined('rl-chip');
-    const theme = document.querySelector('rl-theme') as HTMLElement & { accent: string; stylePreset: string; updateComplete: Promise<unknown> };
-    const button = document.querySelector('.toolbar rl-button')!;
-    const selectedChip = document.querySelector('.section-title rl-chip[selected]')!;
-    const shell = document.querySelector('rl-app-shell')?.shadowRoot?.querySelector('.shell') as HTMLElement | null;
-
-    const readState = () => {
-      const themeStyle = getComputedStyle(theme);
-      const buttonControl = button.shadowRoot!.querySelector('button')!;
-      const chipControl = selectedChip.shadowRoot!.querySelector('button')!;
-      return {
-        accentAttr: theme.getAttribute('accent'),
-        accentVar: themeStyle.getPropertyValue('--rl-accent-50').trim(),
-        primaryVar: themeStyle.getPropertyValue('--rl-color-primary').trim(),
-        buttonBg: getComputedStyle(buttonControl).backgroundColor,
-        chipBg: getComputedStyle(chipControl).backgroundColor,
-        borderWidth: getComputedStyle(buttonControl).borderTopWidth,
-        shadow: getComputedStyle(buttonControl).boxShadow,
-        pattern: shell ? getComputedStyle(shell).backgroundImage : ''
-      };
-    };
-
-    theme.motion = 'reduced';
-    theme.stylePreset = 'illustration';
-    theme.accent = '#14b8a6';
-    await theme.updateComplete;
-    await new Promise((resolve) => setTimeout(resolve, 20));
-    const teal = readState();
-
-    theme.accent = '#8b5cf6';
-    await theme.updateComplete;
-    await new Promise((resolve) => setTimeout(resolve, 20));
-    const violet = readState();
-
-    return { teal, violet };
-  });
-
-  expect(syncState.teal.accentAttr).toBe('#14b8a6');
-  expect(syncState.teal.accentVar).toBe('#14b8a6');
-  expect(syncState.teal.primaryVar).toBe('#14b8a6');
-  expect(syncState.violet.accentAttr).toBe('#8b5cf6');
-  expect(syncState.violet.accentVar).toBe('#8b5cf6');
-  expect(syncState.violet.primaryVar).toBe('#8b5cf6');
-  expect(syncState.teal.buttonBg).not.toBe(syncState.violet.buttonBg);
-  expect(syncState.teal.chipBg).not.toBe(syncState.violet.chipBg);
-  expect(syncState.teal.borderWidth).toBe('3px');
-  expect(syncState.violet.borderWidth).toBe('3px');
-  expect(syncState.teal.shadow).not.toBe('none');
-  expect(syncState.violet.shadow).not.toBe('none');
-  expect(syncState.teal.pattern).not.toBe(syncState.violet.pattern);
-  expect(errors).toEqual([]);
-});
-
-test('docs are driven by metadata and theme controls update tokens', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
-  });
-
-  await page.goto('http://127.0.0.1:5174/');
-  await expect(page.locator('#component-docs')).toContainText('rl-empty');
-  await expect(page.locator('#component-docs')).toContainText('rl-result');
-  await expect(page.locator('#style-presets')).toContainText('Same components, different skins');
-  await expect(page.locator('.preset-stage').first()).toContainText('Default style');
-  await expect(page.locator('.preset-stage.rl-theme-illustration')).toContainText('Illustration style');
-
   await page.getByRole('button', { name: 'Theme controls' }).click();
   await expect(page.locator('#docs-theme-drawer')).toHaveAttribute('open', '');
-  await page.getByRole('button', { name: 'Teal' }).click();
-  await page.getByRole('checkbox', { name: 'Compact density' }).click();
-  await page.getByRole('switch', { name: 'Reduced motion' }).click();
-  await page.getByRole('checkbox', { name: 'Illustration style' }).click();
+  await page.locator('#drawer-theme-mode button[value="dark"]').click();
+  await page.locator('#docs-theme-drawer button[data-accent="#14b8a6"]').click();
+  await page.locator('#drawer-compact').click();
+  await page.locator('#drawer-reduced-motion').click();
+  await page.locator('#drawer-illustration-style').click();
 
   const themeState = await page.evaluate(() => {
     const theme = document.querySelector('rl-theme');
+    const button = document.querySelector('.hero-preview rl-button');
+    const control = button?.shadowRoot?.querySelector('button');
+    const shell = document.querySelector('rl-app-shell')?.shadowRoot?.querySelector('.shell');
     return {
+      theme: theme?.getAttribute('theme'),
       accent: theme?.getAttribute('accent'),
       density: theme?.getAttribute('density'),
       motion: theme?.getAttribute('motion'),
       stylePreset: theme?.getAttribute('style-preset'),
       dataStyle: theme?.getAttribute('data-rl-style'),
-      accentVar: theme ? getComputedStyle(theme).getPropertyValue('--rl-accent-50').trim() : ''
+      accentVar: theme ? getComputedStyle(theme).getPropertyValue('--rl-accent-50').trim() : '',
+      borderWidth: control ? getComputedStyle(control).borderTopWidth : '',
+      transition: control ? getComputedStyle(control).transitionDuration : '',
+      pattern: shell ? getComputedStyle(shell).backgroundImage : ''
     };
   });
-  expect(themeState).toEqual({
-    accent: '#14b8a6',
-    density: 'compact',
-    motion: 'reduced',
-    stylePreset: 'illustration',
-    dataStyle: 'illustration',
-    accentVar: '#14b8a6'
+
+  expect(themeState.theme).toBe('dark');
+  expect(themeState.accent).toBe('#14b8a6');
+  expect(themeState.density).toBe('compact');
+  expect(themeState.motion).toBe('reduced');
+  expect(themeState.stylePreset).toBe('illustration');
+  expect(themeState.dataStyle).toBe('illustration');
+  expect(themeState.accentVar).toBe('#14b8a6');
+  expect(themeState.borderWidth).toBe('3px');
+  expect(themeState.transition).toContain('0.001s');
+  expect(themeState.pattern).not.toBe('none');
+  expect(errors).toEqual([]);
+});
+
+test('theme contract matrix covers dark illustration, density, motion, and component tokens', async ({ page }) => {
+  const errors = captureConsoleErrors(page);
+
+  await page.goto(docsUrl);
+  const matrixState = await page.evaluate(async () => {
+    await Promise.all([
+      customElements.whenDefined('rl-theme'),
+      customElements.whenDefined('rl-button'),
+      customElements.whenDefined('rl-chip'),
+      customElements.whenDefined('rl-switch'),
+      customElements.whenDefined('rl-radio-card'),
+      customElements.whenDefined('rl-spinner')
+    ]);
+
+    const theme = document.querySelector('rl-theme') as HTMLElement & {
+      accent: string;
+      density: string;
+      motion: string;
+      updateComplete: Promise<unknown>;
+    };
+    const stages = Array.from(document.querySelectorAll<HTMLElement>('[data-contract-stage]'));
+
+    const waitForTheme = async () => {
+      await theme.updateComplete;
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    };
+
+    const readStage = (stage: HTMLElement) => {
+      const style = getComputedStyle(stage);
+      const button = stage.querySelector('rl-button:not([loading])')!;
+      const buttonControl = button.shadowRoot!.querySelector('button')!;
+      const chip = stage.querySelector('rl-chip[selected]')!;
+      const chipControl = chip.shadowRoot!.querySelector('button')!;
+      const track = stage.querySelector('rl-switch')!.shadowRoot!.querySelector('.track')!;
+      const radioControl = stage.querySelector('rl-radio-card')!.shadowRoot!.querySelector('button')!;
+      const spinnerHost = stage.querySelector('rl-button[loading]')!.shadowRoot!.querySelector('rl-spinner')!;
+      const spinnerIndicator = spinnerHost.shadowRoot!.querySelector('.indicator')!;
+
+      return {
+        name: stage.dataset.contractStage,
+        accent: style.getPropertyValue('--rl-accent-50').trim(),
+        primary: style.getPropertyValue('--rl-color-primary').trim(),
+        surface: style.getPropertyValue('--rl-surface').trim(),
+        text: style.getPropertyValue('--rl-text').trim(),
+        pattern: getComputedStyle(stage).backgroundImage,
+        borderWidth: getComputedStyle(buttonControl).borderTopWidth,
+        buttonBg: getComputedStyle(buttonControl).backgroundColor,
+        buttonHeight: getComputedStyle(buttonControl).height,
+        buttonTransition: getComputedStyle(buttonControl).transitionDuration,
+        chipBg: getComputedStyle(chipControl).backgroundColor,
+        switchBg: getComputedStyle(track).backgroundColor,
+        radioSelectedShadowToken: style.getPropertyValue('--rl-radio-card-selected-shadow').trim(),
+        switchThumbShadowToken: style.getPropertyValue('--rl-switch-thumb-shadow').trim(),
+        spinnerTrackToken: style.getPropertyValue('--rl-spinner-track-color').trim(),
+        spinnerBorderColor: getComputedStyle(spinnerIndicator).borderLeftColor
+      };
+    };
+
+    const readAccent = async (accent: string) => {
+      theme.accent = accent;
+      await waitForTheme();
+      return Object.fromEntries(stages.map((stage) => [stage.dataset.contractStage, readStage(stage)]));
+    };
+
+    const blue = await readAccent('#3b82f6');
+    const teal = await readAccent('#14b8a6');
+    const violet = await readAccent('#8b5cf6');
+
+    theme.density = 'compact';
+    theme.motion = 'reduced';
+    await waitForTheme();
+    const compactReduced = Object.fromEntries(stages.map((stage) => [stage.dataset.contractStage, readStage(stage)]));
+
+    return { blue, teal, violet, compactReduced };
   });
+
+  for (const state of Object.values(matrixState.teal)) {
+    expect(state.accent).toBe('#14b8a6');
+    expect(state.primary).toBe('#14b8a6');
+    expect(state.radioSelectedShadowToken).not.toBe('');
+    expect(state.switchThumbShadowToken).not.toBe('');
+    expect(state.spinnerTrackToken).not.toBe('');
+    expect(state.spinnerBorderColor).not.toBe('');
+  }
+
+  expect(matrixState.teal['default-light'].surface).not.toBe(matrixState.teal['default-dark'].surface);
+  expect(matrixState.teal['default-light'].text).not.toBe(matrixState.teal['default-dark'].text);
+  expect(matrixState.teal['illustration-light'].surface).not.toBe(matrixState.teal['illustration-dark'].surface);
+  expect(matrixState.teal['illustration-light'].text).not.toBe(matrixState.teal['illustration-dark'].text);
+  expect(matrixState.teal['illustration-dark'].surface).not.toBe('#fffdf5');
+  expect(matrixState.teal['illustration-dark'].text).not.toBe('#2f2f2f');
+
+  expect(matrixState.teal['default-light'].borderWidth).toBe('1px');
+  expect(matrixState.teal['illustration-light'].borderWidth).toBe('3px');
+  expect(matrixState.teal['illustration-dark'].borderWidth).toBe('3px');
+  expect(matrixState.teal['default-light'].pattern).toBe('none');
+  expect(matrixState.teal['illustration-light'].pattern).not.toBe('none');
+  expect(matrixState.teal['illustration-dark'].pattern).not.toBe('none');
+
+  for (const name of Object.keys(matrixState.teal)) {
+    expect(matrixState.blue[name].buttonBg).not.toBe(matrixState.teal[name].buttonBg);
+    expect(matrixState.teal[name].buttonBg).not.toBe(matrixState.violet[name].buttonBg);
+    expect(matrixState.blue[name].chipBg).not.toBe(matrixState.teal[name].chipBg);
+    expect(matrixState.teal[name].switchBg).not.toBe(matrixState.violet[name].switchBg);
+    expect(matrixState.compactReduced[name].buttonHeight).toBe('34px');
+    expect(matrixState.compactReduced[name].buttonTransition).toContain('0.001s');
+  }
+
   expect(errors).toEqual([]);
 });
 
 test('core controls support forms, keyboard navigation, and focus management', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
-  });
+  const errors = captureConsoleErrors(page);
 
-  await page.goto('http://127.0.0.1:5173/');
+  await page.goto(docsUrl);
   const formState = await page.evaluate(async () => {
     await Promise.all([
       customElements.whenDefined('rl-button'),

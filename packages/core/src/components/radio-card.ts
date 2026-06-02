@@ -46,7 +46,7 @@ export class RlRadioCard extends LitElement {
 
       :host([selected]) button {
         border-color: var(--rl-color-primary);
-        box-shadow: 0 0 0 1px var(--rl-color-primary), var(--rl-focus-ring);
+        box-shadow: var(--rl-radio-card-selected-shadow, 0 0 0 1px var(--rl-color-primary), var(--rl-focus-ring));
       }
 
       button:active:not(:disabled) {
