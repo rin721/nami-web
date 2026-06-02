@@ -8,7 +8,7 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<rin-docs-theme-designer>
+<nami-docs-theme-designer>
   <section class="section" data-theme-designer>
     <div class="section-heading">
       <p class="eyebrow">{t(locale, 'nav.designer')}</p>
@@ -16,55 +16,55 @@ const { locale } = Astro.props;
       <p>{t(locale, 'designer.copy')}</p>
     </div>
     <div class="theme-designer-grid">
-      <rl-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'designer.seed')}</h3>
         <div class="control-stack">
-          <rl-tab-bar data-theme-mode value="light">
+          <nami-tab-bar data-theme-mode value="light">
             <button value="light">{t(locale, 'controls.light')}</button>
             <button value="dark">{t(locale, 'controls.dark')}</button>
-          </rl-tab-bar>
+          </nami-tab-bar>
           <div class="swatches" aria-label="Accent">
             <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
             <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
             <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
           </div>
-          <rl-tab-bar data-radius-mode value="round">
+          <nami-tab-bar data-radius-mode value="round">
             <button value="sharp">{t(locale, 'controls.radiusSharp')}</button>
             <button value="soft">{t(locale, 'controls.radiusSoft')}</button>
             <button value="round">{t(locale, 'controls.radiusRound')}</button>
-          </rl-tab-bar>
-          <rl-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</rl-chip>
-          <rl-switch data-motion-toggle>{t(locale, 'controls.reduced')}</rl-switch>
-          <rl-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</rl-chip>
-          <rl-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</rl-chip>
+          </nami-tab-bar>
+          <nami-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</nami-chip>
+          <nami-switch data-motion-toggle>{t(locale, 'controls.reduced')}</nami-switch>
+          <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
+          <nami-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</nami-chip>
         </div>
-      </rl-card>
-      <rl-card data-designer-preview>
+      </nami-card>
+      <nami-card data-designer-preview>
         <h3 slot="header">{t(locale, 'designer.preview')}</h3>
         <div class="theme-live-surface">
-          <rl-button>Primary action</rl-button>
-          <rl-button variant="soft">Soft action</rl-button>
-          <rl-badge variant="primary">Token</rl-badge>
-          <rl-chip checkbox selected value="selected">Selected chip</rl-chip>
-          <rl-input label="Search" placeholder="--rl-color-primary"></rl-input>
-          <rl-switch checked>Enabled</rl-switch>
-          <rl-radio-card selected label="Semantic anatomy" description="Parts, states, and tokens stay explainable."></rl-radio-card>
+          <nami-button>Primary action</nami-button>
+          <nami-button variant="soft">Soft action</nami-button>
+          <nami-badge variant="primary">Token</nami-badge>
+          <nami-chip checkbox selected value="selected">Selected chip</nami-chip>
+          <nami-input label="Search" placeholder="--nami-color-primary"></nami-input>
+          <nami-switch checked>Enabled</nami-switch>
+          <nami-radio-card selected label="Semantic anatomy" description="Parts, states, and tokens stay explainable."></nami-radio-card>
         </div>
-      </rl-card>
+      </nami-card>
     </div>
     <div class="theme-designer-output">
-      <rl-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'designer.tree')}</h3>
         <div data-derived-token-tree class="derived-token-tree"></div>
-      </rl-card>
-      <rl-card>
+      </nami-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'designer.css')}</h3>
-        <rin-docs-code-block data-generated-css data-language="css"></rin-docs-code-block>
-      </rl-card>
-      <rl-card>
+        <nami-docs-code-block data-generated-css data-language="css"></nami-docs-code-block>
+      </nami-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'designer.affected')}</h3>
         <div data-affected-components class="affected-components"></div>
-      </rl-card>
+      </nami-card>
     </div>
   </section>
-</rin-docs-theme-designer>
+</nami-docs-theme-designer>

@@ -2,11 +2,11 @@ import { css, html, LitElement, nothing } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
-import { RlIllustration, type RlIllustrationName } from './illustration';
+import { NamiIllustration, type NamiIllustrationName } from './illustration';
 
-defineElement('rl-illustration', RlIllustration);
+defineElement('nami-illustration', NamiIllustration);
 
-export class RlEmpty extends LitElement {
+export class NamiEmpty extends LitElement {
   static properties = {
     illustration: { reflect: true },
     title: { reflect: true },
@@ -23,31 +23,31 @@ export class RlEmpty extends LitElement {
 
       .base {
         align-items: center;
-        color: var(--rl-style-on-paper, var(--rl-text));
+        color: var(--nami-style-on-paper, var(--nami-text));
         display: grid;
-        background: var(--rl-empty-bg, transparent);
-        border: var(--rl-empty-border-width, 0) solid var(--rl-empty-border-color, transparent);
-        border-radius: var(--rl-empty-radius, var(--rl-radius-surface, 6px));
-        box-shadow: var(--rl-empty-shadow, none);
-        gap: var(--rl-empty-gap, 12px);
+        background: var(--nami-empty-bg, transparent);
+        border: var(--nami-empty-border-width, 0) solid var(--nami-empty-border-color, transparent);
+        border-radius: var(--nami-empty-radius, var(--nami-radius-surface, 6px));
+        box-shadow: var(--nami-empty-shadow, none);
+        gap: var(--nami-empty-gap, 12px);
         justify-items: center;
-        padding: var(--rl-space-5, 24px);
+        padding: var(--nami-space-5, 24px);
         text-align: center;
       }
 
       :host([compact]) .base {
-        padding: var(--rl-space-3, 10px);
+        padding: var(--nami-space-3, 10px);
       }
 
       .title {
-        color: var(--rl-empty-title-color, var(--rl-text));
+        color: var(--nami-empty-title-color, var(--nami-text));
         font-size: 1rem;
         font-weight: 700;
         line-height: 1.35;
       }
 
       .description {
-        color: var(--rl-empty-description-color, var(--rl-text-muted));
+        color: var(--nami-empty-description-color, var(--nami-text-muted));
         font-size: 0.925rem;
         line-height: 1.6;
         max-width: 42ch;
@@ -57,13 +57,13 @@ export class RlEmpty extends LitElement {
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
         justify-content: center;
       }
     `
   ];
 
-  declare illustration: RlIllustrationName;
+  declare illustration: NamiIllustrationName;
   declare title: string;
   declare description: string;
   declare compact: boolean;
@@ -78,12 +78,12 @@ export class RlEmpty extends LitElement {
   }
 
   render() {
-    const description = this.description || msg('No data', { id: 'rl.empty.description' });
-    const label = this.title || description || msg('Empty state', { id: 'rl.empty.aria' });
+    const description = this.description || msg('No data', { id: 'nami.empty.description' });
+    const label = this.title || description || msg('Empty state', { id: 'nami.empty.aria' });
     return html`
       <section class="base" part="base" aria-label=${label}>
         <slot name="illustration" part="illustration">
-          <rl-illustration name=${this.illustration} size=${this.compact ? 'sm' : 'md'}></rl-illustration>
+          <nami-illustration name=${this.illustration} size=${this.compact ? 'sm' : 'md'}></nami-illustration>
         </slot>
         ${this.title ? html`<div class="title" part="title"><slot name="title">${this.title}</slot></div>` : nothing}
         <div class="description" part="description"><slot name="description">${description}</slot></div>
@@ -95,6 +95,6 @@ export class RlEmpty extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-empty': RlEmpty;
+    'nami-empty': NamiEmpty;
   }
 }

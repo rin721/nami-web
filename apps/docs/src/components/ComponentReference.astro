@@ -1,10 +1,10 @@
 ---
-import type { RlComponentMetadata } from '@rin-labs/ui';
+import type { NamiComponentMetadata } from '@nami/ui/metadata';
 import { componentPreviews, componentUseCase } from '../lib/catalog';
 import { t, type DocsLocale } from '../lib/site';
 
 interface Props {
-  item: RlComponentMetadata;
+  item: NamiComponentMetadata;
   locale: DocsLocale;
 }
 
@@ -19,60 +19,60 @@ function list(values: string[]) {
 ---
 
 <div class="component-reference" id="component-docs">
-  <rl-card class="component-hero-card">
-    <rl-badge slot="header" variant="primary">{item.category}</rl-badge>
+  <nami-card class="component-hero-card">
+    <nami-badge slot="header" variant="primary">{item.category}</nami-badge>
     <section class="component-preview component-hero-preview" aria-label={t(locale, 'component.preview')} set:html={preview} />
     <h3>{item.name}</h3>
     <p>{componentUseCase(item.name, locale)}</p>
-  </rl-card>
+  </nami-card>
 
   <div class="component-reference-grid">
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.usage')}</h3>
       <p>{locale === 'zh-CN' ? '复制最小示例即可在任意前端框架或原生 HTML 中使用。' : 'Copy the minimal example into any framework or plain HTML.'}</p>
-      <rin-docs-code-block data-language="html" data-code={encodedUsage}></rin-docs-code-block>
-    </rl-card>
+      <nami-docs-code-block data-language="html" data-code={encodedUsage}></nami-docs-code-block>
+    </nami-card>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.examples')}</h3>
       <section class="component-preview" set:html={preview} />
-      <p>{locale === 'zh-CN' ? '示例使用真实 rl-* 元素渲染，受当前主题控制影响。' : 'Examples render real rl-* elements and respond to the current theme controls.'}</p>
-    </rl-card>
+      <p>{locale === 'zh-CN' ? '示例使用真实 nami-* 元素渲染，受当前主题控制影响。' : 'Examples render real nami-* elements and respond to the current theme controls.'}</p>
+    </nami-card>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.api')}</h3>
       <dl>
         <dt>Attributes</dt><dd>{list(item.attributes)}</dd>
         <dt>Properties</dt><dd>{list(item.properties)}</dd>
         <dt>States</dt><dd>{list(item.states)}</dd>
       </dl>
-    </rl-card>
+    </nami-card>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.events')}</h3>
       <p>{list(item.events)}</p>
       <h3>{t(locale, 'component.slots')}</h3>
       <p>{list(item.slots)}</p>
       <h3>{t(locale, 'component.parts')}</h3>
       <p>{list(item.parts)}</p>
-    </rl-card>
+    </nami-card>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.tokens')}</h3>
       <p>{list(item.tokens)}</p>
       <h3>{t(locale, 'component.hooks')}</h3>
       <ul class="hook-list">
         {item.styleHooks.map((hook) => <li><code>{hook.part}:{hook.state}</code> {hook.tokens.join(', ')}</li>)}
       </ul>
-    </rl-card>
+    </nami-card>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{t(locale, 'component.anatomy')}</h3>
       <ul class="hook-list">
         {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
       </ul>
       <h3>{t(locale, 'component.a11y')}</h3>
       <p>{locale === 'zh-CN' ? '交互组件需要保留键盘可达、focus-visible、ARIA 状态和 disabled/loading 阻断规则。' : 'Interactive components must preserve keyboard access, focus-visible, ARIA state, and disabled/loading guards.'}</p>
-    </rl-card>
+    </nami-card>
   </div>
 </div>

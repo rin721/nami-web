@@ -3,14 +3,14 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export interface RlToastOptions {
+export interface NamiToastOptions {
   message: string;
   variant?: 'neutral' | 'success' | 'danger';
   duration?: number;
   placement?: 'top' | 'bottom';
 }
 
-export class RlToast extends LitElement {
+export class NamiToast extends LitElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     message: {},
@@ -30,8 +30,8 @@ export class RlToast extends LitElement {
         position: fixed;
         transform: translateX(-50%) translateY(var(--toast-offset, -16px));
         transition:
-          opacity var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          transform var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+          opacity var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          transform var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
         width: max-content;
         z-index: 70;
       }
@@ -52,37 +52,37 @@ export class RlToast extends LitElement {
 
       .base {
         align-items: center;
-        background: var(--rl-toast-bg, var(--rl-surface-raised));
-        border: var(--rl-toast-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-toast-border-color, var(--rl-border));
-        border-radius: var(--rl-toast-radius, var(--rl-radius-surface, 6px));
-        box-shadow: var(--rl-dialog-shadow);
-        color: var(--rl-style-on-paper, var(--rl-text));
+        background: var(--nami-toast-bg, var(--nami-surface-raised));
+        border: var(--nami-toast-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-toast-border-color, var(--nami-border));
+        border-radius: var(--nami-toast-radius, var(--nami-radius-surface, 6px));
+        box-shadow: var(--nami-dialog-shadow);
+        color: var(--nami-style-on-paper, var(--nami-text));
         display: flex;
-        gap: var(--rl-space-3, 10px);
+        gap: var(--nami-space-3, 10px);
         min-height: 44px;
         padding: 10px 12px;
       }
 
       :host([variant='success']) .indicator {
-        color: var(--rl-color-primary);
+        color: var(--nami-color-primary);
       }
 
       :host([variant='danger']) .indicator {
-        color: var(--rl-color-danger);
+        color: var(--nami-color-danger);
       }
 
       button {
         background: transparent;
         border: 0;
-        border-radius: var(--rl-radius-control, 999px);
-        color: var(--rl-style-on-paper-muted, var(--rl-icon-color));
+        border-radius: var(--nami-radius-control, 999px);
+        color: var(--nami-style-on-paper-muted, var(--nami-icon-color));
         cursor: pointer;
         height: 30px;
         width: 30px;
       }
 
       button:hover {
-        background: var(--rl-hover-overlay);
+        background: var(--nami-hover-overlay);
       }
     `
   ];
@@ -106,8 +106,8 @@ export class RlToast extends LitElement {
     this.duration = 3200;
   }
 
-  static show(options: RlToastOptions) {
-    const toast = document.createElement('rl-toast') as RlToast;
+  static show(options: NamiToastOptions) {
+    const toast = document.createElement('nami-toast') as NamiToast;
     toast.message = options.message;
     toast.variant = options.variant ?? 'neutral';
     toast.placement = options.placement ?? 'top';
@@ -122,14 +122,14 @@ export class RlToast extends LitElement {
   updated(changed: Map<string, unknown>) {
     if (!changed.has('open')) return;
     if (this.open) {
-      emit(this, 'rl-open', undefined);
+      emit(this, 'nami-open', undefined);
       window.clearTimeout(this.timer);
       if (this.duration > 0) {
         this.timer = window.setTimeout(() => this.close(), this.duration);
       }
     } else if (changed.get('open') === true) {
       window.clearTimeout(this.timer);
-      emit(this, 'rl-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
       this.closeSourceEvent = undefined;
     }
   }
@@ -151,7 +151,7 @@ export class RlToast extends LitElement {
       <div class="base" part="base" role="status" aria-live="polite">
         <span class="indicator" part="indicator"><slot name="icon">${this.variant === 'neutral' ? nothing : html`<span aria-hidden="true">*</span>`}</slot></span>
         <span part="label"><slot>${this.message}</slot></span>
-        <button type="button" part="actions" aria-label=${msg('Close', { id: 'rl.toast.close' })} @click=${(event: MouseEvent) => this.close(event)}>X</button>
+        <button type="button" part="actions" aria-label=${msg('Close', { id: 'nami.toast.close' })} @click=${(event: MouseEvent) => this.close(event)}>X</button>
       </div>
     `;
   }
@@ -159,6 +159,6 @@ export class RlToast extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-toast': RlToast;
+    'nami-toast': NamiToast;
   }
 }

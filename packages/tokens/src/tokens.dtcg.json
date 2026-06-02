@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/tokens.json",
   "$extensions": {
-    "org.rin-labs.theme": {
+    "org.nami.theme": {
       "derivation": "seed -> derived palette/map -> semantic -> component/style tokens",
       "recipes": ["default", "illustration"],
       "modes": ["light", "dark"],
@@ -11,7 +11,7 @@
   },
   "seed": {
     "$extensions": {
-      "org.rin-labs.theme": {
+      "org.nami.theme": {
         "layer": "seed",
         "allowedOverrideLevel": "theme-seed"
       }
@@ -21,9 +21,9 @@
         "$type": "color",
         "$value": "#3b82f6",
         "$extensions": {
-          "org.rin-labs.theme": {
+          "org.nami.theme": {
             "semanticRole": "brand accent source",
-            "affectedComponents": ["rl-button", "rl-chip", "rl-switch", "rl-radio-card", "rl-spinner", "rl-illustration"]
+            "affectedComponents": ["nami-button", "nami-chip", "nami-switch", "nami-radio-card", "nami-spinner", "nami-illustration"]
           }
         }
       }
@@ -57,7 +57,7 @@
         "$type": "string",
         "$value": "normal",
         "$extensions": {
-          "org.rin-labs.theme": {
+          "org.nami.theme": {
             "semanticRole": "contrast recipe selector",
             "allowedValues": ["normal", "high"]
           }
@@ -125,7 +125,7 @@
   },
   "semantic": {
     "$extensions": {
-      "org.rin-labs.theme": {
+      "org.nami.theme": {
         "layer": "semantic",
         "allowedOverrideLevel": "theme-algorithm"
       }
@@ -135,9 +135,9 @@
         "$type": "color",
         "$value": "{seed.accent.50}",
         "$extensions": {
-          "org.rin-labs.theme": {
+          "org.nami.theme": {
             "semanticRole": "primary interactive color",
-            "affectedComponents": ["rl-button", "rl-chip", "rl-switch", "rl-radio-card", "rl-badge"]
+            "affectedComponents": ["nami-button", "nami-chip", "nami-switch", "nami-radio-card", "nami-badge"]
           }
         }
       },
@@ -171,7 +171,7 @@
   },
   "component": {
     "$extensions": {
-      "org.rin-labs.theme": {
+      "org.nami.theme": {
         "layer": "component",
         "allowedOverrideLevel": "component-token"
       }
@@ -181,8 +181,8 @@
         "$type": "color",
         "$value": "{semantic.color.primary}",
         "$extensions": {
-          "org.rin-labs.theme": {
-            "affectedComponents": ["rl-button"],
+          "org.nami.theme": {
+            "affectedComponents": ["nami-button"],
             "semanticRole": "button container background"
           }
         }

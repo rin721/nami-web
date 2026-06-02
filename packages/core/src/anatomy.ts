@@ -1,6 +1,6 @@
-import { rlComponentMetadata } from './metadata';
+import { namiComponentMetadata } from './metadata';
 
-export const rlComponentAnatomy = rlComponentMetadata.map((item) => ({
+export const namiComponentAnatomy = namiComponentMetadata.map((item) => ({
   name: item.name,
   category: item.category,
   anatomy: item.anatomy,
@@ -11,4 +11,4 @@ export const rlComponentAnatomy = rlComponentMetadata.map((item) => ({
   slots: item.slots
 }));
 
-export type RlComponentAnatomy = (typeof rlComponentAnatomy)[number];
+export type NamiComponentAnatomy = (typeof namiComponentAnatomy)[number];

@@ -1,4 +1,4 @@
-export const rlParts = [
+export const namiParts = [
   'base',
   'control',
   'icon',
@@ -17,7 +17,7 @@ export const rlParts = [
   'illustration'
 ] as const;
 
-export const rlSlots = [
+export const namiSlots = [
   'default',
   'icon',
   'header',
@@ -33,5 +33,5 @@ export const rlSlots = [
   'bottom'
 ] as const;
 
-export type RlPart = (typeof rlParts)[number];
-export type RlSlot = (typeof rlSlots)[number];
+export type NamiPart = (typeof namiParts)[number];
+export type NamiSlot = (typeof namiSlots)[number];

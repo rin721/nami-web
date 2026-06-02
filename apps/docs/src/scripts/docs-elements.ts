@@ -1,11 +1,11 @@
-import { rlComponentMetadata } from '@rin-labs/ui';
-import { deriveRinTheme, themeToCssText } from '@rin-labs/tokens/theme';
+import { namiComponentMetadata } from '@nami/ui/metadata';
+import { deriveNamiTheme, themeToCssText } from '@nami/tokens/theme';
 
 function escapeHtml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-class RinDocsCodeBlock extends HTMLElement {
+class NamiDocsCodeBlock extends HTMLElement {
   static observedAttributes = ['data-code', 'data-language'];
 
   connectedCallback() {
@@ -23,7 +23,7 @@ class RinDocsCodeBlock extends HTMLElement {
   }
 }
 
-class RinDocsLiveDemo extends HTMLElement {
+class NamiDocsLiveDemo extends HTMLElement {
   static observedAttributes = ['data-code'];
 
   connectedCallback() {
@@ -39,21 +39,21 @@ class RinDocsLiveDemo extends HTMLElement {
     this.innerHTML = `
       <div class="live-example" data-live-example>
         <div class="live-preview">${code}</div>
-        <rin-docs-code-block data-language="html" data-code="${encodeURIComponent(code)}"></rin-docs-code-block>
+        <nami-docs-code-block data-language="html" data-code="${encodeURIComponent(code)}"></nami-docs-code-block>
       </div>
     `;
   }
 }
 
-class RinDocsThemeDesigner extends HTMLElement {
+class NamiDocsThemeDesigner extends HTMLElement {
   connectedCallback() {
-    this.addEventListener('rl-change', this.scheduleUpdate);
+    this.addEventListener('nami-change', this.scheduleUpdate);
     this.addEventListener('click', this.scheduleUpdate);
     this.scheduleUpdate();
   }
 
   disconnectedCallback() {
-    this.removeEventListener('rl-change', this.scheduleUpdate);
+    this.removeEventListener('nami-change', this.scheduleUpdate);
     this.removeEventListener('click', this.scheduleUpdate);
   }
 
@@ -62,7 +62,7 @@ class RinDocsThemeDesigner extends HTMLElement {
   };
 
   private readSeed() {
-    const theme = document.querySelector('rl-theme');
+    const theme = document.querySelector('nami-theme');
     const preset = theme?.getAttribute('style-preset');
     return {
       accent: theme?.getAttribute('accent') || '#3b82f6',
@@ -78,12 +78,12 @@ class RinDocsThemeDesigner extends HTMLElement {
   }
 
   private updateOutput() {
-    const resolved = deriveRinTheme(this.readSeed());
+    const resolved = deriveNamiTheme(this.readSeed());
     const tokenTree = this.querySelector('[data-derived-token-tree]');
-    const cssBlock = this.querySelector('rin-docs-code-block[data-generated-css]') as HTMLElement | null;
+    const cssBlock = this.querySelector('nami-docs-code-block[data-generated-css]') as HTMLElement | null;
     const affected = this.querySelector('[data-affected-components]');
     const preview = this.querySelector('[data-designer-preview]') as HTMLElement | null;
-    const cssText = themeToCssText(resolved, '.my-rin-theme');
+    const cssText = themeToCssText(resolved, '.my-nami-theme');
     const tokenEntries = [
       ['Seed', resolved.seed],
       ['Palette', resolved.palette],
@@ -92,39 +92,39 @@ class RinDocsThemeDesigner extends HTMLElement {
       ['Component', resolved.component]
     ];
     const derivedTokens = new Set(Object.keys(resolved.cssVars));
-    const affectedComponents = rlComponentMetadata
+    const affectedComponents = namiComponentMetadata
       .filter((item) => item.tokens.some((token) => derivedTokens.has(token)))
       .map((item) => item.name);
 
     if (tokenTree) {
       tokenTree.innerHTML = tokenEntries.map(([label, value]) => `
-        <rl-card variant="inset">
-          <rl-badge slot="header" variant="primary">${label}</rl-badge>
+        <nami-card variant="inset">
+          <nami-badge slot="header" variant="primary">${label}</nami-badge>
           <dl class="token-dl">
             ${Object.entries(value as Record<string, unknown>).slice(0, 12).map(([key, tokenValue]) => `<dt>${escapeHtml(key)}</dt><dd>${escapeHtml(String(tokenValue))}</dd>`).join('')}
           </dl>
-        </rl-card>
+        </nami-card>
       `).join('');
     }
 
     if (cssBlock) cssBlock.dataset.code = encodeURIComponent(cssText);
 
     if (affected) {
-      affected.innerHTML = affectedComponents.map((name) => `<rl-badge variant="primary">${name}</rl-badge>`).join('');
+      affected.innerHTML = affectedComponents.map((name) => `<nami-badge variant="primary">${name}</nami-badge>`).join('');
     }
 
     if (preview) {
       preview.style.cssText = Object.entries(resolved.cssVars).map(([token, value]) => `${token}: ${value}`).join(';');
-      preview.dataset.rlTheme = resolved.seed.mode;
-      preview.dataset.rlStyle = resolved.seed.stylePreset;
-      preview.dataset.rlDensity = resolved.seed.density;
-      preview.dataset.rlMotion = resolved.seed.motion;
-      preview.dataset.rlRadius = resolved.seed.radius;
-      preview.dataset.rlContrast = resolved.seed.contrast;
+      preview.dataset.namiTheme = resolved.seed.mode;
+      preview.dataset.namiStyle = resolved.seed.stylePreset;
+      preview.dataset.namiDensity = resolved.seed.density;
+      preview.dataset.namiMotion = resolved.seed.motion;
+      preview.dataset.namiRadius = resolved.seed.radius;
+      preview.dataset.namiContrast = resolved.seed.contrast;
     }
   }
 }
 
-if (!customElements.get('rin-docs-code-block')) customElements.define('rin-docs-code-block', RinDocsCodeBlock);
-if (!customElements.get('rin-docs-live-demo')) customElements.define('rin-docs-live-demo', RinDocsLiveDemo);
-if (!customElements.get('rin-docs-theme-designer')) customElements.define('rin-docs-theme-designer', RinDocsThemeDesigner);
+if (!customElements.get('nami-docs-code-block')) customElements.define('nami-docs-code-block', NamiDocsCodeBlock);
+if (!customElements.get('nami-docs-live-demo')) customElements.define('nami-docs-live-demo', NamiDocsLiveDemo);
+if (!customElements.get('nami-docs-theme-designer')) customElements.define('nami-docs-theme-designer', NamiDocsThemeDesigner);

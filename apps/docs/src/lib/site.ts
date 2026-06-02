@@ -11,7 +11,7 @@ export function isDocsLocale(value: string | undefined): value is DocsLocale {
 
 const messages = {
   'zh-CN': {
-    'site.title': 'Rin UI 官网',
+    'site.title': 'Nami UI 官网',
     'site.description': '跨框架、可换肤的 Web Components UI 组件库。',
     'nav.home': '首页',
     'nav.docs': '开始',
@@ -24,21 +24,21 @@ const messages = {
     'nav.designer': '主题设计器',
     'nav.resources': '资源',
     'nav.vibe': '工程方法',
-    'home.eyebrow': 'Rin UI v1.4',
+    'home.eyebrow': 'Nami UI v1.6',
     'home.subtitle': '跨框架、可换肤的 Web Components UI 组件库',
-    'home.lead': '用一套标准 Web Components 构建应用界面。Rin UI 提供默认社区风格、插画风格、开放主题算法和语义化组件结构，适合原生 HTML、Vue、React 与长期维护的设计系统。',
+    'home.lead': '使用标准 Web Components 构建应用界面。Nami UI 提供默认社区风格、插画风格、开放主题算法和语义化组件结构，适合原生 HTML、Vue、React 与长期维护的设计系统。',
     'home.install': '安装',
     'home.openDocs': '快速开始',
     'home.openDesigner': '打开主题设计器',
     'home.openComponents': '浏览组件',
-    'home.vibeTitle': '从组件到主题，保持同一套源码',
-    'home.vibeCopy': '默认风格与插画风格共用同一批 rl-* 组件。使用 accent、dark、density、radius、contrast 等 seed 即可派生完整 token，并安全覆盖 CSS Parts 与组件令牌。',
+    'home.vibeTitle': '一套组件源码，多套视觉系统',
+    'home.vibeCopy': '默认风格与插画风格共用同一批 nami-* 组件。通过 accent、dark、density、radius、contrast、motion 等 seed 派生完整 token，并通过 CSS Parts 与组件令牌安全定制。',
     'home.framework': '跨框架',
     'home.themeable': '可换肤',
     'home.accessible': '可访问',
     'home.metadata': '元数据驱动',
-    'home.libraryTitle': '一个组件库应当先解决真实使用路径',
-    'home.libraryCopy': '安装、主题、组件、框架接入、质量规范被拆成清晰路由；首页只保留产品定位和高价值入口。',
+    'home.libraryTitle': '组件库官网应从真实使用路径开始',
+    'home.libraryCopy': '安装、主题、组件、框架接入、质量规范被拆成清晰路由；首页只保留产品定位、核心能力和高价值入口。',
     'home.pathStartCopy': '安装包，选择全量注册或单组件导入，再引入主题 CSS。',
     'home.pathComponentsCopy': '按界面任务浏览组件，并进入详情页查看示例、API、slots、parts 和 tokens。',
     'home.pathThemeCopy': '用同一套 seed 控制主题色、明暗模式、风格预设、密度、圆角、对比度和动效。',
@@ -70,7 +70,7 @@ const messages = {
     'component.tokens': '主题令牌',
     'component.a11y': '可访问性说明',
     'components.title': '组件',
-    'components.copy': '按真实界面任务组织组件：操作、输入、反馈、布局、主题与状态展示。每个组件都暴露属性、事件、slots、parts 与 token 边界。',
+    'components.copy': '组件按真实界面任务组织：操作、输入、反馈、布局、主题与状态展示。每个组件都暴露属性、事件、slots、parts 与 token 边界。',
     'components.statsComponents': '公开组件',
     'components.statsComponentsCopy': '具备稳定 metadata 与 package exports 的 custom elements。',
     'components.statsGroups': '任务分组',
@@ -78,13 +78,13 @@ const messages = {
     'components.statsTokens': 'Token 钩子',
     'components.statsTokensCopy': '组件 metadata 暴露可换肤边界。',
     'tokens.title': 'Seed、Semantic、Component',
-    'tokens.copy': 'Rin UI 将换肤边界放在 CSS 变量和确定性主题算法后面。组件只消费 semantic、component 和 style tokens。',
+    'tokens.copy': 'Nami UI 将换肤边界放在 CSS 变量和确定性主题算法之后。组件只消费 semantic、component 和 style tokens。',
     'theme.title': '主题系统',
-    'theme.copy': '从少量 seed 派生完整视觉系统：品牌色、明暗模式、风格预设、密度、圆角、对比度和动效都能同步影响组件。',
+    'theme.copy': '从少量 seed 派生完整视觉系统：品牌色、明暗模式、风格预设、密度、圆角、对比度和动效都会同步影响组件。',
     'theme.presetsTitle': '风格预设',
     'theme.presetsCopy': 'Default 与 Illustration 是两套视觉语言，不是两套组件源码。切换 preset 只改变 token 与样式边界。',
     'theme.algorithmTitle': '开放主题算法',
-    'theme.algorithmCopy': 'seed 进入派生 palette，再映射到 semantic/component tokens。输出可以复制为 CSS 变量，也能被工具和 AI 理解。',
+    'theme.algorithmCopy': 'seed 进入派生 palette，再映射到 semantic/component tokens。输出可以复制为 CSS 变量，也能被工具理解。',
     'resources.title': '资源',
     'resources.copy': '质量、i18n、语义结构和工程方法集中放在资源区，避免污染首页主叙事。',
     'lab.title': '主题矩阵',
@@ -99,7 +99,7 @@ const messages = {
     'notFound.title': '页面不存在'
   },
   'en-US': {
-    'site.title': 'Rin UI Docs',
+    'site.title': 'Nami UI Docs',
     'site.description': 'A cross-framework, themeable Web Components UI library.',
     'nav.home': 'Home',
     'nav.docs': 'Start',
@@ -112,15 +112,15 @@ const messages = {
     'nav.designer': 'Theme Designer',
     'nav.resources': 'Resources',
     'nav.vibe': 'Build method',
-    'home.eyebrow': 'Rin UI v1.4',
+    'home.eyebrow': 'Nami UI v1.6',
     'home.subtitle': 'A cross-framework, themeable Web Components UI library',
-    'home.lead': 'Build application interfaces with standard Web Components. Rin UI ships a neutral default style, an illustration style, an open theme algorithm, and semantic component anatomy for Native HTML, Vue, React, and long-lived design systems.',
+    'home.lead': 'Build application interfaces with standard Web Components. Nami UI ships a neutral default style, an illustration style, an open theme algorithm, and semantic component anatomy for Native HTML, Vue, React, and long-lived design systems.',
     'home.install': 'Install',
     'home.openDocs': 'Get started',
     'home.openDesigner': 'Open designer',
     'home.openComponents': 'Browse components',
     'home.vibeTitle': 'One component source, multiple visual systems',
-    'home.vibeCopy': 'Default and illustration styles use the same rl-* components. Accent, dark mode, density, radius, contrast, and motion seeds derive the full token system while CSS Parts and component tokens stay safe to customize.',
+    'home.vibeCopy': 'Default and illustration styles use the same nami-* components. Accent, dark mode, density, radius, contrast, and motion seeds derive the full token system while CSS Parts and component tokens stay safe to customize.',
     'home.framework': 'Framework agnostic',
     'home.themeable': 'Themeable',
     'home.accessible': 'Accessible',
@@ -166,13 +166,13 @@ const messages = {
     'components.statsTokens': 'Token hooks',
     'components.statsTokensCopy': 'Theme boundaries exposed through component metadata.',
     'tokens.title': 'Seed, Semantic, Component',
-    'tokens.copy': 'Rin UI keeps theme replacement behind CSS variables and a deterministic algorithm. Components consume semantic, component, and style tokens.',
+    'tokens.copy': 'Nami UI keeps theme replacement behind CSS variables and a deterministic algorithm. Components consume semantic, component, and style tokens.',
     'theme.title': 'Theme system',
     'theme.copy': 'A small set of seeds derives the full visual system: accent, color mode, style preset, density, radius, contrast, and motion all update components together.',
     'theme.presetsTitle': 'Style presets',
     'theme.presetsCopy': 'Default and Illustration are two visual languages, not two component implementations. Switching preset changes tokens and style boundaries only.',
     'theme.algorithmTitle': 'Open theme algorithm',
-    'theme.algorithmCopy': 'Seeds derive a palette, then semantic and component tokens. The output can be copied as CSS variables and understood by tools or AI.',
+    'theme.algorithmCopy': 'Seeds derive a palette, then semantic and component tokens. The output can be copied as CSS variables and understood by tools.',
     'resources.title': 'Resources',
     'resources.copy': 'Quality, i18n, semantic anatomy, and build-method guidance live in the resources area instead of crowding the home page.',
     'lab.title': 'Theme Matrix',
@@ -225,9 +225,9 @@ export function switchLocalePath(pathname: string, from: DocsLocale, to: DocsLoc
 }
 
 export function componentSlug(name: string) {
-  return name.replace(/^rl-/, '');
+  return name.replace(/^nami-/, '');
 }
 
 export function componentNameFromSlug(slug: string) {
-  return slug.startsWith('rl-') ? slug : `rl-${slug}`;
+  return slug.startsWith('nami-') ? slug : `nami-${slug}`;
 }

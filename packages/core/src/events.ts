@@ -1,9 +1,9 @@
-export interface RlClickEventDetail {
+export interface NamiClickEventDetail {
   sourceEvent?: Event;
   selected?: boolean;
 }
 
-export interface RlChangeEventDetail<TValue = string> {
+export interface NamiChangeEventDetail<TValue = string> {
   value?: TValue;
   checked?: boolean;
   selected?: boolean;
@@ -13,21 +13,21 @@ export interface RlChangeEventDetail<TValue = string> {
   sourceEvent?: Event;
 }
 
-export interface RlSelectEventDetail<TValue = string> {
+export interface NamiSelectEventDetail<TValue = string> {
   value?: TValue;
   selected?: boolean;
   sourceEvent?: Event;
 }
 
-export interface RlOpenEventDetail {
+export interface NamiOpenEventDetail {
   sourceEvent?: Event;
 }
 
-export interface RlCloseEventDetail {
+export interface NamiCloseEventDetail {
   sourceEvent?: Event;
 }
 
-export interface RlLocaleStatusEventDetail {
+export interface NamiLocaleStatusEventDetail {
   status: 'loading' | 'ready' | 'error';
   loadingLocale?: string;
   readyLocale?: string;
@@ -35,9 +35,9 @@ export interface RlLocaleStatusEventDetail {
   errorMessage?: string;
 }
 
-export type RlClickEvent = CustomEvent<RlClickEventDetail>;
-export type RlChangeEvent<TValue = string> = CustomEvent<RlChangeEventDetail<TValue>>;
-export type RlSelectEvent<TValue = string> = CustomEvent<RlSelectEventDetail<TValue>>;
-export type RlOpenEvent = CustomEvent<RlOpenEventDetail | undefined>;
-export type RlCloseEvent = CustomEvent<RlCloseEventDetail | undefined>;
-export type RlLocaleStatusEvent = CustomEvent<RlLocaleStatusEventDetail>;
+export type NamiClickEvent = CustomEvent<NamiClickEventDetail>;
+export type NamiChangeEvent<TValue = string> = CustomEvent<NamiChangeEventDetail<TValue>>;
+export type NamiSelectEvent<TValue = string> = CustomEvent<NamiSelectEventDetail<TValue>>;
+export type NamiOpenEvent = CustomEvent<NamiOpenEventDetail | undefined>;
+export type NamiCloseEvent = CustomEvent<NamiCloseEventDetail | undefined>;
+export type NamiLocaleStatusEvent = CustomEvent<NamiLocaleStatusEventDetail>;

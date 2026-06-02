@@ -18,10 +18,10 @@ type ThemeController = {
 };
 
 type DocsWindow = Window & {
-  __rinDocsThemeController?: ThemeController;
+  __namiDocsThemeController?: ThemeController;
 };
 
-const storageKey = 'rin-docs-visual-state';
+const storageKey = 'nami-docs-visual-state';
 const locales = ['zh-CN', 'en-US'] as const;
 
 function currentLocale() {
@@ -38,7 +38,7 @@ function readSavedState() {
 }
 
 function readRoot() {
-  return document.querySelector('rl-theme') as HTMLElement & Partial<DocsVisualState> | null;
+  return document.querySelector('nami-theme') as HTMLElement & Partial<DocsVisualState> | null;
 }
 
 function initialState(): DocsVisualState {
@@ -115,8 +115,8 @@ function createController(): ThemeController {
 
 function controller() {
   const win = window as DocsWindow;
-  win.__rinDocsThemeController ??= createController();
-  return win.__rinDocsThemeController;
+  win.__namiDocsThemeController ??= createController();
+  return win.__namiDocsThemeController;
 }
 
 function installDocumentListeners() {
@@ -134,7 +134,7 @@ function installDocumentListeners() {
     }
   });
 
-  document.addEventListener('rl-click', ((event: CustomEvent) => {
+  document.addEventListener('nami-click', ((event: CustomEvent) => {
     const target = event.target as HTMLElement;
     if (target.id === 'docs-open-theme') {
       const drawer = document.querySelector('#docs-theme-drawer') as HTMLElement & { open?: boolean } | null;
@@ -147,7 +147,7 @@ function installDocumentListeners() {
     }
   }) as EventListener);
 
-  document.addEventListener('rl-change', ((event: CustomEvent<Record<string, unknown>>) => {
+  document.addEventListener('nami-change', ((event: CustomEvent<Record<string, unknown>>) => {
     const target = event.target as HTMLElement;
     if (target.matches('[data-locale-mode]')) {
       switchLocale(String(event.detail.value ?? currentLocale()));

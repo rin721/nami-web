@@ -1,6 +1,6 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
-import { componentGroups, componentPath, componentPreviews, componentUseCase, groupDescription, groupTitle, metadataByName, rlComponentMetadata } from '../../../lib/catalog';
+import { componentGroups, componentPath, componentPreviews, componentUseCase, groupDescription, groupTitle, metadataByName, namiComponentMetadata } from '../../../lib/catalog';
 import { docsLocales, t, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
@@ -8,8 +8,8 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.props as { locale: DocsLocale };
-const componentCount = rlComponentMetadata.length;
-const tokenCount = rlComponentMetadata.reduce((count, item) => count + item.tokens.length, 0);
+const componentCount = namiComponentMetadata.length;
+const tokenCount = namiComponentMetadata.reduce((count, item) => count + item.tokens.length, 0);
 ---
 
 <DocsLayout locale={locale} title={t(locale, 'nav.components')}>
@@ -21,21 +21,21 @@ const tokenCount = rlComponentMetadata.reduce((count, item) => count + item.toke
     </div>
 
     <div class="directory-stats">
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{componentCount}</rl-badge>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{componentCount}</nami-badge>
         <h3>{t(locale, 'components.statsComponents')}</h3>
         <p>{t(locale, 'components.statsComponentsCopy')}</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{componentGroups.length}</rl-badge>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{componentGroups.length}</nami-badge>
         <h3>{t(locale, 'components.statsGroups')}</h3>
         <p>{t(locale, 'components.statsGroupsCopy')}</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">{tokenCount}</rl-badge>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{tokenCount}</nami-badge>
         <h3>{t(locale, 'components.statsTokens')}</h3>
         <p>{t(locale, 'components.statsTokensCopy')}</p>
-      </rl-card>
+      </nami-card>
     </div>
 
     <div id="component-docs" class="component-docs">
@@ -46,27 +46,27 @@ const tokenCount = rlComponentMetadata.reduce((count, item) => count + item.toke
               <h3>{groupTitle(group, locale)}</h3>
               <p>{groupDescription(group, locale)}</p>
             </div>
-            <rl-badge>{group.names.length} items</rl-badge>
+            <nami-badge>{group.names.length} items</nami-badge>
           </div>
           <div class="component-group-grid">
             {group.names.map((name) => {
               const item = metadataByName.get(name);
               if (!item) return null;
               return (
-                <rl-card data-component-card={item.name}>
+                <nami-card data-component-card={item.name}>
                   <div class="component-preview" set:html={componentPreviews.get(item.name) ?? item.usage} />
                   <div class="component-copy">
-                    <rl-badge slot="header" variant="primary">{item.name}</rl-badge>
+                    <nami-badge slot="header" variant="primary">{item.name}</nami-badge>
                     <h3>{item.name}</h3>
                     <p>{componentUseCase(item.name, locale)}</p>
                     <div class="component-card-meta">
-                      <rl-badge>{item.events.length} events</rl-badge>
-                      <rl-badge>{item.parts.length} parts</rl-badge>
-                      <rl-badge>{item.tokens.length} tokens</rl-badge>
+                      <nami-badge>{item.events.length} events</nami-badge>
+                      <nami-badge>{item.parts.length} parts</nami-badge>
+                      <nami-badge>{item.tokens.length} tokens</nami-badge>
                     </div>
-                    <rl-button variant="soft" onclick={`location.href='${componentPath(locale, item.name)}'`}>{t(locale, 'component.open')}</rl-button>
+                    <nami-button variant="soft" onclick={`location.href='${componentPath(locale, item.name)}'`}>{t(locale, 'component.open')}</nami-button>
                   </div>
-                </rl-card>
+                </nami-card>
               );
             })}
           </div>

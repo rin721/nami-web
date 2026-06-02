@@ -6,28 +6,28 @@ order: 1
 
 # 快速开始
 
-Rin UI 是基于 Lit 的 Web Components 组件库。因为公共能力是标准自定义元素、attributes、events、slots、CSS variables 和 CSS parts，所以可以接入原生 HTML、Vue、React 和其他前端栈。
+Nami UI 是基于 Lit 的 Web Components 组件库。因为公共能力是标准自定义元素、attributes、events、slots、CSS variables 和 CSS parts，所以可以接入原生 HTML、Vue、React 和其他前端栈。
 
 ## 安装
 
 ```bash
-npm install @rin-labs/ui @rin-labs/themes
+npm install @nami/ui @nami/themes
 ```
 
 ## 注册全部组件
 
-<rin-docs-live-demo data-code="%3Crl-button%3E%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Frl-button%3E%0A%3Crl-button%20variant%3D%22soft%22%3E%E6%AC%A1%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Frl-button%3E%0A%3Crl-chip%20checkbox%20selected%20value%3D%22docs%22%3E%E6%96%87%E6%A1%A3%3C%2Frl-chip%3E"></rin-docs-live-demo>
+<nami-docs-live-demo data-code="%3Cnami-button%3E%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%3Cnami-button%20variant%3D%22soft%22%3E%E6%AC%A1%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%3Cnami-chip%20checkbox%20selected%20value%3D%22docs%22%3E%E6%96%87%E6%A1%A3%3C%2Fnami-chip%3E"></nami-docs-live-demo>
 
 ```ts
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';
+import '@nami/themes/default.css';
+import '@nami/ui/register';
 ```
 
 ## 只导入一个组件
 
 ```ts
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/button';
+import '@nami/themes/default.css';
+import '@nami/ui/button';
 ```
 
 文档站和原型可以使用全量注册入口。应用需要更小依赖面时，使用单组件入口。

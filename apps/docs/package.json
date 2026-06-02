@@ -1,5 +1,5 @@
 {
-  "name": "@rin-labs/docs",
+  "name": "@nami/docs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -10,9 +10,9 @@
   "dependencies": {
     "@astrojs/mdx": "^6.0.1",
     "@lucide/astro": "^1.17.0",
-    "@rin-labs/themes": "0.1.0",
-    "@rin-labs/tokens": "0.1.0",
-    "@rin-labs/ui": "0.1.0",
+    "@nami/themes": "0.1.0",
+    "@nami/tokens": "0.1.0",
+    "@nami/ui": "0.1.0",
     "astro": "^6.4.2",
     "i18next": "^26.3.0",
     "pagefind": "^1.5.2",

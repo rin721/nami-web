@@ -3,7 +3,7 @@ import { attachInternalsSafe, setSafeFormValue, type SafeElementInternals } from
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlSwitch extends LitElement {
+export class NamiSwitch extends LitElement {
   static formAssociated = true;
   static properties = {
     name: {},
@@ -23,40 +23,40 @@ export class RlSwitch extends LitElement {
         align-items: center;
         background: transparent;
         border: 0;
-        color: var(--rl-text);
+        color: var(--nami-text);
         cursor: pointer;
         display: inline-flex;
         font: inherit;
-        gap: var(--rl-space-3, 10px);
+        gap: var(--nami-space-3, 10px);
         padding: 0;
       }
 
       .track {
         align-items: center;
-        background: var(--rl-switch-track-bg, var(--rl-hover-overlay));
-        border: var(--rl-switch-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-switch-border-color, var(--rl-border));
-        border-radius: var(--rl-radius-control, 999px);
+        background: var(--nami-switch-track-bg, var(--nami-hover-overlay));
+        border: var(--nami-switch-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-switch-border-color, var(--nami-border));
+        border-radius: var(--nami-radius-control, 999px);
         display: inline-flex;
         height: 28px;
         padding: 2px;
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          border-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
         width: 48px;
       }
 
       .thumb {
-        background: var(--rl-switch-thumb-bg, var(--rl-surface-raised));
+        background: var(--nami-switch-thumb-bg, var(--nami-surface-raised));
         border-radius: 50%;
-        box-shadow: var(--rl-switch-thumb-shadow, 0 1px 4px color-mix(in oklab, var(--rl-shadow-color), transparent 64%));
+        box-shadow: var(--nami-switch-thumb-shadow, 0 1px 4px color-mix(in oklab, var(--nami-shadow-color), transparent 64%));
         height: 22px;
         transform: translateX(0);
-        transition: transform var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+        transition: transform var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
         width: 22px;
       }
 
       :host([checked]) .track {
-        background: var(--rl-color-primary);
+        background: var(--nami-color-primary);
         border-color: transparent;
       }
 
@@ -65,7 +65,7 @@ export class RlSwitch extends LitElement {
       }
 
       button:focus-visible .track {
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
       }
 
       button:disabled {
@@ -108,7 +108,7 @@ export class RlSwitch extends LitElement {
   private toggle(event: MouseEvent) {
     if (this.disabled) return;
     this.checked = !this.checked;
-    emit(this, 'rl-change', { checked: this.checked, value: this.value, sourceEvent: event });
+    emit(this, 'nami-change', { checked: this.checked, value: this.value, sourceEvent: event });
   }
 
   render() {
@@ -130,6 +130,6 @@ export class RlSwitch extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-switch': RlSwitch;
+    'nami-switch': NamiSwitch;
   }
 }

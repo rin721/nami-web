@@ -2,7 +2,7 @@ import { css, html, LitElement } from 'lit';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlChip extends LitElement {
+export class NamiChip extends LitElement {
   static properties = {
     value: {},
     selected: { type: Boolean, reflect: true },
@@ -19,35 +19,35 @@ export class RlChip extends LitElement {
 
       button {
         align-items: center;
-        background: var(--rl-chip-bg, var(--rl-hover-overlay));
-        border: var(--rl-chip-border-width, 0) solid var(--rl-chip-border-color, transparent);
-        border-radius: var(--rl-chip-radius, var(--rl-radius-control, 999px));
-        color: var(--rl-style-on-paper, var(--rl-text));
+        background: var(--nami-chip-bg, var(--nami-hover-overlay));
+        border: var(--nami-chip-border-width, 0) solid var(--nami-chip-border-color, transparent);
+        border-radius: var(--nami-chip-radius, var(--nami-radius-control, 999px));
+        color: var(--nami-style-on-paper, var(--nami-text));
         cursor: pointer;
         display: inline-flex;
         font: inherit;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
         min-height: 31px;
         padding: 0 12px;
-        box-shadow: var(--rl-chip-shadow, none);
+        box-shadow: var(--nami-chip-shadow, none);
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          color var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          box-shadow var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          transform var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          color var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          box-shadow var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          transform var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);
       }
 
       :host([selected]) button {
-        background: var(--rl-chip-selected-bg, var(--rl-color-primary));
-        color: var(--rl-text-inverse);
+        background: var(--nami-chip-selected-bg, var(--nami-color-primary));
+        color: var(--nami-text-inverse);
       }
 
       button:hover:not(:disabled) {
-        background: var(--rl-accent-hover-overlay, var(--rl-hover-overlay));
+        background: var(--nami-accent-hover-overlay, var(--nami-hover-overlay));
       }
 
       :host([selected]) button:hover:not(:disabled) {
-        background: var(--rl-color-primary-hover);
+        background: var(--nami-color-primary-hover);
       }
 
       button:active:not(:disabled) {
@@ -55,7 +55,7 @@ export class RlChip extends LitElement {
       }
 
       button:focus-visible {
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
         outline: none;
       }
 
@@ -82,8 +82,8 @@ export class RlChip extends LitElement {
   private handleClick(event: MouseEvent) {
     if (this.disabled) return;
     if (this.checkbox) this.selected = !this.selected;
-    emit(this, 'rl-change', { selected: this.selected, value: this.value, sourceEvent: event });
-    emit(this, 'rl-select', { selected: this.selected, value: this.value, sourceEvent: event });
+    emit(this, 'nami-change', { selected: this.selected, value: this.value, sourceEvent: event });
+    emit(this, 'nami-select', { selected: this.selected, value: this.value, sourceEvent: event });
   }
 
   render() {
@@ -105,6 +105,6 @@ export class RlChip extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-chip': RlChip;
+    'nami-chip': NamiChip;
   }
 }

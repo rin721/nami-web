@@ -1,9 +1,9 @@
 import { css, html, LitElement } from 'lit';
 import { componentHostStyles } from '../internal/styles';
 
-export type RlCardVariant = 'surface' | 'inset' | 'outline';
+export type NamiCardVariant = 'surface' | 'inset' | 'outline';
 
-export class RlCard extends LitElement {
+export class NamiCard extends LitElement {
   static properties = {
     variant: { reflect: true }
   };
@@ -16,18 +16,18 @@ export class RlCard extends LitElement {
       }
 
       .base {
-        background: var(--rl-card-bg, var(--rl-surface-raised));
-        border: var(--rl-card-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-card-border, var(--rl-border));
-        border-radius: var(--rl-card-radius, var(--rl-radius-surface, 6px));
-        box-shadow: var(--rl-card-shadow, none);
-        color: var(--rl-card-fg, var(--rl-text));
+        background: var(--nami-card-bg, var(--nami-surface-raised));
+        border: var(--nami-card-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-card-border, var(--nami-border));
+        border-radius: var(--nami-card-radius, var(--nami-radius-surface, 6px));
+        box-shadow: var(--nami-card-shadow, none);
+        color: var(--nami-card-fg, var(--nami-text));
         display: grid;
-        gap: var(--rl-card-gap, var(--rl-space-3, 10px));
-        padding: var(--rl-card-padding, var(--rl-space-4, 16px));
+        gap: var(--nami-card-gap, var(--nami-space-3, 10px));
+        padding: var(--nami-card-padding, var(--nami-space-4, 16px));
       }
 
       :host([variant='inset']) .base {
-        background: var(--rl-card-inset-bg, var(--rl-surface-inset));
+        background: var(--nami-card-inset-bg, var(--nami-surface-inset));
       }
 
       :host([variant='outline']) .base {
@@ -54,12 +54,12 @@ export class RlCard extends LitElement {
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
       }
     `
   ];
 
-  declare variant: RlCardVariant;
+  declare variant: NamiCardVariant;
 
   constructor() {
     super();
@@ -90,6 +90,6 @@ export class RlCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-card': RlCard;
+    'nami-card': NamiCard;
   }
 }

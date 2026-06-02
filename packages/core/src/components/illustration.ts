@@ -1,7 +1,7 @@
 import { css, html, LitElement, type TemplateResult } from 'lit';
 import { componentHostStyles } from '../internal/styles';
 
-export type RlIllustrationName =
+export type NamiIllustrationName =
   | 'empty'
   | 'search'
   | 'success'
@@ -12,9 +12,9 @@ export type RlIllustrationName =
   | 'not-found'
   | 'server-error';
 
-export type RlIllustrationSize = 'sm' | 'md' | 'lg';
+export type NamiIllustrationSize = 'sm' | 'md' | 'lg';
 
-export class RlIllustration extends LitElement {
+export class NamiIllustration extends LitElement {
   static properties = {
     name: { reflect: true },
     size: { reflect: true }
@@ -24,19 +24,19 @@ export class RlIllustration extends LitElement {
     componentHostStyles,
     css`
       :host {
-        --illustration-size: var(--rl-illus-size-md, 140px);
-        color: var(--rl-illus-primary, var(--rl-color-primary, #3b82f6));
+        --illustration-size: var(--nami-illus-size-md, 140px);
+        color: var(--nami-illus-primary, var(--nami-color-primary, #3b82f6));
         display: inline-flex;
         height: var(--illustration-size);
         width: var(--illustration-size);
       }
 
       :host([size='sm']) {
-        --illustration-size: var(--rl-illus-size-sm, 92px);
+        --illustration-size: var(--nami-illus-size-sm, 92px);
       }
 
       :host([size='lg']) {
-        --illustration-size: var(--rl-illus-size-lg, 184px);
+        --illustration-size: var(--nami-illus-size-lg, 184px);
       }
 
       svg {
@@ -47,28 +47,28 @@ export class RlIllustration extends LitElement {
       }
 
       .bg {
-        fill: var(--rl-illus-bg, color-mix(in oklab, currentColor, transparent 92%));
+        fill: var(--nami-illus-bg, color-mix(in oklab, currentColor, transparent 92%));
       }
 
       .primary {
-        fill: var(--rl-illus-primary, currentColor);
+        fill: var(--nami-illus-primary, currentColor);
       }
 
       .secondary {
-        fill: var(--rl-illus-secondary, color-mix(in oklab, currentColor, #fff 58%));
+        fill: var(--nami-illus-secondary, color-mix(in oklab, currentColor, #fff 58%));
       }
 
       .accent {
-        fill: var(--rl-illus-accent, #f5b84b);
+        fill: var(--nami-illus-accent, #f5b84b);
       }
 
       .muted {
-        fill: var(--rl-illus-muted, color-mix(in oklab, currentColor, transparent 66%));
+        fill: var(--nami-illus-muted, color-mix(in oklab, currentColor, transparent 66%));
       }
 
       .line {
         fill: none;
-        stroke: var(--rl-illus-line, color-mix(in oklab, currentColor, #111 34%));
+        stroke: var(--nami-illus-line, color-mix(in oklab, currentColor, #111 34%));
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 3.5;
@@ -80,8 +80,8 @@ export class RlIllustration extends LitElement {
     `
   ];
 
-  declare name: RlIllustrationName;
-  declare size: RlIllustrationSize;
+  declare name: NamiIllustrationName;
+  declare size: NamiIllustrationSize;
 
   constructor() {
     super();
@@ -97,7 +97,7 @@ export class RlIllustration extends LitElement {
   }
 
   private renderStateMark() {
-    const marks: Record<RlIllustrationName, TemplateResult> = {
+    const marks: Record<NamiIllustrationName, TemplateResult> = {
       empty: html`<path class="line" d="M80 77h40M90 92h20"></path>`,
       search: html`<circle class="line" cx="91" cy="72" r="19"></circle><path class="line" d="M105 86l22 22"></path>`,
       success: html`<path class="line" d="M78 72l16 16 31-35"></path>`,
@@ -129,6 +129,6 @@ export class RlIllustration extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-illustration': RlIllustration;
+    'nami-illustration': NamiIllustration;
   }
 }

@@ -1,4 +1,4 @@
-export interface RlComponentMetadata {
+export interface NamiComponentMetadata {
   name: string;
   category: 'configuration' | 'layout' | 'action' | 'selection' | 'form' | 'feedback' | 'overlay' | 'status';
   summary: string;
@@ -9,260 +9,260 @@ export interface RlComponentMetadata {
   slots: string[];
   parts: string[];
   tokens: string[];
-  anatomy: RlComponentAnatomyPart[];
+  anatomy: NamiComponentAnatomyPart[];
   states: string[];
-  styleHooks: RlComponentStyleHook[];
+  styleHooks: NamiComponentStyleHook[];
 }
 
-export interface RlComponentAnatomyPart {
+export interface NamiComponentAnatomyPart {
   part: string;
   description: string;
 }
 
-export interface RlComponentStyleHook {
+export interface NamiComponentStyleHook {
   part: string;
   state: string;
   tokens: string[];
 }
 
-type RlComponentMetadataSource = Omit<RlComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'> &
-  Partial<Pick<RlComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'>>;
+type NamiComponentMetadataSource = Omit<NamiComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'> &
+  Partial<Pick<NamiComponentMetadata, 'category' | 'anatomy' | 'states' | 'styleHooks'>>;
 
-const rlComponentMetadataSource: RlComponentMetadataSource[] = [
+const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
   {
-    name: 'rl-config',
+    name: 'nami-config',
     summary: 'Global locale and text-direction boundary powered by @lit/localize.',
-    usage: '<rl-config locale="zh-CN"><rl-empty></rl-empty></rl-config>',
+    usage: '<nami-config locale="zh-CN"><nami-empty></nami-empty></nami-config>',
     attributes: ['locale', 'dir'],
     properties: ['locale', 'dir'],
-    events: ['rl-change', 'rl-locale-status'],
+    events: ['nami-change', 'nami-locale-status'],
     slots: ['default'],
     parts: [],
     tokens: []
   },
   {
-    name: 'rl-theme',
+    name: 'nami-theme',
     summary: 'Theme, accent, density, motion, radius, contrast, and style preset boundary.',
-    usage: '<rl-theme theme="light" style-preset="illustration" accent="#3b82f6" radius="soft" contrast="high"><slot /></rl-theme>',
+    usage: '<nami-theme theme="light" style-preset="illustration" accent="#3b82f6" radius="soft" contrast="high"><slot /></nami-theme>',
     attributes: ['theme', 'accent', 'density', 'motion', 'style-preset', 'radius', 'contrast'],
     properties: ['theme', 'accent', 'density', 'motion', 'stylePreset', 'radius', 'contrast'],
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--rl-accent-50', '--rl-contrast-level', '--rl-surface', '--rl-text', '--rl-focus-ring', '--rl-overlay-backdrop', '--rl-style-stroke-width', '--rl-style-ink-color', '--rl-style-on-paper', '--rl-style-on-paper-muted', '--rl-style-offset-shadow', '--rl-style-control-bg', '--rl-style-panel-bg', '--rl-style-background-pattern', '--rl-style-doodle-opacity', '--rl-style-paper-line-color']
+    tokens: ['--nami-accent-50', '--nami-contrast-level', '--nami-surface', '--nami-text', '--nami-focus-ring', '--nami-overlay-backdrop', '--nami-style-stroke-width', '--nami-style-ink-color', '--nami-style-on-paper', '--nami-style-on-paper-muted', '--nami-style-offset-shadow', '--nami-style-control-bg', '--nami-style-panel-bg', '--nami-style-background-pattern', '--nami-style-doodle-opacity', '--nami-style-paper-line-color']
   },
   {
-    name: 'rl-spinner',
+    name: 'nami-spinner',
     summary: 'Small loading indicator for async states.',
-    usage: '<rl-spinner size="sm" label="Loading"></rl-spinner>',
+    usage: '<nami-spinner size="sm" label="Loading"></nami-spinner>',
     attributes: ['size', 'label'],
     properties: ['size', 'label'],
     events: [],
     slots: [],
     parts: ['base', 'indicator'],
-    tokens: ['--rl-motion-fast', '--rl-text', '--rl-spinner-track-color']
+    tokens: ['--nami-motion-fast', '--nami-text', '--nami-spinner-track-color']
   },
   {
-    name: 'rl-illustration',
+    name: 'nami-illustration',
     summary: 'Token-driven status illustration.',
-    usage: '<rl-illustration name="empty" size="md"></rl-illustration>',
+    usage: '<nami-illustration name="empty" size="md"></nami-illustration>',
     attributes: ['name', 'size'],
     properties: ['name', 'size'],
     events: [],
     slots: [],
     parts: ['base', 'illustration', 'image'],
-    tokens: ['--rl-illus-primary', '--rl-illus-secondary', '--rl-illus-accent', '--rl-illus-muted', '--rl-illus-line', '--rl-illus-bg']
+    tokens: ['--nami-illus-primary', '--nami-illus-secondary', '--nami-illus-accent', '--nami-illus-muted', '--nami-illus-line', '--nami-illus-bg']
   },
   {
-    name: 'rl-empty',
+    name: 'nami-empty',
     summary: 'Illustration-ready empty state with description and actions.',
-    usage: '<rl-empty title="No results" description="Try another keyword"><rl-button slot="actions">Create</rl-button></rl-empty>',
+    usage: '<nami-empty title="No results" description="Try another keyword"><nami-button slot="actions">Create</nami-button></nami-empty>',
     attributes: ['illustration', 'title', 'description', 'compact'],
     properties: ['illustration', 'title', 'description', 'compact'],
     events: [],
     slots: ['illustration', 'title', 'description', 'actions'],
     parts: ['base', 'illustration', 'title', 'description', 'actions'],
-    tokens: ['--rl-empty-gap', '--rl-empty-title-color', '--rl-empty-description-color', '--rl-empty-bg', '--rl-empty-border-width', '--rl-empty-border-color', '--rl-empty-radius', '--rl-empty-shadow']
+    tokens: ['--nami-empty-gap', '--nami-empty-title-color', '--nami-empty-description-color', '--nami-empty-bg', '--nami-empty-border-width', '--nami-empty-border-color', '--nami-empty-radius', '--nami-empty-shadow']
   },
   {
-    name: 'rl-result',
+    name: 'nami-result',
     summary: 'Illustration-ready result feedback for success, error, warnings, and HTTP states.',
-    usage: '<rl-result status="success" title="Done" sub-title="Everything is ready"><rl-button slot="actions">Continue</rl-button></rl-result>',
+    usage: '<nami-result status="success" title="Done" sub-title="Everything is ready"><nami-button slot="actions">Continue</nami-button></nami-result>',
     attributes: ['status', 'title', 'sub-title', 'compact'],
     properties: ['status', 'title', 'subTitle', 'compact'],
     events: [],
     slots: ['illustration', 'title', 'description', 'actions', 'body'],
     parts: ['base', 'illustration', 'title', 'description', 'actions', 'body'],
-    tokens: ['--rl-result-title-size', '--rl-result-subtitle-size', '--rl-result-gap', '--rl-result-actions-margin', '--rl-result-bg', '--rl-result-border-width', '--rl-result-border-color', '--rl-result-radius', '--rl-result-shadow']
+    tokens: ['--nami-result-title-size', '--nami-result-subtitle-size', '--nami-result-gap', '--nami-result-actions-margin', '--nami-result-bg', '--nami-result-border-width', '--nami-result-border-color', '--nami-result-radius', '--nami-result-shadow']
   },
   {
-    name: 'rl-card',
+    name: 'nami-card',
     summary: 'Token-driven content container for grouped surfaces.',
-    usage: '<rl-card><h3 slot="header">Title</h3><p>Content</p><rl-button slot="actions">Action</rl-button></rl-card>',
+    usage: '<nami-card><h3 slot="header">Title</h3><p>Content</p><nami-button slot="actions">Action</nami-button></nami-card>',
     attributes: ['variant'],
     properties: ['variant'],
     events: [],
     slots: ['default', 'header', 'actions', 'footer'],
     parts: ['base', 'header', 'body', 'actions', 'footer'],
-    tokens: ['--rl-card-bg', '--rl-card-fg', '--rl-card-inset-bg', '--rl-card-border', '--rl-card-border-width', '--rl-card-radius', '--rl-card-shadow', '--rl-card-padding', '--rl-card-gap']
+    tokens: ['--nami-card-bg', '--nami-card-fg', '--nami-card-inset-bg', '--nami-card-border', '--nami-card-border-width', '--nami-card-radius', '--nami-card-shadow', '--nami-card-padding', '--nami-card-gap']
   },
   {
-    name: 'rl-badge',
+    name: 'nami-badge',
     summary: 'Compact status label for metadata and state.',
-    usage: '<rl-badge variant="primary">Token driven</rl-badge>',
+    usage: '<nami-badge variant="primary">Token driven</nami-badge>',
     attributes: ['variant', 'tone'],
     properties: ['variant', 'tone'],
     events: [],
     slots: ['default'],
     parts: ['base'],
-    tokens: ['--rl-badge-bg', '--rl-badge-fg', '--rl-badge-border', '--rl-badge-border-width', '--rl-badge-radius', '--rl-badge-height', '--rl-badge-font-size', '--rl-badge-padding-x']
+    tokens: ['--nami-badge-bg', '--nami-badge-fg', '--nami-badge-border', '--nami-badge-border-width', '--nami-badge-radius', '--nami-badge-height', '--nami-badge-font-size', '--nami-badge-padding-x']
   },
   {
-    name: 'rl-button',
+    name: 'nami-button',
     summary: 'Primary command button.',
-    usage: '<rl-button variant="soft" loading>Save</rl-button>',
+    usage: '<nami-button variant="soft" loading>Save</nami-button>',
     attributes: ['variant', 'size', 'disabled', 'loading', 'type'],
     properties: ['variant', 'size', 'disabled', 'loading', 'type'],
-    events: ['rl-click'],
+    events: ['nami-click'],
     slots: ['default', 'icon', 'actions'],
     parts: ['base', 'control', 'icon', 'label', 'indicator'],
-    tokens: ['--rl-button-bg', '--rl-button-fg', '--rl-button-border', '--rl-button-border-width', '--rl-button-radius', '--rl-button-shadow', '--rl-button-hover-bg']
+    tokens: ['--nami-button-bg', '--nami-button-fg', '--nami-button-border', '--nami-button-border-width', '--nami-button-radius', '--nami-button-shadow', '--nami-button-hover-bg']
   },
   {
-    name: 'rl-icon-button',
+    name: 'nami-icon-button',
     summary: 'Soft icon command button.',
-    usage: '<rl-icon-button label="Favorite" selected><span slot="icon">F</span></rl-icon-button>',
+    usage: '<nami-icon-button label="Favorite" selected><span slot="icon">F</span></nami-icon-button>',
     attributes: ['label', 'size', 'disabled', 'selected', 'loading'],
     properties: ['label', 'size', 'disabled', 'selected', 'loading'],
-    events: ['rl-click'],
+    events: ['nami-click'],
     slots: ['default', 'icon'],
     parts: ['base', 'control', 'icon'],
-    tokens: ['--rl-icon-button-size', '--rl-soft-control-bg', '--rl-soft-control-color', '--rl-soft-control-border-width', '--rl-soft-control-border-color', '--rl-hover-overlay', '--rl-ripple']
+    tokens: ['--nami-icon-button-size', '--nami-soft-control-bg', '--nami-soft-control-color', '--nami-soft-control-border-width', '--nami-soft-control-border-color', '--nami-hover-overlay', '--nami-ripple']
   },
   {
-    name: 'rl-chip',
+    name: 'nami-chip',
     summary: 'Selectable tag-like control.',
-    usage: '<rl-chip checkbox selected value="tag">Tag</rl-chip>',
+    usage: '<nami-chip checkbox selected value="tag">Tag</nami-chip>',
     attributes: ['value', 'selected', 'checkbox', 'disabled'],
     properties: ['value', 'selected', 'checkbox', 'disabled'],
-    events: ['rl-change', 'rl-select'],
+    events: ['nami-change', 'nami-select'],
     slots: ['default', 'icon'],
     parts: ['base', 'control', 'icon', 'label'],
-    tokens: ['--rl-chip-bg', '--rl-chip-selected-bg', '--rl-chip-border-width', '--rl-chip-border-color', '--rl-chip-radius', '--rl-chip-shadow']
+    tokens: ['--nami-chip-bg', '--nami-chip-selected-bg', '--nami-chip-border-width', '--nami-chip-border-color', '--nami-chip-radius', '--nami-chip-shadow']
   },
   {
-    name: 'rl-input',
+    name: 'nami-input',
     summary: 'Form-associated text input.',
-    usage: '<rl-input label="Search" helper-text="Token driven"></rl-input>',
+    usage: '<nami-input label="Search" helper-text="Token driven"></nami-input>',
     attributes: ['name', 'value', 'default-value', 'type', 'placeholder', 'label', 'helper-text', 'error', 'disabled', 'required'],
     properties: ['name', 'value', 'defaultValue', 'type', 'placeholder', 'label', 'helperText', 'error', 'disabled', 'required'],
-    events: ['rl-input', 'rl-change'],
+    events: ['nami-input', 'nami-change'],
     slots: ['icon', 'actions'],
     parts: ['base', 'control', 'label', 'description', 'error'],
-    tokens: ['--rl-input-bg', '--rl-input-border', '--rl-input-border-width', '--rl-input-radius', '--rl-input-shadow', '--rl-focus-ring']
+    tokens: ['--nami-input-bg', '--nami-input-border', '--nami-input-border-width', '--nami-input-radius', '--nami-input-shadow', '--nami-focus-ring']
   },
   {
-    name: 'rl-switch',
+    name: 'nami-switch',
     summary: 'Form-associated switch control.',
-    usage: '<rl-switch checked>Enabled</rl-switch>',
+    usage: '<nami-switch checked>Enabled</nami-switch>',
     attributes: ['name', 'value', 'checked', 'disabled'],
     properties: ['name', 'value', 'checked', 'disabled'],
-    events: ['rl-change'],
+    events: ['nami-change'],
     slots: ['default'],
     parts: ['base', 'control', 'indicator', 'label'],
-    tokens: ['--rl-switch-track-bg', '--rl-switch-border-width', '--rl-switch-border-color', '--rl-switch-thumb-bg', '--rl-switch-thumb-shadow', '--rl-color-primary', '--rl-border', '--rl-focus-ring']
+    tokens: ['--nami-switch-track-bg', '--nami-switch-border-width', '--nami-switch-border-color', '--nami-switch-thumb-bg', '--nami-switch-thumb-shadow', '--nami-color-primary', '--nami-border', '--nami-focus-ring']
   },
   {
-    name: 'rl-radio-card',
+    name: 'nami-radio-card',
     summary: 'Radio-like selectable card.',
-    usage: '<rl-radio-card selected label="Blue" description="Default"></rl-radio-card>',
+    usage: '<nami-radio-card selected label="Blue" description="Default"></nami-radio-card>',
     attributes: ['value', 'label', 'description', 'selected', 'disabled'],
     properties: ['value', 'label', 'description', 'selected', 'disabled'],
-    events: ['rl-select', 'rl-change'],
+    events: ['nami-select', 'nami-change'],
     slots: ['icon', 'label', 'description', 'actions'],
     parts: ['base', 'control', 'indicator', 'icon', 'label', 'description'],
-    tokens: ['--rl-radio-card-bg', '--rl-radio-card-border-width', '--rl-radio-card-border-color', '--rl-radio-card-radius', '--rl-radio-card-shadow', '--rl-radio-card-selected-shadow', '--rl-surface-raised', '--rl-color-primary', '--rl-focus-ring']
+    tokens: ['--nami-radio-card-bg', '--nami-radio-card-border-width', '--nami-radio-card-border-color', '--nami-radio-card-radius', '--nami-radio-card-shadow', '--nami-radio-card-selected-shadow', '--nami-surface-raised', '--nami-color-primary', '--nami-focus-ring']
   },
   {
-    name: 'rl-tab-bar',
+    name: 'nami-tab-bar',
     summary: 'Roving-tabindex tablist.',
-    usage: '<rl-tab-bar value="Overview"><button value="Overview">Overview</button></rl-tab-bar>',
+    usage: '<nami-tab-bar value="Overview"><button value="Overview">Overview</button></nami-tab-bar>',
     attributes: ['value', 'orientation'],
     properties: ['value', 'orientation'],
-    events: ['rl-select', 'rl-change'],
+    events: ['nami-select', 'nami-change'],
     slots: ['default'],
     parts: ['base'],
-    tokens: ['--rl-tab-bg', '--rl-tab-border-width', '--rl-tab-border-color', '--rl-tab-radius', '--rl-accent-hover-overlay', '--rl-color-primary']
+    tokens: ['--nami-tab-bg', '--nami-tab-border-width', '--nami-tab-border-color', '--nami-tab-radius', '--nami-accent-hover-overlay', '--nami-color-primary']
   },
   {
-    name: 'rl-dialog',
+    name: 'nami-dialog',
     summary: 'Modal dialog with focus management.',
-    usage: '<rl-dialog open label="Settings">Content</rl-dialog>',
+    usage: '<nami-dialog open label="Settings">Content</nami-dialog>',
     attributes: ['open', 'label', 'close-on-backdrop'],
     properties: ['open', 'label', 'closeOnBackdrop'],
-    events: ['rl-open', 'rl-close'],
+    events: ['nami-open', 'nami-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'label', 'description', 'actions', 'header', 'footer'],
-    tokens: ['--rl-dialog-bg', '--rl-dialog-border-width', '--rl-dialog-border-color', '--rl-dialog-radius', '--rl-dialog-shadow', '--rl-overlay-backdrop', '--rl-surface-raised', '--rl-border']
+    tokens: ['--nami-dialog-bg', '--nami-dialog-border-width', '--nami-dialog-border-color', '--nami-dialog-radius', '--nami-dialog-shadow', '--nami-overlay-backdrop', '--nami-surface-raised', '--nami-border']
   },
   {
-    name: 'rl-drawer',
+    name: 'nami-drawer',
     summary: 'Off-canvas drawer with focus return.',
-    usage: '<rl-drawer open placement="left">Content</rl-drawer>',
+    usage: '<nami-drawer open placement="left">Content</nami-drawer>',
     attributes: ['open', 'placement'],
     properties: ['open', 'placement'],
-    events: ['rl-open', 'rl-close'],
+    events: ['nami-open', 'nami-close'],
     slots: ['default', 'label', 'actions'],
     parts: ['base', 'control', 'backdrop', 'label'],
-    tokens: ['--rl-drawer-bg', '--rl-drawer-border-width', '--rl-drawer-border-color', '--rl-drawer-shadow', '--rl-overlay-backdrop', '--rl-surface-overlay', '--rl-border']
+    tokens: ['--nami-drawer-bg', '--nami-drawer-border-width', '--nami-drawer-border-color', '--nami-drawer-shadow', '--nami-overlay-backdrop', '--nami-surface-overlay', '--nami-border']
   },
   {
-    name: 'rl-toast',
+    name: 'nami-toast',
     summary: 'Temporary feedback toast.',
-    usage: 'RlToast.show({ message: "Saved", variant: "success" })',
+    usage: 'NamiToast.show({ message: "Saved", variant: "success" })',
     attributes: ['open', 'message', 'variant', 'placement', 'duration'],
     properties: ['open', 'message', 'variant', 'placement', 'duration'],
-    events: ['rl-open', 'rl-close'],
+    events: ['nami-open', 'nami-close'],
     slots: ['default', 'icon'],
     parts: ['base', 'indicator', 'label', 'actions'],
-    tokens: ['--rl-toast-bg', '--rl-toast-border-width', '--rl-toast-border-color', '--rl-toast-radius', '--rl-dialog-shadow', '--rl-border']
+    tokens: ['--nami-toast-bg', '--nami-toast-border-width', '--nami-toast-border-color', '--nami-toast-radius', '--nami-dialog-shadow', '--nami-border']
   },
   {
-    name: 'rl-app-shell',
+    name: 'nami-app-shell',
     summary: 'Responsive application shell.',
-    usage: '<rl-app-shell><div slot="rail"></div><main></main></rl-app-shell>',
+    usage: '<nami-app-shell><div slot="rail"></div><main></main></nami-app-shell>',
     attributes: [],
     properties: [],
     events: [],
     slots: ['default', 'rail', 'top', 'bottom'],
     parts: ['base', 'rail', 'top', 'bottom', 'control'],
-    tokens: ['--rl-app-shell-border-width', '--rl-app-shell-shadow', '--rl-surface', '--rl-surface-overlay', '--rl-border', '--rl-style-background-pattern']
+    tokens: ['--nami-app-shell-border-width', '--nami-app-shell-shadow', '--nami-surface', '--nami-surface-overlay', '--nami-border', '--nami-style-background-pattern']
   }
 ];
 
-const categoryByName = new Map<string, RlComponentMetadata['category']>([
-  ['rl-config', 'configuration'],
-  ['rl-theme', 'configuration'],
-  ['rl-app-shell', 'layout'],
-  ['rl-card', 'layout'],
-  ['rl-button', 'action'],
-  ['rl-icon-button', 'action'],
-  ['rl-badge', 'status'],
-  ['rl-chip', 'selection'],
-  ['rl-tab-bar', 'selection'],
-  ['rl-input', 'form'],
-  ['rl-switch', 'form'],
-  ['rl-radio-card', 'form'],
-  ['rl-spinner', 'feedback'],
-  ['rl-illustration', 'feedback'],
-  ['rl-empty', 'feedback'],
-  ['rl-result', 'feedback'],
-  ['rl-dialog', 'overlay'],
-  ['rl-drawer', 'overlay'],
-  ['rl-toast', 'overlay']
+const categoryByName = new Map<string, NamiComponentMetadata['category']>([
+  ['nami-config', 'configuration'],
+  ['nami-theme', 'configuration'],
+  ['nami-app-shell', 'layout'],
+  ['nami-card', 'layout'],
+  ['nami-button', 'action'],
+  ['nami-icon-button', 'action'],
+  ['nami-badge', 'status'],
+  ['nami-chip', 'selection'],
+  ['nami-tab-bar', 'selection'],
+  ['nami-input', 'form'],
+  ['nami-switch', 'form'],
+  ['nami-radio-card', 'form'],
+  ['nami-spinner', 'feedback'],
+  ['nami-illustration', 'feedback'],
+  ['nami-empty', 'feedback'],
+  ['nami-result', 'feedback'],
+  ['nami-dialog', 'overlay'],
+  ['nami-drawer', 'overlay'],
+  ['nami-toast', 'overlay']
 ]);
 
-const baseStatesByCategory: Record<RlComponentMetadata['category'], string[]> = {
+const baseStatesByCategory: Record<NamiComponentMetadata['category'], string[]> = {
   configuration: ['default'],
   layout: ['default'],
   action: ['default', 'hover', 'active', 'focus-visible', 'disabled', 'loading'],
@@ -293,7 +293,7 @@ const partDescriptions = new Map<string, string>([
   ['bottom', 'Mobile bottom navigation slot.']
 ]);
 
-function anatomyForParts(parts: string[]): RlComponentAnatomyPart[] {
+function anatomyForParts(parts: string[]): NamiComponentAnatomyPart[] {
   return parts.map((part) => ({
     part,
     description: partDescriptions.get(part) ?? 'Named style part exposed as public component anatomy.'
@@ -310,7 +310,7 @@ function tokensForState(tokens: string[], state: string) {
   return tokens;
 }
 
-function styleHooksFor(item: RlComponentMetadataSource, states: string[]): RlComponentStyleHook[] {
+function styleHooksFor(item: NamiComponentMetadataSource, states: string[]): NamiComponentStyleHook[] {
   const basePart = item.parts.includes('control') ? 'control' : item.parts[0] ?? 'base';
   return states
     .map((state) => ({
@@ -321,7 +321,7 @@ function styleHooksFor(item: RlComponentMetadataSource, states: string[]): RlCom
     .filter((hook) => hook.tokens.length > 0);
 }
 
-export const rlComponentMetadata: RlComponentMetadata[] = rlComponentMetadataSource.map((item) => {
+export const namiComponentMetadata: NamiComponentMetadata[] = namiComponentMetadataSource.map((item) => {
   const category = item.category ?? categoryByName.get(item.name) ?? 'status';
   const states = item.states ?? baseStatesByCategory[category];
   return {

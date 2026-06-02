@@ -2,19 +2,19 @@ import { html, LitElement } from 'lit';
 import type { LocaleStatusEventDetail } from '@lit/localize';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
-import { getLocale, normalizeLocale, setLocale, type RlLocaleCode } from '../localize';
+import { getLocale, normalizeLocale, setLocale, type NamiLocaleCode } from '../localize';
 
-export type RlTextDirection = 'ltr' | 'rtl' | 'auto';
+export type NamiTextDirection = 'ltr' | 'rtl' | 'auto';
 
-export interface RlLocaleChangeDetail {
-  value: RlLocaleCode;
-  locale: RlLocaleCode;
-  dir: RlTextDirection;
+export interface NamiLocaleChangeDetail {
+  value: NamiLocaleCode;
+  locale: NamiLocaleCode;
+  dir: NamiTextDirection;
 }
 
-export type RlConfigLocaleStatusEventDetail = LocaleStatusEventDetail;
+export type NamiConfigLocaleStatusEventDetail = LocaleStatusEventDetail;
 
-export class RlConfig extends LitElement {
+export class NamiConfig extends LitElement {
   static properties = {
     locale: { reflect: true },
     dir: { reflect: true }
@@ -22,8 +22,8 @@ export class RlConfig extends LitElement {
 
   static styles = [componentHostStyles];
 
-  declare locale: RlLocaleCode;
-  declare dir: RlTextDirection;
+  declare locale: NamiLocaleCode;
+  declare dir: NamiTextDirection;
 
   private lastAppliedLocale = '';
 
@@ -51,7 +51,7 @@ export class RlConfig extends LitElement {
   }
 
   private handleLocaleStatus = (event: CustomEvent<LocaleStatusEventDetail>) => {
-    emit(this, 'rl-locale-status', event.detail);
+    emit(this, 'nami-locale-status', event.detail);
   };
 
   private applyDirection() {
@@ -71,7 +71,7 @@ export class RlConfig extends LitElement {
     if (getLocale() !== normalized) {
       await setLocale(normalized);
     }
-    emit<RlLocaleChangeDetail>(this, 'rl-change', { value: normalized, locale: normalized, dir: this.dir });
+    emit<NamiLocaleChangeDetail>(this, 'nami-change', { value: normalized, locale: normalized, dir: this.dir });
   }
 
   render() {
@@ -81,6 +81,6 @@ export class RlConfig extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-config': RlConfig;
+    'nami-config': NamiConfig;
   }
 }

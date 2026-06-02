@@ -11,7 +11,7 @@ export default defineConfig({
     trace: 'on-first-retry'
   },
   webServer: {
-    command: 'npm run dev --workspace @rin-labs/docs -- --port 5173',
+    command: 'npm run dev --workspace @nami/docs -- --port 5173',
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: true,
     timeout: 30_000

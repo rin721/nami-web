@@ -2,7 +2,7 @@ import { css, html, LitElement, nothing } from 'lit';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlRadioCard extends LitElement {
+export class NamiRadioCard extends LitElement {
   static properties = {
     value: {},
     label: {},
@@ -19,34 +19,34 @@ export class RlRadioCard extends LitElement {
       }
 
       button {
-        background: var(--rl-radio-card-bg, var(--rl-surface-raised));
-        border: var(--rl-radio-card-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-radio-card-border-color, var(--rl-border));
-        border-radius: var(--rl-radio-card-radius, var(--rl-radius-surface, 6px));
-        color: var(--rl-style-on-paper, var(--rl-text));
+        background: var(--nami-radio-card-bg, var(--nami-surface-raised));
+        border: var(--nami-radio-card-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-radio-card-border-color, var(--nami-border));
+        border-radius: var(--nami-radio-card-radius, var(--nami-radius-surface, 6px));
+        color: var(--nami-style-on-paper, var(--nami-text));
         cursor: pointer;
         display: grid;
         font: inherit;
-        gap: var(--rl-space-3, 10px);
+        gap: var(--nami-space-3, 10px);
         min-height: 128px;
-        padding: var(--rl-space-4, 16px);
+        padding: var(--nami-space-4, 16px);
         position: relative;
-        box-shadow: var(--rl-radio-card-shadow, none);
+        box-shadow: var(--nami-radio-card-shadow, none);
         text-align: left;
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          border-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          box-shadow var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          transform var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          box-shadow var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          transform var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);
         width: 100%;
       }
 
       button:hover:not(:disabled) {
-        background: var(--rl-hover-overlay);
+        background: var(--nami-hover-overlay);
       }
 
       :host([selected]) button {
-        border-color: var(--rl-color-primary);
-        box-shadow: var(--rl-radio-card-selected-shadow, 0 0 0 1px var(--rl-color-primary), var(--rl-focus-ring));
+        border-color: var(--nami-color-primary);
+        box-shadow: var(--nami-radio-card-selected-shadow, 0 0 0 1px var(--nami-color-primary), var(--nami-focus-ring));
       }
 
       button:active:not(:disabled) {
@@ -54,7 +54,7 @@ export class RlRadioCard extends LitElement {
       }
 
       button:focus-visible {
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
         outline: none;
       }
 
@@ -65,18 +65,18 @@ export class RlRadioCard extends LitElement {
 
       .indicator {
         align-items: center;
-        border: 1px solid var(--rl-border-strong);
+        border: 1px solid var(--nami-border-strong);
         border-radius: 50%;
-        color: var(--rl-text-inverse);
+        color: var(--nami-text-inverse);
         display: inline-flex;
         height: 22px;
         justify-content: center;
         position: absolute;
-        right: var(--rl-space-4, 16px);
-        top: var(--rl-space-4, 16px);
+        right: var(--nami-space-4, 16px);
+        top: var(--nami-space-4, 16px);
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          border-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
         width: 22px;
       }
 
@@ -86,12 +86,12 @@ export class RlRadioCard extends LitElement {
         content: '';
         height: 8px;
         opacity: 0;
-        transition: opacity var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease);
+        transition: opacity var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);
         width: 8px;
       }
 
       :host([selected]) .indicator {
-        background: var(--rl-color-primary);
+        background: var(--nami-color-primary);
         border-color: transparent;
       }
 
@@ -104,7 +104,7 @@ export class RlRadioCard extends LitElement {
       }
 
       .description {
-        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
+        color: var(--nami-style-on-paper-muted, var(--nami-text-muted));
         font-size: 0.875rem;
       }
     `
@@ -129,8 +129,8 @@ export class RlRadioCard extends LitElement {
     if (this.disabled) return;
     if (this.selected) return;
     this.selected = true;
-    emit(this, 'rl-select', { selected: true, value: this.value, sourceEvent: event });
-    emit(this, 'rl-change', { selected: true, value: this.value, sourceEvent: event });
+    emit(this, 'nami-select', { selected: true, value: this.value, sourceEvent: event });
+    emit(this, 'nami-change', { selected: true, value: this.value, sourceEvent: event });
   }
 
   render() {
@@ -155,6 +155,6 @@ export class RlRadioCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-radio-card': RlRadioCard;
+    'nami-radio-card': NamiRadioCard;
   }
 }

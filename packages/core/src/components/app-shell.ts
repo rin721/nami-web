@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlAppShell extends LitElement {
+export class NamiAppShell extends LitElement {
   static styles = [
     componentHostStyles,
     css`
@@ -11,17 +11,17 @@ export class RlAppShell extends LitElement {
       }
 
       .shell {
-        background: var(--rl-surface);
-        background-image: var(--rl-style-background-pattern, none);
-        background-size: var(--rl-style-background-size, auto);
-        color: var(--rl-text);
+        background: var(--nami-surface);
+        background-image: var(--nami-style-background-pattern, none);
+        background-size: var(--nami-style-background-size, auto);
+        color: var(--nami-text);
         min-height: 100dvh;
       }
 
       .rail {
-        background: var(--rl-surface-overlay);
-        border-right: var(--rl-app-shell-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-border);
-        box-shadow: var(--rl-app-shell-shadow, 0 0 24px color-mix(in oklab, var(--rl-shadow-color), transparent 70%));
+        background: var(--nami-surface-overlay);
+        border-right: var(--nami-app-shell-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-border);
+        box-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, var(--nami-shadow-color), transparent 70%));
         bottom: 0;
         display: flex;
         flex-direction: column;
@@ -49,9 +49,9 @@ export class RlAppShell extends LitElement {
 
         .top,
         .bottom {
-          background: var(--rl-surface-overlay);
-          border-color: var(--rl-border);
-          box-shadow: var(--rl-app-shell-shadow, 0 0 24px color-mix(in oklab, var(--rl-shadow-color), transparent 70%));
+          background: var(--nami-surface-overlay);
+          border-color: var(--nami-border);
+          box-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, var(--nami-shadow-color), transparent 70%));
           display: block;
           height: 56px;
           left: 0;
@@ -61,12 +61,12 @@ export class RlAppShell extends LitElement {
         }
 
         .top {
-          border-bottom: 1px solid var(--rl-border);
+          border-bottom: 1px solid var(--nami-border);
           top: 0;
         }
 
         .bottom {
-          border-top: 1px solid var(--rl-border);
+          border-top: 1px solid var(--nami-border);
           bottom: 0;
         }
 
@@ -91,6 +91,6 @@ export class RlAppShell extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-app-shell': RlAppShell;
+    'nami-app-shell': NamiAppShell;
   }
 }

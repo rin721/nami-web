@@ -4,7 +4,7 @@ import { nextId } from '../foundation/ids';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlInput extends LitElement {
+export class NamiInput extends LitElement {
   static formAssociated = true;
   static properties = {
     name: {},
@@ -27,9 +27,9 @@ export class RlInput extends LitElement {
       }
 
       label {
-        color: var(--rl-text);
+        color: var(--nami-text);
         display: grid;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
       }
 
       .label {
@@ -39,32 +39,32 @@ export class RlInput extends LitElement {
 
       .control {
         align-items: center;
-        background: var(--rl-input-bg, transparent);
-        border: var(--rl-input-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-input-border, var(--rl-border));
-        border-radius: var(--rl-input-radius, var(--rl-radius-surface, 6px));
+        background: var(--nami-input-bg, transparent);
+        border: var(--nami-input-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-input-border, var(--nami-border));
+        border-radius: var(--nami-input-radius, var(--nami-radius-surface, 6px));
         display: flex;
-        min-height: var(--rl-control-height-md, 40px);
+        min-height: var(--nami-control-height-md, 40px);
         padding: 0 10px;
-        box-shadow: var(--rl-input-shadow, none);
+        box-shadow: var(--nami-input-shadow, none);
         transition:
-          border-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          box-shadow var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+          border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          box-shadow var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
       }
 
       .control:focus-within {
-        border-color: var(--rl-color-primary);
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        border-color: var(--nami-color-primary);
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
       }
 
       :host([error]) .control {
-        border-color: var(--rl-color-danger);
+        border-color: var(--nami-color-danger);
       }
 
       input {
         background: transparent;
         border: 0;
-        color: var(--rl-style-on-paper, var(--rl-text));
+        color: var(--nami-style-on-paper, var(--nami-text));
         flex: 1 1 auto;
         font: inherit;
         min-width: 0;
@@ -73,16 +73,16 @@ export class RlInput extends LitElement {
       }
 
       input::placeholder {
-        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
+        color: var(--nami-style-on-paper-muted, var(--nami-text-muted));
       }
 
       .meta {
-        color: var(--rl-text-muted);
+        color: var(--nami-text-muted);
         font-size: 0.8125rem;
       }
 
       .error {
-        color: var(--rl-color-danger);
+        color: var(--nami-color-danger);
       }
 
       :host([disabled]) {
@@ -91,7 +91,7 @@ export class RlInput extends LitElement {
 
       ::slotted([slot='icon']),
       ::slotted([slot='actions']) {
-        color: var(--rl-icon-color);
+        color: var(--nami-icon-color);
         flex: 0 0 auto;
       }
     `
@@ -127,7 +127,7 @@ export class RlInput extends LitElement {
   }
 
   private internals: SafeElementInternals | null = attachInternalsSafe(this);
-  private metaId = `${nextId('rl-input')}-meta`;
+  private metaId = `${nextId('nami-input')}-meta`;
 
   updated() {
     setSafeFormValue(this.internals, this.disabled ? null : this.value);
@@ -178,11 +178,11 @@ export class RlInput extends LitElement {
 
   private handleInput(event: Event) {
     this.value = (event.target as HTMLInputElement).value;
-    emit(this, 'rl-input', { value: this.value, sourceEvent: event });
+    emit(this, 'nami-input', { value: this.value, sourceEvent: event });
   }
 
   private handleChange(event: Event) {
-    emit(this, 'rl-change', { value: this.value, sourceEvent: event });
+    emit(this, 'nami-change', { value: this.value, sourceEvent: event });
   }
 
   render() {
@@ -216,6 +216,6 @@ export class RlInput extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-input': RlInput;
+    'nami-input': NamiInput;
   }
 }

@@ -2,13 +2,13 @@ import { css, html, LitElement, nothing } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
-import { RlIllustration, type RlIllustrationName } from './illustration';
+import { NamiIllustration, type NamiIllustrationName } from './illustration';
 
-defineElement('rl-illustration', RlIllustration);
+defineElement('nami-illustration', NamiIllustration);
 
-export type RlResultStatus = 'success' | 'error' | 'info' | 'warning' | '403' | '404' | '500';
+export type NamiResultStatus = 'success' | 'error' | 'info' | 'warning' | '403' | '404' | '500';
 
-const statusIllustrations: Record<RlResultStatus, RlIllustrationName> = {
+const statusIllustrations: Record<NamiResultStatus, NamiIllustrationName> = {
   success: 'success',
   error: 'error',
   info: 'info',
@@ -18,7 +18,7 @@ const statusIllustrations: Record<RlResultStatus, RlIllustrationName> = {
   '500': 'server-error'
 };
 
-export class RlResult extends LitElement {
+export class NamiResult extends LitElement {
   static properties = {
     status: { reflect: true },
     title: { reflect: true },
@@ -35,38 +35,38 @@ export class RlResult extends LitElement {
 
       .base {
         align-items: center;
-        color: var(--rl-style-on-paper, var(--rl-text));
+        color: var(--nami-style-on-paper, var(--nami-text));
         display: grid;
-        background: var(--rl-result-bg, transparent);
-        border: var(--rl-result-border-width, 0) solid var(--rl-result-border-color, transparent);
-        border-radius: var(--rl-result-radius, var(--rl-radius-surface, 6px));
-        box-shadow: var(--rl-result-shadow, none);
-        gap: var(--rl-result-gap, 14px);
+        background: var(--nami-result-bg, transparent);
+        border: var(--nami-result-border-width, 0) solid var(--nami-result-border-color, transparent);
+        border-radius: var(--nami-result-radius, var(--nami-radius-surface, 6px));
+        box-shadow: var(--nami-result-shadow, none);
+        gap: var(--nami-result-gap, 14px);
         justify-items: center;
-        padding: var(--rl-space-5, 24px);
+        padding: var(--nami-space-5, 24px);
         text-align: center;
       }
 
       :host([compact]) .base {
-        padding: var(--rl-space-3, 10px);
+        padding: var(--nami-space-3, 10px);
       }
 
       .title {
-        color: var(--rl-style-on-paper, var(--rl-text));
-        font-size: var(--rl-result-title-size, 1.5rem);
+        color: var(--nami-style-on-paper, var(--nami-text));
+        font-size: var(--nami-result-title-size, 1.5rem);
         font-weight: 800;
         line-height: 1.25;
       }
 
       .description {
-        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
-        font-size: var(--rl-result-subtitle-size, 0.95rem);
+        color: var(--nami-style-on-paper-muted, var(--nami-text-muted));
+        font-size: var(--nami-result-subtitle-size, 0.95rem);
         line-height: 1.6;
         max-width: 54ch;
       }
 
       .body {
-        color: var(--rl-style-on-paper-muted, var(--rl-text-muted));
+        color: var(--nami-style-on-paper-muted, var(--nami-text-muted));
         max-width: 62ch;
         width: 100%;
       }
@@ -75,14 +75,14 @@ export class RlResult extends LitElement {
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
         justify-content: center;
-        margin: var(--rl-result-actions-margin, 10px 0 0);
+        margin: var(--nami-result-actions-margin, 10px 0 0);
       }
     `
   ];
 
-  declare status: RlResultStatus;
+  declare status: NamiResultStatus;
   declare title: string;
   declare subTitle: string;
   declare compact: boolean;
@@ -102,9 +102,9 @@ export class RlResult extends LitElement {
 
   render() {
     return html`
-      <section class="base" part="base" aria-label=${this.title || this.subTitle || msg('Result', { id: 'rl.result.aria' })}>
+      <section class="base" part="base" aria-label=${this.title || this.subTitle || msg('Result', { id: 'nami.result.aria' })}>
         <slot name="illustration" part="illustration">
-          <rl-illustration name=${this.illustrationName} size=${this.compact ? 'sm' : 'lg'}></rl-illustration>
+          <nami-illustration name=${this.illustrationName} size=${this.compact ? 'sm' : 'lg'}></nami-illustration>
         </slot>
         ${this.title ? html`<div class="title" part="title"><slot name="title">${this.title}</slot></div>` : nothing}
         ${this.subTitle
@@ -119,6 +119,6 @@ export class RlResult extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-result': RlResult;
+    'nami-result': NamiResult;
   }
 }

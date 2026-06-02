@@ -3,7 +3,7 @@ import { getFocusableElements, restoreFocus, trapFocus } from '../foundation/foc
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlDrawer extends LitElement {
+export class NamiDrawer extends LitElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     placement: { reflect: true }
@@ -17,34 +17,34 @@ export class RlDrawer extends LitElement {
       }
 
       .backdrop {
-        background: var(--rl-overlay-backdrop, color-mix(in oklab, #000, transparent 55%));
+        background: var(--nami-overlay-backdrop, color-mix(in oklab, #000, transparent 55%));
         backdrop-filter: blur(8px);
         inset: 0;
         opacity: 0;
         pointer-events: none;
         position: fixed;
-        transition: opacity var(--rl-motion-exit, 150ms) var(--rl-ease-standard, ease);
+        transition: opacity var(--nami-motion-exit, 150ms) var(--nami-ease-standard, ease);
         z-index: 50;
       }
 
       .panel {
-        background: var(--rl-drawer-bg, var(--rl-surface-overlay));
-        border: var(--rl-drawer-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-drawer-border-color, var(--rl-border));
-        box-shadow: var(--rl-drawer-shadow);
-        color: var(--rl-style-on-paper, var(--rl-text));
+        background: var(--nami-drawer-bg, var(--nami-surface-overlay));
+        border: var(--nami-drawer-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-drawer-border-color, var(--nami-border));
+        box-shadow: var(--nami-drawer-shadow);
+        color: var(--nami-style-on-paper, var(--nami-text));
         max-height: 100dvh;
         max-width: 100dvw;
         overflow: auto;
-        padding: var(--rl-space-5, 24px);
+        padding: var(--nami-space-5, 24px);
         pointer-events: none;
         position: fixed;
-        transition: transform var(--rl-motion-slow, 700ms) var(--rl-ease-emphasized, ease);
+        transition: transform var(--nami-motion-slow, 700ms) var(--nami-ease-emphasized, ease);
         visibility: hidden;
         z-index: 51;
       }
 
       :host([placement='left']) .panel {
-        border-radius: 0 var(--rl-radius-surface, 6px) var(--rl-radius-surface, 6px) 0;
+        border-radius: 0 var(--nami-radius-surface, 6px) var(--nami-radius-surface, 6px) 0;
         bottom: 0;
         left: 0;
         top: 0;
@@ -53,7 +53,7 @@ export class RlDrawer extends LitElement {
       }
 
       :host([placement='right']) .panel {
-        border-radius: var(--rl-radius-surface, 6px) 0 0 var(--rl-radius-surface, 6px);
+        border-radius: var(--nami-radius-surface, 6px) 0 0 var(--nami-radius-surface, 6px);
         bottom: 0;
         right: 0;
         top: 0;
@@ -62,7 +62,7 @@ export class RlDrawer extends LitElement {
       }
 
       :host([placement='bottom']) .panel {
-        border-radius: var(--rl-radius-surface, 6px) var(--rl-radius-surface, 6px) 0 0;
+        border-radius: var(--nami-radius-surface, 6px) var(--nami-radius-surface, 6px) 0 0;
         bottom: 0;
         left: 0;
         right: 0;
@@ -72,7 +72,7 @@ export class RlDrawer extends LitElement {
       :host([open]) .backdrop {
         opacity: 1;
         pointer-events: auto;
-        transition-duration: var(--rl-motion-normal, 250ms);
+        transition-duration: var(--nami-motion-normal, 250ms);
       }
 
       :host([open]) .panel {
@@ -129,10 +129,10 @@ export class RlDrawer extends LitElement {
     if (this.open) {
       this.previousActiveElement = document.activeElement;
       requestAnimationFrame(() => this.focusInitialElement());
-      emit(this, 'rl-open', undefined);
+      emit(this, 'nami-open', undefined);
     } else if (wasOpen) {
       this.restoreFocus();
-      emit(this, 'rl-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
       this.closeSourceEvent = undefined;
     }
   }
@@ -187,6 +187,6 @@ export class RlDrawer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-drawer': RlDrawer;
+    'nami-drawer': NamiDrawer;
   }
 }

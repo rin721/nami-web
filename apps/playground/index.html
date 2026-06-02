@@ -3,24 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rin Labs UI Playground</title>
+    <title>Nami UI Playground</title>
   </head>
   <body>
-    <rl-theme id="theme" theme="light" density="comfortable" style-preset="default" accent="#3b82f6">
-      <rl-app-shell>
+    <nami-theme id="theme" theme="light" density="comfortable" style-preset="default" accent="#3b82f6">
+      <nami-app-shell>
         <div slot="rail" class="rail-stack">
-          <rl-icon-button label="Home" selected><span slot="icon">H</span></rl-icon-button>
-          <rl-icon-button label="Search"><span slot="icon">S</span></rl-icon-button>
-          <rl-icon-button label="Settings" id="open-drawer"><span slot="icon">G</span></rl-icon-button>
+          <nami-icon-button label="Home" selected><span slot="icon">H</span></nami-icon-button>
+          <nami-icon-button label="Search"><span slot="icon">S</span></nami-icon-button>
+          <nami-icon-button label="Settings" id="open-drawer"><span slot="icon">G</span></nami-icon-button>
         </div>
         <div slot="top" class="mobile-bar">
-          <strong>Rin UI</strong>
-          <rl-icon-button label="Settings" id="open-drawer-mobile"><span slot="icon">G</span></rl-icon-button>
+          <strong>Nami UI</strong>
+          <nami-icon-button label="Settings" id="open-drawer-mobile"><span slot="icon">G</span></nami-icon-button>
         </div>
         <div slot="bottom" class="bottom-nav">
-          <rl-icon-button label="Home" selected><span slot="icon">H</span></rl-icon-button>
-          <rl-icon-button label="Search"><span slot="icon">S</span></rl-icon-button>
-          <rl-icon-button label="Settings"><span slot="icon">G</span></rl-icon-button>
+          <nami-icon-button label="Home" selected><span slot="icon">H</span></nami-icon-button>
+          <nami-icon-button label="Search"><span slot="icon">S</span></nami-icon-button>
+          <nami-icon-button label="Settings"><span slot="icon">G</span></nami-icon-button>
         </div>
 
         <main class="page">
@@ -31,44 +31,44 @@
               <p class="copy">Both the neutral and illustration skins keep hover, focus, selected, ripple, shadow, and accent color in sync from the same seed.</p>
             </div>
             <div class="theme-tools">
-              <rl-button id="toggle-theme" variant="soft">Toggle theme</rl-button>
-              <rl-button id="notify">Show toast</rl-button>
+              <nami-button id="toggle-theme" variant="soft">Toggle theme</nami-button>
+              <nami-button id="notify">Show toast</nami-button>
             </div>
           </section>
 
           <section class="panel">
             <div class="section-title">
               <h2>Soft Controls</h2>
-              <rl-chip checkbox selected value="keyword">Keyword</rl-chip>
-              <rl-chip checkbox value="tag">Tag</rl-chip>
-              <rl-chip checkbox value="user">User</rl-chip>
+              <nami-chip checkbox selected value="keyword">Keyword</nami-chip>
+              <nami-chip checkbox value="tag">Tag</nami-chip>
+              <nami-chip checkbox value="user">User</nami-chip>
             </div>
             <div class="toolbar">
-              <rl-button>Primary</rl-button>
-              <rl-button variant="soft">Soft</rl-button>
-              <rl-button variant="outline">Outline</rl-button>
-              <rl-button variant="ghost">Ghost</rl-button>
-              <rl-icon-button label="Favorite"><span slot="icon">F</span></rl-icon-button>
+              <nami-button>Primary</nami-button>
+              <nami-button variant="soft">Soft</nami-button>
+              <nami-button variant="outline">Outline</nami-button>
+              <nami-button variant="ghost">Ghost</nami-button>
+              <nami-icon-button label="Favorite"><span slot="icon">F</span></nami-icon-button>
             </div>
           </section>
 
           <section class="grid">
-            <rl-radio-card selected value="blue" label="Neutral Blue" description="Community default theme."></rl-radio-card>
-            <rl-radio-card value="green" label="System Green" description="Accent changes flow through both skins."></rl-radio-card>
-            <rl-radio-card value="violet" label="Soft Violet" description="Only theme tokens change; components stay untouched."></rl-radio-card>
+            <nami-radio-card selected value="blue" label="Neutral Blue" description="Community default theme."></nami-radio-card>
+            <nami-radio-card value="green" label="System Green" description="Accent changes flow through both skins."></nami-radio-card>
+            <nami-radio-card value="violet" label="Soft Violet" description="Only theme tokens change; components stay untouched."></nami-radio-card>
           </section>
 
           <section class="panel">
-            <rl-tab-bar value="Overview">
+            <nami-tab-bar value="Overview">
               <button value="Overview">Overview</button>
               <button value="Tokens">Tokens</button>
               <button value="Motion">Motion</button>
-            </rl-tab-bar>
+            </nami-tab-bar>
             <div class="form-row">
-              <rl-input label="Search" placeholder="Try a token name" helper-text="Focus ring, border, and text colors are token-driven.">
+              <nami-input label="Search" placeholder="Try a token name" helper-text="Focus ring, border, and text colors are token-driven.">
                 <span slot="icon">/</span>
-              </rl-input>
-              <rl-switch checked>Reduced decoration</rl-switch>
+              </nami-input>
+              <nami-switch checked>Reduced decoration</nami-switch>
             </div>
           </section>
 
@@ -81,50 +81,50 @@
               <section class="theme-contract-stage" data-contract-stage="default-light">
                 <h3>Default light</h3>
                 <div class="contract-controls">
-                  <rl-button>Primary</rl-button>
-                  <rl-chip checkbox selected value="default-light">Selected</rl-chip>
-                  <rl-switch checked>On</rl-switch>
-                  <rl-radio-card selected label="Card" description="Light neutral tokens."></rl-radio-card>
-                  <rl-button loading>Loading</rl-button>
+                  <nami-button>Primary</nami-button>
+                  <nami-chip checkbox selected value="default-light">Selected</nami-chip>
+                  <nami-switch checked>On</nami-switch>
+                  <nami-radio-card selected label="Card" description="Light neutral tokens."></nami-radio-card>
+                  <nami-button loading>Loading</nami-button>
                 </div>
               </section>
-              <section class="theme-contract-stage rl-theme-dark" data-contract-stage="default-dark">
+              <section class="theme-contract-stage nami-theme-dark" data-contract-stage="default-dark">
                 <h3>Default dark</h3>
                 <div class="contract-controls">
-                  <rl-button>Primary</rl-button>
-                  <rl-chip checkbox selected value="default-dark">Selected</rl-chip>
-                  <rl-switch checked>On</rl-switch>
-                  <rl-radio-card selected label="Card" description="Dark neutral tokens."></rl-radio-card>
-                  <rl-button loading>Loading</rl-button>
+                  <nami-button>Primary</nami-button>
+                  <nami-chip checkbox selected value="default-dark">Selected</nami-chip>
+                  <nami-switch checked>On</nami-switch>
+                  <nami-radio-card selected label="Card" description="Dark neutral tokens."></nami-radio-card>
+                  <nami-button loading>Loading</nami-button>
                 </div>
               </section>
-              <section class="theme-contract-stage rl-theme-illustration" data-contract-stage="illustration-light">
+              <section class="theme-contract-stage nami-theme-illustration" data-contract-stage="illustration-light">
                 <h3>Illustration light</h3>
                 <div class="contract-controls">
-                  <rl-button>Primary</rl-button>
-                  <rl-chip checkbox selected value="illustration-light">Selected</rl-chip>
-                  <rl-switch checked>On</rl-switch>
-                  <rl-radio-card selected label="Card" description="Light hand-drawn tokens."></rl-radio-card>
-                  <rl-button loading>Loading</rl-button>
+                  <nami-button>Primary</nami-button>
+                  <nami-chip checkbox selected value="illustration-light">Selected</nami-chip>
+                  <nami-switch checked>On</nami-switch>
+                  <nami-radio-card selected label="Card" description="Light hand-drawn tokens."></nami-radio-card>
+                  <nami-button loading>Loading</nami-button>
                 </div>
               </section>
-              <section class="theme-contract-stage rl-theme-dark rl-theme-illustration" data-contract-stage="illustration-dark">
+              <section class="theme-contract-stage nami-theme-dark nami-theme-illustration" data-contract-stage="illustration-dark">
                 <h3>Illustration dark</h3>
                 <div class="contract-controls">
-                  <rl-button>Primary</rl-button>
-                  <rl-chip checkbox selected value="illustration-dark">Selected</rl-chip>
-                  <rl-switch checked>On</rl-switch>
-                  <rl-radio-card selected label="Card" description="Dark hand-drawn tokens."></rl-radio-card>
-                  <rl-button loading>Loading</rl-button>
+                  <nami-button>Primary</nami-button>
+                  <nami-chip checkbox selected value="illustration-dark">Selected</nami-chip>
+                  <nami-switch checked>On</nami-switch>
+                  <nami-radio-card selected label="Card" description="Dark hand-drawn tokens."></nami-radio-card>
+                  <nami-button loading>Loading</nami-button>
                 </div>
               </section>
             </div>
           </section>
 
         </main>
-      </rl-app-shell>
+      </nami-app-shell>
 
-      <rl-drawer id="drawer" placement="left">
+      <nami-drawer id="drawer" placement="left">
         <h2 slot="label">Theme skin</h2>
         <p>Change the accent to verify that default and illustration skins stay synchronized.</p>
         <div class="swatches">
@@ -133,16 +133,16 @@
           <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">Violet</button>
         </div>
         <div class="theme-settings">
-          <rl-chip id="density-toggle" checkbox value="compact">Compact density</rl-chip>
-          <rl-switch id="motion-toggle">Reduced motion</rl-switch>
-          <rl-chip id="style-toggle" checkbox value="illustration">Illustration style</rl-chip>
+          <nami-chip id="density-toggle" checkbox value="compact">Compact density</nami-chip>
+          <nami-switch id="motion-toggle">Reduced motion</nami-switch>
+          <nami-chip id="style-toggle" checkbox value="illustration">Illustration style</nami-chip>
         </div>
-      </rl-drawer>
-      <rl-dialog id="dialog" label="Replaceable surface">
+      </nami-drawer>
+      <nami-dialog id="dialog" label="Replaceable surface">
         Components consume semantic and component tokens. The visible skin can change without editing component internals.
-        <rl-button slot="actions" id="close-dialog" variant="soft">Close</rl-button>
-      </rl-dialog>
-    </rl-theme>
+        <nami-button slot="actions" id="close-dialog" variant="soft">Close</nami-button>
+      </nami-dialog>
+    </nami-theme>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

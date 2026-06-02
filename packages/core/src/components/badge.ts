@@ -1,10 +1,10 @@
 import { css, html, LitElement } from 'lit';
 import { componentHostStyles } from '../internal/styles';
 
-export type RlBadgeVariant = 'neutral' | 'primary' | 'success' | 'warning' | 'danger';
-export type RlBadgeTone = 'soft' | 'solid';
+export type NamiBadgeVariant = 'neutral' | 'primary' | 'success' | 'warning' | 'danger';
+export type NamiBadgeTone = 'soft' | 'solid';
 
-export class RlBadge extends LitElement {
+export class NamiBadge extends LitElement {
   static properties = {
     variant: { reflect: true },
     tone: { reflect: true }
@@ -19,24 +19,24 @@ export class RlBadge extends LitElement {
 
       .base {
         align-items: center;
-        background: var(--badge-bg, var(--rl-badge-bg, var(--rl-hover-overlay)));
-        border: var(--rl-badge-border-width, var(--rl-style-stroke-width, 1px)) solid var(--badge-border, var(--rl-badge-border, transparent));
-        border-radius: var(--rl-badge-radius, var(--rl-radius-control, 999px));
-        color: var(--badge-fg, var(--rl-badge-fg, var(--rl-text)));
+        background: var(--badge-bg, var(--nami-badge-bg, var(--nami-hover-overlay)));
+        border: var(--nami-badge-border-width, var(--nami-style-stroke-width, 1px)) solid var(--badge-border, var(--nami-badge-border, transparent));
+        border-radius: var(--nami-badge-radius, var(--nami-radius-control, 999px));
+        color: var(--badge-fg, var(--nami-badge-fg, var(--nami-text)));
         display: inline-flex;
-        font-size: var(--rl-badge-font-size, 0.75rem);
+        font-size: var(--nami-badge-font-size, 0.75rem);
         font-weight: 800;
-        gap: var(--rl-space-1, 4px);
+        gap: var(--nami-space-1, 4px);
         line-height: 1;
-        min-height: var(--rl-badge-height, 24px);
-        padding: 0 var(--rl-badge-padding-x, 9px);
+        min-height: var(--nami-badge-height, 24px);
+        padding: 0 var(--nami-badge-padding-x, 9px);
         white-space: nowrap;
       }
 
       :host([variant='primary']) {
-        --badge-bg: var(--rl-color-primary-muted);
-        --badge-border: color-mix(in oklab, var(--rl-color-primary), transparent 54%);
-        --badge-fg: var(--rl-color-primary);
+        --badge-bg: var(--nami-color-primary-muted);
+        --badge-border: color-mix(in oklab, var(--nami-color-primary), transparent 54%);
+        --badge-fg: var(--nami-color-primary);
       }
 
       :host([variant='success']) {
@@ -52,21 +52,21 @@ export class RlBadge extends LitElement {
       }
 
       :host([variant='danger']) {
-        --badge-bg: color-mix(in oklab, var(--rl-color-danger), transparent 88%);
-        --badge-border: color-mix(in oklab, var(--rl-color-danger), transparent 54%);
-        --badge-fg: var(--rl-color-danger);
+        --badge-bg: color-mix(in oklab, var(--nami-color-danger), transparent 88%);
+        --badge-border: color-mix(in oklab, var(--nami-color-danger), transparent 54%);
+        --badge-fg: var(--nami-color-danger);
       }
 
       :host([tone='solid']) {
-        --badge-bg: var(--rl-text);
-        --badge-border: var(--rl-text);
-        --badge-fg: var(--rl-text-inverse);
+        --badge-bg: var(--nami-text);
+        --badge-border: var(--nami-text);
+        --badge-fg: var(--nami-text-inverse);
       }
 
       :host([tone='solid'][variant='primary']) {
-        --badge-bg: var(--rl-color-primary);
-        --badge-border: var(--rl-color-primary);
-        --badge-fg: var(--rl-text-inverse);
+        --badge-bg: var(--nami-color-primary);
+        --badge-border: var(--nami-color-primary);
+        --badge-fg: var(--nami-text-inverse);
       }
 
       :host([tone='solid'][variant='success']) {
@@ -82,15 +82,15 @@ export class RlBadge extends LitElement {
       }
 
       :host([tone='solid'][variant='danger']) {
-        --badge-bg: var(--rl-color-danger);
-        --badge-border: var(--rl-color-danger);
+        --badge-bg: var(--nami-color-danger);
+        --badge-border: var(--nami-color-danger);
         --badge-fg: #fff;
       }
     `
   ];
 
-  declare variant: RlBadgeVariant;
-  declare tone: RlBadgeTone;
+  declare variant: NamiBadgeVariant;
+  declare tone: NamiBadgeTone;
 
   constructor() {
     super();
@@ -105,6 +105,6 @@ export class RlBadge extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-badge': RlBadge;
+    'nami-badge': NamiBadge;
   }
 }

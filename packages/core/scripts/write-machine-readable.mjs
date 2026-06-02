@@ -1,12 +1,12 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const distUrl = new URL('../dist/', import.meta.url);
-const { rlComponentAnatomy } = await import('../dist/anatomy.js');
+const { namiComponentAnatomy } = await import('../dist/anatomy.js');
 
 const themeSeedSchema = {
   $schema: 'https://json-schema.org/draft/2020-12/schema',
-  $id: 'https://rin-labs.local/schemas/rin-ui.theme.schema.json',
-  title: 'Rin UI Theme Seed',
+  $id: 'https://nami.local/schemas/nami-ui.theme.schema.json',
+  title: 'Nami UI Theme Seed',
   type: 'object',
   additionalProperties: false,
   properties: {
@@ -49,5 +49,5 @@ const themeSeedSchema = {
 };
 
 await mkdir(distUrl, { recursive: true });
-await writeFile(new URL('rin-ui.anatomy.json', distUrl), `${JSON.stringify(rlComponentAnatomy, null, 2)}\n`);
-await writeFile(new URL('rin-ui.theme.schema.json', distUrl), `${JSON.stringify(themeSeedSchema, null, 2)}\n`);
+await writeFile(new URL('nami-ui.anatomy.json', distUrl), `${JSON.stringify(namiComponentAnatomy, null, 2)}\n`);
+await writeFile(new URL('nami-ui.theme.schema.json', distUrl), `${JSON.stringify(themeSeedSchema, null, 2)}\n`);

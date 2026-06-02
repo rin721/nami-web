@@ -3,7 +3,7 @@ import { getNextRovingIndex, getRovingValue } from '../foundation/roving-tabinde
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlTabBar extends LitElement {
+export class NamiTabBar extends LitElement {
   static properties = {
     value: {},
     orientation: { reflect: true }
@@ -19,7 +19,7 @@ export class RlTabBar extends LitElement {
       .base {
         align-items: center;
         display: flex;
-        gap: var(--rl-space-1, 4px);
+        gap: var(--nami-space-1, 4px);
       }
 
       :host([orientation='vertical']) .base {
@@ -28,21 +28,21 @@ export class RlTabBar extends LitElement {
       }
 
       ::slotted(*) {
-        background: var(--rl-tab-bg, transparent);
-        border: var(--rl-tab-border-width, 0) solid var(--rl-tab-border-color, transparent);
-        border-radius: var(--rl-tab-radius, var(--rl-radius-control, 999px));
-        color: var(--rl-style-on-paper, var(--rl-icon-color));
+        background: var(--nami-tab-bg, transparent);
+        border: var(--nami-tab-border-width, 0) solid var(--nami-tab-border-color, transparent);
+        border-radius: var(--nami-tab-radius, var(--nami-radius-control, 999px));
+        color: var(--nami-style-on-paper, var(--nami-icon-color));
         cursor: pointer;
-        min-height: var(--rl-control-height-md, 40px);
+        min-height: var(--nami-control-height-md, 40px);
         padding: 0 14px;
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          color var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          color var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);
       }
 
       ::slotted([aria-selected='true']) {
-        background: var(--rl-accent-hover-overlay);
-        color: var(--rl-color-primary);
+        background: var(--nami-accent-hover-overlay);
+        color: var(--nami-color-primary);
       }
     `
   ];
@@ -135,8 +135,8 @@ export class RlTabBar extends LitElement {
     if (!value || value === this.value) return;
     this.value = value;
     this.syncItems();
-    emit(this, 'rl-select', { value, sourceEvent });
-    emit(this, 'rl-change', { value, sourceEvent });
+    emit(this, 'nami-select', { value, sourceEvent });
+    emit(this, 'nami-change', { value, sourceEvent });
   }
 
   render() {
@@ -150,6 +150,6 @@ export class RlTabBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-tab-bar': RlTabBar;
+    'nami-tab-bar': NamiTabBar;
   }
 }

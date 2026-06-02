@@ -1,17 +1,17 @@
-import '@rin-labs/themes/default.css';
-import '@rin-labs/themes/ant-illustration.css';
-import '@rin-labs/ui/register';
-import { RlToast } from '@rin-labs/ui';
+import '@nami/themes/default.css';
+import '@nami/themes/ant-illustration.css';
+import '@nami/ui/register';
+import { NamiToast } from '@nami/ui';
 import './styles.css';
 
-const theme = document.querySelector('rl-theme');
-const drawer = document.querySelector('rl-drawer');
-const dialog = document.querySelector('rl-dialog');
+const theme = document.querySelector('nami-theme');
+const drawer = document.querySelector('nami-drawer');
+const dialog = document.querySelector('nami-dialog');
 
 function onComponentAction(selector: string, handler: () => void) {
   const element = document.querySelector(selector);
   element?.addEventListener('click', handler);
-  element?.addEventListener('rl-click', handler);
+  element?.addEventListener('nami-click', handler);
 }
 
 onComponentAction('#toggle-theme', () => {
@@ -20,7 +20,7 @@ onComponentAction('#toggle-theme', () => {
 });
 
 onComponentAction('#notify', () => {
-  RlToast.show({ message: 'Accent-driven state tokens are active.', variant: 'success' });
+  NamiToast.show({ message: 'Accent-driven state tokens are active.', variant: 'success' });
 });
 
 onComponentAction('#open-drawer', () => {
@@ -51,9 +51,9 @@ document.querySelector('#close-dialog')?.addEventListener('click', () => {
   if (dialog) dialog.open = false;
 });
 
-const densityToggle = document.querySelector('rl-chip#density-toggle') as (HTMLElement & { selected: boolean }) | null;
-const motionToggle = document.querySelector('rl-switch#motion-toggle') as (HTMLElement & { checked: boolean }) | null;
-const styleToggle = document.querySelector('rl-chip#style-toggle') as (HTMLElement & { selected: boolean }) | null;
+const densityToggle = document.querySelector('nami-chip#density-toggle') as (HTMLElement & { selected: boolean }) | null;
+const motionToggle = document.querySelector('nami-switch#motion-toggle') as (HTMLElement & { checked: boolean }) | null;
+const styleToggle = document.querySelector('nami-chip#style-toggle') as (HTMLElement & { selected: boolean }) | null;
 let densityChanged = false;
 let motionChanged = false;
 let styleChanged = false;
@@ -76,7 +76,7 @@ function syncPlaygroundStyle(selected: boolean) {
   theme.stylePreset = selected ? 'illustration' : 'default';
 }
 
-densityToggle?.addEventListener('rl-change', (event) => {
+densityToggle?.addEventListener('nami-change', (event) => {
   densityChanged = true;
   const selected = Boolean((event as CustomEvent<{ selected: boolean }>).detail.selected);
   syncDensity(selected);
@@ -89,7 +89,7 @@ densityToggle?.addEventListener('click', () => {
   });
 });
 
-motionToggle?.addEventListener('rl-change', (event) => {
+motionToggle?.addEventListener('nami-change', (event) => {
   motionChanged = true;
   const checked = Boolean((event as CustomEvent<{ checked: boolean }>).detail.checked);
   syncPlaygroundMotion(checked);
@@ -102,7 +102,7 @@ motionToggle?.addEventListener('click', () => {
   });
 });
 
-styleToggle?.addEventListener('rl-change', (event) => {
+styleToggle?.addEventListener('nami-change', (event) => {
   styleChanged = true;
   const selected = Boolean((event as CustomEvent<{ selected: boolean }>).detail.selected);
   syncPlaygroundStyle(selected);

@@ -9,62 +9,62 @@ export function getStaticPaths() {
 const { locale } = Astro.props as { locale: DocsLocale };
 ---
 
-<DocsLayout locale={locale} title="Rin UI">
+<DocsLayout locale={locale} title="Nami UI">
   <section class="hero product-hero" data-product-hero>
     <div class="hero-copy">
       <p class="eyebrow">{t(locale, 'home.eyebrow')}</p>
-      <h1>Rin UI</h1>
+      <h1>Nami UI</h1>
       <p class="hero-subtitle">{t(locale, 'home.subtitle')}</p>
       <p class="lead">{t(locale, 'home.lead')}</p>
       <div class="hero-actions">
-        <rl-button onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</rl-button>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</rl-button>
-        <rl-button variant="soft" id="docs-open-theme">{t(locale, 'controls.theme')}</rl-button>
+        <nami-button onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</nami-button>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</nami-button>
+        <nami-button variant="soft" id="docs-open-theme">{t(locale, 'controls.theme')}</nami-button>
       </div>
       <div class="hero-proof">
-        <rl-badge>{t(locale, 'home.framework')}</rl-badge>
-        <rl-badge>{t(locale, 'home.themeable')}</rl-badge>
-        <rl-badge>{t(locale, 'home.accessible')}</rl-badge>
-        <rl-badge>{t(locale, 'home.metadata')}</rl-badge>
+        <nami-badge>{t(locale, 'home.framework')}</nami-badge>
+        <nami-badge>{t(locale, 'home.themeable')}</nami-badge>
+        <nami-badge>{t(locale, 'home.accessible')}</nami-badge>
+        <nami-badge>{t(locale, 'home.metadata')}</nami-badge>
       </div>
     </div>
 
     <section class="hero-showcase" aria-label="Interactive component preview">
       <div class="showcase-bar">
-        <rl-tab-bar data-theme-mode value="light">
+        <nami-tab-bar data-theme-mode value="light">
           <button value="light">{t(locale, 'controls.light')}</button>
           <button value="dark">{t(locale, 'controls.dark')}</button>
-        </rl-tab-bar>
-        <rl-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</rl-chip>
+        </nami-tab-bar>
+        <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
       </div>
       <div class="showcase-grid">
-        <rl-card class="component-wall">
-          <rl-badge slot="header" variant="primary">Live preview</rl-badge>
+        <nami-card class="component-wall">
+          <nami-badge slot="header" variant="primary">Live preview</nami-badge>
           <div class="preview-toolbar">
-            <rl-chip checkbox selected value="token">Token</rl-chip>
-            <rl-chip checkbox value="docs">Docs</rl-chip>
-            <rl-icon-button label="Favorite" selected><span slot="icon">F</span></rl-icon-button>
+            <nami-chip checkbox selected value="token">Token</nami-chip>
+            <nami-chip checkbox value="docs">Docs</nami-chip>
+            <nami-icon-button label="Favorite" selected><span slot="icon">F</span></nami-icon-button>
           </div>
-          <rl-input label="Search components" placeholder="button, theme, dialog" helper-text="Focus, border, and text color follow tokens.">
+          <nami-input label="Search components" placeholder="button, theme, dialog" helper-text="Focus, border, and text color follow tokens.">
             <span slot="icon">/</span>
-          </rl-input>
-          <rl-radio-card selected label="One source, two skins" description="Default and illustration presets share the same component implementation."></rl-radio-card>
+          </nami-input>
+          <nami-radio-card selected label="One source, two skins" description="Default and illustration presets share the same component implementation."></nami-radio-card>
           <div class="preview-actions">
-            <rl-button>Primary</rl-button>
-            <rl-button variant="soft">Soft</rl-button>
-            <rl-switch checked>Live</rl-switch>
+            <nami-button>Primary</nami-button>
+            <nami-button variant="soft">Soft</nami-button>
+            <nami-switch checked>Live</nami-switch>
           </div>
-        </rl-card>
-        <rl-card class="install-card">
-          <rl-badge slot="header" variant="primary">{t(locale, 'home.install')}</rl-badge>
-          <rin-docs-code-block data-language="bash" data-code={encodeURIComponent('npm install @rin-labs/ui @rin-labs/themes')}></rin-docs-code-block>
-          <rin-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@rin-labs/themes/default.css';\nimport '@rin-labs/ui/register';")}></rin-docs-code-block>
+        </nami-card>
+        <nami-card class="install-card">
+          <nami-badge slot="header" variant="primary">{t(locale, 'home.install')}</nami-badge>
+          <nami-docs-code-block data-language="bash" data-code={encodeURIComponent('npm install @nami/ui @nami/themes')}></nami-docs-code-block>
+          <nami-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@nami/themes/default.css';\nimport '@nami/ui/register';")}></nami-docs-code-block>
           <div class="swatches">
             <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
             <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
             <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
           </div>
-        </rl-card>
+        </nami-card>
       </div>
     </section>
   </section>
@@ -76,24 +76,24 @@ const { locale } = Astro.props as { locale: DocsLocale };
       <p>{t(locale, 'home.libraryCopy')}</p>
     </div>
     <div class="entry-grid">
-      <rl-card>
-        <rl-badge slot="header" variant="primary">01</rl-badge>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">01</nami-badge>
         <h3>{t(locale, 'nav.getStarted')}</h3>
         <p>{t(locale, 'home.pathStartCopy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</rl-button>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">02</rl-badge>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/docs/getting-started/')}'`}>{t(locale, 'home.openDocs')}</nami-button>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">02</nami-badge>
         <h3>{t(locale, 'nav.components')}</h3>
         <p>{t(locale, 'home.pathComponentsCopy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</rl-button>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">03</rl-badge>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/components/')}'`}>{t(locale, 'home.openComponents')}</nami-button>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">03</nami-badge>
         <h3>{t(locale, 'nav.theme')}</h3>
         <p>{t(locale, 'home.pathThemeCopy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/')}'`}>{t(locale, 'nav.theme')}</rl-button>
-      </rl-card>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/')}'`}>{t(locale, 'nav.theme')}</nami-button>
+      </nami-card>
     </div>
   </section>
 
@@ -104,17 +104,17 @@ const { locale } = Astro.props as { locale: DocsLocale };
       <p>{t(locale, 'home.vibeCopy')}</p>
     </div>
     <div class="style-split">
-      <div class="theme-contract-stage" data-rl-theme="light" data-rl-style="default">
+      <div class="theme-contract-stage" data-nami-theme="light" data-nami-style="default">
         <h3>Default</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Selected</rl-chip>
-        <rl-input label="Project" placeholder="Rin UI"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Selected</nami-chip>
+        <nami-input label="Project" placeholder="Nami UI"></nami-input>
       </div>
-      <div class="theme-contract-stage rl-theme-illustration" data-rl-theme="light" data-rl-style="illustration">
+      <div class="theme-contract-stage nami-theme-illustration" data-nami-theme="light" data-nami-style="illustration">
         <h3>Illustration</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Selected</rl-chip>
-        <rl-input label="Project" placeholder="Rin UI"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Selected</nami-chip>
+        <nami-input label="Project" placeholder="Nami UI"></nami-input>
       </div>
     </div>
   </section>

@@ -5,9 +5,9 @@ body {
 }
 
 body {
-  background: var(--rl-surface);
-  color: var(--rl-text);
-  font-family: var(--rl-font-sans);
+  background: var(--nami-surface);
+  color: var(--nami-text);
+  font-family: var(--nami-font-sans);
   margin: 0;
 }
 
@@ -15,13 +15,13 @@ body {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 180ms;
-    animation-timing-function: var(--rl-motion-standard);
+    animation-timing-function: var(--nami-motion-standard);
   }
 }
 
-rin-docs-live-demo,
-rin-docs-code-block,
-rin-docs-theme-designer {
+nami-docs-live-demo,
+nami-docs-code-block,
+nami-docs-theme-designer {
   display: block;
 }
 
@@ -35,8 +35,8 @@ rin-docs-theme-designer {
 
 .rail-stack a {
   align-items: center;
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-icon-color);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-icon-color);
   display: inline-flex;
   font-weight: 800;
   height: 40px;
@@ -61,11 +61,11 @@ rin-docs-theme-designer {
 }
 
 .rail-stack a::after {
-  background: var(--rl-surface-overlay);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-control);
-  box-shadow: var(--rl-app-shell-shadow, 0 12px 32px color-mix(in oklab, var(--rl-shadow-color), transparent 72%));
-  color: var(--rl-text);
+  background: var(--nami-surface-overlay);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-control);
+  box-shadow: var(--nami-app-shell-shadow, 0 12px 32px color-mix(in oklab, var(--nami-shadow-color), transparent 72%));
+  color: var(--nami-text);
   content: attr(data-label);
   font-size: 0.875rem;
   font-weight: 800;
@@ -77,14 +77,14 @@ rin-docs-theme-designer {
   position: absolute;
   top: 50%;
   transform: translate(-4px, -50%);
-  transition: opacity var(--rl-duration-fast) var(--rl-motion-standard), transform var(--rl-duration-fast) var(--rl-motion-standard);
+  transition: opacity var(--nami-duration-fast) var(--nami-motion-standard), transform var(--nami-duration-fast) var(--nami-motion-standard);
   white-space: nowrap;
   z-index: 50;
 }
 
 .rail-stack a::before {
-  background: var(--rl-surface-overlay);
-  border: 1px solid var(--rl-border);
+  background: var(--nami-surface-overlay);
+  border: 1px solid var(--nami-border);
   border-right: 0;
   border-top: 0;
   content: '';
@@ -95,14 +95,14 @@ rin-docs-theme-designer {
   position: absolute;
   top: 50%;
   transform: translate(-4px, -50%) rotate(45deg);
-  transition: opacity var(--rl-duration-fast) var(--rl-motion-standard), transform var(--rl-duration-fast) var(--rl-motion-standard);
+  transition: opacity var(--nami-duration-fast) var(--nami-motion-standard), transform var(--nami-duration-fast) var(--nami-motion-standard);
   width: 8px;
   z-index: 51;
 }
 
 .rail-stack a:hover {
-  background: var(--rl-hover-overlay);
-  color: var(--rl-color-primary);
+  background: var(--nami-hover-overlay);
+  color: var(--nami-color-primary);
 }
 
 .rail-stack a:hover::after,
@@ -114,14 +114,14 @@ rin-docs-theme-designer {
 }
 
 .rail-stack a:focus-visible {
-  outline: 2px solid var(--rl-focus-ring);
+  outline: 2px solid var(--nami-focus-ring);
   outline-offset: 2px;
 }
 
 .rail-stack a[aria-current='page'],
 .bottom-nav a[aria-current='page'] {
-  background: var(--rl-accent-hover-overlay);
-  color: var(--rl-color-primary);
+  background: var(--nami-accent-hover-overlay);
+  color: var(--nami-color-primary);
 }
 
 .mobile-bar,
@@ -135,10 +135,10 @@ rin-docs-theme-designer {
 
 .brand-link {
   align-items: center;
-  background: var(--rl-hover-overlay);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-text);
+  background: var(--nami-hover-overlay);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text);
   display: inline-flex;
   font-weight: 900;
   min-height: 36px;
@@ -147,14 +147,14 @@ rin-docs-theme-designer {
 }
 
 .brand-link:hover {
-  background: var(--rl-accent-hover-overlay);
-  color: var(--rl-color-primary);
+  background: var(--nami-accent-hover-overlay);
+  color: var(--nami-color-primary);
 }
 
 .bottom-nav a {
   align-items: center;
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-text-muted);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text-muted);
   display: inline-flex;
   font-size: 0.875rem;
   font-weight: 700;
@@ -186,7 +186,7 @@ rin-docs-theme-designer {
 }
 
 .eyebrow {
-  color: var(--rl-color-primary);
+  color: var(--nami-color-primary);
   font-size: 0.8125rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -227,7 +227,7 @@ h4 {
 }
 
 .hero-subtitle {
-  color: var(--rl-text);
+  color: var(--nami-text);
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.35;
@@ -240,8 +240,8 @@ h4 {
 .quality-grid p,
 .component-entry p,
 .info-grid p,
-rl-card p {
-  color: var(--rl-text-muted);
+nami-card p {
+  color: var(--nami-text-muted);
   font-size: 1.0625rem;
   line-height: 1.65;
   margin: 0;
@@ -263,10 +263,10 @@ rl-card p {
 
 .hero-proof span,
 .card-label {
-  background: var(--rl-hover-overlay);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-text-muted);
+  background: var(--nami-hover-overlay);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text-muted);
   display: inline-flex;
   font-size: 0.8125rem;
   font-weight: 800;
@@ -297,20 +297,20 @@ rl-card p {
 .quality-grid article,
 .markdown-page,
 .component-entry {
-  background: var(--rl-surface-raised);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
-  color: var(--rl-text);
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
+  color: var(--nami-text);
   min-width: 0;
   padding: 16px;
 }
 
 .component-wall {
-  --rl-card-gap: 14px;
+  --nami-card-gap: 14px;
 }
 
 .install-card {
-  --rl-card-gap: 12px;
+  --nami-card-gap: 12px;
 }
 
 .install-card pre {
@@ -319,7 +319,7 @@ rl-card p {
 }
 
 .section {
-  border-top: 1px solid var(--rl-border);
+  border-top: 1px solid var(--nami-border);
   display: grid;
   gap: 20px;
   padding-top: 32px;
@@ -411,12 +411,12 @@ rl-card p {
 }
 
 .token-dl dt {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
   font-weight: 800;
 }
 
 .token-dl dd {
-  font-family: var(--rl-font-mono);
+  font-family: var(--nami-font-mono);
   font-size: 0.8125rem;
   margin: 0;
   min-width: 0;
@@ -433,7 +433,7 @@ rl-card p {
 }
 
 .semantic-anatomy li {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
   line-height: 1.6;
 }
 
@@ -444,9 +444,9 @@ rl-card p {
   gap: 8px;
 }
 
-.control-stack > rl-chip,
-.control-stack > rl-switch,
-.control-stack > rl-tab-bar {
+.control-stack > nami-chip,
+.control-stack > nami-switch,
+.control-stack > nami-tab-bar {
   justify-self: start;
 }
 
@@ -457,32 +457,32 @@ rl-card p {
   margin-bottom: 14px;
 }
 
-.token-pipeline rl-card {
+.token-pipeline nami-card {
   min-height: 84px;
 }
 
 .token-pipeline strong {
-  color: var(--rl-text);
-  font-family: var(--rl-font-mono);
+  color: var(--nami-text);
+  font-family: var(--nami-font-mono);
   font-size: 0.8125rem;
   overflow-wrap: anywhere;
 }
 
-.theme-contract-stage.rl-theme-illustration,
-.doc-style-live .rl-theme-illustration {
-  background-color: var(--rl-surface);
-  background-image: var(--rl-style-background-pattern);
+.theme-contract-stage.nami-theme-illustration,
+.doc-style-live .nami-theme-illustration {
+  background-color: var(--nami-surface);
+  background-image: var(--nami-style-background-pattern);
   background-size: 360px 260px, 320px 220px, 420px 300px, 180px 180px, 240px 240px;
-  border-color: var(--rl-style-stroke-color);
-  border-width: var(--rl-style-stroke-width);
-  box-shadow: var(--rl-style-offset-shadow);
+  border-color: var(--nami-style-stroke-color);
+  border-width: var(--nami-style-stroke-width);
+  box-shadow: var(--nami-style-offset-shadow);
 }
 
 .contract-controls {
   align-items: flex-start;
 }
 
-.contract-controls rl-radio-card {
+.contract-controls nami-radio-card {
   flex: 1 1 100%;
 }
 
@@ -517,9 +517,9 @@ rl-card p {
 
 .component-preview {
   align-items: center;
-  background: var(--rl-surface-inset);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  background: var(--nami-surface-inset);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -535,8 +535,8 @@ rl-card p {
 }
 
 .mini-shell {
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: grid;
   gap: 8px;
   grid-template-columns: 48px minmax(0, 1fr);
@@ -546,9 +546,9 @@ rl-card p {
 
 .mini-shell span {
   align-items: center;
-  background: var(--rl-hover-overlay);
-  border-radius: var(--rl-radius-surface);
-  color: var(--rl-color-primary);
+  background: var(--nami-hover-overlay);
+  border-radius: var(--nami-radius-surface);
+  color: var(--nami-color-primary);
   display: flex;
   font-size: 0.75rem;
   font-weight: 800;
@@ -558,7 +558,7 @@ rl-card p {
 }
 
 .mini-shell small {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
 }
 
 .component-entry dl {
@@ -569,7 +569,7 @@ rl-card p {
 }
 
 .component-entry dt {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
   font-size: 0.8125rem;
   font-weight: 800;
 }
@@ -593,7 +593,7 @@ rl-card p {
 }
 
 .component-hero-card {
-  --rl-card-gap: 14px;
+  --nami-card-gap: 14px;
 }
 
 .component-hero-preview {
@@ -601,7 +601,7 @@ rl-card p {
 }
 
 .component-reference dl,
-rl-card dl {
+nami-card dl {
   display: grid;
   gap: 8px 14px;
   grid-template-columns: 170px minmax(0, 1fr);
@@ -609,14 +609,14 @@ rl-card dl {
 }
 
 .component-reference dt,
-rl-card dt {
-  color: var(--rl-text-muted);
+nami-card dt {
+  color: var(--nami-text-muted);
   font-size: 0.8125rem;
   font-weight: 800;
 }
 
 .component-reference dd,
-rl-card dd {
+nami-card dd {
   margin: 0;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -630,7 +630,7 @@ rl-card dd {
 }
 
 .text-link {
-  color: var(--rl-color-primary);
+  color: var(--nami-color-primary);
   font-weight: 800;
   text-decoration: none;
 }
@@ -640,9 +640,9 @@ rl-card dd {
 }
 
 .doc-index-card {
-  background: var(--rl-surface-raised);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: grid;
   gap: 8px;
   padding: 16px;
@@ -650,14 +650,14 @@ rl-card dd {
 }
 
 .doc-index-card span {
-  color: var(--rl-color-primary);
+  color: var(--nami-color-primary);
   font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
 }
 
 .doc-index-card strong {
-  color: var(--rl-text);
+  color: var(--nami-text);
 }
 
 .markdown-pages {
@@ -692,26 +692,26 @@ rl-card dd {
 
 .markdown-page th,
 .markdown-page td {
-  border: 1px solid var(--rl-border);
+  border: 1px solid var(--nami-border);
   padding: 9px 10px;
   text-align: left;
   vertical-align: top;
 }
 
 .markdown-page th {
-  background: var(--rl-hover-overlay);
+  background: var(--nami-hover-overlay);
 }
 
 .live-example {
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: grid;
   gap: 0;
   overflow: hidden;
 }
 
 .live-preview {
-  background: var(--rl-surface);
+  background: var(--nami-surface);
   display: grid;
   gap: 12px;
   padding: 16px;
@@ -729,9 +729,9 @@ rl-card dd {
 }
 
 .doc-style-live > div {
-  background: var(--rl-surface-raised);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -744,15 +744,15 @@ rl-card dd {
 }
 
 code {
-  color: var(--rl-color-primary);
-  font-family: var(--rl-font-mono);
+  color: var(--nami-color-primary);
+  font-family: var(--nami-font-mono);
   font-size: 0.875rem;
 }
 
 pre {
-  background: var(--rl-surface-inset);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  background: var(--nami-surface-inset);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   margin: 0;
   overflow: auto;
   padding: 12px;
@@ -764,14 +764,14 @@ pre {
 }
 
 pre code {
-  color: var(--rl-text);
+  color: var(--nami-text);
 }
 
 .swatches button {
   background: color-mix(in oklab, var(--swatch), transparent 88%);
   border: 1px solid color-mix(in oklab, var(--swatch), transparent 48%);
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-text);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text);
   cursor: pointer;
   font: inherit;
   min-height: 38px;
@@ -851,7 +851,7 @@ pre code {
   }
 
   .component-reference dl,
-  rl-card dl {
+  nami-card dl {
     grid-template-columns: 1fr;
   }
 }

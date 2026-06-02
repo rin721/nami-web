@@ -23,11 +23,11 @@ const items = [
     </div>
     <div class="entry-grid">
       {items.map((item) => (
-        <rl-card>
-          <rl-badge slot="header" variant="primary">{item.slug}</rl-badge>
+        <nami-card>
+          <nami-badge slot="header" variant="primary">{item.slug}</nami-badge>
           <h3>{item.title}</h3>
-          <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, `/resources/${item.slug}/`)}'`}>{t(locale, 'component.open')}</rl-button>
-        </rl-card>
+          <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, `/resources/${item.slug}/`)}'`}>{t(locale, 'component.open')}</nami-button>
+        </nami-card>
       ))}
     </div>
   </section>

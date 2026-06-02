@@ -3,11 +3,11 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { defineElement } from '../internal/define';
 import { componentHostStyles, softControlStyles } from '../internal/styles';
-import { RlSpinner } from './spinner';
+import { NamiSpinner } from './spinner';
 
-defineElement('rl-spinner', RlSpinner);
+defineElement('nami-spinner', NamiSpinner);
 
-export class RlIconButton extends LitElement {
+export class NamiIconButton extends LitElement {
   static properties = {
     label: {},
     size: { reflect: true },
@@ -25,19 +25,19 @@ export class RlIconButton extends LitElement {
       }
 
       button {
-        height: var(--rl-icon-button-size, 40px);
-        width: var(--rl-icon-button-size, 40px);
+        height: var(--nami-icon-button-size, 40px);
+        width: var(--nami-icon-button-size, 40px);
       }
 
       :host([size='sm']) {
-        --rl-icon-button-size: 32px;
+        --nami-icon-button-size: 32px;
       }
 
       :host([size='lg']) {
-        --rl-icon-button-size: 48px;
+        --nami-icon-button-size: 48px;
       }
 
-      rl-spinner {
+      nami-spinner {
         color: currentColor;
       }
     `
@@ -66,7 +66,7 @@ export class RlIconButton extends LitElement {
       return;
     }
 
-    emit(this, 'rl-click', { sourceEvent: event, selected: this.selected });
+    emit(this, 'nami-click', { sourceEvent: event, selected: this.selected });
   }
 
   render() {
@@ -82,7 +82,7 @@ export class RlIconButton extends LitElement {
         @click=${this.handleClick}
       >
         <span class="icon-motion" part="icon">
-          ${this.loading ? html`<rl-spinner size="sm" label=${msg('Loading', { id: 'rl.spinner.loading' })}></rl-spinner>` : html`<slot></slot><slot name="icon"></slot>`}
+          ${this.loading ? html`<nami-spinner size="sm" label=${msg('Loading', { id: 'nami.spinner.loading' })}></nami-spinner>` : html`<slot></slot><slot name="icon"></slot>`}
         </span>
       </button>
     `;
@@ -91,6 +91,6 @@ export class RlIconButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-icon-button': RlIconButton;
+    'nami-icon-button': NamiIconButton;
   }
 }

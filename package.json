@@ -1,5 +1,5 @@
 {
-  "name": "ui-labs",
+  "name": "nami-web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,12 +9,12 @@
   ],
   "scripts": {
     "build": "npm run localize:build && npm run build:packages && npm run build:apps",
-    "build:packages": "npm run build --workspace @rin-labs/tokens && npm run build --workspace @rin-labs/themes && npm run build --workspace @rin-labs/ui",
-    "build:apps": "npm run build --workspace @rin-labs/docs",
-    "test": "npm run test --workspace @rin-labs/tokens && npm run test --workspace @rin-labs/ui",
+    "build:packages": "npm run build --workspace @nami/tokens && npm run build --workspace @nami/themes && npm run build --workspace @nami/ui",
+    "build:apps": "npm run build --workspace @nami/docs",
+    "test": "npm run test --workspace @nami/tokens && npm run test --workspace @nami/ui",
     "test:browser": "playwright test",
-    "dev": "npm run dev --workspace @rin-labs/docs",
-    "manifest": "npm run manifest --workspace @rin-labs/ui",
+    "dev": "npm run dev --workspace @nami/docs",
+    "manifest": "npm run manifest --workspace @nami/ui",
     "localize:extract": "lit-localize extract",
     "localize:build": "lit-localize build",
     "verify": "npm test && npm run build && npm run manifest && npm run test:browser"

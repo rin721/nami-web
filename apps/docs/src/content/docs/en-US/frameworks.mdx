@@ -6,36 +6,36 @@ order: 5
 
 # Frameworks
 
-Rin UI does not require framework wrappers for the first release. Use standard custom element registration and pass data through attributes, properties, and DOM events.
+Nami UI does not require framework wrappers for the first release. Use standard custom element registration and pass data through attributes, properties, and DOM events.
 
 ## Native HTML
 
 ```html
 <script type="module">
-  import '@rin-labs/themes/default.css';
-  import '@rin-labs/ui/register';
+  import '@nami/themes/default.css';
+  import '@nami/ui/register';
 </script>
 
-<rl-button>Save</rl-button>
+<nami-button>Save</nami-button>
 ```
 
 ## Vue
 
 ```ts
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';
+import '@nami/themes/default.css';
+import '@nami/ui/register';
 ```
 
-Configure Vue to treat `rl-*` tags as custom elements in the application compiler options.
+Configure Vue to treat `nami-*` tags as custom elements in the application compiler options.
 
 ## React
 
 ```tsx
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';
+import '@nami/themes/default.css';
+import '@nami/ui/register';
 
 export function App() {
-  return <rl-button>Save</rl-button>;
+  return <nami-button>Save</nami-button>;
 }
 ```
 

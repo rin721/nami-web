@@ -4,32 +4,32 @@ import { allLocales, sourceLocale, targetLocales } from './generated/locale-code
 
 export { allLocales, sourceLocale, targetLocales };
 
-export type RlLocaleCode = (typeof allLocales)[number];
-export type RlTargetLocaleCode = (typeof targetLocales)[number];
+export type NamiLocaleCode = (typeof allLocales)[number];
+export type NamiTargetLocaleCode = (typeof targetLocales)[number];
 
-const localeLoaders: Record<RlTargetLocaleCode, () => Promise<LocaleModule>> = {
+const localeLoaders: Record<NamiTargetLocaleCode, () => Promise<LocaleModule>> = {
   'zh-CN': () => import('./generated/locales/zh-CN')
 };
 
-type RlLocalization = ReturnType<typeof configureLocalization>;
+type NamiLocalization = ReturnType<typeof configureLocalization>;
 
 const localizationStore = globalThis as typeof globalThis & {
-  __rinLabsLocalization?: RlLocalization;
+  __namiLocalization?: NamiLocalization;
 };
 
-const localization = localizationStore.__rinLabsLocalization ??= configureLocalization({
+const localization = localizationStore.__namiLocalization ??= configureLocalization({
   sourceLocale,
   targetLocales,
-  loadLocale: (locale) => localeLoaders[locale as RlTargetLocaleCode]()
+  loadLocale: (locale) => localeLoaders[locale as NamiTargetLocaleCode]()
 });
 
 export const getLocale = localization.getLocale;
 
-export function isSupportedLocale(locale: string): locale is RlLocaleCode {
+export function isSupportedLocale(locale: string): locale is NamiLocaleCode {
   return (allLocales as readonly string[]).includes(locale);
 }
 
-export function normalizeLocale(locale: string | null | undefined): RlLocaleCode {
+export function normalizeLocale(locale: string | null | undefined): NamiLocaleCode {
   return locale && isSupportedLocale(locale) ? locale : sourceLocale;
 }
 

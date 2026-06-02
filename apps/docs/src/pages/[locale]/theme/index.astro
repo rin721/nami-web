@@ -18,54 +18,54 @@ const { locale } = Astro.props as { locale: DocsLocale };
     </div>
 
     <div class="theme-system-grid">
-      <rl-card>
-        <rl-badge slot="header" variant="primary">Seed</rl-badge>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">Seed</nami-badge>
         <h3>accent / mode / preset</h3>
         <p>{locale === 'zh-CN' ? '少量输入决定完整视觉方向。' : 'Small inputs define the visual direction.'}</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">Semantic</rl-badge>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">Semantic</nami-badge>
         <h3>color / surface / text</h3>
         <p>{locale === 'zh-CN' ? '语义令牌为组件提供一致含义。' : 'Semantic tokens give components consistent meaning.'}</p>
-      </rl-card>
-      <rl-card>
-        <rl-badge slot="header" variant="primary">Component</rl-badge>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">Component</nami-badge>
         <h3>button / input / card</h3>
         <p>{locale === 'zh-CN' ? '组件令牌提供安全覆盖边界。' : 'Component tokens provide safe override boundaries.'}</p>
-      </rl-card>
+      </nami-card>
     </div>
 
     <div class="style-split">
-      <div class="theme-contract-stage" data-rl-theme="light" data-rl-style="default">
+      <div class="theme-contract-stage" data-nami-theme="light" data-nami-style="default">
         <h3>Default / Light</h3>
-        <rl-button>Primary</rl-button>
-        <rl-input label="Project" placeholder="Rin UI"></rl-input>
-        <rl-chip selected>Selected</rl-chip>
+        <nami-button>Primary</nami-button>
+        <nami-input label="Project" placeholder="Nami UI"></nami-input>
+        <nami-chip selected>Selected</nami-chip>
       </div>
-      <div class="theme-contract-stage rl-theme-illustration" data-rl-theme="dark" data-rl-style="illustration">
+      <div class="theme-contract-stage nami-theme-illustration" data-nami-theme="dark" data-nami-style="illustration">
         <h3>Illustration / Dark</h3>
-        <rl-button>Primary</rl-button>
-        <rl-input label="Project" placeholder="Rin UI"></rl-input>
-        <rl-chip selected>Selected</rl-chip>
+        <nami-button>Primary</nami-button>
+        <nami-input label="Project" placeholder="Nami UI"></nami-input>
+        <nami-chip selected>Selected</nami-chip>
       </div>
     </div>
 
     <div class="entry-grid">
-      <rl-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'theme.presetsTitle')}</h3>
         <p>{t(locale, 'theme.presetsCopy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/style-presets/')}'`}>{t(locale, 'theme.presetsTitle')}</rl-button>
-      </rl-card>
-      <rl-card>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/style-presets/')}'`}>{t(locale, 'theme.presetsTitle')}</nami-button>
+      </nami-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'theme.algorithmTitle')}</h3>
         <p>{t(locale, 'theme.algorithmCopy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/algorithm/')}'`}>{t(locale, 'theme.algorithmTitle')}</rl-button>
-      </rl-card>
-      <rl-card>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/algorithm/')}'`}>{t(locale, 'theme.algorithmTitle')}</nami-button>
+      </nami-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'nav.designer')}</h3>
         <p>{t(locale, 'designer.copy')}</p>
-        <rl-button variant="soft" onclick={`location.href='${localizedPath(locale, '/playground/theme-designer/')}'`}>{t(locale, 'nav.designer')}</rl-button>
-      </rl-card>
+        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/playground/theme-designer/')}'`}>{t(locale, 'nav.designer')}</nami-button>
+      </nami-card>
     </div>
   </section>
 </DocsLayout>

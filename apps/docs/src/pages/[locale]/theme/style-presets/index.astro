@@ -18,35 +18,35 @@ const { locale } = Astro.props as { locale: DocsLocale };
     </div>
 
     <div class="theme-contract-grid">
-      <div class="theme-contract-stage" data-contract-stage="default-light" data-rl-theme="light" data-rl-style="default">
+      <div class="theme-contract-stage" data-contract-stage="default-light" data-nami-theme="light" data-nami-style="default">
         <h3>Default / Light</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Ready</rl-chip>
-        <rl-input label="Name" placeholder="Project"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Ready</nami-chip>
+        <nami-input label="Name" placeholder="Project"></nami-input>
       </div>
-      <div class="theme-contract-stage" data-contract-stage="default-dark" data-rl-theme="dark" data-rl-style="default">
+      <div class="theme-contract-stage" data-contract-stage="default-dark" data-nami-theme="dark" data-nami-style="default">
         <h3>Default / Dark</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Ready</rl-chip>
-        <rl-input label="Name" placeholder="Project"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Ready</nami-chip>
+        <nami-input label="Name" placeholder="Project"></nami-input>
       </div>
-      <div class="theme-contract-stage rl-theme-illustration" data-contract-stage="illustration-light" data-rl-theme="light" data-rl-style="illustration">
+      <div class="theme-contract-stage nami-theme-illustration" data-contract-stage="illustration-light" data-nami-theme="light" data-nami-style="illustration">
         <h3>Illustration / Light</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Ready</rl-chip>
-        <rl-input label="Name" placeholder="Project"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Ready</nami-chip>
+        <nami-input label="Name" placeholder="Project"></nami-input>
       </div>
-      <div class="theme-contract-stage rl-theme-illustration" data-contract-stage="illustration-dark" data-rl-theme="dark" data-rl-style="illustration">
+      <div class="theme-contract-stage nami-theme-illustration" data-contract-stage="illustration-dark" data-nami-theme="dark" data-nami-style="illustration">
         <h3>Illustration / Dark</h3>
-        <rl-button>Save</rl-button>
-        <rl-chip selected>Ready</rl-chip>
-        <rl-input label="Name" placeholder="Project"></rl-input>
+        <nami-button>Save</nami-button>
+        <nami-chip selected>Ready</nami-chip>
+        <nami-input label="Name" placeholder="Project"></nami-input>
       </div>
     </div>
 
-    <rl-card>
+    <nami-card>
       <h3 slot="header">{locale === 'zh-CN' ? '设计原则' : 'Design principle'}</h3>
-      <p>{locale === 'zh-CN' ? '风格预设只改变 token 与组件样式边界，不复制组件源码，也不创建 rl-ant-button 这类重复组件。' : 'Style presets only change tokens and style boundaries. They do not duplicate component source or create parallel components such as rl-ant-button.'}</p>
-    </rl-card>
+      <p>{locale === 'zh-CN' ? '风格预设只改变 token 与组件样式边界，不复制组件源码，也不创建 nami-ant-button 这类重复组件。' : 'Style presets only change tokens and style boundaries. They do not duplicate component source or create parallel components such as nami-ant-button.'}</p>
+    </nami-card>
   </section>
 </DocsLayout>

@@ -1,12 +1,12 @@
-# Rin UI Labs
+# Nami UI Labs
 
-Rin UI 是一套基于 Lit + TypeScript 的 Web Components UI 组件库，并配套 Astro 官网文档站。组件库支持默认风格、插画风格、主题算法、i18n、组件 metadata 与跨框架接入。
+Nami UI 是一套基于 Lit + TypeScript 的 Web Components UI 组件库，并配套 Astro 官网文档站。组件库支持默认风格、插画风格、主题算法、i18n、组件 metadata 与跨框架接入。
 
 ## 项目结构
 
-- `packages/core`：核心 `rl-*` Web Components，发布包名为 `@rin-labs/ui`。
-- `packages/themes`：主题 CSS preset，发布包名为 `@rin-labs/themes`。
-- `packages/tokens`：设计 token 与主题算法，发布包名为 `@rin-labs/tokens`。
+- `packages/core`：核心 `nami-*` Web Components，发布包名为 `@nami/ui`。
+- `packages/themes`：主题 CSS preset，发布包名为 `@nami/themes`。
+- `packages/tokens`：设计 token 与主题算法，发布包名为 `@nami/tokens`。
 - `apps/docs`：Astro + MDX 官网文档站，包含首页、组件文档、主题实验室和教程。
 
 ## 安装依赖
@@ -94,7 +94,7 @@ packages/tokens/dist/
 
 其中：
 
-- `packages/core/dist/`：`@rin-labs/ui` 的 JS、类型声明、单组件入口、metadata、anatomy JSON、theme schema。
+- `packages/core/dist/`：`@nami/ui` 的 JS、类型声明、单组件入口、metadata、anatomy JSON、theme schema。
 - `packages/themes/dist/`：`default.css`、`ant-illustration.css` 等主题 CSS。
 - `packages/tokens/dist/`：token JS、类型声明、DTCG token JSON 与主题算法入口。
 

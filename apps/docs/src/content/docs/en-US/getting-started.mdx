@@ -6,28 +6,28 @@ order: 1
 
 # Getting Started
 
-Rin UI is a Lit-based Web Components library. It works in native HTML, Vue, React, and other frontend stacks because the public surface is standard custom elements, attributes, events, slots, CSS variables, and CSS parts.
+Nami UI is a Lit-based Web Components library. It works in native HTML, Vue, React, and other frontend stacks because the public surface is standard custom elements, attributes, events, slots, CSS variables, and CSS parts.
 
 ## Install
 
 ```bash
-npm install @rin-labs/ui @rin-labs/themes
+npm install @nami/ui @nami/themes
 ```
 
 ## Register all components
 
-<rin-docs-live-demo data-code="%3Crl-button%3EPrimary%20action%3C%2Frl-button%3E%0A%3Crl-button%20variant%3D%22soft%22%3ESecondary%20action%3C%2Frl-button%3E%0A%3Crl-chip%20checkbox%20selected%20value%3D%22docs%22%3EDocs%3C%2Frl-chip%3E"></rin-docs-live-demo>
+<nami-docs-live-demo data-code="%3Cnami-button%3EPrimary%20action%3C%2Fnami-button%3E%0A%3Cnami-button%20variant%3D%22soft%22%3ESecondary%20action%3C%2Fnami-button%3E%0A%3Cnami-chip%20checkbox%20selected%20value%3D%22docs%22%3EDocs%3C%2Fnami-chip%3E"></nami-docs-live-demo>
 
 ```ts
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/register';
+import '@nami/themes/default.css';
+import '@nami/ui/register';
 ```
 
 ## Import one component
 
 ```ts
-import '@rin-labs/themes/default.css';
-import '@rin-labs/ui/button';
+import '@nami/themes/default.css';
+import '@nami/ui/button';
 ```
 
 Use the full register entry for documentation sites and prototypes. Use single component entries when an application needs a smaller dependency surface.

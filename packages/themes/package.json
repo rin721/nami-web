@@ -1,5 +1,5 @@
 {
-  "name": "@rin-labs/themes",
+  "name": "@nami/themes",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,6 +17,6 @@
     "build": "tsc -p tsconfig.json && node ./scripts/copy-css.mjs"
   },
   "dependencies": {
-    "@rin-labs/tokens": "0.1.0"
+    "@nami/tokens": "0.1.0"
   }
 }

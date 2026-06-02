@@ -5,9 +5,9 @@ body {
 }
 
 body {
-  background: var(--rl-surface);
-  color: var(--rl-text);
-  font-family: var(--rl-font-sans);
+  background: var(--nami-surface);
+  color: var(--nami-text);
+  font-family: var(--nami-font-sans);
 }
 
 .rail-stack {
@@ -48,7 +48,7 @@ body {
 }
 
 .eyebrow {
-  color: var(--rl-color-primary);
+  color: var(--nami-color-primary);
   font-weight: 700;
   margin: 0 0 8px;
 }
@@ -67,7 +67,7 @@ h1 {
 }
 
 .copy {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
   font-size: 1.05rem;
   line-height: 1.6;
   max-width: 640px;
@@ -92,8 +92,8 @@ h1 {
 }
 
 .panel {
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   display: grid;
   gap: 18px;
   padding: 18px;
@@ -120,7 +120,7 @@ h1 {
 }
 
 .theme-matrix .section-title p {
-  color: var(--rl-text-muted);
+  color: var(--nami-text-muted);
   flex: 1 1 320px;
   line-height: 1.5;
   margin: 0;
@@ -133,23 +133,23 @@ h1 {
 }
 
 .theme-contract-stage {
-  background: var(--rl-surface-raised);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
-  color: var(--rl-text);
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
+  color: var(--nami-text);
   display: grid;
   gap: 12px;
   min-width: 0;
   padding: 14px;
 }
 
-.theme-contract-stage.rl-theme-illustration {
-  background-color: var(--rl-surface);
-  background-image: var(--rl-style-background-pattern);
+.theme-contract-stage.nami-theme-illustration {
+  background-color: var(--nami-surface);
+  background-image: var(--nami-style-background-pattern);
   background-size: 360px 260px, 320px 220px, 420px 300px, 180px 180px, 240px 240px;
-  border-color: var(--rl-style-stroke-color);
-  border-width: var(--rl-style-stroke-width);
-  box-shadow: var(--rl-style-offset-shadow);
+  border-color: var(--nami-style-stroke-color);
+  border-width: var(--nami-style-stroke-width);
+  box-shadow: var(--nami-style-offset-shadow);
 }
 
 .theme-contract-stage h3 {
@@ -163,7 +163,7 @@ h1 {
   gap: 10px;
 }
 
-.contract-controls rl-radio-card {
+.contract-controls nami-radio-card {
   flex: 1 1 100%;
 }
 
@@ -173,11 +173,11 @@ h1 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.illustration-grid rl-empty,
-.illustration-grid rl-result {
-  background: var(--rl-surface-raised);
-  border: 1px solid var(--rl-border);
-  border-radius: var(--rl-radius-surface);
+.illustration-grid nami-empty,
+.illustration-grid nami-result {
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
   min-height: 250px;
 }
 
@@ -185,15 +185,15 @@ h1 {
   align-items: end;
 }
 
-.form-row rl-input {
+.form-row nami-input {
   flex: 1 1 260px;
 }
 
 .swatches button {
   background: color-mix(in oklab, var(--swatch), transparent 88%);
   border: 1px solid color-mix(in oklab, var(--swatch), transparent 48%);
-  border-radius: var(--rl-radius-control);
-  color: var(--rl-text);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text);
   cursor: pointer;
   font: inherit;
   min-height: 40px;

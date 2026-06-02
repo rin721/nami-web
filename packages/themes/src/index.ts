@@ -1,21 +1,21 @@
-export type RlThemeMode = 'light' | 'dark' | 'system';
-export type RlDensity = 'comfortable' | 'compact';
-export type RlMotion = 'normal' | 'reduced';
-export type RlStylePreset = 'default' | 'illustration' | 'ant-illustration';
+export type NamiThemeMode = 'light' | 'dark' | 'system';
+export type NamiDensity = 'comfortable' | 'compact';
+export type NamiMotion = 'normal' | 'reduced';
+export type NamiStylePreset = 'default' | 'illustration' | 'ant-illustration';
 
 export const defaultAccent = '#3b82f6';
 
 export function themeAttributes(options: {
-  theme?: RlThemeMode;
-  density?: RlDensity;
-  motion?: RlMotion;
-  stylePreset?: RlStylePreset;
+  theme?: NamiThemeMode;
+  density?: NamiDensity;
+  motion?: NamiMotion;
+  stylePreset?: NamiStylePreset;
 }) {
   const stylePreset = options.stylePreset ?? 'default';
   return {
-    'data-rl-theme': options.theme ?? 'light',
-    'data-rl-density': options.density ?? 'comfortable',
-    'data-rl-motion': options.motion ?? 'normal',
-    'data-rl-style': stylePreset === 'ant-illustration' ? 'illustration' : stylePreset
+    'data-nami-theme': options.theme ?? 'light',
+    'data-nami-density': options.density ?? 'comfortable',
+    'data-nami-motion': options.motion ?? 'normal',
+    'data-nami-style': stylePreset === 'ant-illustration' ? 'illustration' : stylePreset
   };
 }

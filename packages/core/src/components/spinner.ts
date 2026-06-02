@@ -2,9 +2,9 @@ import { css, html, LitElement } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { componentHostStyles } from '../internal/styles';
 
-export type RlSpinnerSize = 'sm' | 'md' | 'lg';
+export type NamiSpinnerSize = 'sm' | 'md' | 'lg';
 
-export class RlSpinner extends LitElement {
+export class NamiSpinner extends LitElement {
   static properties = {
     size: { reflect: true },
     label: {}
@@ -34,8 +34,8 @@ export class RlSpinner extends LitElement {
       }
 
       .indicator {
-        animation: rl-spinner-rotate 900ms linear infinite;
-        border: 2px solid var(--rl-spinner-track-color, color-mix(in oklab, currentColor, transparent 72%));
+        animation: nami-spinner-rotate 900ms linear infinite;
+        border: 2px solid var(--nami-spinner-track-color, color-mix(in oklab, currentColor, transparent 72%));
         border-radius: 50%;
         border-top-color: currentColor;
         display: inline-block;
@@ -43,7 +43,7 @@ export class RlSpinner extends LitElement {
         width: 100%;
       }
 
-      @keyframes rl-spinner-rotate {
+      @keyframes nami-spinner-rotate {
         to {
           transform: rotate(360deg);
         }
@@ -57,7 +57,7 @@ export class RlSpinner extends LitElement {
     `
   ];
 
-  declare size: RlSpinnerSize;
+  declare size: NamiSpinnerSize;
   declare label: string;
 
   constructor() {
@@ -68,12 +68,12 @@ export class RlSpinner extends LitElement {
   }
 
   render() {
-    return html`<span class="indicator" part="base indicator" role="status" aria-label=${this.label || msg('Loading', { id: 'rl.spinner.loading' })}></span>`;
+    return html`<span class="indicator" part="base indicator" role="status" aria-label=${this.label || msg('Loading', { id: 'nami.spinner.loading' })}></span>`;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-spinner': RlSpinner;
+    'nami-spinner': NamiSpinner;
   }
 }

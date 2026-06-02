@@ -3,7 +3,7 @@ import { getFocusableElements, restoreFocus, trapFocus } from '../foundation/foc
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
-export class RlDialog extends LitElement {
+export class NamiDialog extends LitElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     label: {},
@@ -14,29 +14,29 @@ export class RlDialog extends LitElement {
     componentHostStyles,
     css`
       dialog {
-        background: var(--rl-dialog-bg, var(--rl-surface-raised));
-        border: var(--rl-dialog-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-dialog-border-color, var(--rl-border));
-        border-radius: var(--rl-dialog-radius, var(--rl-radius-surface, 6px));
-        box-shadow: var(--rl-dialog-shadow);
-        color: var(--rl-style-on-paper, var(--rl-text));
+        background: var(--nami-dialog-bg, var(--nami-surface-raised));
+        border: var(--nami-dialog-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-dialog-border-color, var(--nami-border));
+        border-radius: var(--nami-dialog-radius, var(--nami-radius-surface, 6px));
+        box-shadow: var(--nami-dialog-shadow);
+        color: var(--nami-style-on-paper, var(--nami-text));
         margin: auto;
         max-width: min(560px, calc(100vw - 32px));
         min-width: min(420px, calc(100vw - 32px));
         padding: 0;
         transition:
-          opacity var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          transform var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease);
+          opacity var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          transform var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease);
       }
 
       dialog::backdrop {
-        background: var(--rl-overlay-backdrop, color-mix(in oklab, #000, transparent 52%));
+        background: var(--nami-overlay-backdrop, color-mix(in oklab, #000, transparent 52%));
         backdrop-filter: blur(8px);
       }
 
       .panel {
         display: grid;
-        gap: var(--rl-space-4, 16px);
-        padding: var(--rl-space-5, 24px);
+        gap: var(--nami-space-4, 16px);
+        padding: var(--nami-space-5, 24px);
       }
 
       header {
@@ -54,25 +54,25 @@ export class RlDialog extends LitElement {
       .close {
         background: transparent;
         border: 0;
-        border-radius: var(--rl-radius-control, 999px);
-        color: var(--rl-style-on-paper-muted, var(--rl-icon-color));
+        border-radius: var(--nami-radius-control, 999px);
+        color: var(--nami-style-on-paper-muted, var(--nami-icon-color));
         cursor: pointer;
         height: 36px;
         width: 36px;
       }
 
       .close:hover {
-        background: var(--rl-hover-overlay);
+        background: var(--nami-hover-overlay);
       }
 
       .close:focus-visible {
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
         outline: none;
       }
 
       footer {
         display: flex;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
         justify-content: flex-end;
       }
     `
@@ -108,7 +108,7 @@ export class RlDialog extends LitElement {
       this.previousActiveElement = document.activeElement;
       this.dialogElement.showModal();
       requestAnimationFrame(() => this.focusInitialElement());
-      emit(this, 'rl-open', undefined);
+      emit(this, 'nami-open', undefined);
     }
 
     if (!this.open && this.dialogElement.open) {
@@ -117,7 +117,7 @@ export class RlDialog extends LitElement {
 
     if (!this.open && wasOpen) {
       this.restoreFocus();
-      emit(this, 'rl-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
       this.closeSourceEvent = undefined;
     }
   }
@@ -181,6 +181,6 @@ export class RlDialog extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-dialog': RlDialog;
+    'nami-dialog': NamiDialog;
   }
 }

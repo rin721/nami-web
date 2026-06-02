@@ -3,14 +3,14 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { defineElement } from '../internal/define';
 import { componentHostStyles } from '../internal/styles';
-import { RlSpinner } from './spinner';
+import { NamiSpinner } from './spinner';
 
-export type RlButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
-export type RlButtonSize = 'sm' | 'md' | 'lg';
+export type NamiButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
+export type NamiButtonSize = 'sm' | 'md' | 'lg';
 
-defineElement('rl-spinner', RlSpinner);
+defineElement('nami-spinner', NamiSpinner);
 
-export class RlButton extends LitElement {
+export class NamiButton extends LitElement {
   static properties = {
     variant: { reflect: true },
     size: { reflect: true },
@@ -28,70 +28,70 @@ export class RlButton extends LitElement {
 
       button {
         align-items: center;
-        background: var(--rl-button-bg, var(--rl-color-primary));
-        border: var(--rl-button-border-width, var(--rl-style-stroke-width, 1px)) solid var(--rl-button-border, transparent);
-        border-radius: var(--rl-button-radius, var(--rl-radius-control, 999px));
-        color: var(--rl-button-fg, var(--rl-text-inverse));
+        background: var(--nami-button-bg, var(--nami-color-primary));
+        border: var(--nami-button-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-button-border, transparent);
+        border-radius: var(--nami-button-radius, var(--nami-radius-control, 999px));
+        color: var(--nami-button-fg, var(--nami-text-inverse));
         cursor: pointer;
         display: inline-flex;
         font: inherit;
         font-weight: 600;
-        gap: var(--rl-space-2, 6px);
+        gap: var(--nami-space-2, 6px);
         justify-content: center;
         min-height: var(--button-height);
         min-width: var(--button-height);
         padding: 0 var(--button-padding);
         position: relative;
-        box-shadow: var(--rl-button-shadow, none);
+        box-shadow: var(--nami-button-shadow, none);
         transition:
-          background-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          border-color var(--rl-motion-normal, 250ms) var(--rl-ease-standard, ease),
-          color var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          box-shadow var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease),
-          transform var(--rl-motion-fast, 120ms) var(--rl-ease-standard, ease);
+          background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
+          color var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          box-shadow var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease),
+          transform var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);
         user-select: none;
       }
 
       :host([size='sm']) {
-        --button-height: var(--rl-control-height-sm, 32px);
+        --button-height: var(--nami-control-height-sm, 32px);
         --button-padding: 12px;
       }
 
       :host,
       :host([size='md']) {
-        --button-height: var(--rl-control-height-md, 40px);
+        --button-height: var(--nami-control-height-md, 40px);
         --button-padding: 16px;
       }
 
       :host([size='lg']) {
-        --button-height: var(--rl-control-height-lg, 48px);
+        --button-height: var(--nami-control-height-lg, 48px);
         --button-padding: 20px;
       }
 
       :host([variant='soft']) button {
-        background: var(--rl-accent-hover-overlay, var(--rl-color-primary-muted));
-        color: var(--rl-color-primary);
+        background: var(--nami-accent-hover-overlay, var(--nami-color-primary-muted));
+        color: var(--nami-color-primary);
       }
 
       :host([variant='outline']) button {
         background: transparent;
-        border-color: var(--rl-border, currentColor);
-        color: var(--rl-text);
+        border-color: var(--nami-border, currentColor);
+        color: var(--nami-text);
       }
 
       :host([variant='ghost']) button {
         background: transparent;
-        color: var(--rl-text);
+        color: var(--nami-text);
       }
 
       button:hover:not(:disabled) {
-        background: var(--rl-button-hover-bg, var(--rl-color-primary-hover));
+        background: var(--nami-button-hover-bg, var(--nami-color-primary-hover));
       }
 
       :host([variant='soft']) button:hover:not(:disabled),
       :host([variant='ghost']) button:hover:not(:disabled),
       :host([variant='outline']) button:hover:not(:disabled) {
-        background: var(--rl-hover-overlay);
+        background: var(--nami-hover-overlay);
       }
 
       button:active:not(:disabled) {
@@ -99,7 +99,7 @@ export class RlButton extends LitElement {
       }
 
       button:focus-visible {
-        box-shadow: var(--rl-style-focus-shadow, var(--rl-focus-ring));
+        box-shadow: var(--nami-style-focus-shadow, var(--nami-focus-ring));
         outline: none;
       }
 
@@ -108,7 +108,7 @@ export class RlButton extends LitElement {
         opacity: 0.54;
       }
 
-      rl-spinner {
+      nami-spinner {
         color: currentColor;
       }
 
@@ -128,8 +128,8 @@ export class RlButton extends LitElement {
     `
   ];
 
-  declare variant: RlButtonVariant;
-  declare size: RlButtonSize;
+  declare variant: NamiButtonVariant;
+  declare size: NamiButtonSize;
   declare disabled: boolean;
   declare loading: boolean;
   declare type: 'button' | 'submit' | 'reset';
@@ -151,7 +151,7 @@ export class RlButton extends LitElement {
       return;
     }
 
-    const shouldContinue = emit(this, 'rl-click', { sourceEvent: event }, { cancelable: true });
+    const shouldContinue = emit(this, 'nami-click', { sourceEvent: event }, { cancelable: true });
     if (!shouldContinue) {
       event.preventDefault();
       return;
@@ -180,7 +180,7 @@ export class RlButton extends LitElement {
         aria-busy=${this.loading ? 'true' : 'false'}
         @click=${this.handleClick}
       >
-        ${this.loading ? html`<rl-spinner size="sm" label=${msg('Loading', { id: 'rl.spinner.loading' })} part="indicator"></rl-spinner>` : html`<slot name="icon" part="icon"></slot>`}
+        ${this.loading ? html`<nami-spinner size="sm" label=${msg('Loading', { id: 'nami.spinner.loading' })} part="indicator"></nami-spinner>` : html`<slot name="icon" part="icon"></slot>`}
         <span part="label"><slot></slot></span>
         ${this.loading ? nothing : html`<slot name="actions"></slot>`}
       </button>
@@ -190,6 +190,6 @@ export class RlButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'rl-button': RlButton;
+    'nami-button': NamiButton;
   }
 }

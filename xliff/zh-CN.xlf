@@ -2,23 +2,23 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
 <file target-language="zh-CN" source-language="en-US" original="lit-localize-inputs" datatype="plaintext">
 <body>
-<trans-unit id="rl.empty.description">
+<trans-unit id="nami.empty.description">
   <source>No data</source>
   <target>无数据</target>
 </trans-unit>
-<trans-unit id="rl.empty.aria">
+<trans-unit id="nami.empty.aria">
   <source>Empty state</source>
   <target>空状态</target>
 </trans-unit>
-<trans-unit id="rl.result.aria">
+<trans-unit id="nami.result.aria">
   <source>Result</source>
   <target>结果</target>
 </trans-unit>
-<trans-unit id="rl.spinner.loading">
+<trans-unit id="nami.spinner.loading">
   <source>Loading</source>
   <target>加载中</target>
 </trans-unit>
-<trans-unit id="rl.toast.close">
+<trans-unit id="nami.toast.close">
   <source>Close</source>
   <target>关闭</target>
 </trans-unit>

@@ -1,6 +1,6 @@
 ---
-import '@rin-labs/themes/default.css';
-import '@rin-labs/themes/ant-illustration.css';
+import '@nami/themes/default.css';
+import '@nami/themes/ant-illustration.css';
 import '../styles.css';
 import { ClientRouter } from 'astro:transitions';
 import { Blocks, BookOpen, Home, Palette, Rocket, SlidersHorizontal } from '@lucide/astro';
@@ -12,7 +12,7 @@ interface Props {
   description?: string;
 }
 
-const { locale, title = 'Rin UI', description = t(locale, 'site.description') } = Astro.props;
+const { locale, title = 'Nami UI', description = t(locale, 'site.description') } = Astro.props;
 const logicalPath = logicalPathFromUrl(Astro.url.pathname, locale);
 const primary = [
   { path: '/', label: t(locale, 'nav.home'), Icon: Home },
@@ -35,16 +35,16 @@ function isActive(path: string) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title === 'Rin UI' ? t(locale, 'site.title') : `${title} · Rin UI`}</title>
+    <title>{title === 'Nami UI' ? t(locale, 'site.title') : `${title} · Nami UI`}</title>
     <script>
-      import '../scripts/register-rin.ts';
+      import '../scripts/register-nami.ts';
     </script>
     <ClientRouter />
   </head>
   <body>
-    <rl-config id="docs-config" locale={locale} dir="ltr">
-      <rl-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
-        <rl-app-shell>
+    <nami-config id="docs-config" locale={locale} dir="ltr">
+      <nami-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
+        <nami-app-shell>
           <nav slot="rail" class="rail-stack" aria-label="Primary">
             {primary.map((link) => {
               const Icon = link.Icon;
@@ -56,8 +56,8 @@ function isActive(path: string) {
             })}
           </nav>
           <div slot="top" class="mobile-bar">
-            <a class="brand-link" href={localizedPath(locale, '/')}>Rin UI</a>
-            <rl-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></rl-icon-button>
+            <a class="brand-link" href={localizedPath(locale, '/')}>Nami UI</a>
+            <nami-icon-button id="docs-toggle-theme" label="Toggle theme"><span slot="icon">T</span></nami-icon-button>
           </div>
           <nav slot="bottom" class="bottom-nav" aria-label="Mobile">
             {[primary[0], primary[1], primary[2], primary[3]].map((link) => (
@@ -69,36 +69,36 @@ function isActive(path: string) {
           <main class="docs-page">
             <slot />
           </main>
-        </rl-app-shell>
-        <rl-drawer id="docs-theme-drawer" placement="right">
+        </nami-app-shell>
+        <nami-drawer id="docs-theme-drawer" placement="right">
           <h2 slot="label">{t(locale, 'controls.theme')}</h2>
           <div class="control-stack">
-            <rl-tab-bar data-locale-mode value={locale}>
+            <nami-tab-bar data-locale-mode value={locale}>
               {docsLocales.map((item) => <button value={item}>{item === 'zh-CN' ? '中文' : 'English'}</button>)}
-            </rl-tab-bar>
-            <rl-tab-bar data-theme-mode value="light">
+            </nami-tab-bar>
+            <nami-tab-bar data-theme-mode value="light">
               <button value="light">{t(locale, 'controls.light')}</button>
               <button value="dark">{t(locale, 'controls.dark')}</button>
-            </rl-tab-bar>
+            </nami-tab-bar>
             <div class="swatches" aria-label="Accent">
               <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
               <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
               <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
             </div>
-            <rl-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</rl-chip>
-            <rl-switch data-motion-toggle>{t(locale, 'controls.reduced')}</rl-switch>
-            <rl-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</rl-chip>
-            <rl-tab-bar data-radius-mode value="round">
+            <nami-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</nami-chip>
+            <nami-switch data-motion-toggle>{t(locale, 'controls.reduced')}</nami-switch>
+            <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
+            <nami-tab-bar data-radius-mode value="round">
               <button value="sharp">{t(locale, 'controls.radiusSharp')}</button>
               <button value="soft">{t(locale, 'controls.radiusSoft')}</button>
               <button value="round">{t(locale, 'controls.radiusRound')}</button>
-            </rl-tab-bar>
-            <rl-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</rl-chip>
-            <rl-input label="Search" placeholder="Pagefind"></rl-input>
+            </nami-tab-bar>
+            <nami-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</nami-chip>
+            <nami-input label="Search" placeholder="Pagefind"></nami-input>
           </div>
-        </rl-drawer>
-      </rl-theme>
-    </rl-config>
+        </nami-drawer>
+      </nami-theme>
+    </nami-config>
     <script is:inline>
       const hash = window.location.hash.replace(/^#/, '');
       if (hash.startsWith('/')) {

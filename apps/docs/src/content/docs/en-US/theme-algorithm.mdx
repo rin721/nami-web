@@ -6,7 +6,7 @@ order: 3.5
 
 # Theme Algorithm
 
-Rin UI themes are deterministic. A small seed becomes a complete token set through one path:
+Nami UI themes are deterministic. A small seed becomes a complete token set through one path:
 
 | Layer | Purpose |
 | --- | --- |
@@ -16,14 +16,14 @@ Rin UI themes are deterministic. A small seed becomes a complete token set throu
 | Component | Per-component hooks such as button background, chip selected background, and dialog shadow |
 | Style | Preset identity such as illustration ink, paper, stroke, doodle, and offset shadow |
 
-<rin-docs-live-demo data-code="%3Crl-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22dark%22%20style-preset%3D%22illustration%22%20radius%3D%22soft%22%20contrast%3D%22high%22%3E%0A%20%20%3Crl-card%3E%0A%20%20%20%20%3Crl-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3EAlgorithmic%3C%2Frl-badge%3E%0A%20%20%20%20%3Crl-button%3EPrimary%3C%2Frl-button%3E%0A%20%20%20%20%3Crl-chip%20checkbox%20selected%20value%3D%22theme%22%3ESelected%20token%3C%2Frl-chip%3E%0A%20%20%3C%2Frl-card%3E%0A%3C%2Frl-theme%3E"></rin-docs-live-demo>
+<nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22dark%22%20style-preset%3D%22illustration%22%20radius%3D%22soft%22%20contrast%3D%22high%22%3E%0A%20%20%3Cnami-card%3E%0A%20%20%20%20%3Cnami-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3EAlgorithmic%3C%2Fnami-badge%3E%0A%20%20%20%20%3Cnami-button%3EPrimary%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%20value%3D%22theme%22%3ESelected%20token%3C%2Fnami-chip%3E%0A%20%20%3C%2Fnami-card%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
 
-Use `@rin-labs/tokens/theme` when a tool needs to inspect the same contract outside the browser.
+Use `@nami/tokens/theme` when a tool needs to inspect the same contract outside the browser.
 
 ```ts
-import { deriveRinTheme, themeToCssText } from '@rin-labs/tokens/theme';
+import { deriveNamiTheme, themeToCssText } from '@nami/tokens/theme';
 
-const theme = deriveRinTheme({
+const theme = deriveNamiTheme({
   accent: '#14b8a6',
   mode: 'dark',
   stylePreset: 'illustration',
@@ -31,7 +31,7 @@ const theme = deriveRinTheme({
   contrast: 'high'
 });
 
-const css = themeToCssText(theme, '.my-rin-theme');
+const css = themeToCssText(theme, '.my-nami-theme');
 ```
 
 The algorithm is CSS-first. It does not call an AI service. It simply makes the design system legible enough for people and tools to reason about.
