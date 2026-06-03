@@ -2,6 +2,14 @@ import { css, html, LitElement } from 'lit';
 import { componentHostStyles } from '../internal/styles';
 
 export class NamiAppShell extends LitElement {
+  static properties = {
+    railWidth: { attribute: 'rail-width' },
+    mobileBarHeight: { attribute: 'mobile-bar-height' },
+    breakpoint: { reflect: true },
+    sticky: { type: Boolean, reflect: true },
+    safeArea: { attribute: 'safe-area', type: Boolean, reflect: true }
+  };
+
   static styles = [
     componentHostStyles,
     css`
@@ -28,8 +36,12 @@ export class NamiAppShell extends LitElement {
         left: 0;
         position: fixed;
         top: 0;
-        width: 56px;
+        width: var(--nami-app-shell-rail-width, 56px);
         z-index: 20;
+      }
+
+      :host(:not([sticky])) .rail {
+        position: absolute;
       }
 
       .top,
@@ -39,21 +51,61 @@ export class NamiAppShell extends LitElement {
 
       main {
         min-height: 100dvh;
-        padding-left: 56px;
+        padding-left: var(--nami-app-shell-rail-width, 56px);
       }
 
       @media (width <= 639px) {
-        .rail {
+        :host(:not([breakpoint='medium']):not([breakpoint='wide'])) .rail {
           display: none;
         }
 
+        :host(:not([breakpoint='medium']):not([breakpoint='wide'])) .top,
+        :host(:not([breakpoint='medium']):not([breakpoint='wide'])) .bottom {
+          display: block;
+        }
+
+        :host(:not([breakpoint='medium']):not([breakpoint='wide'])) main {
+          padding: var(--nami-app-shell-mobile-bar-height, 56px) 0;
+        }
+      }
+
+      @media (width <= 880px) {
+        :host([breakpoint='medium']) .rail {
+          display: none;
+        }
+
+        :host([breakpoint='medium']) .top,
+        :host([breakpoint='medium']) .bottom {
+          display: block;
+        }
+
+        :host([breakpoint='medium']) main {
+          padding: var(--nami-app-shell-mobile-bar-height, 56px) 0;
+        }
+      }
+
+      @media (width <= 1080px) {
+        :host([breakpoint='wide']) .rail {
+          display: none;
+        }
+
+        :host([breakpoint='wide']) .top,
+        :host([breakpoint='wide']) .bottom {
+          display: block;
+        }
+
+        :host([breakpoint='wide']) main {
+          padding: var(--nami-app-shell-mobile-bar-height, 56px) 0;
+        }
+      }
+
+      @media (width <= 1080px) {
         .top,
         .bottom {
           background: var(--nami-surface-overlay);
           border-color: var(--nami-border);
           box-shadow: var(--nami-app-shell-shadow, 0 0 24px color-mix(in oklab, var(--nami-shadow-color), transparent 70%));
-          display: block;
-          height: 56px;
+          height: var(--nami-app-shell-mobile-bar-height, 56px);
           left: 0;
           position: fixed;
           right: 0;
@@ -70,12 +122,44 @@ export class NamiAppShell extends LitElement {
           bottom: 0;
         }
 
-        main {
-          padding: 56px 0;
+        :host([safe-area]) .top {
+          height: calc(var(--nami-app-shell-mobile-bar-height, 56px) + env(safe-area-inset-top));
+          padding-top: env(safe-area-inset-top);
+        }
+
+        :host([safe-area]) .bottom {
+          height: calc(var(--nami-app-shell-mobile-bar-height, 56px) + env(safe-area-inset-bottom));
+          padding-bottom: env(safe-area-inset-bottom);
         }
       }
     `
   ];
+
+  declare railWidth: string;
+  declare mobileBarHeight: string;
+  declare breakpoint: 'compact' | 'medium' | 'wide';
+  declare sticky: boolean;
+  declare safeArea: boolean;
+
+  constructor() {
+    super();
+    this.railWidth = '';
+    this.mobileBarHeight = '';
+    this.breakpoint = 'compact';
+    this.sticky = true;
+    this.safeArea = false;
+  }
+
+  updated() {
+    if (this.railWidth) this.style.setProperty('--nami-app-shell-rail-width', this.normalizeLength(this.railWidth));
+    else this.style.removeProperty('--nami-app-shell-rail-width');
+    if (this.mobileBarHeight) this.style.setProperty('--nami-app-shell-mobile-bar-height', this.normalizeLength(this.mobileBarHeight));
+    else this.style.removeProperty('--nami-app-shell-mobile-bar-height');
+  }
+
+  private normalizeLength(value: string) {
+    return /^\d+(\.\d+)?$/.test(value) ? `${value}px` : value;
+  }
 
   render() {
     return html`

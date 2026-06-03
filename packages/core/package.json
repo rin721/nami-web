@@ -116,6 +116,54 @@
     "./app-shell": {
       "types": "./dist/components/app-shell.d.ts",
       "default": "./dist/components/app-shell.js"
+    },
+    "./container": {
+      "types": "./dist/components/container.d.ts",
+      "default": "./dist/components/container.js"
+    },
+    "./stack": {
+      "types": "./dist/components/stack.d.ts",
+      "default": "./dist/components/stack.js"
+    },
+    "./cluster": {
+      "types": "./dist/components/cluster.d.ts",
+      "default": "./dist/components/cluster.js"
+    },
+    "./grid": {
+      "types": "./dist/components/grid.d.ts",
+      "default": "./dist/components/grid.js"
+    },
+    "./split": {
+      "types": "./dist/components/split.d.ts",
+      "default": "./dist/components/split.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/checkbox.d.ts",
+      "default": "./dist/components/checkbox.js"
+    },
+    "./textarea": {
+      "types": "./dist/components/textarea.d.ts",
+      "default": "./dist/components/textarea.js"
+    },
+    "./form-field": {
+      "types": "./dist/components/form-field.d.ts",
+      "default": "./dist/components/form-field.js"
+    },
+    "./alert": {
+      "types": "./dist/components/alert.d.ts",
+      "default": "./dist/components/alert.js"
+    },
+    "./skeleton": {
+      "types": "./dist/components/skeleton.d.ts",
+      "default": "./dist/components/skeleton.js"
+    },
+    "./progress": {
+      "types": "./dist/components/progress.d.ts",
+      "default": "./dist/components/progress.js"
+    },
+    "./button/register": {
+      "types": "./dist/register/button.d.ts",
+      "default": "./dist/register/button.js"
     }
   },
   "scripts": {

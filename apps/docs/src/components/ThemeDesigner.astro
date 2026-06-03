@@ -37,6 +37,7 @@ const { locale } = Astro.props;
           <nami-switch data-motion-toggle>{t(locale, 'controls.reduced')}</nami-switch>
           <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
           <nami-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</nami-chip>
+          <input data-dtcg-import type="file" accept="application/json,.json" aria-label="Import DTCG JSON" />
         </div>
       </nami-card>
       <nami-card data-designer-preview>
@@ -47,8 +48,12 @@ const { locale } = Astro.props;
           <nami-badge variant="primary">Token</nami-badge>
           <nami-chip checkbox selected value="selected">Selected chip</nami-chip>
           <nami-input label="Search" placeholder="--nami-color-primary"></nami-input>
+          <nami-textarea label="Notes" helper-text="Textarea follows component tokens." rows="3"></nami-textarea>
+          <nami-checkbox checked>Checkbox state hook</nami-checkbox>
           <nami-switch checked>Enabled</nami-switch>
           <nami-radio-card selected label="Semantic anatomy" description="Parts, states, and tokens stay explainable."></nami-radio-card>
+          <nami-alert variant="info" title="Theme boundary">Scoped CSS variables update the whole surface.</nami-alert>
+          <nami-progress value="64" label="Theme preview progress"></nami-progress>
         </div>
       </nami-card>
     </div>
@@ -62,8 +67,20 @@ const { locale } = Astro.props;
         <nami-docs-code-block data-generated-css data-language="css"></nami-docs-code-block>
       </nami-card>
       <nami-card>
+        <h3 slot="header">DTCG JSON</h3>
+        <nami-docs-code-block data-generated-json data-language="json"></nami-docs-code-block>
+      </nami-card>
+      <nami-card>
+        <h3 slot="header">TS config</h3>
+        <nami-docs-code-block data-generated-ts data-language="ts"></nami-docs-code-block>
+      </nami-card>
+      <nami-card>
         <h3 slot="header">{t(locale, 'designer.affected')}</h3>
         <div data-affected-components class="affected-components"></div>
+      </nami-card>
+      <nami-card>
+        <h3 slot="header">A11y diagnostics</h3>
+        <div data-theme-diagnostics class="derived-token-tree"></div>
       </nami-card>
     </div>
   </section>

@@ -8,6 +8,16 @@ nami-theme[style-preset='ant-illustration'],
   --nami-radius-control: 10px;
   --nami-radius-surface: 16px;
   --nami-radius-tight: 8px;
+  --nami-breakpoint-compact: 639px;
+  --nami-breakpoint-medium: 880px;
+  --nami-breakpoint-wide: 1080px;
+  --nami-container-sm: 720px;
+  --nami-container-md: 960px;
+  --nami-container-lg: 1240px;
+  --nami-layout-gutter: 16px;
+  --nami-app-shell-rail-width: 56px;
+  --nami-app-shell-mobile-bar-height: 56px;
+  --nami-app-shell-breakpoint: 639px;
   --nami-shadow-color: #2f2f2f;
   --nami-style-stroke-width: 3px;
   --nami-style-ink-color: #2f2f2f;
@@ -150,6 +160,36 @@ nami-theme[style-preset='ant-illustration'],
   --nami-result-subtitle-size: 0.95rem;
   --nami-result-gap: 14px;
   --nami-result-actions-margin: 10px 0 0;
+  --nami-container-max-width: var(--nami-container-lg);
+  --nami-container-padding: var(--nami-layout-gutter);
+  --nami-stack-gap: var(--nami-space-3);
+  --nami-cluster-gap: var(--nami-space-2);
+  --nami-grid-min: 16rem;
+  --nami-grid-gap: var(--nami-layout-gutter);
+  --nami-split-min: 18rem;
+  --nami-split-gap: var(--nami-layout-gutter);
+  --nami-checkbox-bg: var(--nami-style-control-bg);
+  --nami-checkbox-border: var(--nami-style-stroke-color);
+  --nami-checkbox-border-width: var(--nami-style-stroke-width);
+  --nami-checkbox-radius: var(--nami-radius-tight);
+  --nami-checkbox-indicator-color: #fff;
+  --nami-textarea-bg: var(--nami-style-control-bg);
+  --nami-textarea-border: var(--nami-style-stroke-color);
+  --nami-textarea-border-width: var(--nami-style-stroke-width);
+  --nami-textarea-radius: 12px;
+  --nami-textarea-shadow: 3px 3px 0 #2f2f2f;
+  --nami-form-field-gap: var(--nami-space-2);
+  --nami-alert-bg: var(--nami-style-control-bg);
+  --nami-alert-border: var(--nami-style-stroke-color);
+  --nami-alert-border-width: var(--nami-style-stroke-width);
+  --nami-alert-radius: var(--nami-style-border-radius);
+  --nami-alert-shadow: var(--nami-style-offset-shadow);
+  --nami-skeleton-bg: color-mix(in oklab, var(--nami-style-on-paper-muted), transparent 82%);
+  --nami-skeleton-highlight: color-mix(in oklab, var(--nami-style-paper-bg), transparent 18%);
+  --nami-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), #fff 84%);
+  --nami-progress-fill-bg: var(--nami-color-primary);
+  --nami-progress-height: 8px;
+  --nami-progress-radius: var(--nami-radius-control);
 }
 
 [data-nami-theme='dark'][data-nami-style='illustration'],
@@ -210,6 +250,8 @@ nami-theme[theme='dark'][style-preset='ant-illustration'],
   --nami-soft-control-bg: var(--nami-style-control-bg);
   --nami-soft-control-color: var(--nami-style-on-paper);
   --nami-switch-thumb-shadow: 2px 2px 0 #050506;
+  --nami-textarea-shadow: 3px 3px 0 #050506;
+  --nami-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-style-panel-bg) 72%);
   --nami-empty-title-color: var(--nami-style-on-paper);
   --nami-empty-description-color: var(--nami-style-on-paper-muted);
   --nami-spinner-track-color: color-mix(in oklab, currentColor, transparent 58%);

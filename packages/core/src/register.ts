@@ -3,22 +3,33 @@ import { NamiBadge } from './components/badge';
 import { NamiButton } from './components/button';
 import { NamiCard } from './components/card';
 import { NamiChip } from './components/chip';
+import { NamiCheckbox } from './components/checkbox';
+import { NamiCluster } from './components/cluster';
 import { NamiConfig } from './components/config';
+import { NamiContainer } from './components/container';
 import { NamiDialog } from './components/dialog';
 import { NamiDrawer } from './components/drawer';
 import { NamiEmpty } from './components/empty';
+import { NamiFormField } from './components/form-field';
+import { NamiGrid } from './components/grid';
 import { NamiIconButton } from './components/icon-button';
 import { NamiIllustration } from './components/illustration';
 import { NamiInput } from './components/input';
+import { NamiProgress } from './components/progress';
 import { NamiRadioCard } from './components/radio-card';
 import { NamiResult } from './components/result';
+import { NamiSkeleton } from './components/skeleton';
+import { NamiSplit } from './components/split';
 import { NamiPageTransition } from './components/page-transition';
 import { NamiSpinner } from './components/spinner';
+import { NamiStack } from './components/stack';
 import { NamiSwitch } from './components/switch';
 import { NamiTabBar } from './components/tab-bar';
+import { NamiTextarea } from './components/textarea';
 import { NamiTheme } from './components/theme';
 import { NamiToast } from './components/toast';
 import { NamiTopProgress } from './components/top-progress';
+import { NamiAlert } from './components/alert';
 import { defineElement } from './internal/define';
 
 export function registerNamiElements() {
@@ -43,6 +54,17 @@ export function registerNamiElements() {
   defineElement('nami-drawer', NamiDrawer);
   defineElement('nami-toast', NamiToast);
   defineElement('nami-app-shell', NamiAppShell);
+  defineElement('nami-container', NamiContainer);
+  defineElement('nami-stack', NamiStack);
+  defineElement('nami-cluster', NamiCluster);
+  defineElement('nami-grid', NamiGrid);
+  defineElement('nami-split', NamiSplit);
+  defineElement('nami-checkbox', NamiCheckbox);
+  defineElement('nami-textarea', NamiTextarea);
+  defineElement('nami-form-field', NamiFormField);
+  defineElement('nami-alert', NamiAlert);
+  defineElement('nami-skeleton', NamiSkeleton);
+  defineElement('nami-progress', NamiProgress);
 }
 
 registerNamiElements();

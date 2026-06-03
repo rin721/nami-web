@@ -9,6 +9,7 @@ const entries = {
   metadata: resolve(__dirname, 'src/metadata.ts'),
   anatomy: resolve(__dirname, 'src/anatomy.ts'),
   localize: resolve(__dirname, 'src/localize.ts'),
+  'register/button': resolve(__dirname, 'src/register/button.ts'),
   'components/config': resolve(__dirname, 'src/components/config.ts'),
   'components/theme': resolve(__dirname, 'src/components/theme.ts'),
   'components/spinner': resolve(__dirname, 'src/components/spinner.ts'),
@@ -29,7 +30,18 @@ const entries = {
   'components/dialog': resolve(__dirname, 'src/components/dialog.ts'),
   'components/drawer': resolve(__dirname, 'src/components/drawer.ts'),
   'components/toast': resolve(__dirname, 'src/components/toast.ts'),
-  'components/app-shell': resolve(__dirname, 'src/components/app-shell.ts')
+  'components/app-shell': resolve(__dirname, 'src/components/app-shell.ts'),
+  'components/container': resolve(__dirname, 'src/components/container.ts'),
+  'components/stack': resolve(__dirname, 'src/components/stack.ts'),
+  'components/cluster': resolve(__dirname, 'src/components/cluster.ts'),
+  'components/grid': resolve(__dirname, 'src/components/grid.ts'),
+  'components/split': resolve(__dirname, 'src/components/split.ts'),
+  'components/checkbox': resolve(__dirname, 'src/components/checkbox.ts'),
+  'components/textarea': resolve(__dirname, 'src/components/textarea.ts'),
+  'components/form-field': resolve(__dirname, 'src/components/form-field.ts'),
+  'components/alert': resolve(__dirname, 'src/components/alert.ts'),
+  'components/skeleton': resolve(__dirname, 'src/components/skeleton.ts'),
+  'components/progress': resolve(__dirname, 'src/components/progress.ts')
 };
 
 export default defineConfig({
@@ -39,7 +51,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['lit', 'lit/decorators.js', '@lit/localize'],
+      external: ['lit', 'lit/decorators.js', '@lit/localize', '@nami/tokens/theme'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'chunks/[name]-[hash].js'

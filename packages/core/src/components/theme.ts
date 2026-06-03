@@ -1,4 +1,5 @@
 import { css, html, LitElement } from 'lit';
+import { createNamiThemeSystem, type NamiThemeConfig } from '@nami/tokens/theme';
 import { componentHostStyles } from '../internal/styles';
 
 export type NamiThemeMode = 'light' | 'dark' | 'system';
@@ -10,13 +11,15 @@ export type NamiContrast = 'normal' | 'high';
 
 export class NamiTheme extends LitElement {
   static properties = {
-    theme: { reflect: true },
-    density: { reflect: true },
-    motion: { reflect: true },
-    stylePreset: { attribute: 'style-preset', reflect: true },
-    radius: { reflect: true },
-    contrast: { reflect: true },
-    accent: { reflect: true }
+    theme: { reflect: true, useDefault: true },
+    density: { reflect: true, useDefault: true },
+    motion: { reflect: true, useDefault: true },
+    stylePreset: { attribute: 'style-preset', reflect: true, useDefault: true },
+    radius: { reflect: true, useDefault: true },
+    contrast: { reflect: true, useDefault: true },
+    accent: { reflect: true, useDefault: true },
+    inherit: { type: Boolean, reflect: true },
+    config: { attribute: false }
   };
 
   static styles = [
@@ -71,6 +74,14 @@ export class NamiTheme extends LitElement {
   declare radius: NamiRadius;
   declare contrast: NamiContrast;
   declare accent: string;
+  declare inherit: boolean;
+  declare config: NamiThemeConfig | null;
+
+  private appliedThemeVars = new Set<string>();
+  private systemQuery: MediaQueryList | null = null;
+  private handleSystemThemeChange = () => {
+    if (this.theme === 'system') this.applyTheme();
+  };
 
   constructor() {
     super();
@@ -81,9 +92,56 @@ export class NamiTheme extends LitElement {
     this.radius = 'round';
     this.contrast = 'normal';
     this.accent = '';
+    this.inherit = true;
+    this.config = null;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+      this.systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      this.systemQuery.addEventListener?.('change', this.handleSystemThemeChange);
+    }
+  }
+
+  disconnectedCallback() {
+    this.systemQuery?.removeEventListener?.('change', this.handleSystemThemeChange);
+    super.disconnectedCallback();
   }
 
   updated() {
+    this.applyTheme();
+  }
+
+  private get resolvedThemeMode(): 'light' | 'dark' {
+    if (this.theme !== 'system') return this.theme;
+    return this.systemQuery?.matches ? 'dark' : 'light';
+  }
+
+  private hasRuntimeThemeInput() {
+    return Boolean(this.config || this.accent);
+  }
+
+  private applyTheme() {
+    const configSeed = this.config?.seed ?? {};
+    const normalizedStylePreset = this.stylePreset === 'ant-illustration' ? 'illustration' : this.stylePreset;
+    const appliedMode = this.hasAttribute('theme') ? this.resolvedThemeMode : configSeed.mode ?? this.resolvedThemeMode;
+    const appliedStylePreset = this.hasAttribute('style-preset') ? normalizedStylePreset : configSeed.stylePreset ?? normalizedStylePreset;
+    const appliedDensity = this.hasAttribute('density') ? this.density : configSeed.density ?? this.density;
+    const appliedMotion = this.hasAttribute('motion') ? this.motion : configSeed.motion ?? this.motion;
+    const appliedRadius = this.hasAttribute('radius') ? this.radius : configSeed.radius ?? this.radius;
+    const appliedContrast = this.hasAttribute('contrast') ? this.contrast : configSeed.contrast ?? this.contrast;
+    const appliedSeed = {
+      ...configSeed,
+      accent: this.accent || configSeed.accent,
+      mode: appliedMode,
+      stylePreset: appliedStylePreset,
+      density: appliedDensity,
+      motion: appliedMotion,
+      radius: appliedRadius,
+      contrast: appliedContrast
+    } satisfies NamiThemeConfig['seed'];
+
     if (this.accent) {
       this.style.setProperty('--nami-theme-accent', this.accent);
       this.style.setProperty('--nami-accent-50', this.accent);
@@ -92,12 +150,33 @@ export class NamiTheme extends LitElement {
       this.style.removeProperty('--nami-accent-50');
     }
 
-    this.dataset.namiTheme = this.theme;
-    this.dataset.namiDensity = this.density;
-    this.dataset.namiMotion = this.motion;
-    this.dataset.namiStyle = this.stylePreset === 'ant-illustration' ? 'illustration' : this.stylePreset;
-    this.dataset.namiRadius = this.radius;
-    this.dataset.namiContrast = this.contrast;
+    if (this.hasRuntimeThemeInput()) {
+      const system = createNamiThemeSystem({
+        ...this.config,
+        seed: appliedSeed
+      });
+      const nextVars = new Set(Object.keys(system.cssVars));
+      for (const token of this.appliedThemeVars) {
+        if (!nextVars.has(token) && token !== '--nami-theme-accent' && token !== '--nami-accent-50') this.style.removeProperty(token);
+      }
+      for (const [token, value] of Object.entries(system.cssVars)) {
+        this.style.setProperty(token, value);
+      }
+      this.appliedThemeVars = nextVars;
+    } else {
+      for (const token of this.appliedThemeVars) {
+        this.style.removeProperty(token);
+      }
+      this.appliedThemeVars.clear();
+    }
+
+    this.dataset.namiTheme = appliedMode;
+    this.dataset.namiThemeRequested = this.theme;
+    this.dataset.namiDensity = appliedDensity;
+    this.dataset.namiMotion = appliedMotion;
+    this.dataset.namiStyle = appliedStylePreset;
+    this.dataset.namiRadius = appliedRadius;
+    this.dataset.namiContrast = appliedContrast;
   }
 
   render() {

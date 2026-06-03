@@ -15,6 +15,56 @@ export interface NamiThemeSeed {
   contrast?: NamiThemeContrast;
 }
 
+export type NamiThemeTokenPrimitive = string | number;
+
+export interface NamiThemeTokenLeaf {
+  value: NamiThemeTokenPrimitive;
+  description?: string;
+}
+
+export interface NamiThemeTokenTree {
+  [token: string]: NamiThemeTokenPrimitive | NamiThemeTokenLeaf | NamiThemeTokenTree;
+}
+
+export interface NamiThemeCssVariableGroups {
+  variables?: Record<string, NamiThemeTokenPrimitive>;
+  light?: Record<string, NamiThemeTokenPrimitive>;
+  dark?: Record<string, NamiThemeTokenPrimitive>;
+}
+
+export interface NamiThemeRecipeConfig {
+  base?: NamiThemeTokenTree;
+  variants?: Record<string, Record<string, NamiThemeTokenTree>>;
+  defaultVariants?: Record<string, string>;
+  compoundVariants?: Array<Record<string, unknown> & { style?: NamiThemeTokenTree }>;
+}
+
+export interface NamiThemeSlotRecipeConfig {
+  slots: string[];
+  base?: Record<string, NamiThemeTokenTree>;
+  variants?: Record<string, Record<string, Record<string, NamiThemeTokenTree>>>;
+  defaultVariants?: Record<string, string>;
+}
+
+export interface NamiThemeModeConfig {
+  tokens?: NamiThemeTokenTree;
+  semanticTokens?: NamiThemeTokenTree;
+  components?: Record<string, NamiThemeTokenTree | { tokens?: NamiThemeTokenTree }>;
+}
+
+export interface NamiThemeConfig extends NamiThemeModeConfig {
+  seed?: NamiThemeSeed;
+  recipes?: Record<string, NamiThemeRecipeConfig>;
+  slotRecipes?: Record<string, NamiThemeSlotRecipeConfig>;
+  conditions?: Record<string, string>;
+  modes?: Partial<Record<NamiThemeMode, NamiThemeModeConfig>>;
+  density?: Partial<Record<NamiThemeDensity, NamiThemeTokenTree>>;
+  motion?: Partial<Record<NamiThemeMotion, NamiThemeTokenTree>>;
+  radius?: Partial<Record<NamiThemeRadius, NamiThemeTokenTree>>;
+  contrast?: Partial<Record<NamiThemeContrast, NamiThemeTokenTree>>;
+  cssVariablesResolver?: (theme: NamiResolvedTheme) => NamiThemeCssVariableGroups;
+}
+
 export interface NamiResolvedThemeSeed {
   accent: string;
   mode: NamiThemeMode;
@@ -40,6 +90,39 @@ export interface NamiResolvedTheme {
   style: Record<string, string>;
   cssVars: Record<string, string>;
   diagnostics: NamiThemeDiagnostic[];
+}
+
+export interface NamiThemeSystem extends NamiResolvedTheme {
+  config: NamiThemeConfig;
+  conditions: Record<string, string>;
+  recipes: Record<string, NamiThemeRecipeConfig>;
+  slotRecipes: Record<string, NamiThemeSlotRecipeConfig>;
+  token: (name: string, fallback?: string) => string;
+  tokenVar: (name: string, fallback?: string) => string;
+  cssText: (selector?: string) => string;
+  dtcg: () => NamiThemeDtcgDocument;
+}
+
+export interface NamiThemeDtcgToken {
+  $type: string;
+  $value: NamiThemeTokenPrimitive;
+  $description?: string;
+}
+
+export interface NamiThemeDtcgDocument {
+  $schema: string;
+  $extensions: {
+    'org.nami.theme': {
+      generatedBy: string;
+      layers: string[];
+    };
+  };
+  seed: Record<string, NamiThemeDtcgToken>;
+  palette: Record<string, NamiThemeDtcgToken>;
+  semantic: Record<string, NamiThemeDtcgToken>;
+  component: Record<string, NamiThemeDtcgToken>;
+  style: Record<string, NamiThemeDtcgToken>;
+  cssVars: Record<string, NamiThemeDtcgToken>;
 }
 
 const DEFAULT_SEED: NamiResolvedThemeSeed = {
@@ -110,6 +193,85 @@ function normalizeSeed(seed: NamiThemeSeed): NamiResolvedThemeSeed {
   };
 }
 
+function toKebab(value: string) {
+  return value
+    .replace(/^--nami-/, '')
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[\s_.]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+
+function toCssVarName(path: string[]) {
+  if (path.length === 1 && path[0].startsWith('--')) return path[0];
+  return `--nami-${path.map(toKebab).filter(Boolean).join('-')}`;
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isTokenLeaf(value: unknown): value is NamiThemeTokenLeaf {
+  return isPlainObject(value) && 'value' in value;
+}
+
+function tokenPrimitive(value: NamiThemeTokenPrimitive | NamiThemeTokenLeaf) {
+  return String(isTokenLeaf(value) ? value.value : value);
+}
+
+function flattenTokenTree(tree: NamiThemeTokenTree | undefined, path: string[] = []): Record<string, string> {
+  const vars: Record<string, string> = {};
+  if (!tree) return vars;
+
+  for (const [key, value] of Object.entries(tree)) {
+    const nextPath = key.startsWith('--') ? [key] : [...path, key];
+    if (isTokenLeaf(value) || typeof value === 'string' || typeof value === 'number') {
+      vars[toCssVarName(nextPath)] = tokenPrimitive(value);
+      continue;
+    }
+    if (isPlainObject(value)) {
+      Object.assign(vars, flattenTokenTree(value as NamiThemeTokenTree, nextPath));
+    }
+  }
+
+  return vars;
+}
+
+function flattenComponentTokenConfig(components: NamiThemeConfig['components']): Record<string, string> {
+  const vars: Record<string, string> = {};
+  if (!components) return vars;
+
+  for (const [componentName, config] of Object.entries(components)) {
+    const tree = isPlainObject(config) && 'tokens' in config ? (config.tokens as NamiThemeTokenTree | undefined) : config as NamiThemeTokenTree;
+    Object.assign(vars, flattenTokenTree(tree, [componentName]));
+  }
+
+  return vars;
+}
+
+function flattenModeConfig(config: NamiThemeModeConfig | undefined) {
+  return {
+    ...flattenTokenTree(config?.tokens),
+    ...flattenTokenTree(config?.semanticTokens),
+    ...flattenComponentTokenConfig(config?.components)
+  };
+}
+
+function resolveConfigCssVars(config: NamiThemeConfig, theme: NamiResolvedTheme): Record<string, string> {
+  const seed = theme.seed;
+  const resolverGroups = config.cssVariablesResolver?.(theme) ?? {};
+  return {
+    ...flattenModeConfig(config),
+    ...flattenModeConfig(config.modes?.[seed.mode]),
+    ...flattenTokenTree(config.density?.[seed.density]),
+    ...flattenTokenTree(config.motion?.[seed.motion]),
+    ...flattenTokenTree(config.radius?.[seed.radius]),
+    ...flattenTokenTree(config.contrast?.[seed.contrast]),
+    ...Object.fromEntries(Object.entries(resolverGroups.variables ?? {}).map(([token, value]) => [token, String(value)])),
+    ...Object.fromEntries(Object.entries(resolverGroups[seed.mode] ?? {}).map(([token, value]) => [token, String(value)]))
+  };
+}
+
 function mix(color: string, target: string, amount: number) {
   return `color-mix(in oklab, ${color}, ${target} ${amount}%)`;
 }
@@ -173,7 +335,8 @@ function deriveDensity(seed: NamiResolvedThemeSeed) {
       '--nami-space-3': '8px',
       '--nami-space-4': '12px',
       '--nami-space-5': '16px',
-      '--nami-icon-button-size': '36px'
+      '--nami-icon-button-size': '36px',
+      '--nami-layout-gutter': '12px'
     };
   }
   return {
@@ -185,7 +348,22 @@ function deriveDensity(seed: NamiResolvedThemeSeed) {
     '--nami-space-3': '10px',
     '--nami-space-4': '16px',
     '--nami-space-5': '24px',
-    '--nami-icon-button-size': '40px'
+    '--nami-icon-button-size': '40px',
+    '--nami-layout-gutter': '16px'
+  };
+}
+
+function deriveLayout() {
+  return {
+    '--nami-breakpoint-compact': '639px',
+    '--nami-breakpoint-medium': '880px',
+    '--nami-breakpoint-wide': '1080px',
+    '--nami-container-sm': '720px',
+    '--nami-container-md': '960px',
+    '--nami-container-lg': '1240px',
+    '--nami-app-shell-rail-width': '56px',
+    '--nami-app-shell-mobile-bar-height': '56px',
+    '--nami-app-shell-breakpoint': '639px'
   };
 }
 
@@ -415,7 +593,39 @@ function deriveComponent(seed: NamiResolvedThemeSeed): Record<string, string> {
     '--nami-result-border-width': illustration ? 'var(--nami-style-stroke-width)' : '0',
     '--nami-result-border-color': illustration ? 'var(--nami-style-stroke-color)' : 'transparent',
     '--nami-result-radius': illustration ? 'var(--nami-style-border-radius)' : 'var(--nami-radius-surface)',
-    '--nami-result-shadow': illustration ? 'var(--nami-style-offset-shadow)' : 'none'
+    '--nami-result-shadow': illustration ? 'var(--nami-style-offset-shadow)' : 'none',
+    '--nami-container-max-width': 'var(--nami-container-lg)',
+    '--nami-container-padding': 'var(--nami-layout-gutter)',
+    '--nami-stack-gap': 'var(--nami-space-3)',
+    '--nami-cluster-gap': 'var(--nami-space-2)',
+    '--nami-grid-min': '16rem',
+    '--nami-grid-gap': 'var(--nami-layout-gutter)',
+    '--nami-split-min': '18rem',
+    '--nami-split-gap': 'var(--nami-layout-gutter)',
+    '--nami-checkbox-bg': illustration ? 'var(--nami-style-control-bg)' : 'transparent',
+    '--nami-checkbox-border': illustration ? 'var(--nami-style-stroke-color)' : 'var(--nami-border)',
+    '--nami-checkbox-border-width': illustration ? 'var(--nami-style-stroke-width)' : high ? '2px' : '1px',
+    '--nami-checkbox-radius': seed.radius === 'round' ? '6px' : 'var(--nami-radius-tight)',
+    '--nami-checkbox-indicator-color': '#fff',
+    '--nami-textarea-bg': illustration ? 'var(--nami-style-control-bg)' : 'transparent',
+    '--nami-textarea-border': illustration ? 'var(--nami-style-stroke-color)' : 'var(--nami-border)',
+    '--nami-textarea-border-width': illustration ? 'var(--nami-style-stroke-width)' : high ? '2px' : '1px',
+    '--nami-textarea-radius': illustration ? '12px' : 'var(--nami-radius-surface)',
+    '--nami-textarea-shadow': illustration ? `3px 3px 0 ${darkIllustration ? '#050506' : '#2f2f2f'}` : 'none',
+    '--nami-form-field-gap': 'var(--nami-space-2)',
+    '--nami-alert-bg': illustration ? 'var(--nami-style-control-bg)' : 'var(--nami-surface-raised)',
+    '--nami-alert-border': illustration ? 'var(--nami-style-stroke-color)' : 'var(--nami-border)',
+    '--nami-alert-border-width': illustration ? 'var(--nami-style-stroke-width)' : high ? '2px' : '1px',
+    '--nami-alert-radius': illustration ? 'var(--nami-style-border-radius)' : 'var(--nami-radius-surface)',
+    '--nami-alert-shadow': illustration ? 'var(--nami-style-offset-shadow)' : 'none',
+    '--nami-skeleton-bg': illustration ? transparent('var(--nami-style-on-paper-muted)', 82) : 'var(--nami-hover-overlay)',
+    '--nami-skeleton-highlight': illustration ? transparent('var(--nami-style-paper-bg)', 18) : transparent('#fff', darkIllustration ? 82 : 18),
+    '--nami-progress-track-bg': illustration
+      ? (darkIllustration ? mix('var(--nami-color-primary)', 'var(--nami-style-panel-bg)', 72) : mix('var(--nami-color-primary)', '#fff', 84))
+      : 'color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 82%)',
+    '--nami-progress-fill-bg': 'var(--nami-color-primary)',
+    '--nami-progress-height': '8px',
+    '--nami-progress-radius': 'var(--nami-radius-control)'
   };
 }
 
@@ -429,6 +639,7 @@ export function deriveNamiTheme(seed: NamiThemeSeed = {}): NamiResolvedTheme {
   const cssVars = {
     ...palette,
     ...deriveRadius(normalized),
+    ...deriveLayout(),
     '--nami-contrast-level': normalized.contrast,
     ...deriveDensity(normalized),
     ...deriveMotion(normalized),
@@ -448,14 +659,103 @@ export function deriveNamiTheme(seed: NamiThemeSeed = {}): NamiResolvedTheme {
   };
 }
 
-export function themeToCssVars(theme: NamiResolvedTheme): Record<string, string> {
+export function defineNamiTheme(config: NamiThemeConfig): NamiThemeConfig {
+  return {
+    ...config,
+    seed: { ...config.seed },
+    recipes: { ...config.recipes },
+    slotRecipes: { ...config.slotRecipes },
+    conditions: { ...config.conditions }
+  };
+}
+
+function tokenLookupKey(name: string) {
+  if (name.startsWith('--')) return name;
+  return toCssVarName(name.split('.'));
+}
+
+function inferDtcgType(value: string): string {
+  if (/^#|^rgb|^hsl|color-mix\(/.test(value)) return 'color';
+  if (/^-?\d+(\.\d+)?(px|rem|em|%|dvh|dvw|vh|vw)$/.test(value)) return 'dimension';
+  if (/^-?\d+(\.\d+)?m?s$/.test(value)) return 'duration';
+  if (/^-?\d+(\.\d+)?$/.test(value)) return 'number';
+  if (/cubic-bezier|linear/.test(value)) return 'cubicBezier';
+  if (/shadow|0\s/.test(value) && value.includes(' ')) return 'shadow';
+  return 'string';
+}
+
+function toDtcgTokens(values: Record<string, string>): Record<string, NamiThemeDtcgToken> {
+  return Object.fromEntries(Object.entries(values).map(([token, value]) => [
+    token,
+    {
+      $type: inferDtcgType(value),
+      $value: value
+    }
+  ]));
+}
+
+export function createNamiThemeSystem(config: NamiThemeConfig = {}): NamiThemeSystem {
+  const normalizedConfig = defineNamiTheme(config);
+  const baseTheme = deriveNamiTheme(normalizedConfig.seed ?? {});
+  const cssVars = {
+    ...baseTheme.cssVars,
+    ...resolveConfigCssVars(normalizedConfig, baseTheme)
+  };
+  const theme: NamiResolvedTheme = {
+    ...baseTheme,
+    cssVars
+  };
+
+  return {
+    ...theme,
+    config: normalizedConfig,
+    conditions: normalizedConfig.conditions ?? {},
+    recipes: normalizedConfig.recipes ?? {},
+    slotRecipes: normalizedConfig.slotRecipes ?? {},
+    token: (name: string, fallback = '') => cssVars[tokenLookupKey(name)] ?? fallback,
+    tokenVar: (name: string, fallback = '') => {
+      const key = tokenLookupKey(name);
+      return key in cssVars ? `var(${key})` : fallback;
+    },
+    cssText: (selector = ':root') => themeToCssText(theme, selector),
+    dtcg: () => themeToDtcg(theme)
+  };
+}
+
+export function themeToCssVars(theme: Pick<NamiResolvedTheme, 'cssVars'>): Record<string, string> {
   return { ...theme.cssVars };
 }
 
-export function themeToCssText(theme: NamiResolvedTheme, selector = ':root'): string {
+export function themeToCssText(theme: Pick<NamiResolvedTheme, 'cssVars'>, selector = ':root'): string {
   const declarations = Object.entries(theme.cssVars)
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([token, value]) => `  ${token}: ${value};`)
     .join('\n');
   return `${selector} {\n${declarations}\n}`;
+}
+
+export function themeToDtcg(theme: NamiResolvedTheme): NamiThemeDtcgDocument {
+  const seed = Object.fromEntries(Object.entries(theme.seed).map(([token, value]) => [
+    token,
+    {
+      $type: token === 'accent' ? 'color' : 'string',
+      $value: value
+    }
+  ]));
+
+  return {
+    $schema: 'https://www.designtokens.org/schemas/2025.10/tokens.json',
+    $extensions: {
+      'org.nami.theme': {
+        generatedBy: '@nami/tokens',
+        layers: ['seed', 'palette', 'semantic', 'component', 'style', 'cssVars']
+      }
+    },
+    seed,
+    palette: toDtcgTokens(theme.palette),
+    semantic: toDtcgTokens(theme.semantic),
+    component: toDtcgTokens(theme.component),
+    style: toDtcgTokens(theme.style),
+    cssVars: toDtcgTokens(theme.cssVars)
+  };
 }

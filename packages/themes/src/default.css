@@ -32,6 +32,16 @@ nami-theme {
   --nami-motion-exit: 150ms;
   --nami-ease-standard: cubic-bezier(0.19, 1, 0.22, 1);
   --nami-ease-emphasized: cubic-bezier(0.1, 0.9, 0.2, 1);
+  --nami-breakpoint-compact: 639px;
+  --nami-breakpoint-medium: 880px;
+  --nami-breakpoint-wide: 1080px;
+  --nami-container-sm: 720px;
+  --nami-container-md: 960px;
+  --nami-container-lg: 1240px;
+  --nami-layout-gutter: 16px;
+  --nami-app-shell-rail-width: 56px;
+  --nami-app-shell-mobile-bar-height: 56px;
+  --nami-app-shell-breakpoint: 639px;
   --nami-accent-90: color-mix(in oklab, var(--nami-accent-50), #000 40%);
   --nami-accent-80: color-mix(in oklab, var(--nami-accent-50), #000 30%);
   --nami-accent-70: color-mix(in oklab, var(--nami-accent-50), #000 20%);
@@ -123,6 +133,36 @@ nami-theme {
   --nami-result-subtitle-size: 0.95rem;
   --nami-result-gap: 14px;
   --nami-result-actions-margin: 10px 0 0;
+  --nami-container-max-width: var(--nami-container-lg);
+  --nami-container-padding: var(--nami-layout-gutter);
+  --nami-stack-gap: var(--nami-space-3);
+  --nami-cluster-gap: var(--nami-space-2);
+  --nami-grid-min: 16rem;
+  --nami-grid-gap: var(--nami-layout-gutter);
+  --nami-split-min: 18rem;
+  --nami-split-gap: var(--nami-layout-gutter);
+  --nami-checkbox-bg: transparent;
+  --nami-checkbox-border: var(--nami-border);
+  --nami-checkbox-border-width: var(--nami-style-stroke-width);
+  --nami-checkbox-radius: var(--nami-radius-tight);
+  --nami-checkbox-indicator-color: #fff;
+  --nami-textarea-bg: transparent;
+  --nami-textarea-border: var(--nami-border);
+  --nami-textarea-border-width: var(--nami-style-stroke-width);
+  --nami-textarea-radius: var(--nami-radius-surface);
+  --nami-textarea-shadow: none;
+  --nami-form-field-gap: var(--nami-space-2);
+  --nami-alert-bg: var(--nami-surface-raised);
+  --nami-alert-border: var(--nami-border);
+  --nami-alert-border-width: var(--nami-style-stroke-width);
+  --nami-alert-radius: var(--nami-radius-surface);
+  --nami-alert-shadow: none;
+  --nami-skeleton-bg: var(--nami-hover-overlay);
+  --nami-skeleton-highlight: color-mix(in oklab, #fff, transparent 18%);
+  --nami-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 82%);
+  --nami-progress-fill-bg: var(--nami-color-primary);
+  --nami-progress-height: 8px;
+  --nami-progress-radius: var(--nami-radius-control);
 }
 
 :root,
@@ -170,6 +210,7 @@ nami-theme[density="compact"] {
   --nami-space-4: 12px;
   --nami-space-5: 16px;
   --nami-icon-button-size: 36px;
+  --nami-layout-gutter: 12px;
 }
 
 :root,

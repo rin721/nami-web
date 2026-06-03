@@ -2,24 +2,30 @@ import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
+import { defineNamiTheme } from '../../tokens/src/theme';
 import { namiComponentAnatomy } from './anatomy';
 import './register';
+import type { NamiAlert } from './components/alert';
 import type { NamiBadge } from './components/badge';
 import type { NamiButton } from './components/button';
 import type { NamiCard } from './components/card';
 import type { NamiChip } from './components/chip';
+import type { NamiCheckbox } from './components/checkbox';
 import type { NamiConfig } from './components/config';
 import type { NamiDialog } from './components/dialog';
 import type { NamiDrawer } from './components/drawer';
 import type { NamiEmpty } from './components/empty';
+import type { NamiFormField } from './components/form-field';
 import type { NamiIconButton } from './components/icon-button';
 import type { NamiIllustration } from './components/illustration';
 import type { NamiInput } from './components/input';
 import type { NamiPageTransition } from './components/page-transition';
+import type { NamiProgress } from './components/progress';
 import type { NamiRadioCard } from './components/radio-card';
 import type { NamiResult } from './components/result';
 import type { NamiSwitch } from './components/switch';
 import type { NamiTabBar } from './components/tab-bar';
+import type { NamiTextarea } from './components/textarea';
 import type { NamiTheme } from './components/theme';
 import type { NamiToast } from './components/toast';
 import type { NamiTopProgress } from './components/top-progress';
@@ -65,6 +71,45 @@ describe('@nami/ui components', () => {
 
     expect(theme.getAttribute('style-preset')).toBe('ant-illustration');
     expect(theme.dataset.namiStyle).toBe('illustration');
+
+    theme.remove();
+  });
+
+  it('applies runtime JS theme config through nami-theme', async () => {
+    const theme = document.createElement('nami-theme') as NamiTheme;
+    theme.theme = 'dark';
+    theme.config = defineNamiTheme({
+      seed: { accent: '#f97316', density: 'compact' },
+      semanticTokens: {
+        color: {
+          primary: '#123456'
+        }
+      },
+      components: {
+        button: {
+          tokens: {
+            bg: '#123456',
+            radius: '12px'
+          }
+        }
+      },
+      modes: {
+        dark: {
+          tokens: {
+            '--nami-surface': '#020617'
+          }
+        }
+      }
+    });
+    document.body.append(theme);
+    await theme.updateComplete;
+
+    expect(theme.dataset.namiTheme).toBe('dark');
+    expect(theme.style.getPropertyValue('--nami-color-primary')).toBe('#123456');
+    expect(theme.style.getPropertyValue('--nami-button-bg')).toBe('#123456');
+    expect(theme.style.getPropertyValue('--nami-button-radius')).toBe('12px');
+    expect(theme.style.getPropertyValue('--nami-surface')).toBe('#020617');
+    expect(theme.style.getPropertyValue('--nami-layout-gutter')).toBe('12px');
 
     theme.remove();
   });
@@ -570,7 +615,18 @@ describe('@nami/ui components', () => {
       'nami-dialog',
       'nami-drawer',
       'nami-toast',
-      'nami-app-shell'
+      'nami-app-shell',
+      'nami-container',
+      'nami-stack',
+      'nami-cluster',
+      'nami-grid',
+      'nami-split',
+      'nami-checkbox',
+      'nami-textarea',
+      'nami-form-field',
+      'nami-alert',
+      'nami-skeleton',
+      'nami-progress'
     ]);
     expect(namiComponentMetadata.every((item) => item.usage && item.parts && customElements.get(item.name))).toBe(true);
     expect(namiComponentMetadata.flatMap((item) => item.tokens).every((token) => tokenNames.has(token))).toBe(true);
@@ -592,6 +648,24 @@ describe('@nami/ui components', () => {
       if (item.name === 'nami-input') {
         (element as NamiInput).label = 'Input';
         (element as NamiInput).helperText = 'Help';
+      }
+      if (item.name === 'nami-checkbox') {
+        (element as NamiCheckbox).checked = true;
+      }
+      if (item.name === 'nami-textarea') {
+        (element as NamiTextarea).label = 'Notes';
+        (element as NamiTextarea).helperText = 'Help';
+      }
+      if (item.name === 'nami-form-field') {
+        (element as NamiFormField).label = 'Field';
+        (element as NamiFormField).helperText = 'Help';
+      }
+      if (item.name === 'nami-alert') {
+        (element as NamiAlert).title = 'Alert';
+        (element as NamiAlert).closable = true;
+      }
+      if (item.name === 'nami-progress') {
+        (element as NamiProgress).value = 48;
       }
       if (item.name === 'nami-dialog') {
         (element as NamiDialog).label = 'Dialog';
@@ -648,6 +722,28 @@ describe('@nami/ui components', () => {
         }
         if (!partElement && item.name === 'nami-input' && part === 'error') {
           (element as NamiInput).error = 'Error';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'nami-textarea' && part === 'description') {
+          (element as NamiTextarea).error = '';
+          (element as NamiTextarea).helperText = 'Help';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'nami-textarea' && part === 'error') {
+          (element as NamiTextarea).error = 'Error';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'nami-form-field' && part === 'description') {
+          (element as NamiFormField).error = '';
+          (element as NamiFormField).helperText = 'Help';
+          await element.updateComplete;
+          partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
+        }
+        if (!partElement && item.name === 'nami-form-field' && part === 'error') {
+          (element as NamiFormField).error = 'Error';
           await element.updateComplete;
           partElement = element.shadowRoot?.querySelector(`[part~="${part}"]`);
         }

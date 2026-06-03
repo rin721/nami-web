@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { componentTokens, motion, semanticTokens, seedTokens } from './index';
-import { deriveNamiTheme, themeToCssText, themeToCssVars, validateThemeSeed } from './theme';
+import { createNamiThemeSystem, defineNamiTheme, deriveNamiTheme, themeToCssText, themeToCssVars, themeToDtcg, validateThemeSeed } from './theme';
 import dtcgTokens from './tokens.dtcg.json';
 
 describe('@nami/tokens', () => {
@@ -12,6 +12,9 @@ describe('@nami/tokens', () => {
     expect(seedTokens).toContain('--nami-style-doodle-opacity');
     expect(seedTokens).toContain('--nami-style-offset-shadow');
     expect(seedTokens).toContain('--nami-contrast-level');
+    expect(seedTokens).toContain('--nami-layout-gutter');
+    expect(seedTokens).toContain('--nami-breakpoint-compact');
+    expect(seedTokens).toContain('--nami-app-shell-rail-width');
     expect(semanticTokens).toContain('--nami-focus-ring');
     expect(semanticTokens).toContain('--nami-overlay-backdrop');
     expect(componentTokens).toContain('--nami-chip-selected-bg');
@@ -33,6 +36,13 @@ describe('@nami/tokens', () => {
     expect(componentTokens).toContain('--nami-top-progress-fill-bg');
     expect(componentTokens).toContain('--nami-top-progress-shadow');
     expect(componentTokens).toContain('--nami-top-progress-z-index');
+    expect(componentTokens).toContain('--nami-container-max-width');
+    expect(componentTokens).toContain('--nami-grid-min');
+    expect(componentTokens).toContain('--nami-checkbox-bg');
+    expect(componentTokens).toContain('--nami-textarea-bg');
+    expect(componentTokens).toContain('--nami-alert-bg');
+    expect(componentTokens).toContain('--nami-skeleton-bg');
+    expect(componentTokens).toContain('--nami-progress-fill-bg');
   });
 
   it('keeps the motion contract explicit', () => {
@@ -85,6 +95,7 @@ describe('@nami/tokens', () => {
     });
     expect(defaultTheme.cssVars['--nami-accent-50']).toBe('#14b8a6');
     expect(defaultTheme.cssVars['--nami-control-height-md']).toBe('34px');
+    expect(defaultTheme.cssVars['--nami-layout-gutter']).toBe('12px');
     expect(defaultTheme.cssVars['--nami-motion-normal']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-radius-control']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-contrast-level']).toBe('high');
@@ -114,6 +125,84 @@ describe('@nami/tokens', () => {
     expect(cssText).toContain('.preview-theme {');
     expect(cssText).toContain('--nami-accent-50: #3b82f6;');
     expect(cssText).toContain('--nami-button-shadow: var(--nami-style-offset-shadow);');
+  });
+
+  it('creates a custom theme system from semantic, component, mode, and resolver layers', () => {
+    const config = defineNamiTheme({
+      seed: { accent: '#f97316', mode: 'dark', density: 'compact' },
+      tokens: {
+        '--nami-layout-gutter': '10px'
+      },
+      semanticTokens: {
+        color: {
+          primary: '#123456'
+        }
+      },
+      components: {
+        button: {
+          tokens: {
+            bg: '#123456',
+            radius: '12px'
+          }
+        },
+        progress: {
+          fillBg: '#123456'
+        }
+      },
+      modes: {
+        dark: {
+          tokens: {
+            '--nami-surface': '#020617'
+          }
+        }
+      },
+      conditions: {
+        hocus: ':is(:hover, :focus-visible)'
+      },
+      recipes: {
+        button: {
+          base: { fontWeight: 700 },
+          variants: {
+            intent: {
+              primary: { color: 'var(--nami-color-primary)' }
+            }
+          }
+        }
+      },
+      slotRecipes: {
+        alert: {
+          slots: ['base', 'indicator'],
+          base: {
+            base: { padding: 'var(--nami-space-4)' }
+          }
+        }
+      },
+      cssVariablesResolver: () => ({
+        variables: {
+          '--nami-custom-common': '1'
+        },
+        dark: {
+          '--nami-custom-mode': 'dark'
+        }
+      })
+    });
+    const system = createNamiThemeSystem(config);
+    const dtcg = themeToDtcg(system);
+
+    expect(system.seed.mode).toBe('dark');
+    expect(system.token('color.primary')).toBe('#123456');
+    expect(system.token('button.bg')).toBe('#123456');
+    expect(system.token('progress.fillBg')).toBe('#123456');
+    expect(system.tokenVar('button.radius')).toBe('var(--nami-button-radius)');
+    expect(system.token('--nami-surface')).toBe('#020617');
+    expect(system.token('--nami-layout-gutter')).toBe('10px');
+    expect(system.token('--nami-custom-mode')).toBe('dark');
+    expect(system.conditions.hocus).toBe(':is(:hover, :focus-visible)');
+    expect(system.recipes.button.defaultVariants).toBeUndefined();
+    expect(system.slotRecipes.alert.slots).toEqual(['base', 'indicator']);
+    expect(system.cssText('.scoped')).toContain('.scoped {');
+    expect(system.dtcg().cssVars['--nami-button-bg'].$value).toBe('#123456');
+    expect(dtcg.cssVars['--nami-custom-common'].$type).toBe('number');
   });
 
   it('validates unsupported seed values before derivation', () => {
