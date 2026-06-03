@@ -14,7 +14,7 @@ export class NamiSpinner extends LitElement {
     componentHostStyles,
     css`
       :host {
-        --spinner-size: 1em;
+        --spinner-size: var(--nami-icon-size, 1em);
         display: inline-flex;
         height: var(--spinner-size);
         width: var(--spinner-size);
@@ -24,7 +24,6 @@ export class NamiSpinner extends LitElement {
         --spinner-size: 14px;
       }
 
-      :host,
       :host([size='md']) {
         --spinner-size: 18px;
       }
@@ -57,13 +56,12 @@ export class NamiSpinner extends LitElement {
     `
   ];
 
-  declare size: NamiSpinnerSize;
+  declare size?: NamiSpinnerSize;
   declare label: string;
 
   constructor() {
     super();
     updateWhenLocaleChanges(this);
-    this.size = 'md';
     this.label = '';
   }
 

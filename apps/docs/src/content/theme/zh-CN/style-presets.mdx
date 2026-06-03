@@ -1,22 +1,70 @@
 ---
 title: 风格 Preset
-group: 指南
+group: 主题
 order: 3
+description: 在默认产品风格和插画风格之间切换，同时保留同一套组件与 token 契约。
 ---
 
 # 风格 Preset
 
-组件源码保持不变，视觉皮肤通过 tokens 切换。默认 preset 是中性的社区组件风格。插画 preset 增加粗描边、偏移阴影、纸张表面和手绘背景纹理。
+Preset 是视觉语言，不是第二套组件实现。`default` 与 `illustration` 共享同一批 `nami-*` 元素、属性、事件、slots、parts 和 component token。
+
+## 目标
+
+知道什么时候使用默认风格，什么时候使用插画风格，以及如何确保 preset 切换不会破坏组件 API、可访问性和主题导出。
+
+## 对比
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-style-live%22%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Ch3%3E%E9%BB%98%E8%AE%A4%3C%2Fh3%3E%0A%20%20%20%20%3Cnami-button%3E%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%3E%E5%B7%B2%E9%80%89%E6%8B%A9%3C%2Fnami-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%20%20%3Cdiv%20class%3D%22nami-theme-illustration%22%3E%0A%20%20%20%20%3Ch3%3E%E6%8F%92%E7%94%BB%3C%2Fh3%3E%0A%20%20%20%20%3Cnami-button%3E%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%3E%E5%B7%B2%E9%80%89%E6%8B%A9%3C%2Fnami-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
+
+| Preset | 适用场景 | 视觉策略 |
+| --- | --- | --- |
+| `default` | SaaS、后台、CRM、配置面板 | 安静、密集、强调信息层级和重复操作效率。 |
+| `illustration` | 官网、故事化页面、品牌展示、教学内容 | 更明显的描边、偏移阴影、纸张质感和装饰图案。 |
 
 ## Preset API
 
 ```html
-<nami-theme style-preset="default"></nami-theme>
-<nami-theme style-preset="illustration"></nami-theme>
-<nami-theme style-preset="ant-illustration"></nami-theme>
+<nami-theme style-preset="illustration">
+  <nami-card>
+    <nami-button>主要操作</nami-button>
+  </nami-card>
+</nami-theme>
 ```
 
-`ant-illustration` 保留为兼容别名，公开行为等同于 `illustration`。
+```ts
+import { defineNamiTheme } from '@nami/tokens/theme';
 
+export default defineNamiTheme({
+  seed: {
+    stylePreset: 'illustration',
+    radius: 'soft'
+  }
+});
+```
+
+## 设计规则
+
+<nami-docs-steps>
+<ol>
+<li><strong>不改变组件语义。</strong>button 仍是 button，dialog 仍承担焦点管理。</li>
+<li><strong>不复制组件代码。</strong>preset 只能改变 token、parts 和 recipe 输出。</li>
+<li><strong>必须进入矩阵测试。</strong>每个 preset 都要覆盖 light/dark、density、size、contrast 和 motion。</li>
+</ol>
+</nami-docs-steps>
+
+## 常见错误
+
+| 错误 | 修复 |
+| --- | --- |
+| 把插画风格写成组件分支 | 把差异放进 style token 或 CSS Parts。 |
+| 在后台工具里大面积使用插画 preset | 保留 default，必要时只在空状态或引导区局部使用。 |
+| 只看 light 模式 | 在 Theme Lab 检查 dark 和 high contrast。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/theme/lab/">打开 Theme Lab</a>
+<a href="/zh-CN/theme/designer/">导出 preset 配置</a>
+<a href="/zh-CN/resources/design/">阅读设计规范</a>
+</nami-docs-related>

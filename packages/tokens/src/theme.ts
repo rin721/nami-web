@@ -1,6 +1,7 @@
 export type NamiThemeMode = 'light' | 'dark';
 export type NamiThemeStylePreset = 'default' | 'illustration';
 export type NamiThemeDensity = 'comfortable' | 'compact';
+export type NamiThemeSize = 'sm' | 'md' | 'lg';
 export type NamiThemeMotion = 'normal' | 'reduced';
 export type NamiThemeRadius = 'sharp' | 'soft' | 'round';
 export type NamiThemeContrast = 'normal' | 'high';
@@ -10,6 +11,7 @@ export interface NamiThemeSeed {
   mode?: NamiThemeMode;
   stylePreset?: NamiThemeStylePreset;
   density?: NamiThemeDensity;
+  size?: NamiThemeSize;
   motion?: NamiThemeMotion;
   radius?: NamiThemeRadius;
   contrast?: NamiThemeContrast;
@@ -59,6 +61,7 @@ export interface NamiThemeConfig extends NamiThemeModeConfig {
   conditions?: Record<string, string>;
   modes?: Partial<Record<NamiThemeMode, NamiThemeModeConfig>>;
   density?: Partial<Record<NamiThemeDensity, NamiThemeTokenTree>>;
+  size?: Partial<Record<NamiThemeSize, NamiThemeTokenTree>>;
   motion?: Partial<Record<NamiThemeMotion, NamiThemeTokenTree>>;
   radius?: Partial<Record<NamiThemeRadius, NamiThemeTokenTree>>;
   contrast?: Partial<Record<NamiThemeContrast, NamiThemeTokenTree>>;
@@ -70,6 +73,7 @@ export interface NamiResolvedThemeSeed {
   mode: NamiThemeMode;
   stylePreset: NamiThemeStylePreset;
   density: NamiThemeDensity;
+  size: NamiThemeSize;
   motion: NamiThemeMotion;
   radius: NamiThemeRadius;
   contrast: NamiThemeContrast;
@@ -130,6 +134,7 @@ const DEFAULT_SEED: NamiResolvedThemeSeed = {
   mode: 'light',
   stylePreset: 'default',
   density: 'comfortable',
+  size: 'md',
   motion: 'normal',
   radius: 'round',
   contrast: 'normal'
@@ -141,6 +146,7 @@ const enumValues = {
   mode: ['light', 'dark'],
   stylePreset: ['default', 'illustration'],
   density: ['comfortable', 'compact'],
+  size: ['sm', 'md', 'lg'],
   motion: ['normal', 'reduced'],
   radius: ['sharp', 'soft', 'round'],
   contrast: ['normal', 'high']
@@ -174,6 +180,7 @@ export function validateThemeSeed(seed: NamiThemeSeed): NamiThemeDiagnostic[] {
   if (seed.mode !== undefined && !isOneOf(seed.mode, enumValues.mode)) diagnostics.push(invalidEnumDiagnostic('mode', seed.mode));
   if (seed.stylePreset !== undefined && !isOneOf(seed.stylePreset, enumValues.stylePreset)) diagnostics.push(invalidEnumDiagnostic('stylePreset', seed.stylePreset));
   if (seed.density !== undefined && !isOneOf(seed.density, enumValues.density)) diagnostics.push(invalidEnumDiagnostic('density', seed.density));
+  if (seed.size !== undefined && !isOneOf(seed.size, enumValues.size)) diagnostics.push(invalidEnumDiagnostic('size', seed.size));
   if (seed.motion !== undefined && !isOneOf(seed.motion, enumValues.motion)) diagnostics.push(invalidEnumDiagnostic('motion', seed.motion));
   if (seed.radius !== undefined && !isOneOf(seed.radius, enumValues.radius)) diagnostics.push(invalidEnumDiagnostic('radius', seed.radius));
   if (seed.contrast !== undefined && !isOneOf(seed.contrast, enumValues.contrast)) diagnostics.push(invalidEnumDiagnostic('contrast', seed.contrast));
@@ -187,6 +194,7 @@ function normalizeSeed(seed: NamiThemeSeed): NamiResolvedThemeSeed {
     mode: isOneOf(seed.mode, enumValues.mode) ? seed.mode : DEFAULT_SEED.mode,
     stylePreset: isOneOf(seed.stylePreset, enumValues.stylePreset) ? seed.stylePreset : DEFAULT_SEED.stylePreset,
     density: isOneOf(seed.density, enumValues.density) ? seed.density : DEFAULT_SEED.density,
+    size: isOneOf(seed.size, enumValues.size) ? seed.size : DEFAULT_SEED.size,
     motion: isOneOf(seed.motion, enumValues.motion) ? seed.motion : DEFAULT_SEED.motion,
     radius: isOneOf(seed.radius, enumValues.radius) ? seed.radius : DEFAULT_SEED.radius,
     contrast: isOneOf(seed.contrast, enumValues.contrast) ? seed.contrast : DEFAULT_SEED.contrast
@@ -264,6 +272,7 @@ function resolveConfigCssVars(config: NamiThemeConfig, theme: NamiResolvedTheme)
     ...flattenModeConfig(config),
     ...flattenModeConfig(config.modes?.[seed.mode]),
     ...flattenTokenTree(config.density?.[seed.density]),
+    ...flattenTokenTree(config.size?.[seed.size]),
     ...flattenTokenTree(config.motion?.[seed.motion]),
     ...flattenTokenTree(config.radius?.[seed.radius]),
     ...flattenTokenTree(config.contrast?.[seed.contrast]),
@@ -350,6 +359,37 @@ function deriveDensity(seed: NamiResolvedThemeSeed) {
     '--nami-space-5': '24px',
     '--nami-icon-button-size': '40px',
     '--nami-layout-gutter': '16px'
+  };
+}
+
+function deriveSize(seed: NamiResolvedThemeSeed) {
+  const sizes = {
+    sm: {
+      height: 'var(--nami-control-height-sm)',
+      paddingX: '12px',
+      fontSize: '0.875rem',
+      iconSize: '16px'
+    },
+    md: {
+      height: 'var(--nami-control-height-md)',
+      paddingX: '16px',
+      fontSize: '0.9375rem',
+      iconSize: '18px'
+    },
+    lg: {
+      height: 'var(--nami-control-height-lg)',
+      paddingX: '20px',
+      fontSize: '1rem',
+      iconSize: '20px'
+    }
+  } as const;
+  const size = sizes[seed.size];
+  return {
+    '--nami-control-height': size.height,
+    '--nami-control-padding-x': size.paddingX,
+    '--nami-control-font-size': size.fontSize,
+    '--nami-icon-size': size.iconSize,
+    '--nami-icon-button-size': 'var(--nami-control-height)'
   };
 }
 
@@ -642,6 +682,7 @@ export function deriveNamiTheme(seed: NamiThemeSeed = {}): NamiResolvedTheme {
     ...deriveLayout(),
     '--nami-contrast-level': normalized.contrast,
     ...deriveDensity(normalized),
+    ...deriveSize(normalized),
     ...deriveMotion(normalized),
     ...semantic,
     ...style,

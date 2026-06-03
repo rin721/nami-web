@@ -1,0 +1,45 @@
+---
+title: Changelog
+group: Resources
+order: 4
+description: Added features, fixes, and breaking changes for the current Nami UI version.
+---
+
+# Changelog
+
+The changelog only records capabilities that are verifiable in the current repository. It does not backfill unpublished roadmap items or invent ecosystem links.
+
+## 0.1.0 — 2026-06-03
+
+### Added
+
+- Nami UI core components built with Lit and Web Components.
+- `@nami/themes/default.css` and `@nami/themes/ant-illustration.css` theme styles.
+- DTCG tokens, theme seeds, size/density/radius/contrast/motion, and Theme Studio exports.
+- `nami-theme`, `nami-config`, layout components, form components, feedback components, and system components.
+- Public data entries for `@nami/ui/metadata`, `@nami/ui/anatomy`, and `@nami/ui/catalog`.
+- Docs information architecture for Home / Start / Components / Theme / Resources / Settings.
+
+### Docs
+
+- Start, Theme, Resources, and component detail pages now use the same reading layout.
+- Component detail pages show Overview, Install, Examples, API, Events, Slots, CSS Parts, Tokens, Anatomy, Accessibility, and Related.
+- Resources now includes Design, Quality, i18n, Semantic Anatomy, Changelog, and FAQ.
+- Settings Config uses `@nami/tokens/theme-studio` for CSS, DTCG JSON, and TS config exports.
+
+### Breaking Changes
+
+- Legacy `/playground/theme-designer/`, `/playground/theme-lab/`, `/tokens/`, and duplicate `/docs/*` entries were removed without redirects.
+
+### Fixed
+
+- Removed visible mojibake sources and added browser-test sentinels.
+- Component catalog now consumes public `@nami/ui/catalog` so docs-local catalog data cannot drift from metadata.
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/resources/faq/">FAQ</a>
+<a href="/en-US/resources/quality/">Quality Baseline</a>
+<a href="/en-US/theme/designer/">Theme Designer</a>
+</nami-docs-related>

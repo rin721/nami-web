@@ -42,14 +42,14 @@ const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
   },
   {
     name: 'nami-theme',
-    summary: 'Theme, accent, density, motion, radius, contrast, and style preset boundary.',
-    usage: '<nami-theme theme="light" style-preset="illustration" accent="#3b82f6" radius="soft" contrast="high"><slot /></nami-theme>',
-    attributes: ['theme', 'accent', 'density', 'motion', 'style-preset', 'radius', 'contrast'],
-    properties: ['theme', 'accent', 'density', 'motion', 'stylePreset', 'radius', 'contrast'],
+    summary: 'Theme, accent, density, size, motion, radius, contrast, and style preset boundary.',
+    usage: '<nami-theme theme="light" style-preset="illustration" accent="#3b82f6" size="lg" radius="soft" contrast="high"><slot /></nami-theme>',
+    attributes: ['theme', 'accent', 'density', 'size', 'motion', 'style-preset', 'radius', 'contrast'],
+    properties: ['theme', 'accent', 'density', 'size', 'motion', 'stylePreset', 'radius', 'contrast'],
     events: [],
     slots: ['default'],
     parts: [],
-    tokens: ['--nami-accent-50', '--nami-contrast-level', '--nami-surface', '--nami-text', '--nami-focus-ring', '--nami-overlay-backdrop', '--nami-style-stroke-width', '--nami-style-ink-color', '--nami-style-on-paper', '--nami-style-on-paper-muted', '--nami-style-offset-shadow', '--nami-style-control-bg', '--nami-style-panel-bg', '--nami-style-background-pattern', '--nami-style-doodle-opacity', '--nami-style-paper-line-color']
+    tokens: ['--nami-accent-50', '--nami-control-height', '--nami-control-padding-x', '--nami-control-font-size', '--nami-icon-size', '--nami-contrast-level', '--nami-surface', '--nami-text', '--nami-focus-ring', '--nami-overlay-backdrop', '--nami-style-stroke-width', '--nami-style-ink-color', '--nami-style-on-paper', '--nami-style-on-paper-muted', '--nami-style-offset-shadow', '--nami-style-control-bg', '--nami-style-panel-bg', '--nami-style-background-pattern', '--nami-style-doodle-opacity', '--nami-style-paper-line-color']
   },
   {
     name: 'nami-spinner',

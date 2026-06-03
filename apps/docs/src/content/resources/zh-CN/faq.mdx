@@ -1,0 +1,72 @@
+---
+title: FAQ
+group: 资源
+order: 5
+description: 资源状态、常见报错、生态链接和主题配置问题。
+---
+
+# FAQ
+
+FAQ 只回答当前项目能验证的问题。没有真实数据源的资源会明确标为暂未提供，不制造假链接。
+
+## 是否提供 Figma 资源？
+
+暂未提供。当前仓库没有可验证的 Figma 文件、团队链接或下载地址，因此官网不会展示虚构入口。后续如果添加设计资源，应同时补充版本、更新时间和适用主题。
+
+## 是否提供 CLI、Admin 模板或生态链接？
+
+暂未提供。当前可验证生态入口是 `@nami/ui`、`@nami/themes`、`@nami/tokens` 以及官网文档。CLI、Admin 模板和第三方生态需要真实仓库或包入口后再加入 Resources。
+
+## 为什么组件没有渲染？
+
+通常是组件没有被注册。
+
+```ts
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+```
+
+或者只导入单组件：
+
+```ts
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+```
+
+## 为什么样式不对？
+
+优先检查三件事：
+
+<nami-docs-steps>
+<ol>
+<li><strong>是否导入主题 CSS。</strong>应用入口应导入 `@nami/themes/default.css`。</li>
+<li><strong>是否被 theme 边界包住。</strong>局部主题需要把组件放在同一个 `nami-theme` 内。</li>
+<li><strong>是否硬编码绕过 token。</strong>颜色、圆角和动效应优先通过 seed 或 CSS variables 设置。</li>
+</ol>
+</nami-docs-steps>
+
+## 为什么语言没有切换？
+
+官网路由语言和组件运行时语言是两件事。页面路径负责 `/zh-CN/` 或 `/en-US/`，组件 fallback 文案读取 `nami-config locale`。
+
+```html
+<nami-config locale="zh-CN">
+  <nami-empty></nami-empty>
+</nami-config>
+```
+
+## 为什么代码示例显示的框架不对？
+
+到 Settings 的 Preferences 中选择 HTML、Vue 或 React。组件详情页的示例块会根据该偏好显示默认代码。
+
+## 贡献者和赞助商状态是什么？
+
+当前可验证贡献者为 `kawaiirei0`。赞助商暂未配置，官网只显示状态，不虚构赞助商。
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/docs/getting-started/">快速开始</a>
+<a href="/zh-CN/resources/i18n/">i18n</a>
+<a href="/zh-CN/settings/about/">关于设置</a>
+</nami-docs-related>

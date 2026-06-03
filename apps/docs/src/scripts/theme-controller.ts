@@ -39,6 +39,7 @@ function initialSettings(): DocsSettingsState {
       theme: saved.visual.theme || (root?.getAttribute('theme') as DocsVisualState['theme']) || defaultDocsSettings.visual.theme,
       accent: saved.visual.accent || root?.getAttribute('accent') || defaultDocsSettings.visual.accent,
       density: saved.visual.density || (root?.getAttribute('density') as DocsVisualState['density']) || defaultDocsSettings.visual.density,
+      size: saved.visual.size || (root?.getAttribute('size') as DocsVisualState['size']) || defaultDocsSettings.visual.size,
       motion: saved.visual.motion || (root?.getAttribute('motion') as DocsVisualState['motion']) || defaultDocsSettings.visual.motion,
       stylePreset: saved.visual.stylePreset || (root?.getAttribute('style-preset') as DocsVisualState['stylePreset']) || defaultDocsSettings.visual.stylePreset,
       radius: saved.visual.radius || (root?.getAttribute('radius') as DocsVisualState['radius']) || defaultDocsSettings.visual.radius,
@@ -94,6 +95,7 @@ function createController(): ThemeController {
       root.theme = visual.theme;
       root.accent = visual.accent;
       root.density = visual.density;
+      root.size = visual.size;
       root.motion = visual.motion;
       root.stylePreset = visual.stylePreset;
       root.radius = visual.radius;
@@ -101,6 +103,7 @@ function createController(): ThemeController {
       const progressHeight = `${controller.settings.transition.barHeight}px`;
       root.style.setProperty('--nami-transition-progress-height', progressHeight);
       document.documentElement.dataset.namiDocsDensity = controller.settings.preferences.compactDocs ? 'compact' : 'comfortable';
+      document.documentElement.dataset.namiDocsCodeMode = controller.settings.preferences.codeExampleMode;
       document.querySelector<HTMLElement>('#docs-page-transition')?.style.setProperty('--nami-transition-progress-height', progressHeight);
       applyTopProgressElementSettings(document.querySelector('#docs-top-progress'), controller.settings);
       document.querySelectorAll<HTMLElement>('nami-top-progress[data-docs-top-progress-preview]').forEach((element) => {
@@ -111,6 +114,7 @@ function createController(): ThemeController {
     sync: () => {
       const { visual, transition, preferences } = controller.settings;
       syncControlValue('[data-theme-mode]', visual.theme);
+      syncControlValue('[data-accent-input]', visual.accent);
       syncControlSelected('[data-style-toggle]', visual.stylePreset === 'illustration');
       syncControlValue('[data-style-preset-mode]', visual.stylePreset);
       syncControlValue('[data-radius-mode]', visual.radius);
@@ -118,6 +122,7 @@ function createController(): ThemeController {
       syncControlValue('[data-contrast-mode]', visual.contrast);
       syncControlSelected('[data-density-toggle]', visual.density === 'compact');
       syncControlValue('[data-density-mode]', visual.density);
+      syncControlValue('[data-size-mode]', visual.size);
       syncControlChecked('[data-motion-toggle]', visual.motion === 'reduced');
       syncControlValue('[data-motion-mode]', visual.motion);
       syncControlValue('[data-locale-mode]', currentLocale());
@@ -128,6 +133,7 @@ function createController(): ThemeController {
       syncControlValue('[data-progress-duration-input]', String(transition.progressDuration));
       syncControlChecked('[data-remember-theme-toggle]', preferences.rememberTheme);
       syncControlChecked('[data-compact-docs-toggle]', preferences.compactDocs);
+      syncControlValue('[data-code-example-mode]', preferences.codeExampleMode);
     }
   };
   return controller;
@@ -149,6 +155,15 @@ function installDocumentListeners() {
     const accentButton = target.closest<HTMLButtonElement>('[data-accent]');
     if (accentButton) {
       docsController.settings.visual.accent = accentButton.dataset.accent ?? defaultDocsSettings.visual.accent;
+      docsController.apply();
+      docsController.sync();
+    }
+  });
+
+  document.addEventListener('input', (event) => {
+    const target = event.target as HTMLElement;
+    if (target.matches('[data-accent-input]')) {
+      docsController.settings.visual.accent = (target as HTMLInputElement).value || defaultDocsSettings.visual.accent;
       docsController.apply();
       docsController.sync();
     }
@@ -184,6 +199,10 @@ function installDocumentListeners() {
     if (target.matches('[data-contrast-mode]')) docsController.settings.visual.contrast = event.detail.value === 'high' ? 'high' : 'normal';
     if (target.matches('[data-density-toggle]')) docsController.settings.visual.density = event.detail.selected ? 'compact' : 'comfortable';
     if (target.matches('[data-density-mode]')) docsController.settings.visual.density = event.detail.value === 'compact' ? 'compact' : 'comfortable';
+    if (target.matches('[data-size-mode]')) {
+      const value = String(event.detail.value ?? 'md');
+      docsController.settings.visual.size = value === 'sm' || value === 'lg' ? value : 'md';
+    }
     if (target.matches('[data-motion-toggle]')) docsController.settings.visual.motion = event.detail.checked ? 'reduced' : 'normal';
     if (target.matches('[data-motion-mode]')) docsController.settings.visual.motion = event.detail.value === 'reduced' ? 'reduced' : 'normal';
     if (target.matches('[data-initial-transition-mode]')) {
@@ -203,6 +222,10 @@ function installDocumentListeners() {
     }
     if (target.matches('[data-remember-theme-toggle]')) docsController.settings.preferences.rememberTheme = Boolean(event.detail.checked);
     if (target.matches('[data-compact-docs-toggle]')) docsController.settings.preferences.compactDocs = Boolean(event.detail.checked);
+    if (target.matches('[data-code-example-mode]')) {
+      const value = String(event.detail.value ?? 'html');
+      docsController.settings.preferences.codeExampleMode = value === 'vue' || value === 'react' ? value : 'html';
+    }
     docsController.apply();
     docsController.sync();
   }) as EventListener);

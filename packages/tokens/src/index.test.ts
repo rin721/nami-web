@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { componentTokens, motion, semanticTokens, seedTokens } from './index';
 import { createNamiThemeSystem, defineNamiTheme, deriveNamiTheme, themeToCssText, themeToCssVars, themeToDtcg, validateThemeSeed } from './theme';
+import { contrastRatio, createNamiThemeStudio, readDtcgCssVars } from './theme-studio';
 import dtcgTokens from './tokens.dtcg.json';
 
 describe('@nami/tokens', () => {
@@ -15,6 +16,10 @@ describe('@nami/tokens', () => {
     expect(seedTokens).toContain('--nami-layout-gutter');
     expect(seedTokens).toContain('--nami-breakpoint-compact');
     expect(seedTokens).toContain('--nami-app-shell-rail-width');
+    expect(seedTokens).toContain('--nami-control-height');
+    expect(seedTokens).toContain('--nami-control-padding-x');
+    expect(seedTokens).toContain('--nami-control-font-size');
+    expect(seedTokens).toContain('--nami-icon-size');
     expect(semanticTokens).toContain('--nami-focus-ring');
     expect(semanticTokens).toContain('--nami-overlay-backdrop');
     expect(componentTokens).toContain('--nami-chip-selected-bg');
@@ -81,7 +86,7 @@ describe('@nami/tokens', () => {
   });
 
   it('derives default and illustration themes from seed values', () => {
-    const defaultTheme = deriveNamiTheme({ accent: '#14b8a6', mode: 'dark', density: 'compact', motion: 'reduced', radius: 'sharp', contrast: 'high' });
+    const defaultTheme = deriveNamiTheme({ accent: '#14b8a6', mode: 'dark', density: 'compact', size: 'lg', motion: 'reduced', radius: 'sharp', contrast: 'high' });
     const illustrationTheme = deriveNamiTheme({ accent: '#8b5cf6', mode: 'dark', stylePreset: 'illustration', radius: 'soft', contrast: 'high' });
 
     expect(defaultTheme.seed).toEqual({
@@ -89,12 +94,18 @@ describe('@nami/tokens', () => {
       mode: 'dark',
       stylePreset: 'default',
       density: 'compact',
+      size: 'lg',
       motion: 'reduced',
       radius: 'sharp',
       contrast: 'high'
     });
     expect(defaultTheme.cssVars['--nami-accent-50']).toBe('#14b8a6');
     expect(defaultTheme.cssVars['--nami-control-height-md']).toBe('34px');
+    expect(defaultTheme.cssVars['--nami-control-height']).toBe('var(--nami-control-height-lg)');
+    expect(defaultTheme.cssVars['--nami-control-padding-x']).toBe('20px');
+    expect(defaultTheme.cssVars['--nami-control-font-size']).toBe('1rem');
+    expect(defaultTheme.cssVars['--nami-icon-size']).toBe('20px');
+    expect(defaultTheme.cssVars['--nami-icon-button-size']).toBe('var(--nami-control-height)');
     expect(defaultTheme.cssVars['--nami-layout-gutter']).toBe('12px');
     expect(defaultTheme.cssVars['--nami-motion-normal']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-radius-control']).toBe('4px');
@@ -206,12 +217,27 @@ describe('@nami/tokens', () => {
   });
 
   it('validates unsupported seed values before derivation', () => {
-    const diagnostics = validateThemeSeed({ accent: 'blue', mode: 'system' as never, contrast: 'loud' as never });
-    const theme = deriveNamiTheme({ accent: 'blue', mode: 'system' as never, contrast: 'loud' as never });
+    const diagnostics = validateThemeSeed({ accent: 'blue', mode: 'system' as never, size: 'xl' as never, contrast: 'loud' as never });
+    const theme = deriveNamiTheme({ accent: 'blue', mode: 'system' as never, size: 'xl' as never, contrast: 'loud' as never });
 
-    expect(diagnostics.map((item) => item.code)).toEqual(['invalid-accent', 'invalid-enum', 'invalid-enum']);
+    expect(diagnostics.map((item) => item.code)).toEqual(['invalid-accent', 'invalid-enum', 'invalid-enum', 'invalid-enum']);
     expect(theme.seed.accent).toBe('#3b82f6');
     expect(theme.seed.mode).toBe('light');
+    expect(theme.seed.size).toBe('md');
     expect(theme.seed.contrast).toBe('normal');
+  });
+
+  it('creates theme studio exports and reads DTCG CSS variables', () => {
+    const studio = createNamiThemeStudio({ seed: { accent: '#14b8a6', size: 'sm' } }, { selector: '.demo-theme' });
+    const imported = readDtcgCssVars(studio.system.dtcg());
+
+    expect(studio.system.seed.size).toBe('sm');
+    expect(studio.cssText).toContain('.demo-theme {');
+    expect(studio.dtcgJson).toContain('"cssVars"');
+    expect(studio.tsConfig).toContain('defineNamiTheme');
+    expect(studio.tokenTree.map((item) => item.label)).toEqual(['Seed', 'Palette', 'Semantic', 'Style', 'Component']);
+    expect(studio.diagnostics.map((item) => item.label)).toEqual(['Text / surface', 'Accent / surface']);
+    expect(imported['--nami-control-height']).toBe('var(--nami-control-height-sm)');
+    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 0);
   });
 });

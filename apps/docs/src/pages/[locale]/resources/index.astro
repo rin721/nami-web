@@ -9,6 +9,17 @@ export function getStaticPaths() {
 
 const { locale } = Astro.props as { locale: DocsLocale };
 const section = docsSections.resources;
+const introCards = locale === 'zh-CN'
+  ? [
+      ['这里放什么', '设计规范、质量基线、国际化策略、语义结构、更新日志和 FAQ 等工程资料。'],
+      ['不放什么', '组件 API 回到 Components；主题工具和 tokens 回到 Theme；官网偏好回到 Settings。'],
+      ['下一步去哪', '做视觉原则先看 Design，发版前看 Quality 和 Changelog，遇到资源或生态问题看 FAQ。']
+    ]
+  : [
+      ['What lives here', 'Design guidance, quality baselines, i18n strategy, semantic anatomy, changelog, and FAQ.'],
+      ['What stays out', 'Component APIs belong to Components. Theme tools and tokens belong to Theme. Site preferences stay in Settings.'],
+      ['Where next', 'Read Design for visual principles, Quality and Changelog before release, and FAQ for resource or ecosystem status.']
+    ];
 ---
 
 <DocsLayout locale={locale} title={t(locale, 'resources.title')}>
@@ -19,18 +30,12 @@ const section = docsSections.resources;
       <p>{section.description[locale]}</p>
     </div>
     <div class="entry-grid">
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '这里放什么' : 'What lives here'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '质量基线、国际化策略、语义结构和样式契约等工程资料。' : 'Quality baselines, i18n strategy, semantic anatomy, and styling contracts.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '不放什么' : 'What stays out'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '组件 API 回到 Components；主题工具和 tokens 回到 Theme；官网偏好回到 Settings。' : 'Component APIs belong to Components. Theme tools and tokens belong to Theme. Site preferences stay in Settings.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '下一步去哪' : 'Where next'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '准备发布前先看质量基线；做多语言或样式契约时进入对应资源页。' : 'Read Quality before release. Open the matching resource when working on localization or styling contracts.'}</p>
-      </nami-card>
+      {introCards.map(([title, copy]) => (
+        <nami-card>
+          <nami-badge slot="header" variant="primary">{title}</nami-badge>
+          <p>{copy}</p>
+        </nami-card>
+      ))}
     </div>
     <div class="entry-grid">
       {section.entries.map((item) => (

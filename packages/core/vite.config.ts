@@ -8,6 +8,7 @@ const entries = {
   themes: resolve(__dirname, 'src/themes.ts'),
   metadata: resolve(__dirname, 'src/metadata.ts'),
   anatomy: resolve(__dirname, 'src/anatomy.ts'),
+  catalog: resolve(__dirname, 'src/catalog.ts'),
   localize: resolve(__dirname, 'src/localize.ts'),
   'register/button': resolve(__dirname, 'src/register/button.ts'),
   'components/config': resolve(__dirname, 'src/components/config.ts'),

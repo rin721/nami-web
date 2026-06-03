@@ -1,0 +1,56 @@
+---
+title: 设计规范
+group: 资源
+order: 0
+description: Nami UI 的色彩、排版、圆角、阴影、动效和布局原则。
+---
+
+# 设计规范
+
+设计规范说明 Nami UI 的视觉原则。组件 API 不放在这里，主题工具说明也不放在这里；这里关注“为什么这样设计”和“使用时怎样保持一致”。
+
+## 目标
+
+让默认风格适合长期使用的产品界面，让插画风格服务品牌展示和教程页面，同时让二者共享 token、component metadata 和 CSS Parts。
+
+## 色彩
+
+主色来自 `accent` seed，算法派生色阶，再映射到 `--nami-color-primary`、focus ring、hover overlay 和组件 token。业务不要直接在组件内部写死品牌色，应通过 theme seed 或 scoped CSS variables 覆盖。
+
+<nami-docs-callout variant="info" title="色彩优先级">
+优先改 seed，其次改 semantic token，最后才改 component token。这样 light、dark 和 high contrast 模式才会同步。
+</nami-docs-callout>
+
+## 排版
+
+正文使用系统无衬线字体，代码使用 mono 字体。页面级标题可以大，组件内部标题、按钮和紧凑面板必须使用较小字号，避免把工具界面做成营销页。
+
+| 位置 | 建议 |
+| --- | --- |
+| 文档正文 | 充足行高，段落短而可扫描。 |
+| 控件文字 | 跟随 `size` seed，保证按钮内容不溢出。 |
+| 代码 | 保留换行和水平滚动，不压缩到不可读。 |
+
+## 圆角
+
+`radius` seed 控制圆角层级：`sharp` 适合高密度工具，`soft` 适合 SaaS 面板，`round` 保持默认亲和感。组件内部应读取 `--nami-radius-*`，而不是写死像素。
+
+## 阴影与边框
+
+默认风格少用大阴影，更多依赖边框、表面层级和 focus ring。插画风格通过 style token 控制描边宽度、偏移阴影和纸张纹理，避免组件源码里出现风格分支。
+
+## 动效
+
+动效必须尊重 `motion="reduced"`。加载、页面过渡和浮层进出可以有节奏，但不应阻断阅读，也不应让用户无法预期组件状态。
+
+## 布局
+
+布局组件优先使用 `nami-container`、`nami-stack`、`nami-cluster`、`nami-grid`、`nami-split`。间距、断点、gutter、rail 和 mobile bar 尺寸属于 token，不应散落在页面私有 CSS 里。
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/theme/style-presets/">风格 preset</a>
+<a href="/zh-CN/theme/tokens/">主题 tokens</a>
+<a href="/zh-CN/resources/quality/">质量基线</a>
+</nami-docs-related>

@@ -1,37 +1,88 @@
 ---
 title: 主题算法
-group: 指南
-order: 3.5
+group: 主题
+order: 2
+description: 从 seed 到 CSS variables、DTCG JSON 和 TS config 的确定性派生流程。
 ---
 
 # 主题算法
 
-Nami UI 的主题是确定性的。少量 seed 会沿着固定路径生成完整 token：
+主题算法把少量输入变成完整视觉系统。它必须可预测、可导出、可诊断，避免“设计器里好看，业务里失控”的主题漂移。
 
-| 层级 | 作用 |
-| --- | --- |
-| Seed | 用户选择的 accent、模式、圆角、密度、动效、对比度、风格 preset |
-| Palette / Map | 派生 accent 色阶和中性色辅助值 |
-| Semantic | primary、surface、text、border、focus、overlay 等语义角色 |
-| Component | button 背景、chip selected 背景、dialog 阴影等组件钩子 |
-| Style | 插画风格的墨线、纸张、描边、涂鸦、偏移阴影等风格身份 |
+## 目标
+
+理解 `deriveNamiTheme(seed)`、`defineNamiTheme(config)` 和 `createNamiThemeSystem(config)` 的分工，并知道如何把输出接入 CSS、DTCG 和官网 Theme Studio。
+
+## 派生流程
+
+<nami-docs-steps>
+<ol>
+<li><strong>校验 seed。</strong>非法枚举会产生 diagnostic，并回退到默认值。</li>
+<li><strong>生成 palette。</strong>`accent` 派生主色阶，`theme` 决定 light/dark 语义映射。</li>
+<li><strong>应用模式。</strong>`density`、`size`、`radius`、`contrast` 和 `motion` 注入布局、控件和动效变量。</li>
+<li><strong>合并覆盖。</strong>`tokens`、`semanticTokens`、`components`、`recipes` 与 `slotRecipes` 作为后置覆盖。</li>
+<li><strong>输出产物。</strong>生成 CSS variables、DTCG JSON、TS config、诊断和 token tree。</li>
+</ol>
+</nami-docs-steps>
+
+## 基础代码
+
+```ts
+import { defineNamiTheme, createNamiThemeSystem } from '@nami/tokens/theme';
+
+const config = defineNamiTheme({
+  seed: {
+    accent: '#14b8a6',
+    theme: 'dark',
+    stylePreset: 'illustration',
+    density: 'compact',
+    size: 'md',
+    radius: 'soft',
+    contrast: 'high',
+    motion: 'normal'
+  },
+  components: {
+    'nami-button': {
+      primary: {
+        bg: 'var(--nami-color-primary)'
+      }
+    }
+  }
+});
+
+const system = createNamiThemeSystem(config);
+```
+
+## 运行结果
 
 <nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22dark%22%20style-preset%3D%22illustration%22%20radius%3D%22soft%22%20contrast%3D%22high%22%3E%0A%20%20%3Cnami-card%3E%0A%20%20%20%20%3Cnami-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3E%E7%AE%97%E6%B3%95%E6%B4%BE%E7%94%9F%3C%2Fnami-badge%3E%0A%20%20%20%20%3Cnami-button%3E%E4%B8%BB%E8%A6%81%E6%8C%89%E9%92%AE%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%20value%3D%22theme%22%3E%E9%80%89%E4%B8%AD%20token%3C%2Fnami-chip%3E%0A%20%20%3C%2Fnami-card%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
 
-当工具需要在浏览器外读取同一套契约时，使用 `@nami/tokens/theme`。
+## 导出
 
 ```ts
-import { deriveNamiTheme, themeToCssText } from '@nami/tokens/theme';
+import { themeToCssVars, themeToCssText, themeToDtcg } from '@nami/tokens/theme';
+import { createNamiThemeStudio } from '@nami/tokens/theme-studio';
 
-const theme = deriveNamiTheme({
-  accent: '#14b8a6',
-  mode: 'dark',
-  stylePreset: 'illustration',
-  radius: 'soft',
-  contrast: 'high'
-});
-
-const css = themeToCssText(theme, '.my-nami-theme');
+const cssVars = themeToCssVars(system);
+const cssText = themeToCssText(system, '.brand-theme');
+const dtcg = themeToDtcg(system);
+const studio = createNamiThemeStudio(config, { selector: '.brand-theme' });
 ```
 
-这套算法是 CSS-first 的。它不调用 AI 服务，只是让设计系统足够清晰，使人和工具都能理解。
+`createNamiThemeStudio()` 会额外返回 CSS、DTCG JSON、TS config、contrast 诊断、受影响组件和派生 token 树。官网 Theme Designer 和 Settings Config 都使用这一公共能力。
+
+## 常见错误
+
+| 错误 | 修复 |
+| --- | --- |
+| 把组件私有变量写成 seed | 把它放进 `components` 或 CSS scoped override。 |
+| 在业务里复制设计器临时代码 | 从 Theme Designer 导出 TS config 或 scoped CSS。 |
+| 忘记 high contrast | 在 Theme Lab 检查 normal/high contrast 组合。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/theme/style-presets/">风格 preset</a>
+<a href="/zh-CN/theme/designer/">Theme Designer</a>
+<a href="/zh-CN/theme/lab/">Theme Lab</a>
+</nami-docs-related>

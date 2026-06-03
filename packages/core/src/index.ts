@@ -33,4 +33,5 @@ export * from './components/progress';
 export * from './events';
 export * from './metadata';
 export * from './anatomy';
+export * from './catalog';
 export * from './localize';

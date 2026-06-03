@@ -33,8 +33,8 @@ export class NamiTabBar extends LitElement {
         border-radius: var(--nami-tab-radius, var(--nami-radius-control, 999px));
         color: var(--nami-style-on-paper, var(--nami-icon-color));
         cursor: pointer;
-        min-height: var(--nami-control-height-md, 40px);
-        padding: 0 14px;
+        min-height: var(--nami-control-height, var(--nami-control-height-md, 40px));
+        padding: 0 var(--nami-control-padding-x, 14px);
         transition:
           background-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
           color var(--nami-motion-fast, 120ms) var(--nami-ease-standard, ease);

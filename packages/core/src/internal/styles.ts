@@ -30,8 +30,8 @@ export const softControlStyles = css`
     flex-shrink: 0;
     font: inherit;
     justify-content: center;
-    min-height: var(--nami-icon-button-size, 40px);
-    min-width: var(--nami-icon-button-size, 40px);
+    min-height: var(--nami-icon-button-size, var(--nami-control-height, 40px));
+    min-width: var(--nami-icon-button-size, var(--nami-control-height, 40px));
     padding: 0;
     position: relative;
     touch-action: manipulation;

@@ -1,92 +1,150 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
-import { componentGroups, componentPath, componentPreviews, componentUseCase, groupDescription, groupTitle, metadataByName, namiComponentMetadata } from '../../../lib/catalog';
-import { docsLocales, t, type DocsLocale } from '../../../lib/site';
+import {
+  componentCatalogItemsForGroup,
+  componentPath,
+  componentGroups,
+  groupDescription,
+  groupTitle
+} from '../../../lib/catalog';
+import { docsLocales, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
   return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
 }
 
 const { locale } = Astro.props as { locale: DocsLocale };
-const componentCount = namiComponentMetadata.length;
-const tokenCount = namiComponentMetadata.reduce((count, item) => count + item.tokens.length, 0);
+const labels = locale === 'zh-CN'
+  ? {
+      title: '组件总览',
+      eyebrow: 'Components',
+      description: 'Nami UI 组件按界面任务分组展示。已实现组件可以进入参考页；规划中组件只展示路线状态，不生成假 API。',
+      search: '搜索组件',
+      searchPlaceholder: '搜索组件名、用途或状态',
+      available: '可用',
+      planned: '规划中',
+      emptyTitle: '没有匹配组件',
+      emptyDescription: '换一个组件名、中文关键词或状态试试。'
+    }
+  : {
+      title: 'Components Overview',
+      eyebrow: 'Components',
+      description: 'Nami UI components are grouped by interface task. Available components link to references; planned components show roadmap status only.',
+      search: 'Search components',
+      searchPlaceholder: 'Search name, use case, or status',
+      available: 'Available',
+      planned: 'Planned',
+      emptyTitle: 'No matching components',
+      emptyDescription: 'Try another component name, keyword, or status.'
+    };
+const groups = componentGroups.map((group) => ({
+  group,
+  items: componentCatalogItemsForGroup(group.id)
+}));
 ---
 
-<DocsLayout locale={locale} title={t(locale, 'nav.components')}>
-  <section class="section component-directory">
-    <div class="section-heading">
-      <p class="eyebrow">{t(locale, 'nav.components')}</p>
-      <h1>{t(locale, 'components.title')}</h1>
-      <p>{t(locale, 'components.copy')}</p>
-    </div>
-
-    <div class="entry-grid">
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '这里放什么' : 'What lives here'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '组件目录只放可实例化组件、组件任务分组和组件详情入口。' : 'The component directory only contains instantiable components, task groups, and reference entries.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '不放什么' : 'What stays out'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '主题教程、质量规范、i18n 说明和站点设置不放在组件页。' : 'Theme tutorials, quality guidance, i18n notes, and site settings stay out of component pages.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '下一步去哪' : 'Where next'}</nami-badge>
-        <p>{locale === 'zh-CN' ? '选定组件后进入详情页查看 API、slots、parts、states、tokens 和语义结构。' : 'Open a component page for APIs, slots, parts, states, tokens, and anatomy.'}</p>
-      </nami-card>
-    </div>
-
-    <div class="directory-stats">
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{componentCount}</nami-badge>
-        <h3>{t(locale, 'components.statsComponents')}</h3>
-        <p>{t(locale, 'components.statsComponentsCopy')}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{componentGroups.length}</nami-badge>
-        <h3>{t(locale, 'components.statsGroups')}</h3>
-        <p>{t(locale, 'components.statsGroupsCopy')}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">{tokenCount}</nami-badge>
-        <h3>{t(locale, 'components.statsTokens')}</h3>
-        <p>{t(locale, 'components.statsTokensCopy')}</p>
-      </nami-card>
-    </div>
-
-    <div id="component-docs" class="component-docs">
-      {componentGroups.map((group) => (
-        <section class="component-group" id={group.id}>
-          <div class="component-group-heading">
-            <div>
-              <h3>{groupTitle(group, locale)}</h3>
-              <p>{groupDescription(group, locale)}</p>
+<DocsLayout locale={locale} title={labels.title} description={labels.description}>
+  <nami-docs-component-search id="component-docs" class="component-overview-shell">
+    <aside class="component-overview-sidebar" aria-label={labels.title}>
+      <a class="component-overview-home" href="#component-overview-top" aria-current="page">{labels.title}</a>
+      <nav class="component-overview-index">
+        {groups.map(({ group, items }) => (
+          <section>
+            <a class="component-overview-group-link" href={`#${group.id}`}>
+              <span>{groupTitle(group, locale)}</span>
+              <small>{items.length}</small>
+            </a>
+            <div class="component-overview-item-links">
+              {items.map((item) => item.status === 'available' ? (
+                <a href={componentPath(locale, item.name)}>
+                  <span>{item.displayName[locale]}</span>
+                  <small>{locale === 'zh-CN' ? item.displayName['en-US'] : item.name}</small>
+                </a>
+              ) : (
+                <span class="component-overview-planned-link" aria-disabled="true">
+                  <span>{item.displayName[locale]}</span>
+                  <small>{labels.planned}</small>
+                </span>
+              ))}
             </div>
-            <nami-badge>{group.names.length} items</nami-badge>
-          </div>
-          <div class="component-group-grid">
-            {group.names.map((name) => {
-              const item = metadataByName.get(name);
-              if (!item) return null;
-              return (
-                <nami-card data-component-card={item.name}>
-                  <div class="component-preview" set:html={componentPreviews.get(item.name) ?? item.usage} />
-                  <div class="component-copy">
-                    <nami-badge slot="header" variant="primary">{item.name}</nami-badge>
-                    <h3>{item.name}</h3>
-                    <p>{componentUseCase(item.name, locale)}</p>
-                    <div class="component-card-meta">
-                      <nami-badge>{item.events.length} events</nami-badge>
-                      <nami-badge>{item.parts.length} parts</nami-badge>
-                      <nami-badge>{item.tokens.length} tokens</nami-badge>
-                    </div>
-                    <nami-button variant="soft" onclick={`location.href='${componentPath(locale, item.name)}'`}>{t(locale, 'component.open')}</nami-button>
-                  </div>
-                </nami-card>
-              );
-            })}
-          </div>
-        </section>
-      ))}
-    </div>
-  </section>
+          </section>
+        ))}
+      </nav>
+    </aside>
+
+    <main class="component-overview-main" id="component-overview-top">
+      <header class="component-overview-header">
+        <p class="eyebrow">{labels.eyebrow}</p>
+        <h1>{labels.title}</h1>
+        <p>{labels.description}</p>
+      </header>
+
+      <label class="component-search">
+        <span>{labels.search}</span>
+        <input data-component-search-input type="search" placeholder={labels.searchPlaceholder} autocomplete="off" />
+      </label>
+
+      <div class="component-overview-sections">
+        {groups.map(({ group, items }) => (
+          <section class="component-overview-section" id={group.id} data-component-section>
+            <header class="component-overview-section-header">
+              <div>
+                <h2>{groupTitle(group, locale)}</h2>
+                <p>{groupDescription(group, locale)}</p>
+              </div>
+              <span>{items.length}</span>
+            </header>
+            <div class="component-section-grid">
+              {items.map((item) => {
+                const statusLabel = item.status === 'available' ? labels.available : labels.planned;
+                const search = [
+                  item.name,
+                  item.displayName['zh-CN'],
+                  item.displayName['en-US'],
+                  item.useCase['zh-CN'],
+                  item.useCase['en-US'],
+                  item.status,
+                  statusLabel,
+                  ...item.keywords
+                ].join(' ');
+                const cardContent = (
+                  <>
+                    <header>
+                      <strong>{item.displayName[locale]}</strong>
+                      <nami-badge variant={item.status === 'available' ? 'primary' : 'warning'} tone="soft">{statusLabel}</nami-badge>
+                    </header>
+                    <div class="component-overview-preview" set:html={item.preview}></div>
+                    <p>{item.useCase[locale]}</p>
+                  </>
+                );
+                return item.status === 'available' ? (
+                  <a
+                    class="component-overview-card"
+                    href={componentPath(locale, item.name)}
+                    data-component-card={item.name}
+                    data-status={item.status}
+                    data-search={search}
+                  >
+                    {cardContent}
+                  </a>
+                ) : (
+                  <article
+                    class="component-overview-card is-planned"
+                    data-component-card={item.name}
+                    data-status={item.status}
+                    data-search={search}
+                    aria-disabled="true"
+                  >
+                    {cardContent}
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <nami-empty class="component-search-empty" data-component-empty hidden title={labels.emptyTitle} description={labels.emptyDescription} compact></nami-empty>
+    </main>
+  </nami-docs-component-search>
 </DocsLayout>

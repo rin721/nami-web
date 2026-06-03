@@ -25,16 +25,20 @@ export class NamiIconButton extends LitElement {
       }
 
       button {
-        height: var(--nami-icon-button-size, 40px);
-        width: var(--nami-icon-button-size, 40px);
+        height: var(--nami-icon-button-size, var(--nami-control-height, 40px));
+        width: var(--nami-icon-button-size, var(--nami-control-height, 40px));
       }
 
       :host([size='sm']) {
-        --nami-icon-button-size: 32px;
+        --nami-icon-button-size: var(--nami-control-height-sm, 32px);
+      }
+
+      :host([size='md']) {
+        --nami-icon-button-size: var(--nami-control-height-md, 40px);
       }
 
       :host([size='lg']) {
-        --nami-icon-button-size: 48px;
+        --nami-icon-button-size: var(--nami-control-height-lg, 48px);
       }
 
       nami-spinner {
@@ -44,7 +48,7 @@ export class NamiIconButton extends LitElement {
   ];
 
   declare label: string;
-  declare size: 'sm' | 'md' | 'lg';
+  declare size?: 'sm' | 'md' | 'lg';
   declare disabled: boolean;
   declare selected: boolean;
   declare loading: boolean;
@@ -53,7 +57,6 @@ export class NamiIconButton extends LitElement {
     super();
     updateWhenLocaleChanges(this);
     this.label = '';
-    this.size = 'md';
     this.disabled = false;
     this.selected = false;
     this.loading = false;

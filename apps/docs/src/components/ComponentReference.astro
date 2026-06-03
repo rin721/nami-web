@@ -1,16 +1,35 @@
 ---
 import type { NamiComponentMetadata } from '@nami/ui/metadata';
-import { componentPreviews, componentUseCase } from '../lib/catalog';
-import { t, type DocsLocale } from '../lib/site';
+import {
+  componentAdvancedExample,
+  componentBasicExample,
+  componentDisplayName,
+  componentFrameworkExample,
+  componentPath,
+  componentPreview,
+  componentSlug,
+  componentUseCase
+} from '../lib/catalog';
+import { localizedPath, t, type DocsLocale } from '../lib/site';
 
 interface Props {
   item: NamiComponentMetadata;
   locale: DocsLocale;
+  related?: NamiComponentMetadata[];
 }
 
-const { item, locale } = Astro.props;
-const preview = componentPreviews.get(item.name) ?? item.usage;
-const encodedUsage = encodeURIComponent(item.usage);
+const { item, locale, related = [] } = Astro.props;
+const preview = componentPreview(item.name);
+const displayName = componentDisplayName(item.name, locale);
+const basic = componentBasicExample(item.name);
+const advanced = componentAdvancedExample(item.name);
+const slug = componentSlug(item.name);
+const installCode = `import '@nami/themes/default.css';\nimport '@nami/ui/${slug}';`;
+const frameworkExamples = {
+  html: componentFrameworkExample(item.name, 'html'),
+  vue: componentFrameworkExample(item.name, 'vue'),
+  react: componentFrameworkExample(item.name, 'react')
+};
 const none = locale === 'zh-CN' ? '无' : 'none';
 
 function list(values: string[]) {
@@ -19,60 +38,101 @@ function list(values: string[]) {
 ---
 
 <div class="component-reference" id="component-docs">
-  <nami-card class="component-hero-card">
-    <nami-badge slot="header" variant="primary">{item.category}</nami-badge>
-    <section class="component-preview component-hero-preview" aria-label={t(locale, 'component.preview')} set:html={preview} />
-    <h3>{item.name}</h3>
-    <p>{componentUseCase(item.name, locale)}</p>
-  </nami-card>
+  <section id="overview">
+    <div class="component-reference-hero">
+      <div class="component-reference-summary">
+        <div class="component-reference-meta">
+          <nami-badge variant="primary" tone="soft">{locale === 'zh-CN' ? '可用' : 'Available'}</nami-badge>
+          <code>{item.name}</code>
+        </div>
+        <h2>{locale === 'zh-CN' ? '概览' : 'Overview'}</h2>
+        <p>{componentUseCase(item.name, locale)}</p>
+        <nami-docs-code-block class="component-install-inline" data-language="ts" data-code={encodeURIComponent(installCode)}></nami-docs-code-block>
+      </div>
+      <div class="component-preview component-hero-preview" aria-label={t(locale, 'component.preview')} set:html={preview}></div>
+    </div>
+    <nami-docs-callout variant="info" title={locale === 'zh-CN' ? '组件边界' : 'Component boundary'}>
+      {locale === 'zh-CN'
+        ? '组件参考页只记录这个 custom element 的公开属性、事件、插槽、parts 和 tokens。主题教程、质量策略和站点设置不会混在这里。'
+        : 'A component reference documents this custom element only: attributes, events, slots, parts, and tokens. Theme tutorials, quality strategy, and site settings stay elsewhere.'}
+    </nami-docs-callout>
+  </section>
 
-  <div class="component-reference-grid">
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.usage')}</h3>
-      <p>{locale === 'zh-CN' ? '复制最小示例即可在任意前端框架或原生 HTML 中使用。' : 'Copy the minimal example into any framework or plain HTML.'}</p>
-      <nami-docs-code-block data-language="html" data-code={encodedUsage}></nami-docs-code-block>
-    </nami-card>
+  <section id="install">
+    <h2>Install</h2>
+    <p>{locale === 'zh-CN' ? '应用可以全量注册，也可以只导入当前组件入口。组件样式仍由主题 CSS 提供。' : 'Applications can register every element or import only this component entry. Theme CSS still provides the visual system.'}</p>
+    <nami-docs-code-block data-language="ts" data-code={encodeURIComponent(installCode)}></nami-docs-code-block>
+  </section>
 
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.examples')}</h3>
-      <section class="component-preview" set:html={preview} />
-      <p>{locale === 'zh-CN' ? '示例使用真实 nami-* 元素渲染，受当前主题控制影响。' : 'Examples render real nami-* elements and respond to the current theme controls.'}</p>
-    </nami-card>
+  <section id="examples">
+    <h2>Examples</h2>
+    <h3>{basic.title[locale]}</h3>
+    <p>{basic.description[locale]}</p>
+    <nami-docs-live-demo data-code={encodeURIComponent(basic.code)}></nami-docs-live-demo>
 
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.api')}</h3>
-      <dl>
-        <dt>Attributes</dt><dd>{list(item.attributes)}</dd>
-        <dt>Properties</dt><dd>{list(item.properties)}</dd>
-        <dt>States</dt><dd>{list(item.states)}</dd>
-      </dl>
-    </nami-card>
+    <h3>{advanced.title[locale]}</h3>
+    <p>{advanced.description[locale]}</p>
+    <nami-docs-live-demo data-code={encodeURIComponent(advanced.code)}></nami-docs-live-demo>
 
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.events')}</h3>
-      <p>{list(item.events)}</p>
-      <h3>{t(locale, 'component.slots')}</h3>
-      <p>{list(item.slots)}</p>
-      <h3>{t(locale, 'component.parts')}</h3>
-      <p>{list(item.parts)}</p>
-    </nami-card>
+    <h3>{locale === 'zh-CN' ? '代码偏好' : 'Code preference'}</h3>
+    <p>{locale === 'zh-CN' ? 'Settings 中选择 HTML、Vue 或 React 后，这里会默认显示对应示例。' : 'Choose HTML, Vue, or React in Settings and this section shows the matching snippet by default.'}</p>
+    <nami-docs-code-block data-framework-example="html" data-language="html" data-code={encodeURIComponent(frameworkExamples.html)}></nami-docs-code-block>
+    <nami-docs-code-block data-framework-example="vue" data-language="vue" data-code={encodeURIComponent(frameworkExamples.vue)}></nami-docs-code-block>
+    <nami-docs-code-block data-framework-example="react" data-language="tsx" data-code={encodeURIComponent(frameworkExamples.react)}></nami-docs-code-block>
+  </section>
 
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.tokens')}</h3>
-      <p>{list(item.tokens)}</p>
-      <h3>{t(locale, 'component.hooks')}</h3>
-      <ul class="hook-list">
-        {item.styleHooks.map((hook) => <li><code>{hook.part}:{hook.state}</code> {hook.tokens.join(', ')}</li>)}
-      </ul>
-    </nami-card>
+  <section id="api">
+    <h2>API</h2>
+    <p>{locale === 'zh-CN' ? 'API 来自组件 metadata，是 package、manifest 和官网共享的单一事实来源。' : 'API data comes from component metadata, the single source shared by packages, manifests, and docs.'}</p>
+    <dl>
+      <dt>Attributes</dt><dd>{list(item.attributes)}</dd>
+      <dt>Properties</dt><dd>{list(item.properties)}</dd>
+      <dt>States</dt><dd>{list(item.states)}</dd>
+    </dl>
+  </section>
 
-    <nami-card>
-      <h3 slot="header">{t(locale, 'component.anatomy')}</h3>
-      <ul class="hook-list">
-        {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
-      </ul>
-      <h3>{t(locale, 'component.a11y')}</h3>
-      <p>{locale === 'zh-CN' ? '交互组件需要保留键盘可达、focus-visible、ARIA 状态和 disabled/loading 阻断规则。' : 'Interactive components must preserve keyboard access, focus-visible, ARIA state, and disabled/loading guards.'}</p>
-    </nami-card>
-  </div>
+  <section id="events">
+    <h2>{t(locale, 'component.events')}</h2>
+    <p>{list(item.events)}</p>
+  </section>
+
+  <section id="slots">
+    <h2>{t(locale, 'component.slots')}</h2>
+    <p>{list(item.slots)}</p>
+  </section>
+
+  <section id="parts">
+    <h2>{t(locale, 'component.parts')}</h2>
+    <p>{list(item.parts)}</p>
+  </section>
+
+  <section id="tokens">
+    <h2>{t(locale, 'component.tokens')}</h2>
+    <p>{list(item.tokens)}</p>
+    <h3>{t(locale, 'component.hooks')}</h3>
+    <ul class="hook-list">
+      {item.styleHooks.map((hook) => <li><code>{hook.part}:{hook.state}</code> {hook.tokens.join(', ')}</li>)}
+    </ul>
+  </section>
+
+  <section id="anatomy">
+    <h2>{t(locale, 'component.anatomy')}</h2>
+    <ul class="hook-list">
+      {item.anatomy.map((part) => <li><code>{part.part}</code> {part.description}</li>)}
+    </ul>
+  </section>
+
+  <section id="accessibility">
+    <h2>{t(locale, 'component.a11y')}</h2>
+    <p>{locale === 'zh-CN' ? '交互组件必须保留键盘可达、focus-visible、ARIA 状态、disabled/loading 阻断和表单参与语义。展示型组件必须提供可读标题或空状态文案。' : 'Interactive components must preserve keyboard access, focus-visible, ARIA state, disabled/loading guards, and form semantics. Display components should provide readable titles or empty-state copy.'}</p>
+  </section>
+
+  <section id="related">
+    <h2>{locale === 'zh-CN' ? '相关组件' : 'Related'}</h2>
+    <nami-docs-related>
+      <a href={localizedPath(locale, '/components/')}>{locale === 'zh-CN' ? '返回组件目录' : 'Back to components'}</a>
+      <a href={localizedPath(locale, '/theme/tokens/')}>{locale === 'zh-CN' ? '查看主题 tokens' : 'View theme tokens'}</a>
+      {related.map((entry) => <a href={componentPath(locale, entry.name)}>{entry.name}</a>)}
+    </nami-docs-related>
+  </section>
 </div>

@@ -1,37 +1,88 @@
 ---
 title: Theme Algorithm
-group: Guide
-order: 3.5
+group: Theme
+order: 2
+description: Deterministically derive CSS variables, DTCG JSON, and TS config from theme seeds.
 ---
 
 # Theme Algorithm
 
-Nami UI themes are deterministic. A small seed becomes a complete token set through one path:
+The theme algorithm turns a small input into a complete visual system. It must be predictable, exportable, and diagnosable so themes do not drift between the designer and production.
 
-| Layer | Purpose |
-| --- | --- |
-| Seed | User choices such as accent, mode, radius, density, motion, contrast, and style preset |
-| Palette / Map | Derived accent tones and neutral support values |
-| Semantic | Meaningful roles such as primary, surface, text, border, focus, and overlay |
-| Component | Per-component hooks such as button background, chip selected background, and dialog shadow |
-| Style | Preset identity such as illustration ink, paper, stroke, doodle, and offset shadow |
+## Goal
+
+Understand the roles of `deriveNamiTheme(seed)`, `defineNamiTheme(config)`, and `createNamiThemeSystem(config)`, then export the result to CSS, DTCG, and Theme Studio.
+
+## Derivation Flow
+
+<nami-docs-steps>
+<ol>
+<li><strong>Validate seeds.</strong>Invalid enum values produce diagnostics and fall back to defaults.</li>
+<li><strong>Generate palette.</strong>`accent` derives the primary scale; `theme` maps light/dark semantics.</li>
+<li><strong>Apply modes.</strong>`density`, `size`, `radius`, `contrast`, and `motion` inject layout, control, and motion variables.</li>
+<li><strong>Merge overrides.</strong>`tokens`, `semanticTokens`, `components`, `recipes`, and `slotRecipes` apply after base derivation.</li>
+<li><strong>Emit artifacts.</strong>Return CSS variables, DTCG JSON, TS config, diagnostics, and a token tree.</li>
+</ol>
+</nami-docs-steps>
+
+## Basic Code
+
+```ts
+import { defineNamiTheme, createNamiThemeSystem } from '@nami/tokens/theme';
+
+const config = defineNamiTheme({
+  seed: {
+    accent: '#14b8a6',
+    theme: 'dark',
+    stylePreset: 'illustration',
+    density: 'compact',
+    size: 'md',
+    radius: 'soft',
+    contrast: 'high',
+    motion: 'normal'
+  },
+  components: {
+    'nami-button': {
+      primary: {
+        bg: 'var(--nami-color-primary)'
+      }
+    }
+  }
+});
+
+const system = createNamiThemeSystem(config);
+```
+
+## Result
 
 <nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22dark%22%20style-preset%3D%22illustration%22%20radius%3D%22soft%22%20contrast%3D%22high%22%3E%0A%20%20%3Cnami-card%3E%0A%20%20%20%20%3Cnami-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3EAlgorithmic%3C%2Fnami-badge%3E%0A%20%20%20%20%3Cnami-button%3EPrimary%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%20value%3D%22theme%22%3ESelected%20token%3C%2Fnami-chip%3E%0A%20%20%3C%2Fnami-card%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
 
-Use `@nami/tokens/theme` when a tool needs to inspect the same contract outside the browser.
+## Export
 
 ```ts
-import { deriveNamiTheme, themeToCssText } from '@nami/tokens/theme';
+import { themeToCssVars, themeToCssText, themeToDtcg } from '@nami/tokens/theme';
+import { createNamiThemeStudio } from '@nami/tokens/theme-studio';
 
-const theme = deriveNamiTheme({
-  accent: '#14b8a6',
-  mode: 'dark',
-  stylePreset: 'illustration',
-  radius: 'soft',
-  contrast: 'high'
-});
-
-const css = themeToCssText(theme, '.my-nami-theme');
+const cssVars = themeToCssVars(system);
+const cssText = themeToCssText(system, '.brand-theme');
+const dtcg = themeToDtcg(system);
+const studio = createNamiThemeStudio(config, { selector: '.brand-theme' });
 ```
 
-The algorithm is CSS-first. It does not call an AI service. It simply makes the design system legible enough for people and tools to reason about.
+`createNamiThemeStudio()` also returns CSS, DTCG JSON, TS config, contrast diagnostics, affected components, and the derived token tree. Theme Designer and Settings Config both use this shared capability.
+
+## Common Errors
+
+| Error | Fix |
+| --- | --- |
+| Writing component-private values as seeds | Put them in `components` or scoped CSS overrides. |
+| Copying temporary designer code into apps | Export TS config or scoped CSS from Theme Designer. |
+| Forgetting high contrast | Check normal/high contrast combinations in Theme Lab. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/theme/style-presets/">Style Presets</a>
+<a href="/en-US/theme/designer/">Theme Designer</a>
+<a href="/en-US/theme/lab/">Theme Lab</a>
+</nami-docs-related>

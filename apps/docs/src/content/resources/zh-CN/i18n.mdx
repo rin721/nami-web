@@ -1,26 +1,64 @@
 ---
 title: 国际化
-group: 指南
-order: 7
+group: 资源
+order: 2
+description: Nami UI 的语言路由、runtime locale、fallback 文案和双语内容同步规则。
 ---
 
 # 国际化
 
-Nami UI 使用 `@lit/localize` 的 runtime mode。活动语言可以在不刷新页面的情况下切换，本地化模块准备完成后，相关 Lit 组件会重新渲染。
+国际化分为两层：官网内容路由和组件运行时文案。官网使用 `/zh-CN/` 与 `/en-US/` 前缀；组件使用 `nami-config` 的 locale 读取 fallback 文案。
+
+## 目标
+
+让文档结构双语一致，让组件文案可以在运行时切换，同时避免内容页、组件页和设置页各自维护不同语言逻辑。
 
 ## 运行时边界
 
 <nami-docs-live-demo data-code="%3Cnami-config%20locale%3D%22zh-CN%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-empty%20compact%3E%3C%2Fnami-empty%3E%0A%20%20%20%20%3Cnami-spinner%3E%3C%2Fnami-spinner%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-config%3E"></nami-docs-live-demo>
 
-`nami-config` 是全局 locale 控制器。它独立于 `nami-theme`，所以语言配置和视觉主题不会混在一起。
+```html
+<nami-config locale="zh-CN">
+  <nami-empty></nami-empty>
+</nami-config>
+```
 
-## 规则
+## 路由规则
 
-| 规则 | 原因 |
+| 位置 | 规则 |
 | --- | --- |
-| 组件内部 fallback 文案使用 `msg()` | 方便 `@lit/localize` 提取和替换 |
-| 动态纯文本使用 `msg(str\`...\`)` | 保留翻译占位符 |
-| 长教程使用 locale Markdown 文件 | 文档更可读，也更容易编辑 |
-| 不拼接可翻译句子 | 不同语言的语序不同 |
-| 日期和数字使用 `Intl` | 格式化规则与 locale 有关 |
+| 首页 | `/zh-CN/` 与 `/en-US/`。 |
+| Start | `/docs/[slug]/` 两种语言 slug 保持一致。 |
+| Theme | `/theme/[slug]/`，工具页也属于 Theme。 |
+| Resources | `/resources/[slug]/`，不复用 `/docs/*`。 |
+| Components | `/components/[slug]/`，组件 slug 不翻译。 |
 
+## 内容同步
+
+<nami-docs-steps>
+<ol>
+<li><strong>标题结构同步。</strong>中英文页面的核心章节数量和顺序必须一致。</li>
+<li><strong>示例语义同步。</strong>代码可以保留英文 API，但说明文案要匹配当前语言。</li>
+<li><strong>路由同步。</strong>新增页面时同时加入 docs structure registry 和静态路径生成。</li>
+</ol>
+</nami-docs-steps>
+
+## 组件文案
+
+组件默认文案应优先来自 runtime locale。业务需要更具体文案时，使用组件属性、slot 或自定义内容覆盖，不要在组件内部新增项目专属语言分支。
+
+## 常见错误
+
+| 现象 | 修复 |
+| --- | --- |
+| 切换语言后回到首页 | 使用 `switchLocalePath()` 保留当前 logical path。 |
+| 组件 fallback 仍是英文 | 检查页面是否包在 `nami-config locale="zh-CN"` 内。 |
+| 中英文文档章节不一致 | 补齐对应语言 MDX，并更新浏览器测试。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/resources/quality/">质量基线</a>
+<a href="/zh-CN/resources/faq/">FAQ</a>
+<a href="/zh-CN/docs/frameworks/">框架接入</a>
+</nami-docs-related>

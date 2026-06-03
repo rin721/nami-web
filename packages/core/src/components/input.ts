@@ -43,8 +43,8 @@ export class NamiInput extends LitElement {
         border: var(--nami-input-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-input-border, var(--nami-border));
         border-radius: var(--nami-input-radius, var(--nami-radius-surface, 6px));
         display: flex;
-        min-height: var(--nami-control-height-md, 40px);
-        padding: 0 10px;
+        min-height: var(--nami-control-height, var(--nami-control-height-md, 40px));
+        padding: 0 var(--nami-control-padding-x, 10px);
         box-shadow: var(--nami-input-shadow, none);
         transition:
           border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),
@@ -67,6 +67,7 @@ export class NamiInput extends LitElement {
         color: var(--nami-style-on-paper, var(--nami-text));
         flex: 1 1 auto;
         font: inherit;
+        font-size: var(--nami-control-font-size, 0.9375rem);
         min-width: 0;
         outline: none;
         padding: 0;

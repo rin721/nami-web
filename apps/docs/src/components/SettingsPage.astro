@@ -2,7 +2,7 @@
 import DocsLayout from './DocsLayout.astro';
 import { docsLocales, localizedPath, t, type DocsLocale } from '../lib/site';
 
-type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'experimental' | 'about';
+type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'config' | 'experimental' | 'about';
 
 interface Props {
   locale: DocsLocale;
@@ -11,16 +11,40 @@ interface Props {
 
 const { locale, section } = Astro.props;
 
+const sectionDescriptions: Record<SettingsSection, string> = locale === 'zh-CN'
+  ? {
+      appearance: '主题、主色、风格、密度、尺寸和组件形态。',
+      transition: '首屏揭幕、路由顶部进度和过渡动效。',
+      language: '切换文档语言并保留当前路径。',
+      preferences: '阅读、状态保留和代码示例偏好。',
+      config: '导出当前主题的 CSS、DTCG JSON 和 TS theme config。',
+      experimental: '可逆、可测试的候选能力。',
+      about: '版本、贡献者、赞助商状态和包入口。'
+    }
+  : {
+      appearance: 'Theme, primary color, style, density, size, and component shape.',
+      transition: 'First-paint reveal, route progress, and transition motion.',
+      language: 'Switch docs language while keeping the current path.',
+      preferences: 'Reading, persistence, and code example preferences.',
+      config: 'Export current theme CSS, DTCG JSON, and TS theme config.',
+      experimental: 'Reversible and testable candidate features.',
+      about: 'Version, contributors, sponsor status, and package entry points.'
+    };
+
 const sections: Array<{ id: SettingsSection; label: string; description: string }> = [
-  { id: 'appearance', label: t(locale, 'settings.appearance'), description: locale === 'zh-CN' ? '主题、色彩、风格和组件形态。' : 'Theme, color, style, and component shape.' },
-  { id: 'transition', label: t(locale, 'settings.transition'), description: locale === 'zh-CN' ? '首屏揭幕和路由顶部进度。' : 'First-paint reveal and route progress.' },
-  { id: 'language', label: t(locale, 'settings.language'), description: locale === 'zh-CN' ? '切换文档语言并保留路径。' : 'Switch docs language while keeping the path.' },
-  { id: 'preferences', label: t(locale, 'settings.preferences'), description: locale === 'zh-CN' ? '阅读与状态保留偏好。' : 'Reading and persistence preferences.' },
-  { id: 'experimental', label: t(locale, 'settings.experimental'), description: locale === 'zh-CN' ? '可逆、可测试的候选能力。' : 'Reversible and testable candidate features.' },
-  { id: 'about', label: t(locale, 'settings.about'), description: locale === 'zh-CN' ? '版本、仓库和组件库入口。' : 'Version, repository, and package entry points.' }
+  { id: 'appearance', label: t(locale, 'settings.appearance'), description: sectionDescriptions.appearance },
+  { id: 'transition', label: t(locale, 'settings.transition'), description: sectionDescriptions.transition },
+  { id: 'language', label: t(locale, 'settings.language'), description: sectionDescriptions.language },
+  { id: 'preferences', label: t(locale, 'settings.preferences'), description: sectionDescriptions.preferences },
+  { id: 'config', label: t(locale, 'settings.config'), description: sectionDescriptions.config },
+  { id: 'experimental', label: t(locale, 'settings.experimental'), description: sectionDescriptions.experimental },
+  { id: 'about', label: t(locale, 'settings.about'), description: sectionDescriptions.about }
 ];
 
 const current = sections.find((item) => item.id === section) ?? sections[0];
+const showRouteBar = locale === 'zh-CN' ? '显示路由顶部进度条' : 'Show route progress bar';
+const keepVisualSettings = locale === 'zh-CN' ? '刷新后保留当前视觉设置' : 'Keep visual settings after reload';
+const compactDocs = locale === 'zh-CN' ? '降低文档区块间距' : 'Reduce docs spacing';
 ---
 
 <DocsLayout locale={locale} title={`${current.label} - ${t(locale, 'settings.title')}`}>
@@ -64,6 +88,10 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
               <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
               <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
             </div>
+            <label class="color-field">
+              <span>{t(locale, 'settings.customPalette')}</span>
+              <input data-accent-input type="color" value="#3b82f6" />
+            </label>
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.style')}</h3>
@@ -77,6 +105,11 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
             <nami-tab-bar data-density-mode value="comfortable">
               <button value="comfortable">Comfortable</button>
               <button value="compact">{t(locale, 'controls.compact')}</button>
+            </nami-tab-bar>
+            <nami-tab-bar data-size-mode value="md">
+              <button value="sm">Small</button>
+              <button value="md">Default</button>
+              <button value="lg">Large</button>
             </nami-tab-bar>
             <nami-tab-bar data-radius-mode value="round">
               <button value="sharp">{t(locale, 'controls.radiusSharp')}</button>
@@ -103,7 +136,7 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.routeProgress')}</h3>
-            <nami-switch data-route-bar-toggle checked>{locale === 'zh-CN' ? '显示路由顶部进度条' : 'Show route progress bar'}</nami-switch>
+            <nami-switch data-route-bar-toggle checked>{showRouteBar}</nami-switch>
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.barHeight')}</h3>
@@ -158,13 +191,42 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
         <div class="settings-grid">
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.rememberTheme')}</h3>
-            <nami-switch data-remember-theme-toggle checked>{locale === 'zh-CN' ? '刷新后保留当前视觉设置' : 'Keep visual settings after reload'}</nami-switch>
+            <nami-switch data-remember-theme-toggle checked>{keepVisualSettings}</nami-switch>
           </nami-card>
           <nami-card>
             <h3 slot="header">{t(locale, 'settings.compactDocs')}</h3>
-            <nami-switch data-compact-docs-toggle>{locale === 'zh-CN' ? '降低文档区块间距' : 'Reduce docs spacing'}</nami-switch>
+            <nami-switch data-compact-docs-toggle>{compactDocs}</nami-switch>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{t(locale, 'settings.codeExamples')}</h3>
+            <nami-tab-bar data-code-example-mode value="html">
+              <button value="html">HTML</button>
+              <button value="vue">Vue</button>
+              <button value="react">React</button>
+            </nami-tab-bar>
           </nami-card>
         </div>
+      )}
+
+      {section === 'config' && (
+        <nami-docs-theme-designer class="settings-export-grid">
+          <nami-card>
+            <h3 slot="header">CSS Variables</h3>
+            <nami-docs-code-block data-generated-css data-language="css"></nami-docs-code-block>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">DTCG JSON</h3>
+            <nami-docs-code-block data-generated-json data-language="json"></nami-docs-code-block>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">TypeScript Config</h3>
+            <nami-docs-code-block data-generated-ts data-language="ts"></nami-docs-code-block>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{locale === 'zh-CN' ? '诊断' : 'Diagnostics'}</h3>
+            <div class="designer-diagnostics" data-theme-diagnostics></div>
+          </nami-card>
+        </nami-docs-theme-designer>
       )}
 
       {section === 'experimental' && (
@@ -187,9 +249,17 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
               <dd><code>@nami/ui</code></dd>
               <dt>Theme CSS</dt>
               <dd><code>@nami/themes/default.css</code></dd>
-              <dt>Static output</dt>
-              <dd><code>apps/docs/dist/</code></dd>
+              <dt>Version</dt>
+              <dd><code>0.1.0</code></dd>
             </dl>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{locale === 'zh-CN' ? '贡献者' : 'Contributors'}</h3>
+            <p><strong>kawaiirei0</strong></p>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{locale === 'zh-CN' ? '赞助商' : 'Sponsors'}</h3>
+            <p>{locale === 'zh-CN' ? '暂无赞助商配置。' : 'No sponsor configuration yet.'}</p>
           </nami-card>
         </div>
       )}

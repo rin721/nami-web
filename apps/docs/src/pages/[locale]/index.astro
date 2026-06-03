@@ -103,6 +103,26 @@ const { locale } = Astro.props as { locale: DocsLocale };
 
   <section class="section">
     <div class="section-heading">
+      <p class="eyebrow">{locale === 'zh-CN' ? '社区' : 'Community'}</p>
+      <h2>{locale === 'zh-CN' ? '贡献者与赞助商' : 'Contributors and Sponsors'}</h2>
+      <p>{locale === 'zh-CN' ? '这里只展示当前仓库可验证的数据，不虚构赞助商或生态链接。' : 'This area only shows verifiable repository data and does not invent sponsors or ecosystem links.'}</p>
+    </div>
+    <div class="entry-grid">
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '贡献者' : 'Contributor'}</nami-badge>
+        <h3>kawaiirei0</h3>
+        <p>{locale === 'zh-CN' ? '当前仓库贡献者。' : 'Current repository contributor.'}</p>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="warning">{locale === 'zh-CN' ? '赞助商' : 'Sponsors'}</nami-badge>
+        <h3>{locale === 'zh-CN' ? '暂无赞助商配置' : 'No sponsor configuration yet'}</h3>
+        <p>{locale === 'zh-CN' ? '没有真实数据源前，官网不会展示假赞助商。' : 'The docs will not display fake sponsors without a real data source.'}</p>
+      </nami-card>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
       <p class="eyebrow">{t(locale, 'nav.theme')}</p>
       <h2>{t(locale, 'home.vibeTitle')}</h2>
       <p>{t(locale, 'home.vibeCopy')}</p>

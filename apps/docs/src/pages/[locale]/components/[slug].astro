@@ -1,8 +1,18 @@
 ---
-import DocsLayout from '../../../components/DocsLayout.astro';
+import DocsArticleLayout from '../../../components/DocsArticleLayout.astro';
 import ComponentReference from '../../../components/ComponentReference.astro';
-import { componentUseCase, metadataByName, namiComponentMetadata } from '../../../lib/catalog';
-import { componentNameFromSlug, componentSlug, docsLocales, t, type DocsLocale } from '../../../lib/site';
+import {
+  componentCatalogItemsForGroup,
+  componentDisplayName,
+  componentGroups,
+  componentNameFromSlug,
+  componentSlug,
+  componentUseCase,
+  groupTitle,
+  metadataByName,
+  namiComponentMetadata
+} from '../../../lib/catalog';
+import { docsLocales, t, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
   return docsLocales.flatMap((locale) =>
@@ -15,19 +25,59 @@ export function getStaticPaths() {
 
 const { locale } = Astro.props as { locale: DocsLocale };
 const item = Astro.props.item ?? metadataByName.get(componentNameFromSlug(Astro.params.slug ?? ''));
+const group = item ? componentGroups.find((entry) => entry.names.includes(item.name)) : undefined;
+const related = group
+  ? group.names
+      .filter((name) => name !== item?.name)
+      .map((name) => metadataByName.get(name))
+      .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+      .slice(0, 3)
+  : [];
+const navGroups = componentGroups.map((entry) => ({
+  title: groupTitle(entry, locale),
+  items: componentCatalogItemsForGroup(entry.id).map((catalogItem) => ({
+    label: catalogItem.displayName[locale],
+    href: catalogItem.status === 'available' ? `/components/${componentSlug(catalogItem.name)}/` : undefined,
+    description: catalogItem.status === 'available' ? componentUseCase(catalogItem.name, locale) : (locale === 'zh-CN' ? '规划中' : 'Planned'),
+    status: catalogItem.status
+  }))
+}));
+const componentHeadings = [
+  { depth: 2, slug: 'overview', text: 'Overview' },
+  { depth: 2, slug: 'install', text: 'Install' },
+  { depth: 2, slug: 'examples', text: 'Examples' },
+  { depth: 2, slug: 'api', text: 'API' },
+  { depth: 2, slug: 'events', text: t(locale, 'component.events') },
+  { depth: 2, slug: 'slots', text: t(locale, 'component.slots') },
+  { depth: 2, slug: 'parts', text: t(locale, 'component.parts') },
+  { depth: 2, slug: 'tokens', text: t(locale, 'component.tokens') },
+  { depth: 2, slug: 'anatomy', text: t(locale, 'component.anatomy') },
+  { depth: 2, slug: 'accessibility', text: t(locale, 'component.a11y') },
+  { depth: 2, slug: 'related', text: locale === 'zh-CN' ? '相关组件' : 'Related' }
+];
 ---
 
-<DocsLayout locale={locale} title={item?.name ?? t(locale, 'component.reference')}>
-  {item ? (
-    <section class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{t(locale, 'component.reference')}</p>
-        <h1>{item.name}</h1>
-        <p>{componentUseCase(item.name, locale)}</p>
-      </div>
-      <ComponentReference item={item} locale={locale} />
-    </section>
-  ) : (
+{item ? (
+  <DocsArticleLayout
+    locale={locale}
+    title={componentDisplayName(item.name, locale)}
+    description={componentUseCase(item.name, locale)}
+    eyebrow={t(locale, 'component.reference')}
+    currentPath={`/components/${componentSlug(item.name)}/`}
+    navGroups={navGroups}
+    headings={componentHeadings}
+  >
+    <ComponentReference item={item} locale={locale} related={related} />
+  </DocsArticleLayout>
+) : (
+  <DocsArticleLayout
+    locale={locale}
+    title={t(locale, 'notFound.title')}
+    eyebrow={t(locale, 'component.reference')}
+    currentPath="/components/"
+    navGroups={navGroups}
+    headings={[]}
+  >
     <nami-empty title={t(locale, 'notFound.title')}></nami-empty>
-  )}
-</DocsLayout>
+  </DocsArticleLayout>
+)}

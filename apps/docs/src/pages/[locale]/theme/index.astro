@@ -1,8 +1,8 @@
 ---
-import DocsLayout from '../../../components/DocsLayout.astro';
+import DocsArticleLayout from '../../../components/DocsArticleLayout.astro';
 import { getCollection, render } from 'astro:content';
-import { docsSections } from '../../../lib/docs-structure';
-import { docsLocales, localizedPath, normalizeDocsLocale, t, type DocsLocale } from '../../../lib/site';
+import { adjacentDocsEntries, docsSections } from '../../../lib/docs-structure';
+import { docsLocales, normalizeDocsLocale, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
   return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
@@ -20,64 +20,27 @@ if (!overview) {
   throw new Error(`Missing theme overview content for ${locale}`);
 }
 
-const { Content } = await render(overview);
-const entryLinks = section.entries.filter((entry) => entry.slug !== 'overview');
+const { Content, headings } = await render(overview);
+const adjacent = adjacentDocsEntries('theme', 'overview');
+const navGroups = [{
+  title: section.title[locale],
+  items: section.entries.map((item) => ({
+    label: item.title[locale],
+    href: item.path,
+    description: item.description[locale]
+  }))
+}];
 ---
 
-<DocsLayout locale={locale} title={t(locale, 'theme.title')}>
-  <section class="section">
-    <div class="section-heading">
-      <p class="eyebrow">{t(locale, 'nav.theme')}</p>
-      <h1>{t(locale, 'theme.title')}</h1>
-      <p>{section.description[locale]}</p>
-    </div>
-
-    <article class="markdown-page">
-      <Content />
-    </article>
-
-    <div class="theme-system-grid">
-      <nami-card>
-        <nami-badge slot="header" variant="primary">Seed</nami-badge>
-        <h3>accent / mode / preset</h3>
-        <p>{locale === 'zh-CN' ? '少量输入决定完整视觉方向。' : 'Small inputs define the visual direction.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">Semantic</nami-badge>
-        <h3>color / surface / text</h3>
-        <p>{locale === 'zh-CN' ? '语义令牌为组件提供一致含义。' : 'Semantic tokens give components consistent meaning.'}</p>
-      </nami-card>
-      <nami-card>
-        <nami-badge slot="header" variant="primary">Component</nami-badge>
-        <h3>button / input / card</h3>
-        <p>{locale === 'zh-CN' ? '组件令牌提供安全覆盖边界。' : 'Component tokens provide safe override boundaries.'}</p>
-      </nami-card>
-    </div>
-
-    <div class="style-split">
-      <div class="theme-contract-stage" data-nami-theme="light" data-nami-style="default">
-        <h3>Default / Light</h3>
-        <nami-button>Primary</nami-button>
-        <nami-input label="Project" placeholder="Nami UI"></nami-input>
-        <nami-chip selected>Selected</nami-chip>
-      </div>
-      <div class="theme-contract-stage nami-theme-illustration" data-nami-theme="dark" data-nami-style="illustration">
-        <h3>Illustration / Dark</h3>
-        <nami-button>Primary</nami-button>
-        <nami-input label="Project" placeholder="Nami UI"></nami-input>
-        <nami-chip selected>Selected</nami-chip>
-      </div>
-    </div>
-
-    <div class="entry-grid">
-      {entryLinks.map((item) => (
-        <nami-card>
-          <nami-badge slot="header" variant={item.kind === 'tool' ? 'success' : 'primary'}>{item.kind}</nami-badge>
-          <h3>{item.title[locale]}</h3>
-          <p>{item.description[locale]}</p>
-          <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, item.path)}'`}>{t(locale, 'component.open')}</nami-button>
-        </nami-card>
-      ))}
-    </div>
-  </section>
-</DocsLayout>
+<DocsArticleLayout
+  locale={locale}
+  title={overview.data.title}
+  description={overview.data.description ?? section.entries[0].description[locale]}
+  eyebrow={section.title[locale]}
+  currentPath={section.path}
+  navGroups={navGroups}
+  headings={headings}
+  next={adjacent.next && { label: adjacent.next.title[locale], href: adjacent.next.path }}
+>
+  <Content />
+</DocsArticleLayout>

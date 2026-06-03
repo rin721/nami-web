@@ -34,6 +34,11 @@ const { locale } = Astro.props;
             <button value="round">{t(locale, 'controls.radiusRound')}</button>
           </nami-tab-bar>
           <nami-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</nami-chip>
+          <nami-tab-bar data-size-mode value="md">
+            <button value="sm">S</button>
+            <button value="md">M</button>
+            <button value="lg">L</button>
+          </nami-tab-bar>
           <nami-switch data-motion-toggle>{t(locale, 'controls.reduced')}</nami-switch>
           <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
           <nami-chip data-contrast-toggle checkbox value="high">{t(locale, 'controls.highContrast')}</nami-chip>

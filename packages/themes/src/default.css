@@ -96,7 +96,11 @@ nami-theme {
   --nami-badge-height: 24px;
   --nami-badge-font-size: 0.75rem;
   --nami-badge-padding-x: 9px;
-  --nami-icon-button-size: 40px;
+  --nami-control-height: var(--nami-control-height-md);
+  --nami-control-padding-x: 16px;
+  --nami-control-font-size: 0.9375rem;
+  --nami-icon-size: 18px;
+  --nami-icon-button-size: var(--nami-control-height);
   --nami-chip-bg: var(--nami-hover-overlay);
   --nami-chip-selected-bg: var(--nami-color-primary);
   --nami-input-bg: transparent;
@@ -209,7 +213,6 @@ nami-theme[density="compact"] {
   --nami-space-3: 8px;
   --nami-space-4: 12px;
   --nami-space-5: 16px;
-  --nami-icon-button-size: 36px;
   --nami-layout-gutter: 12px;
 }
 
@@ -224,6 +227,34 @@ nami-theme[density="comfortable"] {
   --nami-space-3: 10px;
   --nami-space-4: 16px;
   --nami-space-5: 24px;
+}
+
+:root,
+[data-nami-size="md"],
+nami-theme[size="md"] {
+  --nami-control-height: var(--nami-control-height-md);
+  --nami-control-padding-x: 16px;
+  --nami-control-font-size: 0.9375rem;
+  --nami-icon-size: 18px;
+  --nami-icon-button-size: var(--nami-control-height);
+}
+
+[data-nami-size="sm"],
+nami-theme[size="sm"] {
+  --nami-control-height: var(--nami-control-height-sm);
+  --nami-control-padding-x: 12px;
+  --nami-control-font-size: 0.875rem;
+  --nami-icon-size: 16px;
+  --nami-icon-button-size: var(--nami-control-height);
+}
+
+[data-nami-size="lg"],
+nami-theme[size="lg"] {
+  --nami-control-height: var(--nami-control-height-lg);
+  --nami-control-padding-x: 20px;
+  --nami-control-font-size: 1rem;
+  --nami-icon-size: 20px;
+  --nami-icon-button-size: var(--nami-control-height);
 }
 
 [data-nami-motion="reduced"],

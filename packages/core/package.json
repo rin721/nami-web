@@ -30,6 +30,10 @@
       "types": "./dist/anatomy.d.ts",
       "default": "./dist/anatomy.js"
     },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
+    },
     "./nami-ui.anatomy.json": "./dist/nami-ui.anatomy.json",
     "./nami-ui.theme.schema.json": "./dist/nami-ui.theme.schema.json",
     "./critical.css": "./dist/critical.css",

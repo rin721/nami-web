@@ -1,24 +1,60 @@
 ---
-title: Quality
-group: Reference
-order: 6
+title: Quality Baseline
+group: Resources
+order: 1
+description: Nami UI testing, browser matrix, accessibility, import contracts, and visual regression requirements.
 ---
 
-# Quality
+# Quality Baseline
 
-The release gate is `npm run verify`. It runs unit tests, package builds, custom-elements manifest generation, and browser tests.
+The quality baseline documents the behavior contracts the library must keep over time. It does not replace component APIs, but it explains why API, metadata, tokens, and browser tests must stay in sync.
+
+## Goal
+
+Every release should cover unit tests, browser tests, manifests, package entries, theme matrix, accessibility, and mojibake sentinels so docs and components do not silently regress after local changes.
 
 ## Covered Contracts
 
-| Area | Contract |
+| Area | Checks |
 | --- | --- |
-| Theme | light, dark, custom accent, compact density, reduced motion |
-| Style presets | default and illustration share the same component source |
-| Forms | form-associated input and switch behavior |
-| A11y | focus-visible, focus trap, Escape close, keyboard tabs |
-| i18n | `@lit/localize` runtime mode, localized routes, fallback text |
+| Unit tests | Token derivation, theme studio, catalog, metadata, forms, and component state. |
+| Browser tests | Custom element registration, theme switching, routing, component examples, and Settings export. |
+| Package contract | Root entry, single component entries, register entries, critical CSS, schema, and anatomy JSON. |
+| Docs contract | Start, Theme, Resources, and component detail pages have section navigation and On this page. |
+| i18n | `/zh-CN/` and `/en-US/` route count, title structure, and core sections stay aligned. |
+
+## Runnable Example
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%3Cnami-dialog%20id%3D%22quality-dialog%22%20label%3D%22Quality%20dialog%22%3E%0A%20%20%20%20Focus%20management%20and%20overlay%20tokens%20are%20part%20of%20the%20browser%20contract.%0A%20%20%20%20%3Cnami-button%20slot%3D%22actions%22%20variant%3D%22soft%22%3EClose%3C%2Fnami-button%3E%0A%20%20%3C%2Fnami-dialog%3E%0A%20%20%3Cnami-button%20onclick%3D%22document.querySelector('%23quality-dialog').open%20%3D%20true%22%3EOpen%20dialog%3C%2Fnami-button%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
 
-The docs site itself is part of the test surface, so tutorial examples should stay small, stable, and token-driven.
+## Verification
 
+```bash
+npm test
+npm run test:browser
+npm run verify
+```
+
+<nami-docs-callout variant="warning" title="New components must sync metadata">
+Implementation, metadata, catalog examples, custom-elements manifest, anatomy JSON, and docs pages must not drift. Component detail pages consume public metadata and catalog data only.
+</nami-docs-callout>
+
+## Accessibility
+
+Interactive components must preserve keyboard paths, focus-visible, ARIA state, disabled/loading guards, forced-colors, and reduced-motion. Overlay components also need focus return and escape behavior checks.
+
+## Common Failures
+
+| Failure | Check |
+| --- | --- |
+| Element does not upgrade in browser tests | Check component imports or register output. |
+| Visual regression only fails in dark mode | Check whether a hard-coded color bypassed semantic tokens. |
+| Docs show mojibake | Run sentinels for common encoding artifacts and repeated question marks in visible copy. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/resources/semantic-anatomy/">Semantic Anatomy</a>
+<a href="/en-US/resources/i18n/">Internationalization</a>
+<a href="/en-US/components/">Components</a>
+</nami-docs-related>

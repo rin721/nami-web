@@ -1,9 +1,9 @@
 ---
-import DocsLayout from '../../../components/DocsLayout.astro';
+import DocsArticleLayout from '../../../components/DocsArticleLayout.astro';
 import ThemeDesigner from '../../../components/ThemeDesigner.astro';
 import ThemeLab from '../../../components/ThemeLab.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { docsEntry, docsSections } from '../../../lib/docs-structure';
+import { adjacentDocsEntries, docsEntry, docsSections } from '../../../lib/docs-structure';
 import { docsLocales, normalizeDocsLocale, type DocsLocale } from '../../../lib/site';
 
 export async function getStaticPaths() {
@@ -45,23 +45,107 @@ if (structure.kind === 'content' && !entry) {
 
 const rendered = entry ? await render(entry) : null;
 const Content = rendered?.Content;
+const toolHeadings = slug === 'designer'
+  ? [
+      { depth: 2, slug: 'designer-goal', text: locale === 'zh-CN' ? '使用目标' : 'Goal' },
+      { depth: 2, slug: 'designer-workflow', text: locale === 'zh-CN' ? '使用步骤' : 'Workflow' },
+      { depth: 2, slug: 'theme-designer-workspace', text: locale === 'zh-CN' ? 'Theme Designer 工作区' : 'Theme Designer Workspace' },
+      { depth: 2, slug: 'designer-export', text: locale === 'zh-CN' ? '导出结果' : 'Export Result' }
+    ]
+  : [
+      { depth: 2, slug: 'lab-goal', text: locale === 'zh-CN' ? '使用目标' : 'Goal' },
+      { depth: 2, slug: 'lab-matrix', text: locale === 'zh-CN' ? '检查矩阵' : 'Matrix' },
+      { depth: 2, slug: 'theme-lab-workspace', text: locale === 'zh-CN' ? 'Theme Lab 工作区' : 'Theme Lab Workspace' },
+      { depth: 2, slug: 'lab-criteria', text: locale === 'zh-CN' ? '判定标准' : 'Criteria' }
+    ];
+const headings = rendered?.headings ?? toolHeadings;
+const adjacent = adjacentDocsEntries('theme', slug);
+const navGroups = [{
+  title: docsSections.theme.title[locale],
+  items: docsSections.theme.entries.map((item) => ({
+    label: item.title[locale],
+    href: item.path,
+    description: item.description[locale]
+  }))
+}];
 ---
 
-<DocsLayout locale={locale} title={structure.title[locale]} description={structure.description[locale]}>
-  <section class="section markdown-route">
-    <div class="section-heading">
-      <p class="eyebrow">{structure.kind === 'tool' ? 'Theme tool' : 'Theme guide'}</p>
-      <h1>{structure.title[locale]}</h1>
-      <p>{structure.description[locale]}</p>
-    </div>
-
-    {Content && (
-      <article id={`theme-${slug}`} class="markdown-page">
-        <Content />
-      </article>
-    )}
-
-    {slug === 'designer' && <ThemeDesigner locale={locale} />}
-    {slug === 'lab' && <ThemeLab locale={locale} />}
-  </section>
-</DocsLayout>
+<DocsArticleLayout
+  locale={locale}
+  title={structure.title[locale]}
+  description={entry?.data.description ?? structure.description[locale]}
+  eyebrow={docsSections.theme.title[locale]}
+  currentPath={structure.path}
+  navGroups={navGroups}
+  headings={headings}
+  previous={adjacent.previous && { label: adjacent.previous.title[locale], href: adjacent.previous.path }}
+  next={adjacent.next && { label: adjacent.next.title[locale], href: adjacent.next.path }}
+>
+  {Content && <Content />}
+  {slug === 'designer' && (
+    <>
+      <section id="designer-goal">
+        <h2>{locale === 'zh-CN' ? '使用目标' : 'Goal'}</h2>
+        <p>
+          {locale === 'zh-CN'
+            ? 'Theme Designer 用来把当前 seed、导入的 DTCG token 和公共 theme-studio 工具连接起来，生成可复制的 CSS、JSON、TS config、诊断和受影响组件列表。'
+            : 'Theme Designer connects current seeds, imported DTCG tokens, and the public theme-studio utilities to generate copyable CSS, JSON, TS config, diagnostics, and affected components.'}
+        </p>
+      </section>
+      <section id="designer-workflow">
+        <h2>{locale === 'zh-CN' ? '使用步骤' : 'Workflow'}</h2>
+        <nami-docs-steps>
+          <ol>
+            <li>{locale === 'zh-CN' ? '先在全局设置或设计器中调整 accent、mode、density、size、radius、contrast 和 motion。' : 'Tune accent, mode, density, size, radius, contrast, and motion in global settings or the designer.'}</li>
+            <li>{locale === 'zh-CN' ? '需要设计工具同步时，导入 DTCG JSON 并检查派生 token 树。' : 'Import DTCG JSON when design tool sync is needed, then inspect the derived token tree.'}</li>
+            <li>{locale === 'zh-CN' ? '复制 scoped CSS、DTCG JSON 或 TS config 到项目中。' : 'Copy scoped CSS, DTCG JSON, or TS config into the project.'}</li>
+          </ol>
+        </nami-docs-steps>
+      </section>
+      <section id="theme-designer-workspace">
+        <h2>{locale === 'zh-CN' ? 'Theme Designer 工作区' : 'Theme Designer Workspace'}</h2>
+        <ThemeDesigner locale={locale} />
+      </section>
+      <section id="designer-export">
+        <h2>{locale === 'zh-CN' ? '导出结果' : 'Export Result'}</h2>
+        <p>
+          {locale === 'zh-CN'
+            ? '导出的 CSS 适合 scoped theme class，DTCG JSON 适合设计 token 管道，TS config 适合在应用中调用 defineNamiTheme。'
+            : 'Exported CSS fits scoped theme classes, DTCG JSON fits design-token pipelines, and TS config fits applications that call defineNamiTheme.'}
+        </p>
+      </section>
+    </>
+  )}
+  {slug === 'lab' && (
+    <>
+      <section id="lab-goal">
+        <h2>{locale === 'zh-CN' ? '使用目标' : 'Goal'}</h2>
+        <p>
+          {locale === 'zh-CN'
+            ? 'Theme Lab 用来验证主题组合，而不是编辑单个 token。它帮助检查 light/dark、default/illustration、compact/comfortable、normal/high contrast 和 reduced motion 的组合是否稳定。'
+            : 'Theme Lab validates theme combinations instead of editing individual tokens. It checks light/dark, default/illustration, compact/comfortable, normal/high contrast, and reduced motion combinations.'}
+        </p>
+      </section>
+      <section id="lab-matrix">
+        <h2>{locale === 'zh-CN' ? '检查矩阵' : 'Matrix'}</h2>
+        <p>
+          {locale === 'zh-CN'
+            ? '每次改 seed、style preset 或 component token 后，都应该至少扫一遍控件高度、焦点环、文字对比度、加载状态和空状态。'
+            : 'After seed, style preset, or component token changes, scan control height, focus rings, text contrast, loading states, and empty states.'}
+        </p>
+      </section>
+      <section id="theme-lab-workspace">
+        <h2>{locale === 'zh-CN' ? 'Theme Lab 工作区' : 'Theme Lab Workspace'}</h2>
+        <ThemeLab locale={locale} />
+      </section>
+      <section id="lab-criteria">
+        <h2>{locale === 'zh-CN' ? '判定标准' : 'Criteria'}</h2>
+        <nami-docs-callout variant="success" title={locale === 'zh-CN' ? '通过标准' : 'Pass criteria'}>
+          {locale === 'zh-CN'
+            ? '组件不溢出、不丢失焦点状态、不出现低对比文字，且 reduced motion 下没有阻断阅读的动画。'
+            : 'Components do not overflow, focus states remain visible, text contrast stays readable, and reduced motion does not block reading.'}
+        </nami-docs-callout>
+      </section>
+    </>
+  )}
+</DocsArticleLayout>

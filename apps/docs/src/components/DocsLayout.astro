@@ -53,7 +53,7 @@ function isActive(path: string) {
   </head>
   <body>
     <nami-config id="docs-config" locale={locale} dir="ltr">
-      <nami-theme id="docs-theme" theme="light" density="comfortable" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
+      <nami-theme id="docs-theme" theme="light" density="comfortable" size="md" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
         <nami-top-progress id="docs-top-progress" transition:persist="docs-top-progress"></nami-top-progress>
         <nami-page-transition id="docs-page-transition" appearance="veil" active transition:persist="docs-page-transition">
           <span data-nami-transition-fallback>
@@ -118,6 +118,11 @@ function isActive(path: string) {
               <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
             </div>
             <nami-chip data-density-toggle checkbox value="compact">{t(locale, 'controls.compact')}</nami-chip>
+            <nami-tab-bar data-size-mode value="md">
+              <button value="sm">S</button>
+              <button value="md">M</button>
+              <button value="lg">L</button>
+            </nami-tab-bar>
             <nami-switch data-motion-toggle>{t(locale, 'controls.reduced')}</nami-switch>
             <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
             <nami-tab-bar data-radius-mode value="round">

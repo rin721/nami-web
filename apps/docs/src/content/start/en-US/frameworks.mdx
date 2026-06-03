@@ -1,75 +1,135 @@
 ---
 title: Frameworks
 group: Guide
-order: 5
+order: 2
+description: Use Nami UI in native HTML, Vue, React, Astro, and routing lifecycles.
 ---
 
 # Frameworks
 
-Nami UI is built from standard Web Components. You do not need React, Vue, or Astro wrappers to use the first release. Register the custom elements, load the theme CSS, then pass state through attributes, properties, and DOM events.
+Nami UI is built from custom elements, so framework integration is not about rewriting components. It is about import location, event handling, type hints, and page lifecycle hooks.
+
+## Goal
+
+Keep the same `nami-*` elements consistent across frameworks: the browser registers components, CSS variables provide styling, and DOM CustomEvent carries interaction data.
 
 ## Native HTML
 
+Use this for static pages, low-code previews, CMS fragments, and quick prototypes. Load ESM and theme CSS, then write the tags directly.
+
 ```html
+<link rel="stylesheet" href="/node_modules/@nami/themes/default.css" />
 <script type="module">
-  import '@nami/themes/default.css';
   import '@nami/ui/register';
 </script>
 
-<nami-button>Save</nami-button>
+<nami-theme accent="#3b82f6">
+  <nami-button>Save</nami-button>
+</nami-theme>
 ```
 
 ## Vue
 
+Vue should treat `nami-*` as custom elements so the compiler does not resolve them as Vue components.
+
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+// vite.config.ts
+import vue from '@vitejs/plugin-vue';
+
+export default {
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('nami-')
+        }
+      }
+    })
+  ]
+};
 ```
 
-Configure Vue to treat `nami-*` tags as custom elements in the compiler options. Listen to Nami events as native DOM events and set complex values through refs.
+```vue
+<script setup lang="ts">
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+</script>
+
+<template>
+  <nami-button @nami-click="() => console.log('clicked')">Save</nami-button>
+</template>
+```
 
 ## React
 
-```tsx
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+React can render custom elements. For richer events, use `ref` and `addEventListener` to preserve DOM CustomEvent details.
 
-export function App() {
-  return <nami-button>Save</nami-button>;
+```tsx
+import { useEffect, useRef } from 'react';
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+
+export function SaveButton() {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const onClick = (event: Event) => console.log(event.type);
+    element.addEventListener('nami-click', onClick);
+    return () => element.removeEventListener('nami-click', onClick);
+  }, []);
+
+  return <nami-button ref={ref}>Save</nami-button>;
 }
 ```
 
-For typed React events, attach listeners through refs or bridge events in a small local wrapper.
+<nami-docs-callout variant="warning" title="React type hints">
+If TSX reports that `nami-button` does not exist, add custom element JSX declarations to the app or use generated wrappers once they are published.
+</nami-docs-callout>
+
+## Astro
+
+Astro pages can import theme CSS and component entries in a layout or entry script. Add page transition elements only when client routing needs them.
+
+```astro
+---
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+---
+
+<nami-config locale="en-US">
+  <nami-theme>
+    <slot />
+  </nami-theme>
+</nami-config>
+```
 
 ## Page Transition Hooks
 
-Use `nami-top-progress` for route progress. Use `nami-page-transition` for the first app reveal and truly blocking tasks. Both are standard custom elements, so frameworks only need to call methods from their own lifecycle hooks.
+`nami-top-progress` handles route progress; `nami-page-transition` handles first-paint reveal or blocking tasks. Frameworks only need to call DOM methods in their own lifecycle.
 
 ### Astro
 
 ```ts
-const progress = document.querySelector('nami-top-progress');
-
 document.addEventListener('astro:before-preparation', () => {
-  progress?.show({ progress: 12 });
+  document.querySelector('nami-top-progress')?.start?.();
 });
 
-document.addEventListener('astro:after-preparation', () => {
-  progress?.finish();
+document.addEventListener('astro:after-swap', () => {
+  document.querySelector('nami-top-progress')?.finish?.();
 });
 ```
 
 ### Vue Router
 
 ```ts
-const progress = document.querySelector('nami-top-progress');
-
-router.beforeResolve(() => {
-  progress?.show({ progress: 16 });
+router.beforeEach(() => {
+  document.querySelector('nami-top-progress')?.start?.();
 });
 
 router.afterEach(() => {
-  progress?.finish();
+  document.querySelector('nami-top-progress')?.finish?.();
 });
 ```
 
@@ -77,11 +137,23 @@ router.afterEach(() => {
 
 ```ts
 const transition = document.querySelector('nami-page-transition');
-
-await transition?.waitFor(fetch('/api/profile'), {
-  appearance: 'panel',
-  minDuration: 240
-});
+transition?.show?.();
+await saveRecord();
+transition?.hide?.();
 ```
 
-Use `nami-top-progress` for route changes, `appearance="veil"` for the first app reveal, and `appearance="panel"` only when the task truly blocks interaction.
+## Common Errors
+
+| Symptom | Fix |
+| --- | --- |
+| Vue reports an unknown component | Configure `isCustomElement`. |
+| React event data is missing | Listen with `ref.addEventListener()`. |
+| SSR build reports `customElements` is missing | Move component registration to a client-only execution path. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/components/">Open Components</a>
+<a href="/en-US/theme/tokens/">Read Tokens</a>
+<a href="/en-US/resources/quality/">Check Quality</a>
+</nami-docs-related>

@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
 import { defineNamiTheme } from '../../tokens/src/theme';
 import { namiComponentAnatomy } from './anatomy';
+import { componentAvailability, componentCatalogItemsForGroup, namiComponentCatalogGroups, namiComponentCatalogItems, namiComponentExamples, namiPlannedComponentCatalog } from './catalog';
 import './register';
 import type { NamiAlert } from './components/alert';
 import type { NamiBadge } from './components/badge';
@@ -632,6 +633,59 @@ describe('@nami/ui components', () => {
     expect(namiComponentMetadata.flatMap((item) => item.tokens).every((token) => tokenNames.has(token))).toBe(true);
     expect(namiComponentMetadata.every((item) => item.category && item.states.length > 0 && item.anatomy && item.styleHooks)).toBe(true);
     expect(namiComponentAnatomy).toHaveLength(namiComponentMetadata.length);
+  });
+
+  it('publishes a catalog entry and examples for every metadata component', () => {
+    const metadataNames = [...namiComponentMetadata.map((item) => item.name)].sort();
+    const catalogNames = [...new Set(namiComponentCatalogGroups.flatMap((group) => group.names))].sort();
+    const catalogItemNames = namiComponentCatalogItems.map((item) => item.name);
+    const availableItems = namiComponentCatalogItems.filter((item) => item.status === 'available');
+    const plannedItems = namiComponentCatalogItems.filter((item) => item.status === 'planned');
+    const groupIds = new Set(namiComponentCatalogGroups.map((group) => group.id));
+
+    expect(namiComponentCatalogGroups.map((group) => group.id)).toEqual([
+      'general',
+      'layout',
+      'navigation',
+      'data-entry',
+      'data-display',
+      'feedback',
+      'system'
+    ]);
+    expect(catalogNames).toEqual(metadataNames);
+    expect(metadataNames.every((name) => namiComponentExamples.get(name)?.basic.code)).toBe(true);
+    expect(metadataNames.every((name) => namiComponentExamples.get(name)?.advanced.code)).toBe(true);
+    expect(availableItems.map((item) => item.name).sort()).toEqual(metadataNames);
+    expect(plannedItems.map((item) => item.name).sort()).toEqual(namiPlannedComponentCatalog.map((item) => item.name).sort());
+    expect(plannedItems.every((item) => !metadataNames.includes(item.name))).toBe(true);
+    expect(namiComponentCatalogItems.every((item) => groupIds.has(item.groupId) && item.displayName['zh-CN'] && item.displayName['en-US'] && item.preview)).toBe(true);
+    expect(namiComponentCatalogGroups.flatMap((group) => componentCatalogItemsForGroup(group.id)).map((item) => item.name).sort()).toEqual([...catalogItemNames].sort());
+    expect(metadataNames.every((name) => componentAvailability(name) === 'available')).toBe(true);
+    expect(plannedItems.every((item) => componentAvailability(item.name) === 'planned')).toBe(true);
+  });
+
+  it('lets global theme size drive defaults while explicit component size remains available', async () => {
+    const theme = document.createElement('nami-theme') as NamiTheme;
+    theme.size = 'lg';
+    document.body.append(theme);
+    await theme.updateComplete;
+
+    const defaultButton = document.createElement('nami-button') as NamiButton;
+    const compactButton = document.createElement('nami-button') as NamiButton;
+    compactButton.size = 'sm';
+    theme.append(defaultButton, compactButton);
+    await defaultButton.updateComplete;
+    await compactButton.updateComplete;
+
+    const buttonSource = readFileSync(join(process.cwd(), 'src', 'components', 'button.ts'), 'utf8');
+    expect(theme.dataset.namiSize).toBe('lg');
+    expect(theme.style.getPropertyValue('--nami-control-height')).toBe('var(--nami-control-height-lg)');
+    expect(defaultButton.hasAttribute('size')).toBe(false);
+    expect(compactButton.getAttribute('size')).toBe('sm');
+    expect(buttonSource).toContain(":host([size='sm'])");
+    expect(buttonSource).toContain('var(--nami-control-height');
+
+    theme.remove();
   });
 
   it('keeps declared CSS parts and seed-token boundaries honest', async () => {

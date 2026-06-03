@@ -2,31 +2,50 @@
 title: Overview
 group: Guide
 order: 0
+description: Understand Nami UI, where it fits, how the packages are organized, and which page to read next.
 ---
 
 # Overview
 
-Nami UI is a Web Components UI library for applications that need one component source across multiple frontend stacks. The public surface is custom elements, reflected attributes, DOM events, slots, CSS parts, and CSS variables.
+Nami UI is a Lit and Web Components library. Component behavior, theme tokens, CSS Parts, semantic anatomy, and metadata live in one contract, so the same custom elements work in native HTML, Vue, React, Astro, and other frontend stacks.
 
-## What Lives Here
+## Goal
 
-Start covers project positioning, installation, registration, single-component imports, and framework usage. It is the first-use path for Nami UI, not the place for full component APIs or theme algorithm detail.
+This area gets your first integration working: install packages, register elements, load theme CSS, render Hello World, then pick a framework path. Theme algorithms, component APIs, and quality baselines live in Theme, Components, and Resources instead of being mixed into Start.
 
-## What Does Not Live Here
+## When To Use Each Entry
 
-Component attributes, events, slots, parts, and tokens live in Components. Theme configuration, tokens, algorithms, style presets, Theme Designer, and Theme Lab live in Theme. Quality, i18n, and semantic anatomy contracts live in Resources.
+| Scenario | Recommended entry | Notes |
+| --- | --- | --- |
+| Prototypes, internal tools, docs | `@nami/ui/register` | Register every component once and reduce setup work. |
+| Production applications | Single component entries | Import only the custom elements used by the page. |
+| Long-lived design systems | Theme + metadata | Use tokens, anatomy, catalog, and schemas as explainable assets. |
 
-## Where To Go Next
+## Reading Path
 
-When you are ready to install, continue to [Getting Started](/en-US/docs/getting-started/). When you need to choose controls, open [Components](/en-US/components/). When you need a brand system, open [Theme](/en-US/theme/).
+<nami-docs-steps>
+<ol>
+<li><strong>Run Getting Started first.</strong>Confirm the package manager, theme CSS, registration entry, and first component all work.</li>
+<li><strong>Pick the framework integration.</strong>Vue, React, and Astro mainly need event, typing, and routing lifecycle glue.</li>
+<li><strong>Move to components and theme.</strong>Use component pages for APIs and Theme for tokens, presets, density, size, radius, contrast, and motion.</li>
+</ol>
+</nami-docs-steps>
 
-## What ships first
-
-| Area | What it means |
-| --- | --- |
-| Components | Buttons, chips, inputs, switches, cards, tabs, overlays, shell, and status feedback |
-| Themes | Light, dark, custom accent, compact density, reduced motion |
-| Skins | Default community UI and an illustration skin powered by the same tokens |
-| i18n | `@lit/localize` runtime mode, locale-prefixed docs routes, and localized fallback text |
+## Runnable Example
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%3Cnami-button%3EInstall%20Nami%20UI%3C%2Fnami-button%3E%0A%20%20%3Cnami-chip%20checkbox%20selected%3EWeb%20Components%3C%2Fnami-chip%3E%0A%20%20%3Cnami-radio-card%20selected%20label%3D%22Replaceable%20skin%22%20description%3D%22Switch%20style%20preset%20without%20changing%20component%20source.%22%3E%3C%2Fnami-radio-card%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
+
+## Boundary
+
+<nami-docs-callout variant="info" title="Start does not carry API reference">
+This area does not duplicate component attributes, events, slots, parts, or tokens. Component reference is metadata-driven in Components; theme export and algorithms live in Theme; quality, i18n, FAQ, and anatomy live in Resources.
+</nami-docs-callout>
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/docs/getting-started/">Getting Started</a>
+<a href="/en-US/docs/frameworks/">Frameworks</a>
+<a href="/en-US/components/">Components</a>
+<a href="/en-US/theme/">Theme System</a>
+</nami-docs-related>

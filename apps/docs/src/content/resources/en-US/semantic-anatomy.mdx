@@ -1,20 +1,62 @@
 ---
 title: Semantic Anatomy
-group: Guide
-order: 3.6
+group: Resources
+order: 3
+description: Nami UI anatomy, state hooks, CSS Parts, data-state, and component metadata contracts.
 ---
 
 # Semantic Anatomy
 
-Every public component exposes a machine-readable structure:
+Semantic anatomy makes components explainable, testable, and consumable by theme tools. It is not visual commentary; it is part of the public component contract.
 
-| Field | Meaning |
-| --- | --- |
-| category | The role of the component in the design system |
-| anatomy | Stable CSS parts such as base, control, label, indicator, actions, or backdrop |
-| states | Supported visual states such as hover, active, focus-visible, disabled, selected, loading, open, or error |
-| styleHooks | The tokens that affect a part in a state |
+## Goal
+
+Every interactive component should expose stable host state, CSS Parts, tokens, slots, events, and anatomy so docs, theme DIY, visual regression, and cross-framework wrappers can share one source.
+
+## Anatomy
+
+Anatomy describes explainable component parts such as `base`, `control`, `label`, `description`, `error`, `icon`, and `content`. The Anatomy section on component pages comes from public metadata instead of MDX tables.
 
 <nami-docs-live-demo data-code="%3Cnami-card%3E%0A%20%20%3Cnami-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3EAnatomy%3C%2Fnami-badge%3E%0A%20%20%3Cnami-input%20label%3D%22Search%22%20helper-text%3D%22The%20label%2C%20control%2C%20description%2C%20and%20error%20parts%20are%20documented.%22%3E%3C%2Fnami-input%3E%0A%20%20%3Cnami-radio-card%20selected%20label%3D%22Selected%20state%22%20description%3D%22Selected%20tokens%20are%20listed%20in%20component%20metadata.%22%3E%3C%2Fnami-radio-card%3E%0A%3C%2Fnami-card%3E"></nami-docs-live-demo>
 
-This structure keeps customization explicit. Theme authors should prefer tokens first, CSS Parts second, and only use slots for content structure.
+## State Contract
+
+| State | Purpose |
+| --- | --- |
+| `data-state` | Mutually exclusive states such as open/closed, checked/unchecked, active/inactive. |
+| `data-disabled` | Disabled styling and event guards. |
+| `data-invalid` | Form validation failure. |
+| `data-loading` | Prevent repeated submissions and expose loading state. |
+| `data-placement` | Floating placement for tooltip, popover, drawer, and similar components. |
+
+## CSS Parts
+
+CSS Parts are the safe boundary for deep DIY. Component internals can change DOM structure, but if public part names stay stable, user styles and theme tools keep working.
+
+```css
+nami-input::part(control) {
+  border-color: var(--nami-color-primary);
+}
+```
+
+## Style Hooks
+
+Style hooks connect part, state, and tokens. For example, `control:invalid` maps to error border tokens. This is more stable than guessing from DOM and easier for theme designers to generate.
+
+## Metadata Source
+
+<nami-docs-steps>
+<ol>
+<li><strong>Component implementation declares the public contract.</strong>Attributes, events, slots, parts, states, and tokens enter metadata.</li>
+<li><strong>Docs consume metadata.</strong>Component detail pages do not duplicate API tables in MDX.</li>
+<li><strong>Tooling exports machine-readable files.</strong>Anatomy JSON, theme schema, and custom-elements manifest are generated from the same source.</li>
+</ol>
+</nami-docs-steps>
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/components/button/">Open component reference</a>
+<a href="/en-US/theme/tokens/">View tokens</a>
+<a href="/en-US/resources/quality/">Quality Baseline</a>
+</nami-docs-related>

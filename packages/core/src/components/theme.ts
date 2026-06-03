@@ -4,6 +4,7 @@ import { componentHostStyles } from '../internal/styles';
 
 export type NamiThemeMode = 'light' | 'dark' | 'system';
 export type NamiDensity = 'comfortable' | 'compact';
+export type NamiSize = 'sm' | 'md' | 'lg';
 export type NamiMotion = 'normal' | 'reduced';
 export type NamiStylePreset = 'default' | 'illustration' | 'ant-illustration';
 export type NamiRadius = 'sharp' | 'soft' | 'round';
@@ -13,6 +14,7 @@ export class NamiTheme extends LitElement {
   static properties = {
     theme: { reflect: true, useDefault: true },
     density: { reflect: true, useDefault: true },
+    size: { reflect: true, useDefault: true },
     motion: { reflect: true, useDefault: true },
     stylePreset: { attribute: 'style-preset', reflect: true, useDefault: true },
     radius: { reflect: true, useDefault: true },
@@ -69,6 +71,7 @@ export class NamiTheme extends LitElement {
 
   declare theme: NamiThemeMode;
   declare density: NamiDensity;
+  declare size: NamiSize;
   declare motion: NamiMotion;
   declare stylePreset: NamiStylePreset;
   declare radius: NamiRadius;
@@ -87,6 +90,7 @@ export class NamiTheme extends LitElement {
     super();
     this.theme = 'light';
     this.density = 'comfortable';
+    this.size = 'md';
     this.motion = 'normal';
     this.stylePreset = 'default';
     this.radius = 'round';
@@ -119,7 +123,17 @@ export class NamiTheme extends LitElement {
   }
 
   private hasRuntimeThemeInput() {
-    return Boolean(this.config || this.accent);
+    return Boolean(
+      this.config ||
+      this.accent ||
+      this.hasAttribute('theme') ||
+      this.hasAttribute('density') ||
+      this.hasAttribute('size') ||
+      this.hasAttribute('motion') ||
+      this.hasAttribute('style-preset') ||
+      this.hasAttribute('radius') ||
+      this.hasAttribute('contrast')
+    );
   }
 
   private applyTheme() {
@@ -128,6 +142,7 @@ export class NamiTheme extends LitElement {
     const appliedMode = this.hasAttribute('theme') ? this.resolvedThemeMode : configSeed.mode ?? this.resolvedThemeMode;
     const appliedStylePreset = this.hasAttribute('style-preset') ? normalizedStylePreset : configSeed.stylePreset ?? normalizedStylePreset;
     const appliedDensity = this.hasAttribute('density') ? this.density : configSeed.density ?? this.density;
+    const appliedSize = this.hasAttribute('size') ? this.size : configSeed.size ?? this.size;
     const appliedMotion = this.hasAttribute('motion') ? this.motion : configSeed.motion ?? this.motion;
     const appliedRadius = this.hasAttribute('radius') ? this.radius : configSeed.radius ?? this.radius;
     const appliedContrast = this.hasAttribute('contrast') ? this.contrast : configSeed.contrast ?? this.contrast;
@@ -137,6 +152,7 @@ export class NamiTheme extends LitElement {
       mode: appliedMode,
       stylePreset: appliedStylePreset,
       density: appliedDensity,
+      size: appliedSize,
       motion: appliedMotion,
       radius: appliedRadius,
       contrast: appliedContrast
@@ -173,6 +189,7 @@ export class NamiTheme extends LitElement {
     this.dataset.namiTheme = appliedMode;
     this.dataset.namiThemeRequested = this.theme;
     this.dataset.namiDensity = appliedDensity;
+    this.dataset.namiSize = appliedSize;
     this.dataset.namiMotion = appliedMotion;
     this.dataset.namiStyle = appliedStylePreset;
     this.dataset.namiRadius = appliedRadius;

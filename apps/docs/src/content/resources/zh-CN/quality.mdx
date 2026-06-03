@@ -1,24 +1,60 @@
 ---
-title: 质量
-group: 参考
-order: 6
+title: 质量基线
+group: 资源
+order: 1
+description: Nami UI 的测试、浏览器矩阵、可访问性、导入契约和视觉回归要求。
 ---
 
-# 质量
+# 质量基线
 
-发布门禁是 `npm run verify`。它会运行单元测试、包构建、custom-elements manifest 生成和浏览器测试。
+质量基线说明组件库必须长期守住的行为契约。它不替代组件 API，但会解释为什么 API、metadata、tokens 和浏览器测试需要保持同源。
+
+## 目标
+
+确保每次发布都覆盖单元测试、浏览器测试、manifest、包入口、主题矩阵、可访问性和乱码哨兵，避免官网或组件库在局部改动后悄悄退化。
 
 ## 已覆盖契约
 
-| 模块 | 契约 |
+| 范围 | 检查点 |
 | --- | --- |
-| 主题 | light、dark、自定义 accent、compact density、reduced motion |
-| 风格 preset | default 与 illustration 共用同一套组件源码 |
-| 表单 | form-associated input 与 switch 行为 |
-| A11y | focus-visible、focus trap、Escape close、键盘 tab |
-| i18n | `@lit/localize` runtime mode、本地化路由和 fallback 文案 |
+| 单元测试 | tokens 派生、theme studio、catalog、metadata、表单和组件状态。 |
+| 浏览器测试 | custom elements 注册、主题切换、路由、组件示例、Settings 导出。 |
+| 打包契约 | 根入口、单组件入口、register 入口、critical CSS、schema、anatomy JSON。 |
+| 文档契约 | Start、Theme、Resources、Components 详情页都有章节导航和本页目录。 |
+| i18n | `/zh-CN/` 与 `/en-US/` 路由数量、标题结构和核心章节同步。 |
+
+## 可运行示例
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%3Cnami-dialog%20id%3D%22quality-dialog%22%20label%3D%22%E8%B4%A8%E9%87%8F%E5%AF%B9%E8%AF%9D%E6%A1%86%22%3E%0A%20%20%20%20%E7%84%A6%E7%82%B9%E7%AE%A1%E7%90%86%E5%92%8C%E6%B5%AE%E5%B1%82%20token%20%E6%98%AF%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A5%91%E7%BA%A6%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%E3%80%82%0A%20%20%20%20%3Cnami-button%20slot%3D%22actions%22%20variant%3D%22soft%22%3E%E5%85%B3%E9%97%AD%3C%2Fnami-button%3E%0A%20%20%3C%2Fnami-dialog%3E%0A%20%20%3Cnami-button%20onclick%3D%22document.querySelector('%23quality-dialog').open%20%3D%20true%22%3E%E6%89%93%E5%BC%80%E5%AF%B9%E8%AF%9D%E6%A1%86%3C%2Fnami-button%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
 
-文档站本身也是测试面的一部分，因此教程示例应该保持小而稳定，并且由 token 驱动。
+## 验证流程
 
+```bash
+npm test
+npm run test:browser
+npm run verify
+```
+
+<nami-docs-callout variant="warning" title="新增组件时必须同步 metadata">
+组件实现、metadata、catalog 示例、custom-elements manifest、anatomy JSON 和官网组件页不能分叉维护。官网组件详情页只消费公共 metadata 与 catalog。
+</nami-docs-callout>
+
+## 可访问性
+
+交互组件必须保留键盘路径、focus-visible、ARIA 状态、disabled/loading 阻断、forced-colors 和 reduced-motion。浮层组件还需要检查焦点返回和 escape 行为。
+
+## 常见失败
+
+| 失败 | 排查 |
+| --- | --- |
+| 浏览器测试里元素没有升级 | 检查组件入口是否被导入，或 register 文件是否输出。 |
+| 视觉回归只在 dark 失败 | 检查 semantic token 是否被硬编码颜色绕过。 |
+| 文档出现乱码 | 运行乱码哨兵，检查可见文案里是否出现常见编码错位字符或连续问号。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/resources/semantic-anatomy/">语义结构</a>
+<a href="/zh-CN/resources/i18n/">国际化</a>
+<a href="/zh-CN/components/">组件目录</a>
+</nami-docs-related>

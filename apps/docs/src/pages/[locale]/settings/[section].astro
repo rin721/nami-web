@@ -2,10 +2,10 @@
 import SettingsPage from '../../../components/SettingsPage.astro';
 import { docsLocales, type DocsLocale } from '../../../lib/site';
 
-type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'experimental' | 'about';
+type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'config' | 'experimental' | 'about';
 
 export function getStaticPaths() {
-  const sections = ['appearance', 'transition', 'language', 'preferences', 'experimental', 'about'] as const;
+  const sections = ['appearance', 'transition', 'language', 'preferences', 'config', 'experimental', 'about'] as const;
   return docsLocales.flatMap((locale) =>
     sections.map((section) => ({ params: { locale, section }, props: { locale, section } }))
   );

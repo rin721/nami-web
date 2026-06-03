@@ -1,22 +1,70 @@
 ---
 title: Style Presets
-group: Guide
+group: Theme
 order: 3
+description: Switch between product UI and illustration style while keeping one component and token contract.
 ---
 
 # Style Presets
 
-The component source stays the same while the visual skin changes through tokens. The default preset is a neutral community UI. The illustration preset adds thick strokes, offset shadows, paper-like surfaces, and hand-drawn background texture.
+A preset is a visual language, not a second component implementation. `default` and `illustration` share the same `nami-*` elements, attributes, events, slots, parts, and component tokens.
+
+## Goal
+
+Know when to use the default style, when to use illustration style, and how to keep preset switching from breaking component APIs, accessibility, or theme exports.
+
+## Comparison
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-style-live%22%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Ch3%3EDefault%3C%2Fh3%3E%0A%20%20%20%20%3Cnami-button%3EPrimary%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%3ESelected%3C%2Fnami-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%20%20%3Cdiv%20class%3D%22nami-theme-illustration%22%3E%0A%20%20%20%20%3Ch3%3EIllustration%3C%2Fh3%3E%0A%20%20%20%20%3Cnami-button%3EPrimary%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-chip%20checkbox%20selected%3ESelected%3C%2Fnami-chip%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
+
+| Preset | Best for | Visual strategy |
+| --- | --- | --- |
+| `default` | SaaS, admin, CRM, configuration panels | Quiet, dense, focused on information hierarchy and repeated workflows. |
+| `illustration` | Websites, story pages, brand showcases, tutorials | Stronger strokes, offset shadows, paper texture, and decorative patterns. |
 
 ## Preset API
 
 ```html
-<nami-theme style-preset="default"></nami-theme>
-<nami-theme style-preset="illustration"></nami-theme>
-<nami-theme style-preset="ant-illustration"></nami-theme>
+<nami-theme style-preset="illustration">
+  <nami-card>
+    <nami-button>Primary action</nami-button>
+  </nami-card>
+</nami-theme>
 ```
 
-`ant-illustration` remains a compatibility alias. The public behavior is the same as `illustration`.
+```ts
+import { defineNamiTheme } from '@nami/tokens/theme';
 
+export default defineNamiTheme({
+  seed: {
+    stylePreset: 'illustration',
+    radius: 'soft'
+  }
+});
+```
+
+## Design Rules
+
+<nami-docs-steps>
+<ol>
+<li><strong>Do not change component semantics.</strong>A button stays a button; a dialog still manages focus.</li>
+<li><strong>Do not duplicate component code.</strong>Preset differences belong in style tokens, CSS Parts, and recipe output.</li>
+<li><strong>Test every preset in the matrix.</strong>Cover light/dark, density, size, contrast, and motion.</li>
+</ol>
+</nami-docs-steps>
+
+## Common Errors
+
+| Error | Fix |
+| --- | --- |
+| Writing illustration style as component branches | Move differences to style tokens or CSS Parts. |
+| Using illustration broadly in operational tools | Keep `default`; use illustration locally for empty states or onboarding. |
+| Checking only light mode | Use Theme Lab for dark and high contrast. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/theme/lab/">Open Theme Lab</a>
+<a href="/en-US/theme/designer/">Export preset config</a>
+<a href="/en-US/resources/design/">Read Design</a>
+</nami-docs-related>

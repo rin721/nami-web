@@ -23,6 +23,8 @@ export class NamiButton extends LitElement {
     componentHostStyles,
     css`
       :host {
+        --button-height: var(--nami-control-height, var(--nami-control-height-md, 40px));
+        --button-padding: var(--nami-control-padding-x, 16px);
         display: inline-flex;
       }
 
@@ -41,6 +43,7 @@ export class NamiButton extends LitElement {
         min-height: var(--button-height);
         min-width: var(--button-height);
         padding: 0 var(--button-padding);
+        font-size: var(--nami-control-font-size, 0.9375rem);
         position: relative;
         box-shadow: var(--nami-button-shadow, none);
         transition:
@@ -55,17 +58,19 @@ export class NamiButton extends LitElement {
       :host([size='sm']) {
         --button-height: var(--nami-control-height-sm, 32px);
         --button-padding: 12px;
+        --nami-control-font-size: 0.875rem;
       }
 
-      :host,
       :host([size='md']) {
         --button-height: var(--nami-control-height-md, 40px);
         --button-padding: 16px;
+        --nami-control-font-size: 0.9375rem;
       }
 
       :host([size='lg']) {
         --button-height: var(--nami-control-height-lg, 48px);
         --button-padding: 20px;
+        --nami-control-font-size: 1rem;
       }
 
       :host([variant='soft']) button {
@@ -129,7 +134,7 @@ export class NamiButton extends LitElement {
   ];
 
   declare variant: NamiButtonVariant;
-  declare size: NamiButtonSize;
+  declare size?: NamiButtonSize;
   declare disabled: boolean;
   declare loading: boolean;
   declare type: 'button' | 'submit' | 'reset';
@@ -138,7 +143,6 @@ export class NamiButton extends LitElement {
     super();
     updateWhenLocaleChanges(this);
     this.variant = 'solid';
-    this.size = 'md';
     this.disabled = false;
     this.loading = false;
     this.type = 'button';

@@ -1,16 +1,19 @@
 export type DocsThemeMode = 'light' | 'dark';
 export type DocsDensity = 'comfortable' | 'compact';
+export type DocsSize = 'sm' | 'md' | 'lg';
 export type DocsMotion = 'normal' | 'reduced';
 export type DocsStylePreset = 'default' | 'illustration';
 export type DocsRadius = 'sharp' | 'soft' | 'round';
 export type DocsContrast = 'normal' | 'high';
 export type DocsInitialTransition = 'veil' | 'panel' | 'none';
 export type DocsProgressEffect = 'flow' | 'slide' | 'pulse';
+export type DocsCodeExampleMode = 'html' | 'vue' | 'react';
 
 export type DocsVisualState = {
   theme: DocsThemeMode;
   accent: string;
   density: DocsDensity;
+  size: DocsSize;
   motion: DocsMotion;
   stylePreset: DocsStylePreset;
   radius: DocsRadius;
@@ -28,6 +31,7 @@ export type DocsTransitionState = {
 export type DocsPreferenceState = {
   rememberTheme: boolean;
   compactDocs: boolean;
+  codeExampleMode: DocsCodeExampleMode;
 };
 
 export type DocsSettingsState = {
@@ -36,7 +40,7 @@ export type DocsSettingsState = {
   preferences: DocsPreferenceState;
 };
 
-export const docsSettingsStorageKey = 'nami-docs-settings:v3';
+export const docsSettingsStorageKey = 'nami-docs-settings:v4';
 const legacyVisualStorageKey = 'nami-docs-visual-state';
 
 export const defaultDocsSettings: DocsSettingsState = {
@@ -44,6 +48,7 @@ export const defaultDocsSettings: DocsSettingsState = {
     theme: 'light',
     accent: '#3b82f6',
     density: 'comfortable',
+    size: 'md',
     motion: 'normal',
     stylePreset: 'default',
     radius: 'round',
@@ -58,7 +63,8 @@ export const defaultDocsSettings: DocsSettingsState = {
   },
   preferences: {
     rememberTheme: true,
-    compactDocs: false
+    compactDocs: false,
+    codeExampleMode: 'html'
   }
 };
 
@@ -85,6 +91,7 @@ function normalizeVisual(value: Partial<DocsVisualState> = {}): DocsVisualState 
     theme: oneOf(value.theme, ['light', 'dark'] as const, defaultDocsSettings.visual.theme),
     accent: typeof value.accent === 'string' && value.accent ? value.accent : defaultDocsSettings.visual.accent,
     density: oneOf(value.density, ['comfortable', 'compact'] as const, defaultDocsSettings.visual.density),
+    size: oneOf(value.size, ['sm', 'md', 'lg'] as const, defaultDocsSettings.visual.size),
     motion: oneOf(value.motion, ['normal', 'reduced'] as const, defaultDocsSettings.visual.motion),
     stylePreset: oneOf(value.stylePreset, ['default', 'illustration'] as const, defaultDocsSettings.visual.stylePreset),
     radius: oneOf(value.radius, ['sharp', 'soft', 'round'] as const, defaultDocsSettings.visual.radius),
@@ -105,7 +112,8 @@ function normalizeTransition(value: Partial<DocsTransitionState> = {}): DocsTran
 function normalizePreferences(value: Partial<DocsPreferenceState> = {}): DocsPreferenceState {
   return {
     rememberTheme: typeof value.rememberTheme === 'boolean' ? value.rememberTheme : defaultDocsSettings.preferences.rememberTheme,
-    compactDocs: typeof value.compactDocs === 'boolean' ? value.compactDocs : defaultDocsSettings.preferences.compactDocs
+    compactDocs: typeof value.compactDocs === 'boolean' ? value.compactDocs : defaultDocsSettings.preferences.compactDocs,
+    codeExampleMode: oneOf(value.codeExampleMode, ['html', 'vue', 'react'] as const, defaultDocsSettings.preferences.codeExampleMode)
   };
 }
 

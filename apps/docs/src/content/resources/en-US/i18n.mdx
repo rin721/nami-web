@@ -1,26 +1,64 @@
 ---
-title: i18n
-group: Guide
-order: 7
+title: Internationalization
+group: Resources
+order: 2
+description: Nami UI language routes, runtime locale, fallback copy, and bilingual content sync rules.
 ---
 
-# i18n
+# Internationalization
 
-Nami UI uses `@lit/localize` in runtime mode. The active locale can change without a page reload, and localized Lit components re-render when the locale module is ready.
+Internationalization has two layers: docs content routes and component runtime copy. Docs use `/zh-CN/` and `/en-US/` prefixes; components read fallback copy from the locale on `nami-config`.
 
-## Runtime boundary
+## Goal
 
-<nami-docs-live-demo data-code="%3Cnami-config%20locale%3D%22zh-CN%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-empty%20compact%3E%3C%2Fnami-empty%3E%0A%20%20%20%20%3Cnami-spinner%3E%3C%2Fnami-spinner%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-config%3E"></nami-docs-live-demo>
+Keep docs structure aligned across languages, let component copy switch at runtime, and avoid separate language logic in content pages, component pages, and settings pages.
 
-`nami-config` is a global locale controller. It is separate from `nami-theme`, so language and visual theme remain independent.
+## Runtime Boundary
 
-## Rules
+<nami-docs-live-demo data-code="%3Cnami-config%20locale%3D%22en-US%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-empty%20compact%3E%3C%2Fnami-empty%3E%0A%20%20%20%20%3Cnami-spinner%3E%3C%2Fnami-spinner%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-config%3E"></nami-docs-live-demo>
 
-| Rule | Why |
+```html
+<nami-config locale="en-US">
+  <nami-empty></nami-empty>
+</nami-config>
+```
+
+## Route Rules
+
+| Location | Rule |
 | --- | --- |
-| Use `msg()` for component fallback text | It lets `@lit/localize` extract and replace strings |
-| Use `msg(str\`...\`)` for dynamic plain text | It preserves placeholders for translation |
-| Keep long tutorials in locale Markdown files | Docs remain readable and easy to edit |
-| Do not concatenate translatable sentences | Word order changes by language |
-| Use `Intl` for dates and numbers | Formatting is locale specific |
+| Home | `/zh-CN/` and `/en-US/`. |
+| Start | `/docs/[slug]/`; slugs stay aligned across languages. |
+| Theme | `/theme/[slug]/`; tool pages also belong to Theme. |
+| Resources | `/resources/[slug]/`; do not reuse `/docs/*`. |
+| Components | `/components/[slug]/`; component slugs are not translated. |
 
+## Content Sync
+
+<nami-docs-steps>
+<ol>
+<li><strong>Keep heading structure aligned.</strong>Core sections should have the same order and count.</li>
+<li><strong>Keep examples semantically aligned.</strong>Code APIs can stay English, but explanation copy should match the current language.</li>
+<li><strong>Keep routes aligned.</strong>Add new pages to the docs structure registry and static path generation at the same time.</li>
+</ol>
+</nami-docs-steps>
+
+## Component Copy
+
+Component fallback copy should read from runtime locale first. When product copy needs to be more specific, use component attributes, slots, or custom content instead of project-specific language branches inside components.
+
+## Common Errors
+
+| Symptom | Fix |
+| --- | --- |
+| Language switch returns to home | Use `switchLocalePath()` to keep the current logical path. |
+| Component fallback still appears in English | Check that the page is inside `nami-config locale="en-US"` or the intended locale. |
+| Chinese and English docs have different sections | Add the matching MDX page and update browser tests. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/resources/quality/">Quality Baseline</a>
+<a href="/en-US/resources/faq/">FAQ</a>
+<a href="/en-US/docs/frameworks/">Frameworks</a>
+</nami-docs-related>

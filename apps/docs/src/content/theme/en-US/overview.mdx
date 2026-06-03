@@ -1,33 +1,61 @@
 ---
-title: Theme Engine
-group: Guide
-order: 2
+title: Theme Overview
+group: Theme
+order: 0
+description: Understand Nami UI seeds, semantic tokens, component tokens, presets, and runtime theme boundaries.
 ---
 
-# Theme Engine
+# Theme Overview
 
-`nami-theme` is the theme boundary. It controls the seed accent, theme mode, density, motion, and style preset for all nested components.
+Nami UI's theme system is not a pile of unrelated CSS variables. It is a deterministic chain: a small seed input derives reference, semantic, component, and style tokens, then CSS variables apply them to components.
 
-## What Lives Here
+## Goal
 
-Theme explains theme boundaries, token layers, derivation algorithms, style presets, Theme Designer, and Theme Lab. This is where users learn how to generate, override, export, and validate a theme.
+After reading this page you should understand what `nami-theme` owns, why tokens are layered, which options are safe at runtime, and when to use Theme Designer or Theme Lab.
 
-## What Does Not Live Here
+## Seed Model
 
-Component APIs do not live in Theme. Each component page owns its parts, states, and component tokens. Site appearance preferences also stay out of Theme; they belong to the Settings utility area.
+| Seed | Values | Impact |
+| --- | --- | --- |
+| `accent` | Any brand color | Primary scale, focus ring, interactive emphasis. |
+| `theme` | `light` / `dark` / `system` | Surface, text, and border semantic colors. |
+| `density` | `comfortable` / `compact` | Component spacing and page density. |
+| `size` | `sm` / `md` / `lg` | Default control height, padding, font size, and icon size. |
+| `radius` | `sharp` / `soft` / `round` | Control, card, and overlay radius scale. |
+| `contrast` | `normal` / `high` | Text, border, and focus contrast. |
+| `motion` | `normal` / `reduced` | Durations, easing, and loading motion. |
+| `stylePreset` | `default` / `illustration` | Product UI style or illustration style. |
 
-## Where To Go Next
+## Runtime Boundary
 
-Read Tokens first to understand the layers, then Theme Algorithm for derivation. Use Theme Designer for direct editing, and Theme Lab for matrix validation.
+<nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22light%22%20density%3D%22comfortable%22%20size%3D%22lg%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-button%3ESave%20changes%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-input%20label%3D%22Search%22%20placeholder%3D%22Try%20a%20token%20name%22%3E%3C%2Fnami-input%3E%0A%20%20%20%20%3Cnami-switch%20checked%3EEnabled%3C%2Fnami-switch%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
 
-<nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22light%22%20density%3D%22comfortable%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-button%3ESave%20changes%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-input%20label%3D%22Search%22%20placeholder%3D%22Try%20a%20token%20name%22%3E%3C%2Fnami-input%3E%0A%20%20%20%20%3Cnami-switch%20checked%3EEnabled%3C%2Fnami-switch%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
+`nami-theme` can be nested. The inner boundary overrides outer variables while unspecified tokens continue to inherit. A component's explicit `size` attribute has priority over global theme size.
 
 ## Token Layers
 
-| Layer | Examples | Purpose |
-| --- | --- | --- |
-| Seed | `--nami-accent-50`, `--nami-motion-normal` | Brand and motion inputs |
-| Semantic | `--nami-color-primary`, `--nami-surface`, `--nami-text` | Shared meaning |
-| Component | `--nami-button-bg`, `--nami-chip-selected-bg` | Per-component control |
+<nami-docs-steps>
+<ol>
+<li><strong>Reference tokens.</strong>Raw values such as scales, spacing, type, and shadows.</li>
+<li><strong>Semantic tokens.</strong>Cross-component meaning such as `--nami-surface`, `--nami-text`, and `--nami-color-primary`.</li>
+<li><strong>Component tokens.</strong>Slot-level variables such as `--nami-button-bg` and `--nami-input-border`.</li>
+<li><strong>Recipes and slot recipes.</strong>Map variants, states, and parts into stable styling contracts.</li>
+</ol>
+</nami-docs-steps>
 
-Interactive states are expected to follow the same accent seed: hover, selected, focus, switch checked, and loading indicators.
+## When To Use Tools
+
+| Tool | Use case |
+| --- | --- |
+| Theme Designer | Tune seeds, export CSS, DTCG JSON, TS config, and inspect diagnostics plus affected components. |
+| Theme Lab | Check light/dark, compact/comfortable, normal/high contrast, and default/illustration combinations. |
+| Settings Config | Export the current docs appearance as copyable configuration. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/theme/tokens/">Deep dive into tokens</a>
+<a href="/en-US/theme/algorithm/">Learn the algorithm</a>
+<a href="/en-US/theme/style-presets/">Choose a style preset</a>
+<a href="/en-US/theme/designer/">Open Theme Designer</a>
+</nami-docs-related>

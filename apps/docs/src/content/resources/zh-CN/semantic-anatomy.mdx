@@ -1,20 +1,62 @@
 ---
 title: 语义结构
-group: 指南
-order: 3.6
+group: 资源
+order: 3
+description: Nami UI 的 anatomy、state hooks、CSS Parts、data-state 和 component metadata 契约。
 ---
 
 # 语义结构
 
-每个公开组件都会暴露机器可读结构：
+语义结构让组件可以被解释、被测试、被主题工具消费。它不是视觉注释，而是组件公开契约的一部分。
 
-| 字段 | 含义 |
-| --- | --- |
-| category | 组件在设计系统中的角色 |
-| anatomy | 稳定 CSS parts，例如 base、control、label、indicator、actions、backdrop |
-| states | 支持的视觉状态，例如 hover、active、focus-visible、disabled、selected、loading、open、error |
-| styleHooks | 某个 part 在某个 state 下受哪些 token 影响 |
+## 目标
+
+让每个交互组件都能稳定暴露 host 状态、CSS Parts、tokens、slots、events 和 anatomy，从而支持文档生成、主题 DIY、视觉回归和跨框架 wrapper。
+
+## Anatomy
+
+Anatomy 描述组件内部可解释部位，例如 `base`、`control`、`label`、`description`、`error`、`icon`、`content`。组件页的 Anatomy 章节来自公共 metadata，不在 MDX 里手写。
 
 <nami-docs-live-demo data-code="%3Cnami-card%3E%0A%20%20%3Cnami-badge%20slot%3D%22header%22%20variant%3D%22primary%22%3E%E7%BB%93%E6%9E%84%3C%2Fnami-badge%3E%0A%20%20%3Cnami-input%20label%3D%22%E6%90%9C%E7%B4%A2%22%20helper-text%3D%22label%E3%80%81control%E3%80%81description%E3%80%81error%20parts%20%E9%83%BD%E4%BC%9A%E8%A2%AB%E6%96%87%E6%A1%A3%E5%8C%96%E3%80%82%22%3E%3C%2Fnami-input%3E%0A%20%20%3Cnami-radio-card%20selected%20label%3D%22%E9%80%89%E4%B8%AD%E7%8A%B6%E6%80%81%22%20description%3D%22selected%20%E7%8A%B6%E6%80%81%E7%9A%84%20token%20%E4%BC%9A%E8%BF%9B%E5%85%A5%E7%BB%84%E4%BB%B6%20metadata%E3%80%82%22%3E%3C%2Fnami-radio-card%3E%0A%3C%2Fnami-card%3E"></nami-docs-live-demo>
 
-这能让定制边界更明确。主题作者应优先改 tokens，其次用 CSS Parts，slots 只用于内容结构。
+## 状态契约
+
+| 状态 | 用途 |
+| --- | --- |
+| `data-state` | open/closed、checked/unchecked、active/inactive 等互斥状态。 |
+| `data-disabled` | 禁用样式和事件阻断。 |
+| `data-invalid` | 表单校验失败。 |
+| `data-loading` | 阻断重复提交并暴露加载状态。 |
+| `data-placement` | tooltip、popover、drawer 等浮层位置。 |
+
+## CSS Parts
+
+CSS Parts 是深度 DIY 的安全边界。组件内部可以重构 DOM，但只要公开 part 名称不变，用户样式和主题工具就能继续工作。
+
+```css
+nami-input::part(control) {
+  border-color: var(--nami-color-primary);
+}
+```
+
+## Style Hooks
+
+Style hook 把 part、state 和 tokens 连起来，例如 `control:invalid` 对应错误边框 token。它比“看 DOM 猜样式”稳定，也更适合自动生成主题设计器。
+
+## Metadata 单一来源
+
+<nami-docs-steps>
+<ol>
+<li><strong>组件实现声明公开契约。</strong>属性、事件、slots、parts、states 和 tokens 进入 metadata。</li>
+<li><strong>官网组件页消费 metadata。</strong>组件详情页不复制 API 表格。</li>
+<li><strong>工具链导出机器可读文件。</strong>anatomy JSON、theme schema 和 custom-elements manifest 由同一来源生成。</li>
+</ol>
+</nami-docs-steps>
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/components/button/">查看组件参考</a>
+<a href="/zh-CN/theme/tokens/">查看 tokens</a>
+<a href="/zh-CN/resources/quality/">质量基线</a>
+</nami-docs-related>

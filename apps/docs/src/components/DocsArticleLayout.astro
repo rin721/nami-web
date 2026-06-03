@@ -1,0 +1,130 @@
+---
+import DocsLayout from './DocsLayout.astro';
+import { localizedPath, type DocsLocale } from '../lib/site';
+
+export interface DocsArticleNavGroup {
+  title: string;
+  items: Array<{
+    label: string;
+    href?: string;
+    description?: string;
+    status?: string;
+  }>;
+}
+
+export interface DocsArticleHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  locale: DocsLocale;
+  title: string;
+  description?: string;
+  eyebrow: string;
+  currentPath: string;
+  navGroups: DocsArticleNavGroup[];
+  headings: DocsArticleHeading[];
+  previous?: { label: string; href: string };
+  next?: { label: string; href: string };
+}
+
+const {
+  locale,
+  title,
+  description,
+  eyebrow,
+  currentPath,
+  navGroups,
+  headings,
+  previous,
+  next
+} = Astro.props;
+
+const tocHeadings = headings.filter((heading) => heading.depth > 1 && heading.depth <= 3);
+
+function isCurrent(href: string) {
+  const normalized = href.endsWith('/') ? href : `${href}/`;
+  return normalized === currentPath || localizedPath(locale, normalized) === currentPath;
+}
+---
+
+<DocsLayout locale={locale} title={title} description={description}>
+  <section class="docs-article-shell">
+    <details class="docs-mobile-sections">
+      <summary>{locale === 'zh-CN' ? '文档章节' : 'Documentation sections'}</summary>
+      <nav aria-label={locale === 'zh-CN' ? '文档章节' : 'Documentation sections'}>
+        {navGroups.map((group) => (
+          <div>
+            <strong>{group.title}</strong>
+            {group.items.map((item) => item.href ? (
+              <a href={localizedPath(locale, item.href)} aria-current={isCurrent(item.href) ? 'page' : 'false'}>{item.label}</a>
+            ) : (
+              <span class="docs-nav-disabled" aria-disabled="true">{item.label}</span>
+            ))}
+          </div>
+        ))}
+      </nav>
+    </details>
+
+    <aside class="docs-side-nav" aria-label={locale === 'zh-CN' ? '文档章节' : 'Documentation sections'}>
+      {navGroups.map((group) => (
+        <nav>
+          <h2>{group.title}</h2>
+          {group.items.map((item) => item.href ? (
+            <a href={localizedPath(locale, item.href)} aria-current={isCurrent(item.href) ? 'page' : 'false'}>
+              <span>{item.label}</span>
+              {item.description && <small>{item.description}</small>}
+            </a>
+          ) : (
+            <span class="docs-nav-disabled" aria-disabled="true">
+              <span>{item.label}</span>
+              {item.description && <small>{item.description}</small>}
+            </span>
+          ))}
+        </nav>
+      ))}
+    </aside>
+
+    <main class="docs-article-main">
+      <header class="docs-article-header">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        {description && <p>{description}</p>}
+      </header>
+      <article class="markdown-page docs-article-content">
+        <slot />
+      </article>
+      {(previous || next) && (
+        <nav class="docs-next-prev" aria-label={locale === 'zh-CN' ? '相邻文档' : 'Adjacent docs'}>
+          {previous ? (
+            <a href={localizedPath(locale, previous.href)}>
+              <span>{locale === 'zh-CN' ? '上一篇' : 'Previous'}</span>
+              <strong>{previous.label}</strong>
+            </a>
+          ) : <span></span>}
+          {next && (
+            <a href={localizedPath(locale, next.href)}>
+              <span>{locale === 'zh-CN' ? '下一篇' : 'Next'}</span>
+              <strong>{next.label}</strong>
+            </a>
+          )}
+        </nav>
+      )}
+    </main>
+
+    <aside class="docs-toc" aria-label={locale === 'zh-CN' ? '本页目录' : 'On this page'}>
+      <h2>{locale === 'zh-CN' ? '本页目录' : 'On this page'}</h2>
+      {tocHeadings.length > 0 ? (
+        <nav>
+          {tocHeadings.map((heading) => (
+            <a href={`#${heading.slug}`} data-depth={heading.depth}>{heading.text}</a>
+          ))}
+        </nav>
+      ) : (
+        <p>{locale === 'zh-CN' ? '本页没有二级章节。' : 'No sections on this page.'}</p>
+      )}
+    </aside>
+  </section>
+</DocsLayout>

@@ -2,31 +2,50 @@
 title: 总览
 group: 指南
 order: 0
+description: 了解 Nami UI 的定位、适用场景、包结构和推荐阅读路径。
 ---
 
 # 总览
 
-Nami UI 是一套 Web Components UI 组件库，适合需要在多个前端技术栈中复用同一套组件源码的应用。公共边界是自定义元素、反射属性、DOM 事件、slots、CSS Parts 和 CSS Variables。
+Nami UI 是基于 Lit 与 Web Components 的组件库。它把组件行为、主题 token、CSS Parts、语义结构和元数据放在同一个工程契约里，因此可以在原生 HTML、Vue、React、Astro 或任何支持 custom elements 的环境中使用。
 
-## 这里放什么
+## 目标
 
-Start 只负责理解项目定位、安装方式、注册方式、单组件导入和框架接入。它是第一次使用 Nami UI 的路径，不承载完整组件 API，也不展开主题算法细节。
+本区帮助你完成第一次接入：安装包、注册组件、引入主题 CSS、跑通 Hello World，再根据项目框架选择导入方式。主题算法、组件 API 和质量基线不会混在这里，它们分别进入 Theme、Components 和 Resources。
 
-## 不放什么
+## 适用场景
 
-组件属性、事件、slots、parts 和 tokens 归入 Components；主题配置、tokens、算法、风格 preset、Theme Designer 和 Theme Lab 归入 Theme；质量、i18n 和语义结构契约归入 Resources。
+| 场景 | 推荐入口 | 说明 |
+| --- | --- | --- |
+| 原型、内部工具、文档站 | `@nami/ui/register` | 一次注册全部组件，减少配置成本。 |
+| 生产业务应用 | 单组件入口 | 只导入当前页面需要的 custom element。 |
+| 长期设计系统 | Theme + metadata | 使用 token、anatomy、catalog 和 schema 作为可解释资产。 |
 
-## 下一步去哪
+## 阅读路径
 
-已经准备接入项目时，继续阅读 [快速开始](/zh-CN/docs/getting-started/)；需要选组件时进入 [组件目录](/zh-CN/components/)；需要做品牌主题时进入 [主题系统](/zh-CN/theme/)。
+<nami-docs-steps>
+<ol>
+<li><strong>先跑通快速开始。</strong>确认包管理器、主题 CSS、注册入口和第一个组件都能工作。</li>
+<li><strong>再选择框架接入方式。</strong>Vue、React 和 Astro 只需要处理事件、类型提示和路由生命周期。</li>
+<li><strong>最后进入组件和主题。</strong>组件页查 API，Theme 区调整 token、preset、density、size、radius、contrast 和 motion。</li>
+</ol>
+</nami-docs-steps>
 
-## 第一阶段包含什么
-
-| 模块 | 含义 |
-| --- | --- |
-| 组件 | Button、Chip、Input、Switch、Card、Tab、浮层、应用壳和状态反馈 |
-| 主题 | 浅色、暗色、自定义主题色、紧凑密度、减少动效 |
-| 皮肤 | 默认社区风格，以及同一套 token 驱动的插画风格 |
-| i18n | `@lit/localize` runtime mode、语言前缀路由和组件 fallback 文案 |
+## 可运行示例
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%3Cnami-button%3E%E5%AE%89%E8%A3%85%20Nami%20UI%3C%2Fnami-button%3E%0A%20%20%3Cnami-chip%20checkbox%20selected%3EWeb%20Components%3C%2Fnami-chip%3E%0A%20%20%3Cnami-radio-card%20selected%20label%3D%22%E5%8F%AF%E6%9B%BF%E6%8D%A2%E7%9A%AE%E8%82%A4%22%20description%3D%22%E5%88%87%E6%8D%A2%20style%20preset%EF%BC%8C%E4%B8%8D%E4%BF%AE%E6%94%B9%E7%BB%84%E4%BB%B6%E6%BA%90%E7%A0%81%E3%80%82%22%3E%3C%2Fnami-radio-card%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
+
+## 边界
+
+<nami-docs-callout variant="info" title="Start 区不承载 API">
+这里不复制组件属性、事件、slots、parts 或 tokens。组件参考由 metadata 驱动，进入 Components；主题导出和算法进入 Theme；质量、i18n、FAQ 和语义结构进入 Resources。
+</nami-docs-callout>
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/docs/getting-started/">快速开始</a>
+<a href="/zh-CN/docs/frameworks/">框架接入</a>
+<a href="/zh-CN/components/">组件目录</a>
+<a href="/zh-CN/theme/">主题系统</a>
+</nami-docs-related>

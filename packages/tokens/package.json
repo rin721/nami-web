@@ -14,6 +14,10 @@
       "types": "./dist/theme.d.ts",
       "default": "./dist/theme.js"
     },
+    "./theme-studio": {
+      "types": "./dist/theme-studio.d.ts",
+      "default": "./dist/theme-studio.js"
+    },
     "./tokens.dtcg.json": "./dist/tokens.dtcg.json"
   },
   "scripts": {

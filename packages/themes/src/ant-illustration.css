@@ -18,6 +18,11 @@ nami-theme[style-preset='ant-illustration'],
   --nami-app-shell-rail-width: 56px;
   --nami-app-shell-mobile-bar-height: 56px;
   --nami-app-shell-breakpoint: 639px;
+  --nami-control-height: var(--nami-control-height-md);
+  --nami-control-padding-x: 16px;
+  --nami-control-font-size: 0.9375rem;
+  --nami-icon-size: 18px;
+  --nami-icon-button-size: var(--nami-control-height);
   --nami-shadow-color: #2f2f2f;
   --nami-style-stroke-width: 3px;
   --nami-style-ink-color: #2f2f2f;

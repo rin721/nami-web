@@ -21,6 +21,11 @@ body {
 
 nami-docs-live-demo,
 nami-docs-code-block,
+nami-docs-install-tabs,
+nami-docs-callout,
+nami-docs-steps,
+nami-docs-related,
+nami-docs-component-search,
 nami-docs-theme-designer {
   display: block;
 }
@@ -224,6 +229,219 @@ nami-docs-theme-designer {
   margin: 0 auto;
   max-width: 1240px;
   padding: 44px 40px 88px;
+}
+
+.docs-article-shell {
+  align-items: start;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr) minmax(180px, 220px);
+  width: 100%;
+}
+
+.docs-side-nav,
+.docs-toc {
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  position: sticky;
+  top: 24px;
+}
+
+.docs-side-nav {
+  display: grid;
+  gap: 18px;
+}
+
+.docs-side-nav nav,
+.docs-toc nav,
+.docs-mobile-sections nav {
+  display: grid;
+  gap: 6px;
+}
+
+.docs-side-nav h2,
+.docs-toc h2 {
+  color: var(--nami-text-muted);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.docs-side-nav a,
+.docs-mobile-sections a,
+.docs-nav-disabled,
+.docs-toc a {
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text-muted);
+  display: grid;
+  gap: 3px;
+  line-height: 1.35;
+  padding: 9px 10px;
+  text-decoration: none;
+}
+
+.docs-side-nav a span,
+.docs-nav-disabled span,
+.docs-mobile-sections a {
+  color: var(--nami-text);
+  font-weight: 800;
+}
+
+.docs-side-nav a small,
+.docs-nav-disabled small {
+  color: var(--nami-text-muted);
+  font-size: 0.8125rem;
+}
+
+.docs-nav-disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.docs-side-nav a:hover,
+.docs-mobile-sections a:hover,
+.docs-toc a:hover {
+  background: var(--nami-hover-overlay);
+  color: var(--nami-color-primary);
+}
+
+.docs-side-nav a[aria-current='page'],
+.docs-mobile-sections a[aria-current='page'] {
+  background: var(--nami-accent-hover-overlay);
+  color: var(--nami-color-primary);
+}
+
+.docs-side-nav a[aria-current='page'] span {
+  color: var(--nami-color-primary);
+}
+
+.docs-toc a {
+  font-size: 0.875rem;
+  padding-block: 7px;
+}
+
+.docs-toc a[data-depth='3'] {
+  padding-left: 22px;
+}
+
+.docs-toc p {
+  color: var(--nami-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.docs-mobile-sections {
+  display: none;
+}
+
+.docs-mobile-sections summary {
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-control);
+  cursor: pointer;
+  font-weight: 900;
+  list-style: none;
+  padding: 12px 14px;
+}
+
+.docs-mobile-sections nav {
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
+  margin-top: 10px;
+  padding: 12px;
+}
+
+.docs-mobile-sections nav div {
+  display: grid;
+  gap: 4px;
+}
+
+.docs-mobile-sections strong {
+  color: var(--nami-text-muted);
+  font-size: 0.8125rem;
+  padding: 8px 10px 3px;
+}
+
+.docs-article-main {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.docs-article-header {
+  display: grid;
+  gap: 12px;
+}
+
+.docs-article-header h1 {
+  font-size: clamp(2.5rem, 5vw, 4.6rem);
+  line-height: 0.95;
+}
+
+.docs-article-header p:not(.eyebrow) {
+  color: var(--nami-text-muted);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.docs-article-content {
+  gap: 18px;
+  padding: 24px;
+}
+
+.docs-article-content > section,
+.component-reference > section {
+  border-top: 1px solid var(--nami-border);
+  display: grid;
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.docs-article-content > section:first-child,
+.component-reference > section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.docs-next-prev {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.docs-next-prev a,
+.docs-next-prev > span {
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
+  display: grid;
+  gap: 6px;
+  min-height: 72px;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.docs-next-prev a:last-child {
+  text-align: right;
+}
+
+.docs-next-prev a:hover {
+  background: var(--nami-accent-hover-overlay);
+}
+
+.docs-next-prev span {
+  color: var(--nami-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+.docs-next-prev strong {
+  color: var(--nami-text);
 }
 
 .hero {
@@ -552,6 +770,35 @@ nami-card p {
   justify-self: start;
 }
 
+.color-field {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.color-field span {
+  color: var(--nami-text-muted);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.color-field input {
+  background: transparent;
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-tight);
+  height: 40px;
+  padding: 2px;
+  width: 56px;
+}
+
+.settings-export-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .settings-preview-card {
   grid-column: 1 / -1;
 }
@@ -623,6 +870,265 @@ html[data-nami-docs-density='compact'] .docs-page {
 .control-stack > nami-switch,
 .control-stack > nami-tab-bar {
   justify-self: start;
+}
+
+.component-overview-shell {
+  align-items: start;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.component-overview-sidebar {
+  border-right: 1px solid var(--nami-border);
+  display: grid;
+  gap: 18px;
+  max-height: calc(100vh - 56px);
+  overflow: auto;
+  padding-right: 24px;
+  position: sticky;
+  top: 24px;
+}
+
+.component-overview-home,
+.component-overview-group-link,
+.component-overview-item-links a,
+.component-overview-planned-link {
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text);
+  text-decoration: none;
+}
+
+.component-overview-home {
+  background: var(--nami-accent-hover-overlay);
+  color: var(--nami-color-primary);
+  display: block;
+  font-weight: 800;
+  padding: 12px 16px;
+}
+
+.component-overview-index,
+.component-overview-index section,
+.component-overview-item-links {
+  display: grid;
+}
+
+.component-overview-index {
+  gap: 24px;
+}
+
+.component-overview-index section {
+  gap: 8px;
+}
+
+.component-overview-group-link {
+  align-items: center;
+  border-bottom: 1px solid var(--nami-border);
+  border-radius: 0;
+  color: var(--nami-text-muted);
+  display: flex;
+  font-size: 0.875rem;
+  justify-content: space-between;
+  min-height: 34px;
+  padding: 0 8px 8px 0;
+}
+
+.component-overview-group-link small,
+.component-overview-section-header span {
+  background: var(--nami-hover-overlay);
+  border-radius: var(--nami-radius-tight);
+  color: var(--nami-text);
+  font-size: 0.75rem;
+  font-weight: 900;
+  min-width: 26px;
+  padding: 3px 7px;
+  text-align: center;
+}
+
+.component-overview-item-links {
+  gap: 2px;
+}
+
+.component-overview-item-links a,
+.component-overview-planned-link {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  min-height: 34px;
+  padding: 7px 8px;
+}
+
+.component-overview-item-links a:hover {
+  background: var(--nami-hover-overlay);
+  color: var(--nami-color-primary);
+}
+
+.component-overview-item-links small,
+.component-overview-planned-link small {
+  color: var(--nami-text-muted);
+  font-size: 0.75rem;
+}
+
+.component-overview-planned-link {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.component-overview-main {
+  display: grid;
+  gap: 28px;
+  min-width: 0;
+}
+
+.component-overview-header {
+  border-bottom: 1px solid var(--nami-border);
+  display: grid;
+  gap: 12px;
+  padding-bottom: 28px;
+}
+
+.component-overview-header h1 {
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  line-height: 1;
+}
+
+.component-overview-header p:not(.eyebrow) {
+  color: var(--nami-text);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 980px;
+}
+
+.component-search {
+  align-items: center;
+  border-bottom: 1px solid var(--nami-border);
+  display: flex;
+  gap: 16px;
+  min-height: 58px;
+}
+
+.component-search span {
+  color: var(--nami-text-muted);
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+
+.component-search input {
+  background: transparent;
+  border: 0;
+  color: var(--nami-text);
+  flex: 1 1 auto;
+  font: inherit;
+  font-size: 1.15rem;
+  min-width: 0;
+  outline: 0;
+}
+
+.component-search input::placeholder {
+  color: color-mix(in oklab, var(--nami-text-muted), transparent 36%);
+}
+
+.component-overview-sections,
+.component-overview-section {
+  display: grid;
+  gap: 28px;
+}
+
+.component-overview-section[hidden],
+.component-overview-card[hidden],
+.component-search-empty[hidden] {
+  display: none;
+}
+
+.component-overview-section-header {
+  align-items: end;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.component-overview-section-header h2 {
+  font-size: 1.55rem;
+  margin-bottom: 8px;
+}
+
+.component-overview-section-header p {
+  color: var(--nami-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.component-section-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.component-overview-card {
+  background: var(--nami-surface-raised);
+  border: 1px solid var(--nami-border);
+  border-radius: 8px;
+  color: var(--nami-text);
+  display: grid;
+  min-height: 236px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.component-overview-card:hover {
+  border-color: color-mix(in oklab, var(--nami-color-primary), var(--nami-border) 52%);
+  box-shadow: 0 12px 28px color-mix(in oklab, var(--nami-shadow-color), transparent 84%);
+}
+
+.component-overview-card.is-planned {
+  cursor: not-allowed;
+}
+
+.component-overview-card > header {
+  align-items: center;
+  border-bottom: 1px solid var(--nami-border);
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 14px;
+}
+
+.component-overview-card > header strong {
+  font-size: 0.95rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.component-overview-preview {
+  align-items: center;
+  background: var(--nami-surface);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  min-height: 132px;
+  padding: 16px;
+}
+
+.component-overview-preview nami-empty {
+  max-width: 100%;
+}
+
+.component-overview-card > p {
+  color: var(--nami-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0;
+  padding: 12px 14px 14px;
+}
+
+.component-search-empty {
+  justify-self: center;
+  max-width: 520px;
 }
 
 .token-pipeline {
@@ -767,6 +1273,41 @@ html[data-nami-docs-density='compact'] .docs-page {
   max-width: 1080px;
 }
 
+.component-reference-hero {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
+}
+
+.component-reference-summary {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.component-reference-meta {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.component-reference-summary h2 {
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0;
+}
+
+.component-reference-summary p {
+  color: var(--nami-text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.component-install-inline pre {
+  max-height: 138px;
+}
+
 .component-reference-grid {
   display: grid;
   gap: 16px;
@@ -883,6 +1424,122 @@ nami-card dd {
   background: var(--nami-hover-overlay);
 }
 
+nami-docs-install-tabs {
+  margin-block: 4px;
+}
+
+.install-tabs {
+  display: grid;
+  gap: 10px;
+}
+
+.install-tabs nami-tab-bar {
+  justify-self: start;
+}
+
+.install-tabs nami-docs-code-block {
+  display: none;
+}
+
+.install-tabs[data-manager='npm'] nami-docs-code-block[data-install-command='npm'],
+.install-tabs[data-manager='pnpm'] nami-docs-code-block[data-install-command='pnpm'],
+.install-tabs[data-manager='yarn'] nami-docs-code-block[data-install-command='yarn'] {
+  display: block;
+}
+
+nami-docs-callout {
+  background: color-mix(in oklab, var(--nami-color-primary), transparent 92%);
+  border: 1px solid color-mix(in oklab, var(--nami-color-primary), var(--nami-border) 72%);
+  border-radius: var(--nami-radius-surface);
+  color: var(--nami-text);
+  display: grid;
+  gap: 8px;
+  line-height: 1.6;
+  padding: 14px 16px;
+}
+
+nami-docs-callout[variant='warning'] {
+  background: color-mix(in oklab, #f59e0b, transparent 90%);
+  border-color: color-mix(in oklab, #f59e0b, var(--nami-border) 62%);
+}
+
+nami-docs-callout[variant='success'] {
+  background: color-mix(in oklab, #10b981, transparent 90%);
+  border-color: color-mix(in oklab, #10b981, var(--nami-border) 62%);
+}
+
+nami-docs-callout[title]::before {
+  color: var(--nami-text);
+  content: attr(title);
+  font-size: 0.875rem;
+  font-weight: 900;
+}
+
+nami-docs-steps {
+  counter-reset: docs-step;
+  display: grid;
+  gap: 10px;
+}
+
+nami-docs-steps ol {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nami-docs-steps li {
+  background: var(--nami-surface-inset);
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-surface);
+  counter-increment: docs-step;
+  display: grid;
+  gap: 6px;
+  padding: 12px 12px 12px 46px;
+  position: relative;
+}
+
+nami-docs-steps li::before {
+  align-items: center;
+  background: var(--nami-color-primary);
+  border-radius: 999px;
+  color: var(--nami-on-primary);
+  content: counter(docs-step);
+  display: flex;
+  font-size: 0.8125rem;
+  font-weight: 900;
+  height: 24px;
+  justify-content: center;
+  left: 12px;
+  position: absolute;
+  top: 12px;
+  width: 24px;
+}
+
+nami-docs-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+nami-docs-related a {
+  align-items: center;
+  border: 1px solid var(--nami-border);
+  border-radius: var(--nami-radius-control);
+  color: var(--nami-text);
+  display: inline-flex;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 0 12px;
+  text-decoration: none;
+}
+
+nami-docs-related a:hover {
+  background: var(--nami-accent-hover-overlay);
+  color: var(--nami-color-primary);
+}
+
 .live-example {
   border: 1px solid var(--nami-border);
   border-radius: var(--nami-radius-surface);
@@ -948,6 +1605,17 @@ pre code {
   color: var(--nami-text);
 }
 
+nami-docs-code-block[data-framework-example] {
+  display: none;
+}
+
+:root:not([data-nami-docs-code-mode]) nami-docs-code-block[data-framework-example='html'],
+:root[data-nami-docs-code-mode='html'] nami-docs-code-block[data-framework-example='html'],
+:root[data-nami-docs-code-mode='vue'] nami-docs-code-block[data-framework-example='vue'],
+:root[data-nami-docs-code-mode='react'] nami-docs-code-block[data-framework-example='react'] {
+  display: block;
+}
+
 .swatches button {
   background: color-mix(in oklab, var(--swatch), transparent 88%);
   border: 1px solid color-mix(in oklab, var(--swatch), transparent 48%);
@@ -998,6 +1666,22 @@ pre code {
   .settings-section-list a {
     min-width: 190px;
   }
+
+  .docs-article-shell {
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  }
+
+  .docs-toc {
+    display: none;
+  }
+
+  .component-overview-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .component-section-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (width <= 880px) {
@@ -1016,7 +1700,46 @@ pre code {
   .component-reference-grid,
   .style-split,
   .doc-style-live,
-  .settings-grid {
+  .settings-grid,
+  .settings-export-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-article-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-side-nav {
+    display: none;
+  }
+
+  .docs-mobile-sections {
+    display: block;
+  }
+
+  .component-overview-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .component-overview-sidebar {
+    border-right: 0;
+    max-height: none;
+    padding-right: 0;
+    position: static;
+  }
+
+  .component-overview-index {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .component-overview-index section {
+    min-width: 220px;
+  }
+
+  .component-reference-hero {
     grid-template-columns: 1fr;
   }
 }
@@ -1055,5 +1778,24 @@ pre code {
   .component-reference dl,
   nami-card dl {
     grid-template-columns: 1fr;
+  }
+
+  .docs-next-prev {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-next-prev a:last-child {
+    text-align: left;
+  }
+
+  .component-section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .component-search {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 12px;
   }
 }

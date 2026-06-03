@@ -1,75 +1,135 @@
 ---
 title: 框架接入
 group: 指南
-order: 5
+order: 2
+description: 在原生 HTML、Vue、React、Astro 和路由生命周期中使用 Nami UI。
 ---
 
 # 框架接入
 
-Nami UI 使用标准 Web Components，不需要 React、Vue 或 Astro wrapper。应用只需要注册组件、加载主题 CSS，然后通过 attributes、properties 和 DOM events 传递状态。
+Nami UI 的核心是 custom elements，所以框架接入的重点不是“重写组件”，而是处理导入位置、事件监听、类型提示和页面生命周期。
+
+## 目标
+
+让同一套 `nami-*` 元素在不同框架里保持一致：组件由浏览器注册，样式由 CSS variables 继承，事件通过 DOM CustomEvent 传递。
 
 ## 原生 HTML
 
+适合静态页面、低代码预览、CMS 片段和快速原型。只要加载 ESM 与主题 CSS，就可以直接使用标签。
+
 ```html
+<link rel="stylesheet" href="/node_modules/@nami/themes/default.css" />
 <script type="module">
-  import '@nami/themes/default.css';
   import '@nami/ui/register';
 </script>
 
-<nami-button>保存</nami-button>
+<nami-theme accent="#3b82f6">
+  <nami-button>Save</nami-button>
+</nami-theme>
 ```
 
 ## Vue
 
+Vue 需要把 `nami-*` 视为自定义元素，避免编译器把它们当作未注册 Vue 组件。
+
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+// vite.config.ts
+import vue from '@vitejs/plugin-vue';
+
+export default {
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('nami-')
+        }
+      }
+    })
+  ]
+};
 ```
 
-在 Vue compiler options 中把 `nami-*` 配置为 custom elements。事件可以用原生 DOM 事件监听，复杂表单值可以通过 refs 设置 property。
+```vue
+<script setup lang="ts">
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+</script>
+
+<template>
+  <nami-button @nami-click="() => console.log('clicked')">保存</nami-button>
+</template>
+```
 
 ## React
 
-```tsx
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+React 可以渲染 custom elements。复杂事件建议用 `ref` 和 `addEventListener`，这样可以保留 DOM CustomEvent 的 `detail` 类型。
 
-export function App() {
-  return <nami-button>Save</nami-button>;
+```tsx
+import { useEffect, useRef } from 'react';
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+
+export function SaveButton() {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const onClick = (event: Event) => console.log(event.type);
+    element.addEventListener('nami-click', onClick);
+    return () => element.removeEventListener('nami-click', onClick);
+  }, []);
+
+  return <nami-button ref={ref}>Save</nami-button>;
 }
 ```
 
-需要类型化事件时，可以通过 refs 监听，也可以在项目内写一个很小的事件桥接 wrapper。
+<nami-docs-callout variant="warning" title="React 类型提示">
+如果 TSX 提示 `nami-button` 不存在，为项目添加 custom elements JSX 声明，或后续使用由 custom-elements manifest 生成的轻量 wrapper。
+</nami-docs-callout>
+
+## Astro
+
+Astro 页面可以在 layout 或入口脚本中导入主题 CSS 与组件入口。需要客户端路由时，再接入页面过渡元素。
+
+```astro
+---
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+---
+
+<nami-config locale="zh-CN">
+  <nami-theme>
+    <slot />
+  </nami-theme>
+</nami-config>
+```
 
 ## 页面过渡钩子
 
-路由顶部进度使用 `nami-top-progress`；首屏揭幕和阻断式任务使用 `nami-page-transition`。两者都是标准元素，框架只需要在自己的生命周期里调用方法。
+`nami-top-progress` 负责路由顶部进度；`nami-page-transition` 负责首屏揭幕或阻断式任务。框架只需要在自己的生命周期里调用 DOM 方法。
 
 ### Astro
 
 ```ts
-const progress = document.querySelector('nami-top-progress');
-
 document.addEventListener('astro:before-preparation', () => {
-  progress?.show({ progress: 12 });
+  document.querySelector('nami-top-progress')?.start?.();
 });
 
-document.addEventListener('astro:after-preparation', () => {
-  progress?.finish();
+document.addEventListener('astro:after-swap', () => {
+  document.querySelector('nami-top-progress')?.finish?.();
 });
 ```
 
 ### Vue Router
 
 ```ts
-const progress = document.querySelector('nami-top-progress');
-
-router.beforeResolve(() => {
-  progress?.show({ progress: 16 });
+router.beforeEach(() => {
+  document.querySelector('nami-top-progress')?.start?.();
 });
 
 router.afterEach(() => {
-  progress?.finish();
+  document.querySelector('nami-top-progress')?.finish?.();
 });
 ```
 
@@ -77,11 +137,23 @@ router.afterEach(() => {
 
 ```ts
 const transition = document.querySelector('nami-page-transition');
-
-await transition?.waitFor(fetch('/api/profile'), {
-  appearance: 'panel',
-  minDuration: 240
-});
+transition?.show?.();
+await saveRecord();
+transition?.hide?.();
 ```
 
-推荐路由切换使用 `nami-top-progress`，首屏初始化使用 `appearance="veil"`，只有真正阻断交互的任务才使用 `appearance="panel"`。
+## 常见错误
+
+| 现象 | 处理 |
+| --- | --- |
+| Vue 报未知组件 | 配置 `isCustomElement`。 |
+| React 事件拿不到 `detail` | 使用 `ref.addEventListener()` 监听 DOM 事件。 |
+| SSR 构建报 `customElements` 不存在 | 把组件注册入口放到客户端执行路径。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/components/">进入组件目录</a>
+<a href="/zh-CN/theme/tokens/">阅读 tokens</a>
+<a href="/zh-CN/resources/quality/">查看质量基线</a>
+</nami-docs-related>

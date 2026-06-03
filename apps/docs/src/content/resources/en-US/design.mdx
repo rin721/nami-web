@@ -1,0 +1,56 @@
+---
+title: Design
+group: Resources
+order: 0
+description: Nami UI color, typography, radius, shadow, motion, and layout principles.
+---
+
+# Design
+
+Design guidance explains Nami UI's visual principles. Component APIs do not live here, and theme tool instructions do not live here; this page explains why the system looks the way it does and how to keep usage consistent.
+
+## Goal
+
+Keep the default style suitable for long-lived product interfaces, let illustration style serve brand and tutorial pages, and make both styles share tokens, component metadata, and CSS Parts.
+
+## Color
+
+Primary color starts with the `accent` seed. The algorithm derives scales, then maps them to `--nami-color-primary`, focus rings, hover overlays, and component tokens. Product code should not hard-code brand color inside components; use theme seeds or scoped CSS variables.
+
+<nami-docs-callout variant="info" title="Color priority">
+Change seeds first, semantic tokens second, and component tokens last. This keeps light, dark, and high contrast modes in sync.
+</nami-docs-callout>
+
+## Typography
+
+Body copy uses the system sans font; code uses the mono font. Page titles can be large, but component headings, buttons, and compact panels should use smaller type so product UI does not feel like a landing page.
+
+| Location | Guidance |
+| --- | --- |
+| Docs body | Use readable line height and short scan-friendly paragraphs. |
+| Control text | Follow the `size` seed and prevent overflow. |
+| Code | Preserve line breaks and horizontal scrolling. |
+
+## Radius
+
+The `radius` seed controls the radius scale: `sharp` fits dense tools, `soft` fits SaaS panels, and `round` keeps the default friendly. Components should read `--nami-radius-*` instead of hard-coding pixels.
+
+## Shadow And Borders
+
+Default style uses fewer large shadows and leans on borders, surface layers, and focus rings. Illustration style uses style tokens for stroke width, offset shadow, and paper texture so component source stays branch-free.
+
+## Motion
+
+Motion must respect `motion="reduced"`. Loading, page transitions, and overlays can have rhythm, but they should not block reading or make component state unpredictable.
+
+## Layout
+
+Prefer `nami-container`, `nami-stack`, `nami-cluster`, `nami-grid`, and `nami-split`. Spacing, breakpoints, gutter, rail, and mobile bar sizes belong in tokens instead of scattered page CSS.
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/theme/style-presets/">Style Presets</a>
+<a href="/en-US/theme/tokens/">Theme Tokens</a>
+<a href="/en-US/resources/quality/">Quality Baseline</a>
+</nami-docs-related>

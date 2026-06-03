@@ -1,0 +1,45 @@
+---
+title: 更新日志
+group: 资源
+order: 4
+description: Nami UI 当前版本的新增能力、修复和破坏性变更记录。
+---
+
+# 更新日志
+
+更新日志只记录已经在当前仓库中可验证的能力，不补写未发布路线图，也不虚构生态链接。
+
+## 0.1.0 — 2026-06-03
+
+### 新增
+
+- 基于 Lit 与 Web Components 的 Nami UI 核心组件。
+- `@nami/themes/default.css` 与 `@nami/themes/ant-illustration.css` 两套主题样式。
+- DTCG token、主题 seed、size/density/radius/contrast/motion、Theme Studio 导出能力。
+- `nami-theme`、`nami-config`、布局组件、表单组件、反馈组件和系统组件基础矩阵。
+- `@nami/ui/metadata`、`@nami/ui/anatomy`、`@nami/ui/catalog` 公共数据入口。
+- 官网 Home / Start / Components / Theme / Resources / Settings 信息架构。
+
+### 文档
+
+- Start、Theme、Resources 和组件详情页接入统一阅读骨架。
+- 组件详情页展示 Overview、Install、Examples、API、Events、Slots、CSS Parts、Tokens、Anatomy、Accessibility 和 Related。
+- Resources 新增 Design、Quality、i18n、Semantic Anatomy、Changelog 和 FAQ。
+- Settings Config 复用 `@nami/tokens/theme-studio` 导出 CSS、DTCG JSON 和 TS config。
+
+### 破坏性变更
+
+- 旧的 `/playground/theme-designer/`、`/playground/theme-lab/`、`/tokens/` 和重复 `/docs/*` 入口被清理，不保留 redirect。
+
+### 修复
+
+- 清理可见文案中的乱码来源，并为浏览器测试加入乱码哨兵。
+- 组件目录改为消费公共 `@nami/ui/catalog`，避免官网私有目录数据和组件 metadata 分叉。
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/resources/faq/">FAQ</a>
+<a href="/zh-CN/resources/quality/">质量基线</a>
+<a href="/zh-CN/theme/designer/">Theme Designer</a>
+</nami-docs-related>

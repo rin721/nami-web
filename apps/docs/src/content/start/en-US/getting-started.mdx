@@ -2,33 +2,113 @@
 title: Getting Started
 group: Guide
 order: 1
+description: Install packages, render Hello World, choose a registration strategy, and find theme and i18n entry points.
 ---
 
 # Getting Started
 
-Nami UI is a Lit-based Web Components library. It works in native HTML, Vue, React, and other frontend stacks because the public surface is standard custom elements, attributes, events, slots, CSS variables, and CSS parts.
+This guide follows the actual integration path: install packages, load theme CSS, register components, render the first button, then choose all-component registration or per-component imports.
+
+## Goal
+
+By the end you should see an interactive `nami-button` on the page and know where to find component APIs, theme configuration, and internationalization docs.
+
+## Prerequisites
+
+- Node.js 18 or newer.
+- Vite, Astro, Vue, React, or any build setup that supports ESM.
+- Load theme CSS once; register every component or import components one at a time.
 
 ## Install
 
-```bash
-npm install @nami/ui @nami/themes
-```
+<nami-docs-install-tabs></nami-docs-install-tabs>
 
-## Register all components
+| Manager | Command |
+| --- | --- |
+| npm | `npm install @nami/ui @nami/themes` |
+| pnpm | `pnpm add @nami/ui @nami/themes` |
+| yarn | `yarn add @nami/ui @nami/themes` |
 
-<nami-docs-live-demo data-code="%3Cnami-button%3EPrimary%20action%3C%2Fnami-button%3E%0A%3Cnami-button%20variant%3D%22soft%22%3ESecondary%20action%3C%2Fnami-button%3E%0A%3Cnami-chip%20checkbox%20selected%20value%3D%22docs%22%3EDocs%3C%2Fnami-chip%3E"></nami-docs-live-demo>
+## Hello World
 
-```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
-```
-
-## Import one component
+<nami-docs-live-demo data-code="%3Cnami-button%3EHello%20Nami%3C%2Fnami-button%3E%0A%3Cnami-badge%20variant%3D%22primary%22%3E0.1.0%3C%2Fnami-badge%3E"></nami-docs-live-demo>
 
 ```ts
 import '@nami/themes/default.css';
 import '@nami/ui/button';
+import '@nami/ui/badge';
 ```
 
-Use the full register entry for documentation sites and prototypes. Use single component entries when an application needs a smaller dependency surface.
+```html
+<nami-button>Hello Nami</nami-button>
+<nami-badge variant="primary">0.1.0</nami-badge>
+```
 
+## Registration Strategy
+
+<nami-docs-steps>
+<ol>
+<li><strong>Register everything.</strong>Best for docs, prototypes, admin tools, and low-frequency pages.</li>
+<li><strong>Import one component.</strong>Best for production pages where the bundler should only touch used elements.</li>
+<li><strong>Use explicit side-effect registration.</strong>Use `@nami/ui/button/register` when a file should only define the element.</li>
+</ol>
+</nami-docs-steps>
+
+```ts
+// main.ts
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+```
+
+```ts
+// page.ts
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+import '@nami/ui/input';
+```
+
+```ts
+// explicit side-effect register
+import '@nami/ui/button/register';
+```
+
+## Theme Customization
+
+`nami-theme` is the runtime theme boundary. Theme CSS provides variables; `accent`, `theme`, `density`, `size`, `radius`, `contrast`, and `motion` derive reusable tokens.
+
+```html
+<nami-theme accent="#14b8a6" theme="dark" size="lg">
+  <nami-button>Scoped action</nami-button>
+</nami-theme>
+```
+
+<nami-docs-callout variant="info" title="Theme is not React Context">
+Nami UI uses CSS variables and custom elements as the core protocol. React, Vue, or Astro render the elements; the library is not bound to a framework context.
+</nami-docs-callout>
+
+## Internationalization
+
+`nami-config` provides the runtime locale boundary. Docs routes use `/zh-CN/` and `/en-US/`; component fallback copy reads the configured locale.
+
+```html
+<nami-config locale="zh-CN">
+  <nami-empty></nami-empty>
+</nami-config>
+```
+
+## Common Errors
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| Element renders like a plain tag | Component entry was not imported | Import `@nami/ui/register` or the single component entry. |
+| Styles look wrong | Theme CSS is missing | Import `@nami/themes/default.css` at the app entry. |
+| Theme affects only part of the UI | Theme boundary is in the wrong place | Put components that should inherit variables inside the same `nami-theme`. |
+
+## Next
+
+<nami-docs-related>
+<a href="/en-US/docs/frameworks/">Continue to Frameworks</a>
+<a href="/en-US/components/button/">Open Button reference</a>
+<a href="/en-US/theme/">Understand Theme</a>
+<a href="/en-US/resources/i18n/">Read i18n</a>
+</nami-docs-related>

@@ -46,10 +46,10 @@ export class NamiTextarea extends LitElement {
         color: var(--nami-style-on-paper, var(--nami-text));
         font: inherit;
         line-height: 1.5;
-        min-height: calc(var(--nami-control-height-md, 40px) * 2);
+        min-height: calc(var(--nami-control-height, var(--nami-control-height-md, 40px)) * 2);
         min-width: 0;
         outline: none;
-        padding: 10px 12px;
+        padding: var(--nami-space-3, 10px) var(--nami-control-padding-x, 12px);
         resize: vertical;
         transition:
           border-color var(--nami-motion-normal, 250ms) var(--nami-ease-standard, ease),

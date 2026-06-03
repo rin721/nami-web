@@ -1,25 +1,88 @@
 ---
 title: Tokens
 group: 主题
-order: 2
-description: Nami UI 的 seed、semantic、component 和 style token 分层。
+order: 1
+description: Nami UI 的 reference、semantic、component、style token 分层和使用边界。
 ---
 
 # Tokens
 
-Nami UI 将换肤边界集中在 CSS Variables 和确定性主题系统之后。组件内部只消费 semantic、component 和 style tokens，不直接依赖零散 seed。
+Nami UI 组件内部不直接依赖 seed。seed 只负责生成 token，组件消费 semantic token、component token 和 style token，这样主题可以替换，组件行为仍然稳定。
+
+## 目标
+
+学会判断应该覆盖哪个变量：应用层通常改 semantic token；组件外观改 component token；风格 preset 改 style token；原始数值和算法输入留给 theme config。
 
 ## 分层
 
 | 层级 | 示例 | 责任 |
 | --- | --- | --- |
-| Seed | `--nami-accent-50`, `--nami-layout-gutter` | 品牌、密度、布局和动效输入 |
-| Semantic | `--nami-color-primary`, `--nami-surface`, `--nami-text` | 组件共享语义 |
-| Component | `--nami-button-bg`, `--nami-checkbox-bg`, `--nami-progress-fill-bg` | 单组件或槽位覆盖 |
-| Style | `--nami-style-stroke-width`, `--nami-style-background-pattern` | 风格 preset 的视觉语言 |
+| Reference | `--nami-accent-50`、`--nami-space-3` | 原始色阶、空间、字号、阴影。 |
+| Semantic | `--nami-color-primary`、`--nami-surface`、`--nami-text` | 跨组件共享意义。 |
+| Component | `--nami-button-bg`、`--nami-checkbox-bg`、`--nami-progress-fill-bg` | 单组件或槽位覆盖。 |
+| Style | `--nami-style-stroke-width`、`--nami-style-background-pattern` | 风格 preset 的视觉语言。 |
 
-## 使用边界
+## 使用规则
 
-应用层优先覆盖 semantic 或 component token。需要生成完整主题时，使用 `defineNamiTheme()` 和 `createNamiThemeSystem()` 输出 scoped CSS。
+<nami-docs-steps>
+<ol>
+<li><strong>先改 seed。</strong>品牌色、明暗、密度、尺寸、圆角、对比度和动效优先走 `NamiThemeSeed`。</li>
+<li><strong>再改 semantic。</strong>需要全局语义变化时，覆盖 `--nami-surface` 或 `--nami-text` 这类变量。</li>
+<li><strong>最后改 component。</strong>只想改某个组件槽位时，覆盖对应 component token。</li>
+</ol>
+</nami-docs-steps>
+
+## Scoped CSS
+
+```css
+.admin-theme {
+  --nami-color-primary: #0f766e;
+  --nami-button-bg: #0f766e;
+  --nami-button-text: white;
+}
+```
+
+```html
+<nami-theme class="admin-theme">
+  <nami-button>保存</nami-button>
+</nami-theme>
+```
 
 <nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20density%3D%22compact%22%3E%0A%20%20%3Cnami-stack%3E%0A%20%20%20%20%3Cnami-button%3E%E4%BF%9D%E5%AD%98%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-progress%20value%3D%2264%22%20label%3D%22Token%20progress%22%3E%3C%2Fnami-progress%3E%0A%20%20%3C%2Fnami-stack%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
+
+## TS 与 DTCG
+
+```ts
+import { defineNamiTheme, createNamiThemeSystem, themeToCssText, themeToDtcg } from '@nami/tokens/theme';
+
+const config = defineNamiTheme({
+  seed: {
+    accent: '#14b8a6',
+    theme: 'dark',
+    density: 'compact',
+    size: 'lg',
+    radius: 'soft',
+    contrast: 'high'
+  }
+});
+
+const system = createNamiThemeSystem(config);
+const css = themeToCssText(system, '.admin-theme');
+const dtcg = themeToDtcg(system);
+```
+
+## 常见错误
+
+| 错误 | 为什么不推荐 | 推荐方式 |
+| --- | --- | --- |
+| 组件内部直接消费 seed | seed 是算法输入，不是稳定槽位 | 使用 semantic 或 component token。 |
+| 每个页面手写一套变量 | 难以诊断、难以导出 | 使用 `defineNamiTheme()` 和 Theme Designer。 |
+| 只改颜色不测对比度 | 暗色和高对比模式可能失败 | 使用 Theme Studio 诊断。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/theme/algorithm/">主题算法</a>
+<a href="/zh-CN/theme/designer/">Theme Designer</a>
+<a href="/zh-CN/resources/semantic-anatomy/">语义结构</a>
+</nami-docs-related>

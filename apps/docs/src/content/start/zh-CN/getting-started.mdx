@@ -2,33 +2,113 @@
 title: 快速开始
 group: 指南
 order: 1
+description: 从安装、Hello World、注册方式、主题边界和 i18n 入口完成第一次接入。
 ---
 
 # 快速开始
 
-Nami UI 是基于 Lit 的 Web Components 组件库。因为公共能力是标准自定义元素、attributes、events、slots、CSS variables 和 CSS parts，所以可以接入原生 HTML、Vue、React 和其他前端栈。
+这篇文档按真实接入顺序组织：安装包，加载主题 CSS，注册组件，渲染第一个按钮，再决定全量注册还是按需导入。
+
+## 目标
+
+完成后你应该能在页面中看到一个可交互的 `nami-button`，并知道以后要去哪里查组件 API、主题配置和国际化能力。
+
+## 前置条件
+
+- Node.js 18 或更高版本。
+- Vite、Astro、Vue、React 或任意支持 ESM 的构建环境。
+- 页面只需要一次主题 CSS；组件可以全量注册，也可以单独导入。
 
 ## 安装
 
-```bash
-npm install @nami/ui @nami/themes
-```
+<nami-docs-install-tabs></nami-docs-install-tabs>
 
-## 注册全部组件
+| 包管理器 | 命令 |
+| --- | --- |
+| npm | `npm install @nami/ui @nami/themes` |
+| pnpm | `pnpm add @nami/ui @nami/themes` |
+| yarn | `yarn add @nami/ui @nami/themes` |
 
-<nami-docs-live-demo data-code="%3Cnami-button%3E%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%3Cnami-button%20variant%3D%22soft%22%3E%E6%AC%A1%E8%A6%81%E6%93%8D%E4%BD%9C%3C%2Fnami-button%3E%0A%3Cnami-chip%20checkbox%20selected%20value%3D%22docs%22%3E%E6%96%87%E6%A1%A3%3C%2Fnami-chip%3E"></nami-docs-live-demo>
+## Hello World
 
-```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
-```
-
-## 只导入一个组件
+<nami-docs-live-demo data-code="%3Cnami-button%3EHello%20Nami%3C%2Fnami-button%3E%0A%3Cnami-badge%20variant%3D%22primary%22%3E0.1.0%3C%2Fnami-badge%3E"></nami-docs-live-demo>
 
 ```ts
 import '@nami/themes/default.css';
 import '@nami/ui/button';
+import '@nami/ui/badge';
 ```
 
-文档站和原型可以使用全量注册入口。应用需要更小依赖面时，使用单组件入口。
+```html
+<nami-button>Hello Nami</nami-button>
+<nami-badge variant="primary">0.1.0</nami-badge>
+```
 
+## 注册方式
+
+<nami-docs-steps>
+<ol>
+<li><strong>全量注册。</strong>适合文档站、原型、后台工具和低频页面。</li>
+<li><strong>单组件导入。</strong>适合生产页面，让打包器只处理当前页面需要的元素。</li>
+<li><strong>副作用注册入口。</strong>需要显式副作用文件时，使用 `@nami/ui/button/register`。</li>
+</ol>
+</nami-docs-steps>
+
+```ts
+// main.ts
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+```
+
+```ts
+// page.ts
+import '@nami/themes/default.css';
+import '@nami/ui/button';
+import '@nami/ui/input';
+```
+
+```ts
+// explicit side-effect register
+import '@nami/ui/button/register';
+```
+
+## 主题定制
+
+`nami-theme` 是运行时主题边界。默认主题 CSS 提供变量，`accent`、`theme`、`density`、`size`、`radius`、`contrast` 和 `motion` 会派生出可复用 token。
+
+```html
+<nami-theme accent="#14b8a6" theme="dark" size="lg">
+  <nami-button>Scoped action</nami-button>
+</nami-theme>
+```
+
+<nami-docs-callout variant="info" title="主题不是 React Context">
+Nami UI 的核心协议是 CSS variables 与 custom elements。React、Vue 或 Astro 只负责渲染元素，不需要把组件库绑定到某个框架上下文。
+</nami-docs-callout>
+
+## 国际化
+
+运行时语言边界由 `nami-config` 提供。文档路由使用 `/zh-CN/` 与 `/en-US/`，组件 fallback 文案使用配置中的 locale。
+
+```html
+<nami-config locale="zh-CN">
+  <nami-empty></nami-empty>
+</nami-config>
+```
+
+## 常见错误
+
+| 现象 | 原因 | 修复 |
+| --- | --- | --- |
+| 元素显示成普通标签 | 没有导入组件或注册入口 | 导入 `@nami/ui/register` 或对应单组件入口。 |
+| 样式不对 | 没有加载主题 CSS | 在应用入口导入 `@nami/themes/default.css`。 |
+| 主题只影响部分区域 | `nami-theme` 边界放错位置 | 把需要继承变量的组件放在同一个 `nami-theme` 内。 |
+
+## 下一步
+
+<nami-docs-related>
+<a href="/zh-CN/docs/frameworks/">继续框架接入</a>
+<a href="/zh-CN/components/button/">查看 Button 参考</a>
+<a href="/zh-CN/theme/">理解主题系统</a>
+<a href="/zh-CN/resources/i18n/">阅读 i18n</a>
+</nami-docs-related>
