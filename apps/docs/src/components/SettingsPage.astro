@@ -1,5 +1,6 @@
 ---
 import DocsLayout from './DocsLayout.astro';
+import { projectInfo } from '../lib/project';
 import { docsLocales, localizedPath, t, type DocsLocale } from '../lib/site';
 
 type SettingsSection = 'appearance' | 'transition' | 'language' | 'preferences' | 'config' | 'experimental' | 'about';
@@ -45,6 +46,7 @@ const current = sections.find((item) => item.id === section) ?? sections[0];
 const showRouteBar = locale === 'zh-CN' ? '显示路由顶部进度条' : 'Show route progress bar';
 const keepVisualSettings = locale === 'zh-CN' ? '刷新后保留当前视觉设置' : 'Keep visual settings after reload';
 const compactDocs = locale === 'zh-CN' ? '降低文档区块间距' : 'Reduce docs spacing';
+const primaryContributor = projectInfo.contributors[0];
 ---
 
 <DocsLayout locale={locale} title={`${current.label} - ${t(locale, 'settings.title')}`}>
@@ -246,20 +248,24 @@ const compactDocs = locale === 'zh-CN' ? '降低文档区块间距' : 'Reduce do
             <p>{t(locale, 'settings.aboutCopy')}</p>
             <dl>
               <dt>Package</dt>
-              <dd><code>@nami/ui</code></dd>
+              <dd><code>{projectInfo.packageName}</code></dd>
               <dt>Theme CSS</dt>
-              <dd><code>@nami/themes/default.css</code></dd>
+              <dd><code>{projectInfo.themeCss}</code></dd>
               <dt>Version</dt>
-              <dd><code>0.1.0</code></dd>
+              <dd><code>{projectInfo.version}</code></dd>
             </dl>
           </nami-card>
           <nami-card>
             <h3 slot="header">{locale === 'zh-CN' ? '贡献者' : 'Contributors'}</h3>
-            <p><strong>kawaiirei0</strong></p>
+            <p><a href={primaryContributor.url} target="_blank" rel="noreferrer"><strong>{primaryContributor.name}</strong></a></p>
+          </nami-card>
+          <nami-card>
+            <h3 slot="header">{locale === 'zh-CN' ? '仓库' : 'Repository'}</h3>
+            <p><a href={projectInfo.repositoryUrl} target="_blank" rel="noreferrer">{projectInfo.repositoryLabel}</a></p>
           </nami-card>
           <nami-card>
             <h3 slot="header">{locale === 'zh-CN' ? '赞助商' : 'Sponsors'}</h3>
-            <p>{locale === 'zh-CN' ? '暂无赞助商配置。' : 'No sponsor configuration yet.'}</p>
+            <p>{projectInfo.sponsorStatus[locale]}</p>
           </nami-card>
         </div>
       )}

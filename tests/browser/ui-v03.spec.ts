@@ -1,4 +1,28 @@
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
+
+const docsSourceRoot = join(process.cwd(), 'apps/docs/src');
+const textExtensions = new Set(['.astro', '.css', '.mdx', '.ts']);
+const mojibakeSentinels = [
+  '\u9369',
+  '\u6d93',
+  '\u93c2',
+  '\u7039',
+  '\u7ec0',
+  '\u7490',
+  '\ufffd',
+  '???'
+];
+
+function collectTextFiles(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    const stat = statSync(path);
+    if (stat.isDirectory()) return collectTextFiles(path);
+    return textExtensions.has(path.slice(path.lastIndexOf('.'))) ? [path] : [];
+  });
+}
 
 function captureConsoleErrors(page: Page) {
   const errors: string[] = [];
@@ -47,6 +71,39 @@ async function expectDocsFrame(page: Page) {
   await expect(page.locator('.docs-article-content')).toBeVisible();
 }
 
+async function expectArticleBlocksDoNotOverlapToc(page: Page) {
+  const violations = await page.evaluate(() => {
+    const toc = document.querySelector('.docs-toc');
+    if (!toc || getComputedStyle(toc).display === 'none') return [];
+    const tocLeft = toc.getBoundingClientRect().left;
+    const selectors = [
+      '.component-reference',
+      '.component-reference > section',
+      '.component-reference-hero',
+      'nami-docs-live-demo',
+      '.live-example',
+      '.live-preview',
+      '.component-preview',
+      'nami-docs-code-block',
+      'pre'
+    ];
+    return selectors.flatMap((selector) =>
+      Array.from(document.querySelectorAll(selector))
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            selector,
+            right: Math.round(rect.right),
+            tocLeft: Math.round(tocLeft),
+            width: Math.round(rect.width)
+          };
+        })
+        .filter((rect) => rect.width > 0 && rect.right > tocLeft)
+    );
+  });
+  expect(violations).toEqual([]);
+}
+
 test('home exposes focused library entry points with real contributor and sponsor state', async ({ page }) => {
   const errors = captureConsoleErrors(page);
   await openIsolated(page, '/zh-CN/');
@@ -57,12 +114,22 @@ test('home exposes focused library entry points with real contributor and sponso
   await expect(page.locator('body')).toContainText('npm install @nami/ui @nami/themes');
   await expect(page.locator('body')).toContainText('快速开始');
   await expect(page.locator('body')).toContainText('浏览组件');
-  await expect(page.locator('body')).toContainText('kawaiirei0');
+  await expect(page.locator('body')).toContainText('rin721');
+  await expect(page.locator('body')).toContainText('github.com/rin721/nami-web');
   await expect(page.locator('body')).toContainText('暂无赞助商配置');
   await expect(page.locator('.bottom-nav a')).toHaveCount(5);
   await expect(page.locator('.bottom-nav')).not.toContainText('设置');
   await expectNoVisibleMojibake(page);
   expect(errors).toEqual([]);
+});
+
+test('docs source visible copy does not contain mojibake sentinels', () => {
+  for (const file of collectTextFiles(docsSourceRoot)) {
+    const text = readFileSync(file, 'utf8');
+    for (const sentinel of mojibakeSentinels) {
+      expect(text.includes(sentinel), `${file} includes mojibake sentinel ${JSON.stringify(sentinel)}`).toBe(false);
+    }
+  }
 });
 
 test('getting started reads like a docs tutorial', async ({ page }) => {
@@ -124,6 +191,7 @@ test('theme docs cover tokens, algorithm, designer, and lab as documentation', a
 
 test('component catalog and reference pages are driven by catalog plus metadata', async ({ page }) => {
   const errors = captureConsoleErrors(page);
+  await page.setViewportSize({ width: 1920, height: 1030 });
   await openIsolated(page, '/zh-CN/components/');
   await waitForNami(page);
 
@@ -155,6 +223,7 @@ test('component catalog and reference pages are driven by catalog plus metadata'
   await page.goto('/zh-CN/components/button/');
   await waitForNami(page);
   await expectDocsFrame(page);
+  await expectArticleBlocksDoNotOverlapToc(page);
   await expect(page.locator('h1')).toHaveText('Button 按钮');
   await expect(page.locator('.docs-side-nav')).toContainText('RadioGroup 单选组');
   await expect(page.locator('.docs-side-nav .docs-nav-disabled').filter({ hasText: 'RadioGroup 单选组' })).toContainText('规划中');
@@ -186,7 +255,8 @@ test('resources are structured references and legacy scattered routes stay remov
   await page.goto('/zh-CN/resources/faq/');
   await expectDocsFrame(page);
   await expect(page.locator('.docs-article-content')).toContainText('暂未提供');
-  await expect(page.locator('.docs-article-content')).toContainText('kawaiirei0');
+  await expect(page.locator('.docs-article-content')).toContainText('rin721');
+  await expect(page.locator('.docs-article-content')).toContainText('github.com/rin721/nami-web');
   await expectNoVisibleMojibake(page);
 
   for (const route of [
@@ -231,7 +301,8 @@ test('settings controls global size, code preference, and theme config export', 
   await expect(page.locator('[data-theme-diagnostics]')).toContainText('Text / surface');
 
   await page.goto('/zh-CN/settings/about/');
-  await expect(page.locator('body')).toContainText('kawaiirei0');
+  await expect(page.locator('body')).toContainText('rin721');
+  await expect(page.locator('body')).toContainText('github.com/rin721/nami-web');
   await expect(page.locator('body')).toContainText('暂无赞助商配置');
   await expectNoVisibleMojibake(page);
   expect(errors).toEqual([]);

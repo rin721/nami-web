@@ -5,6 +5,8 @@ order: 5
 description: 资源状态、常见报错、生态链接和主题配置问题。
 ---
 
+import { projectInfo } from '../../../lib/project';
+
 # FAQ
 
 FAQ 只回答当前项目能验证的问题。没有真实数据源的资源会明确标为暂未提供，不制造假链接。
@@ -61,7 +63,7 @@ import '@nami/ui/button';
 
 ## 贡献者和赞助商状态是什么？
 
-当前可验证贡献者为 `kawaiirei0`。赞助商暂未配置，官网只显示状态，不虚构赞助商。
+当前可验证贡献者为 <a href={projectInfo.contributors[0].url}>{projectInfo.contributors[0].name}</a>。仓库地址是 <a href={projectInfo.repositoryUrl}>{projectInfo.repositoryLabel}</a>。赞助商暂未配置，官网只显示状态，不虚构赞助商。
 
 ## 下一步
 

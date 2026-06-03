@@ -5,6 +5,8 @@ order: 5
 description: Resource status, common errors, ecosystem links, and theme configuration questions.
 ---
 
+import { projectInfo } from '../../../lib/project';
+
 # FAQ
 
 FAQ only answers questions that can be verified in the current project. Resources without a real data source are marked as unavailable instead of being replaced with fake links.
@@ -61,7 +63,7 @@ Open Settings and choose HTML, Vue, or React in Preferences. Component detail pa
 
 ## What Is The Contributor And Sponsor Status?
 
-The currently verifiable contributor is `kawaiirei0`. Sponsors are not configured yet, so the docs show the status instead of inventing sponsors.
+The currently verifiable contributor is <a href={projectInfo.contributors[0].url}>{projectInfo.contributors[0].name}</a>. The repository is <a href={projectInfo.repositoryUrl}>{projectInfo.repositoryLabel}</a>. Sponsors are not configured yet, so the docs show the status instead of inventing sponsors.
 
 ## Next
 

@@ -391,6 +391,8 @@ nami-docs-theme-designer {
 
 .docs-article-content {
   gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   padding: 24px;
 }
 
@@ -399,6 +401,8 @@ nami-docs-theme-designer {
   border-top: 1px solid var(--nami-border);
   display: grid;
   gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   padding-top: 18px;
 }
 
@@ -406,6 +410,17 @@ nami-docs-theme-designer {
 .component-reference > section:first-child {
   border-top: 0;
   padding-top: 0;
+}
+
+.docs-article-content > *,
+.component-reference > section > *,
+nami-docs-code-block,
+nami-docs-live-demo,
+.live-example,
+.live-preview {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .docs-next-prev {
@@ -1205,6 +1220,7 @@ html[data-nami-docs-density='compact'] .docs-page {
   flex-wrap: wrap;
   gap: 10px;
   min-height: 116px;
+  min-width: 0;
   padding: 14px;
 }
 
@@ -1270,13 +1286,17 @@ html[data-nami-docs-density='compact'] .docs-page {
 .component-reference {
   display: grid;
   gap: 16px;
-  max-width: 1080px;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
 }
 
 .component-reference-hero {
   display: grid;
   gap: 18px;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.82fr);
+  min-width: 0;
 }
 
 .component-reference-summary {
@@ -1320,6 +1340,7 @@ html[data-nami-docs-density='compact'] .docs-page {
 
 .component-hero-preview {
   min-height: 180px;
+  min-width: 0;
 }
 
 .component-reference dl,
@@ -1389,6 +1410,8 @@ nami-card dd {
 .markdown-page {
   display: grid;
   gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
 }
 
 .markdown-page > :first-child {
