@@ -20,6 +20,21 @@ const tokenCount = namiComponentMetadata.reduce((count, item) => count + item.to
       <p>{t(locale, 'components.copy')}</p>
     </div>
 
+    <div class="entry-grid">
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '这里放什么' : 'What lives here'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '组件目录只放可实例化组件、组件任务分组和组件详情入口。' : 'The component directory only contains instantiable components, task groups, and reference entries.'}</p>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '不放什么' : 'What stays out'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '主题教程、质量规范、i18n 说明和站点设置不放在组件页。' : 'Theme tutorials, quality guidance, i18n notes, and site settings stay out of component pages.'}</p>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '下一步去哪' : 'Where next'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '选定组件后进入详情页查看 API、slots、parts、states、tokens 和语义结构。' : 'Open a component page for APIs, slots, parts, states, tokens, and anatomy.'}</p>
+      </nami-card>
+    </div>
+
     <div class="directory-stats">
       <nami-card>
         <nami-badge slot="header" variant="primary">{componentCount}</nami-badge>

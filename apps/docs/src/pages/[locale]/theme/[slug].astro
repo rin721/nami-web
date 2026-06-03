@@ -1,0 +1,67 @@
+---
+import DocsLayout from '../../../components/DocsLayout.astro';
+import ThemeDesigner from '../../../components/ThemeDesigner.astro';
+import ThemeLab from '../../../components/ThemeLab.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { docsEntry, docsSections } from '../../../lib/docs-structure';
+import { docsLocales, normalizeDocsLocale, type DocsLocale } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('theme');
+  const contentById = new Map(
+    entries.map((entry) => {
+      const [localeId, slug] = entry.id.replace(/\.(md|mdx)$/, '').split('/');
+      const locale = normalizeDocsLocale(localeId);
+      return [locale && slug ? `${locale}/${slug}` : entry.id, entry] as const;
+    })
+  );
+
+  return docsSections.theme.entries
+    .filter((entry) => entry.slug !== 'overview')
+    .flatMap((structure) => docsLocales.map((locale) => ({
+      params: { locale, slug: structure.slug },
+      props: {
+        entry: contentById.get(`${locale}/${structure.slug}`) ?? null,
+        locale,
+        slug: structure.slug
+      }
+    })));
+}
+
+const { entry, locale, slug } = Astro.props as {
+  entry: CollectionEntry<'theme'> | null;
+  locale: DocsLocale;
+  slug: string;
+};
+const structure = docsEntry('theme', slug);
+
+if (!structure) {
+  throw new Error(`Unknown theme entry: ${slug}`);
+}
+
+if (structure.kind === 'content' && !entry) {
+  throw new Error(`Missing theme content for ${locale}/${slug}`);
+}
+
+const rendered = entry ? await render(entry) : null;
+const Content = rendered?.Content;
+---
+
+<DocsLayout locale={locale} title={structure.title[locale]} description={structure.description[locale]}>
+  <section class="section markdown-route">
+    <div class="section-heading">
+      <p class="eyebrow">{structure.kind === 'tool' ? 'Theme tool' : 'Theme guide'}</p>
+      <h1>{structure.title[locale]}</h1>
+      <p>{structure.description[locale]}</p>
+    </div>
+
+    {Content && (
+      <article id={`theme-${slug}`} class="markdown-page">
+        <Content />
+      </article>
+    )}
+
+    {slug === 'designer' && <ThemeDesigner locale={locale} />}
+    {slug === 'lab' && <ThemeLab locale={locale} />}
+  </section>
+</DocsLayout>

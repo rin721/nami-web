@@ -8,6 +8,18 @@ order: 0
 
 Nami UI is a Web Components UI library for applications that need one component source across multiple frontend stacks. The public surface is custom elements, reflected attributes, DOM events, slots, CSS parts, and CSS variables.
 
+## What Lives Here
+
+Start covers project positioning, installation, registration, single-component imports, and framework usage. It is the first-use path for Nami UI, not the place for full component APIs or theme algorithm detail.
+
+## What Does Not Live Here
+
+Component attributes, events, slots, parts, and tokens live in Components. Theme configuration, tokens, algorithms, style presets, Theme Designer, and Theme Lab live in Theme. Quality, i18n, and semantic anatomy contracts live in Resources.
+
+## Where To Go Next
+
+When you are ready to install, continue to [Getting Started](/en-US/docs/getting-started/). When you need to choose controls, open [Components](/en-US/components/). When you need a brand system, open [Theme](/en-US/theme/).
+
 ## What ships first
 
 | Area | What it means |
@@ -18,4 +30,3 @@ Nami UI is a Web Components UI library for applications that need one component 
 | i18n | `@lit/localize` runtime mode, locale-prefixed docs routes, and localized fallback text |
 
 <nami-docs-live-demo data-code="%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%3Cnami-button%3EInstall%20Nami%20UI%3C%2Fnami-button%3E%0A%20%20%3Cnami-chip%20checkbox%20selected%3EWeb%20Components%3C%2Fnami-chip%3E%0A%20%20%3Cnami-radio-card%20selected%20label%3D%22Replaceable%20skin%22%20description%3D%22Switch%20style%20preset%20without%20changing%20component%20source.%22%3E%3C%2Fnami-radio-card%3E%0A%3C%2Fdiv%3E"></nami-docs-live-demo>
-

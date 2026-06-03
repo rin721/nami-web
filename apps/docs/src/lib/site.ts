@@ -9,6 +9,10 @@ export function isDocsLocale(value: string | undefined): value is DocsLocale {
   return docsLocales.includes(value as DocsLocale);
 }
 
+export function normalizeDocsLocale(value: string | undefined): DocsLocale | undefined {
+  return docsLocales.find((locale) => locale.toLowerCase() === value?.toLowerCase());
+}
+
 const messages = {
   'zh-CN': {
     'site.title': 'Nami UI 官网',
@@ -39,10 +43,11 @@ const messages = {
     'home.accessible': '可访问',
     'home.metadata': '元数据驱动',
     'home.libraryTitle': '组件库官网应从真实使用路径开始',
-    'home.libraryCopy': '安装、主题、组件、框架接入、质量规范被拆成清晰路由；首页只保留产品定位、核心能力和高价值入口。',
+    'home.libraryCopy': 'Start、Components、Theme、Resources 被拆成稳定路由；首页只保留产品定位、安装入口、组件入口和主题入口。',
     'home.pathStartCopy': '安装包，选择全量注册或单组件导入，再引入主题 CSS。',
     'home.pathComponentsCopy': '按界面任务浏览组件，并进入详情页查看示例、API、slots、parts 和 tokens。',
     'home.pathThemeCopy': '用同一套 seed 控制主题色、明暗模式、风格预设、密度、圆角、对比度和动效。',
+    'home.pathResourcesCopy': '质量基线、国际化和语义结构契约集中在资源区，不混入组件参考页。',
     'controls.theme': '主题控制',
     'controls.locale': '语言',
     'controls.light': '浅色',
@@ -87,7 +92,7 @@ const messages = {
     'theme.algorithmTitle': '开放主题算法',
     'theme.algorithmCopy': 'seed 进入派生 palette，再映射到 semantic/component tokens。输出可以复制为 CSS 变量，也能被工具理解。',
     'resources.title': '资源',
-    'resources.copy': '质量、i18n、语义结构和工程方法集中放在资源区，避免污染首页主叙事。',
+    'resources.copy': '质量、i18n 和语义结构集中放在资源区；这里不承载组件 API，也不重复主题教程。',
     'lab.title': '主题矩阵',
     'lab.copy': '验证默认风格、插画风格、明暗模式、主题色、密度和动效的组合。',
     'designer.title': '主题设计器',
@@ -150,10 +155,11 @@ const messages = {
     'home.accessible': 'Accessible',
     'home.metadata': 'Metadata driven',
     'home.libraryTitle': 'A component library should start with real user paths',
-    'home.libraryCopy': 'Installation, theming, components, framework usage, and quality guidance live in clear routes. The home page focuses on product value and entry points.',
+    'home.libraryCopy': 'Start, Components, Theme, and Resources live in stable routes. The home page keeps product positioning and high-value entry points.',
     'home.pathStartCopy': 'Install the package, register all components or import one component at a time, then add a theme stylesheet.',
     'home.pathComponentsCopy': 'Browse components by interface task and open reference pages with examples, API, slots, parts, and tokens.',
     'home.pathThemeCopy': 'Switch accent, light/dark mode, style preset, density, radius, contrast, and motion from the same seed model.',
+    'home.pathResourcesCopy': 'Quality baselines, i18n, and semantic anatomy contracts live together without crowding component references.',
     'controls.theme': 'Theme controls',
     'controls.locale': 'Language',
     'controls.light': 'Light',
@@ -198,7 +204,7 @@ const messages = {
     'theme.algorithmTitle': 'Open theme algorithm',
     'theme.algorithmCopy': 'Seeds derive a palette, then semantic and component tokens. The output can be copied as CSS variables and understood by tools.',
     'resources.title': 'Resources',
-    'resources.copy': 'Quality, i18n, semantic anatomy, and build-method guidance live in the resources area instead of crowding the home page.',
+    'resources.copy': 'Quality, i18n, and semantic anatomy live in Resources. This area does not duplicate component APIs or theme tutorials.',
     'lab.title': 'Theme Matrix',
     'lab.copy': 'Validate default style, illustration style, dark mode, accent, density, and motion combinations.',
     'designer.title': 'Theme Designer',

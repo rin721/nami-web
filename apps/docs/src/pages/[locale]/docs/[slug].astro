@@ -1,35 +1,37 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
-import { isDocsLocale, type DocsLocale } from '../../../lib/site';
+import { getCollection, render } from 'astro:content';
+import { docsEntry } from '../../../lib/docs-structure';
+import { normalizeDocsLocale, type DocsLocale } from '../../../lib/site';
 
 export async function getStaticPaths() {
-  const modules = import.meta.glob('../../../content/docs/*/*.mdx');
-  const paths = await Promise.all(Object.entries(modules).map(async ([path, loader]) => {
-    const module = await loader() as { default: unknown; frontmatter: { title: string; group?: string; description?: string } };
-    const parts = path.replace(/\.(md|mdx)$/, '').split('/');
-    const locale = parts.at(-2) ?? 'zh-CN';
-    const slug = parts.at(-1) ?? 'overview';
-    return {
+  const entries = await getCollection('start');
+  return entries.flatMap((entry) => {
+    const [localeId, slug] = entry.id.replace(/\.(md|mdx)$/, '').split('/');
+    const locale = normalizeDocsLocale(localeId);
+    if (!locale || !slug || !docsEntry('start', slug)) return [];
+    return [{
       params: { locale, slug },
       props: {
-        Content: module.default,
-        frontmatter: module.frontmatter,
+        entry,
         locale: locale as DocsLocale,
         slug
       }
-    };
-  }));
-  return paths.filter((item) => isDocsLocale(item.params.locale));
+    }];
+  });
 }
 
-const { Content, frontmatter, locale, slug } = Astro.props;
+const { entry, locale, slug } = Astro.props;
+const { Content } = await render(entry);
+const structure = docsEntry('start', slug);
 ---
 
-<DocsLayout locale={locale} title={frontmatter.title} description={frontmatter.description}>
+<DocsLayout locale={locale} title={entry.data.title} description={entry.data.description}>
   <section class="section markdown-route">
     <div class="section-heading">
-      <p class="eyebrow">{frontmatter.group ?? 'Guide'}</p>
-      <h2>{frontmatter.title}</h2>
+      <p class="eyebrow">{structure?.title[locale] ?? entry.data.group}</p>
+      <h2>{entry.data.title}</h2>
+      {structure && <p>{structure.description[locale]}</p>}
     </div>
     <article id={`doc-${slug}`} class="markdown-page">
       <Content />

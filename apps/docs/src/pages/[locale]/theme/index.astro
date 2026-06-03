@@ -1,12 +1,27 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
-import { docsLocales, localizedPath, t, type DocsLocale } from '../../../lib/site';
+import { getCollection, render } from 'astro:content';
+import { docsSections } from '../../../lib/docs-structure';
+import { docsLocales, localizedPath, normalizeDocsLocale, t, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
   return docsLocales.map((locale) => ({ params: { locale }, props: { locale } }));
 }
 
 const { locale } = Astro.props as { locale: DocsLocale };
+const section = docsSections.theme;
+const entries = await getCollection('theme');
+const overview = entries.find((entry) => {
+  const [localeId, slug] = entry.id.replace(/\.(md|mdx)$/, '').split('/');
+  return normalizeDocsLocale(localeId) === locale && slug === 'overview';
+});
+
+if (!overview) {
+  throw new Error(`Missing theme overview content for ${locale}`);
+}
+
+const { Content } = await render(overview);
+const entryLinks = section.entries.filter((entry) => entry.slug !== 'overview');
 ---
 
 <DocsLayout locale={locale} title={t(locale, 'theme.title')}>
@@ -14,8 +29,12 @@ const { locale } = Astro.props as { locale: DocsLocale };
     <div class="section-heading">
       <p class="eyebrow">{t(locale, 'nav.theme')}</p>
       <h1>{t(locale, 'theme.title')}</h1>
-      <p>{t(locale, 'theme.copy')}</p>
+      <p>{section.description[locale]}</p>
     </div>
+
+    <article class="markdown-page">
+      <Content />
+    </article>
 
     <div class="theme-system-grid">
       <nami-card>
@@ -51,21 +70,14 @@ const { locale } = Astro.props as { locale: DocsLocale };
     </div>
 
     <div class="entry-grid">
-      <nami-card>
-        <h3 slot="header">{t(locale, 'theme.presetsTitle')}</h3>
-        <p>{t(locale, 'theme.presetsCopy')}</p>
-        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/style-presets/')}'`}>{t(locale, 'theme.presetsTitle')}</nami-button>
-      </nami-card>
-      <nami-card>
-        <h3 slot="header">{t(locale, 'theme.algorithmTitle')}</h3>
-        <p>{t(locale, 'theme.algorithmCopy')}</p>
-        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/theme/algorithm/')}'`}>{t(locale, 'theme.algorithmTitle')}</nami-button>
-      </nami-card>
-      <nami-card>
-        <h3 slot="header">{t(locale, 'nav.designer')}</h3>
-        <p>{t(locale, 'designer.copy')}</p>
-        <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, '/playground/theme-designer/')}'`}>{t(locale, 'nav.designer')}</nami-button>
-      </nami-card>
+      {entryLinks.map((item) => (
+        <nami-card>
+          <nami-badge slot="header" variant={item.kind === 'tool' ? 'success' : 'primary'}>{item.kind}</nami-badge>
+          <h3>{item.title[locale]}</h3>
+          <p>{item.description[locale]}</p>
+          <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, item.path)}'`}>{t(locale, 'component.open')}</nami-button>
+        </nami-card>
+      ))}
     </div>
   </section>
 </DocsLayout>

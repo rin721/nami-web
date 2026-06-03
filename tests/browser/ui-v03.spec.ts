@@ -335,11 +335,14 @@ test('theme designer and responsive shell remain compatible with Nami components
     }))
   }));
   expect(railNav.text).toBe('');
-  expect(railNav.svgCount).toBe(7);
+  expect(railNav.svgCount).toBe(6);
   expect(railNav.labels[0]).toEqual({ aria: '首页', data: '首页', title: '首页' });
+  expect(railNav.labels.slice(0, 5).map((item) => item.aria)).toEqual(['首页', '快速开始', '组件', '主题', '资源']);
   expect(railNav.labels.at(-1)).toEqual({ aria: '设置', data: '设置', title: '设置' });
 
-  await page.goto('/zh-CN/playground/theme-designer/');
+  await expect(page.locator('.bottom-nav a')).toHaveCount(5);
+
+  await page.goto('/zh-CN/theme/designer/');
   const designerRoot = page.locator('[data-theme-designer]');
   await designerRoot.locator('[data-theme-mode] button[value="dark"]').click();
   await designerRoot.locator('[data-accent="#14b8a6"]').click();
@@ -367,5 +370,39 @@ test('theme designer and responsive shell remain compatible with Nami components
     radius: 'soft',
     contrast: 'high'
   });
+  expect(errors).toEqual([]);
+});
+
+test('docs information architecture exposes new theme routes and removes scattered legacy routes', async ({ page, request }) => {
+  const errors = captureConsoleErrors(page);
+  await openIsolated(page, '/zh-CN/theme/designer/');
+  await waitForNami(page);
+
+  await expect(page.locator('[data-theme-designer]')).toBeVisible();
+  await expect(page.locator('.rail-stack a').filter({ hasText: '实验室' })).toHaveCount(0);
+
+  await page.goto('/zh-CN/theme/lab/');
+  await expect(page.locator('[data-theme-lab]')).toBeVisible();
+
+  await page.goto('/zh-CN/theme/tokens/');
+  await expect(page.locator('#theme-tokens')).toContainText('分层');
+
+  const removedRoutes = [
+    '/zh-CN/playground/theme-designer/',
+    '/zh-CN/playground/theme-lab/',
+    '/zh-CN/tokens/',
+    '/zh-CN/docs/theme/',
+    '/zh-CN/docs/style-presets/',
+    '/zh-CN/docs/components/',
+    '/zh-CN/docs/quality/',
+    '/zh-CN/docs/i18n/',
+    '/zh-CN/docs/semantic-anatomy/'
+  ];
+
+  for (const route of removedRoutes) {
+    const response = await request.get(route);
+    expect(response.status(), route).toBe(404);
+  }
+
   expect(errors).toEqual([]);
 });

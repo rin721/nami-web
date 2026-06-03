@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../../components/DocsLayout.astro';
+import { docsSections } from '../../../lib/docs-structure';
 import { docsLocales, localizedPath, t, type DocsLocale } from '../../../lib/site';
 
 export function getStaticPaths() {
@@ -7,11 +8,7 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.props as { locale: DocsLocale };
-const items = [
-  { slug: 'quality', title: locale === 'zh-CN' ? '质量基线' : 'Quality baseline' },
-  { slug: 'i18n', title: 'i18n' },
-  { slug: 'semantic-anatomy', title: locale === 'zh-CN' ? '语义结构' : 'Semantic anatomy' }
-];
+const section = docsSections.resources;
 ---
 
 <DocsLayout locale={locale} title={t(locale, 'resources.title')}>
@@ -19,14 +16,29 @@ const items = [
     <div class="section-heading">
       <p class="eyebrow">{t(locale, 'nav.resources')}</p>
       <h1>{t(locale, 'resources.title')}</h1>
-      <p>{t(locale, 'resources.copy')}</p>
+      <p>{section.description[locale]}</p>
     </div>
     <div class="entry-grid">
-      {items.map((item) => (
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '这里放什么' : 'What lives here'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '质量基线、国际化策略、语义结构和样式契约等工程资料。' : 'Quality baselines, i18n strategy, semantic anatomy, and styling contracts.'}</p>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '不放什么' : 'What stays out'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '组件 API 回到 Components；主题工具和 tokens 回到 Theme；官网偏好回到 Settings。' : 'Component APIs belong to Components. Theme tools and tokens belong to Theme. Site preferences stay in Settings.'}</p>
+      </nami-card>
+      <nami-card>
+        <nami-badge slot="header" variant="primary">{locale === 'zh-CN' ? '下一步去哪' : 'Where next'}</nami-badge>
+        <p>{locale === 'zh-CN' ? '准备发布前先看质量基线；做多语言或样式契约时进入对应资源页。' : 'Read Quality before release. Open the matching resource when working on localization or styling contracts.'}</p>
+      </nami-card>
+    </div>
+    <div class="entry-grid">
+      {section.entries.map((item) => (
         <nami-card>
           <nami-badge slot="header" variant="primary">{item.slug}</nami-badge>
-          <h3>{item.title}</h3>
-          <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, `/resources/${item.slug}/`)}'`}>{t(locale, 'component.open')}</nami-button>
+          <h3>{item.title[locale]}</h3>
+          <p>{item.description[locale]}</p>
+          <nami-button variant="soft" onclick={`location.href='${localizedPath(locale, item.path)}'`}>{t(locale, 'component.open')}</nami-button>
         </nami-card>
       ))}
     </div>

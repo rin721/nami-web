@@ -4,8 +4,9 @@ import '../../../../packages/themes/src/default.css';
 import '../../../../packages/themes/src/ant-illustration.css';
 import '../styles.css';
 import { ClientRouter } from 'astro:transitions';
-import { Blocks, BookOpen, Home, Palette, Rocket, Settings, SlidersHorizontal } from '@lucide/astro';
+import { Blocks, BookOpen, Home, Palette, Rocket, Settings } from '@lucide/astro';
 import NamiMark from './NamiMark.astro';
+import { docsSections } from '../lib/docs-structure';
 import { docsLocales, localizedPath, logicalPathFromUrl, t, type DocsLocale } from '../lib/site';
 
 interface Props {
@@ -17,12 +18,11 @@ interface Props {
 const { locale, title = 'Nami UI', description = t(locale, 'site.description') } = Astro.props;
 const logicalPath = logicalPathFromUrl(Astro.url.pathname, locale);
 const primary = [
-  { path: '/', label: t(locale, 'nav.home'), Icon: Home },
-  { path: '/docs/getting-started/', label: t(locale, 'nav.getStarted'), Icon: Rocket },
-  { path: '/components/', label: t(locale, 'nav.components'), Icon: Blocks },
-  { path: '/theme/', label: t(locale, 'nav.theme'), Icon: Palette },
-  { path: '/playground/theme-designer/', label: t(locale, 'nav.playground'), Icon: SlidersHorizontal },
-  { path: '/resources/quality/', label: t(locale, 'nav.resources'), Icon: BookOpen }
+  { path: '/', activePath: '/', label: t(locale, 'nav.home'), Icon: Home },
+  { path: docsSections.start.path, activePath: '/docs/', label: t(locale, 'nav.getStarted'), Icon: Rocket },
+  { path: '/components/', activePath: '/components/', label: t(locale, 'nav.components'), Icon: Blocks },
+  { path: docsSections.theme.path, activePath: '/theme/', label: t(locale, 'nav.theme'), Icon: Palette },
+  { path: docsSections.resources.path, activePath: '/resources/', label: t(locale, 'nav.resources'), Icon: BookOpen }
 ];
 const settingsLink = { path: '/settings/appearance/', label: t(locale, 'nav.settings') };
 
@@ -67,7 +67,7 @@ function isActive(path: string) {
               {primary.map((link) => {
                 const Icon = link.Icon;
                 return (
-                  <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'} aria-label={link.label} title={link.label} data-label={link.label}>
+                    <a href={localizedPath(locale, link.path)} aria-current={isActive(link.activePath) ? 'page' : 'false'} aria-label={link.label} title={link.label} data-label={link.label}>
                     <span class="rail-icon" aria-hidden="true"><Icon size={20} stroke-width={2.2} /></span>
                   </a>
                 );
@@ -92,8 +92,8 @@ function isActive(path: string) {
             </div>
           </div>
           <nav slot="bottom" class="bottom-nav" aria-label="Mobile">
-            {[primary[0], primary[1], primary[2], primary[3]].map((link) => (
-              <a href={localizedPath(locale, link.path)} aria-current={isActive(link.path) ? 'page' : 'false'}>
+            {primary.map((link) => (
+              <a href={localizedPath(locale, link.path)} aria-current={isActive(link.activePath) ? 'page' : 'false'}>
                 {link.label}
               </a>
             ))}

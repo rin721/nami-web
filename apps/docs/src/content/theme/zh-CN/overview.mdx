@@ -8,6 +8,18 @@ order: 2
 
 `nami-theme` 是视觉主题边界。它控制嵌套组件的 seed accent、主题模式、密度、动效和 style preset。
 
+## 这里放什么
+
+Theme 集中说明主题边界、tokens 分层、派生算法、风格 preset、Theme Designer 和 Theme Lab。这里讨论如何生成、覆盖、导出和验证主题。
+
+## 不放什么
+
+组件 API 不放在 Theme；每个组件可覆盖的 parts、states 和 component tokens 在组件详情页维护。官网外观偏好也不放在 Theme，它们属于 Settings 工具区。
+
+## 下一步去哪
+
+先读 Tokens 理解分层，再读主题算法理解派生过程；需要直接调色时进入 Theme Designer，需要做组合验证时进入 Theme Lab。
+
 <nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20theme%3D%22light%22%20density%3D%22comfortable%22%3E%0A%20%20%3Cdiv%20class%3D%22doc-live-stack%22%3E%0A%20%20%20%20%3Cnami-button%3E%E4%BF%9D%E5%AD%98%E4%BF%AE%E6%94%B9%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-input%20label%3D%22%E6%90%9C%E7%B4%A2%22%20placeholder%3D%22%E8%AF%95%E8%AF%95%20token%20%E5%90%8D%E7%A7%B0%22%3E%3C%2Fnami-input%3E%0A%20%20%20%20%3Cnami-switch%20checked%3E%E5%90%AF%E7%94%A8%3C%2Fnami-switch%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
 
 ## Token 层级
@@ -19,4 +31,3 @@ order: 2
 | Component | `--nami-button-bg`, `--nami-chip-selected-bg` | 单组件覆盖边界 |
 
 hover、selected、focus、switch checked 和 loading indicator 都应该跟随同一个 accent seed。
-

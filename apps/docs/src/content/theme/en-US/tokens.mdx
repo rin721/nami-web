@@ -1,0 +1,25 @@
+---
+title: Tokens
+group: Theme
+order: 2
+description: The seed, semantic, component, and style token layers in Nami UI.
+---
+
+# Tokens
+
+Nami UI keeps theme customization behind CSS Variables and a deterministic theme system. Components consume semantic, component, and style tokens instead of scattered seed values.
+
+## Layers
+
+| Layer | Examples | Responsibility |
+| --- | --- | --- |
+| Seed | `--nami-accent-50`, `--nami-layout-gutter` | Brand, density, layout, and motion inputs |
+| Semantic | `--nami-color-primary`, `--nami-surface`, `--nami-text` | Shared component meaning |
+| Component | `--nami-button-bg`, `--nami-checkbox-bg`, `--nami-progress-fill-bg` | Component or slot overrides |
+| Style | `--nami-style-stroke-width`, `--nami-style-background-pattern` | Visual language for style presets |
+
+## Boundary
+
+Application code should override semantic or component tokens first. To generate a full theme, use `defineNamiTheme()` and `createNamiThemeSystem()` to emit scoped CSS.
+
+<nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20density%3D%22compact%22%3E%0A%20%20%3Cnami-stack%3E%0A%20%20%20%20%3Cnami-button%3ESave%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-progress%20value%3D%2264%22%20label%3D%22Token%20progress%22%3E%3C%2Fnami-progress%3E%0A%20%20%3C%2Fnami-stack%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>

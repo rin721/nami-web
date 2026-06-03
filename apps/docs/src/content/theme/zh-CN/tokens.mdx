@@ -1,0 +1,25 @@
+---
+title: Tokens
+group: 主题
+order: 2
+description: Nami UI 的 seed、semantic、component 和 style token 分层。
+---
+
+# Tokens
+
+Nami UI 将换肤边界集中在 CSS Variables 和确定性主题系统之后。组件内部只消费 semantic、component 和 style tokens，不直接依赖零散 seed。
+
+## 分层
+
+| 层级 | 示例 | 责任 |
+| --- | --- | --- |
+| Seed | `--nami-accent-50`, `--nami-layout-gutter` | 品牌、密度、布局和动效输入 |
+| Semantic | `--nami-color-primary`, `--nami-surface`, `--nami-text` | 组件共享语义 |
+| Component | `--nami-button-bg`, `--nami-checkbox-bg`, `--nami-progress-fill-bg` | 单组件或槽位覆盖 |
+| Style | `--nami-style-stroke-width`, `--nami-style-background-pattern` | 风格 preset 的视觉语言 |
+
+## 使用边界
+
+应用层优先覆盖 semantic 或 component token。需要生成完整主题时，使用 `defineNamiTheme()` 和 `createNamiThemeSystem()` 输出 scoped CSS。
+
+<nami-docs-live-demo data-code="%3Cnami-theme%20accent%3D%22%2314b8a6%22%20density%3D%22compact%22%3E%0A%20%20%3Cnami-stack%3E%0A%20%20%20%20%3Cnami-button%3E%E4%BF%9D%E5%AD%98%3C%2Fnami-button%3E%0A%20%20%20%20%3Cnami-progress%20value%3D%2264%22%20label%3D%22Token%20progress%22%3E%3C%2Fnami-progress%3E%0A%20%20%3C%2Fnami-stack%3E%0A%3C%2Fnami-theme%3E"></nami-docs-live-demo>
