@@ -59,6 +59,45 @@ const n = [
     states: ["default", "loading", "active"]
   },
   {
+    name: "nami-scroll-header",
+    summary: "Direction-aware sticky header that hides on downward scroll and elevates after a threshold.",
+    usage: "<nami-scroll-header><nav>Navigation</nav></nami-scroll-header>",
+    attributes: ["threshold", "hide-threshold", "hidden", "elevated", "direction"],
+    properties: ["threshold", "hideThreshold", "hidden", "elevated", "direction", "sync()"],
+    events: ["nami-scroll-state"],
+    slots: ["default"],
+    parts: ["base", "backdrop", "edge", "content"],
+    tokens: ["--nami-motion-normal", "--nami-ease-standard", "--nami-surface-overlay", "--nami-border", "--nami-color-primary", "--nami-shadow-color", "--nami-text"],
+    category: "layout",
+    states: ["default", "elevated", "hidden"]
+  },
+  {
+    name: "nami-scroll-reveal",
+    summary: "Motion-powered viewport reveal wrapper for scroll-triggered content entrance.",
+    usage: '<nami-scroll-reveal effect="fade-up"><nami-card>Revealed content</nami-card></nami-scroll-reveal>',
+    attributes: ["effect", "once", "amount", "margin", "delay", "duration", "in-view", "revealed"],
+    properties: ["effect", "once", "amount", "margin", "delay", "duration", "inViewState", "revealed", "reveal()", "hide()"],
+    events: ["nami-reveal", "nami-hide"],
+    slots: ["default"],
+    parts: ["base"],
+    tokens: ["--nami-motion-normal", "--nami-ease-standard", "--nami-text"],
+    category: "feedback",
+    states: ["default", "in-view", "revealed"]
+  },
+  {
+    name: "nami-hero-stage",
+    summary: "Token-driven hero stage with soft glows and Motion-animated beams for expressive landing sections.",
+    usage: '<nami-hero-stage height="compact"><h1>Nami UI</h1></nami-hero-stage>',
+    attributes: ["variant", "height", "intensity", "animated"],
+    properties: ["variant", "height", "intensity", "animated"],
+    events: [],
+    slots: ["default"],
+    parts: ["base", "backdrop", "beam-a", "beam-b", "glow-a", "glow-b", "content"],
+    tokens: ["--nami-motion-normal", "--nami-ease-standard", "--nami-style-background-pattern", "--nami-color-primary", "--nami-surface", "--nami-text", "--nami-container-lg", "--nami-layout-gutter"],
+    category: "layout",
+    states: ["default", "animated"]
+  },
+  {
     name: "nami-illustration",
     summary: "Token-driven status illustration.",
     usage: '<nami-illustration name="empty" size="md"></nami-illustration>',
@@ -382,6 +421,9 @@ const n = [
   ["nami-spinner", "feedback"],
   ["nami-page-transition", "feedback"],
   ["nami-top-progress", "feedback"],
+  ["nami-scroll-header", "layout"],
+  ["nami-scroll-reveal", "feedback"],
+  ["nami-hero-stage", "layout"],
   ["nami-illustration", "feedback"],
   ["nami-empty", "feedback"],
   ["nami-result", "feedback"],
@@ -412,6 +454,13 @@ const n = [
   ["track", "Progress track for route and reveal transitions."],
   ["brand", "Brand mark region for first-paint reveal transitions."],
   ["panel", "Raised inner surface for grouped transition content."],
+  ["backdrop", "Backdrop or ambient visual layer."],
+  ["edge", "Thin edge line that separates elevated scroll surfaces."],
+  ["content", "Projected content region."],
+  ["beam-a", "Primary hero beam layer."],
+  ["beam-b", "Secondary hero beam layer."],
+  ["glow-a", "Leading soft hero glow."],
+  ["glow-b", "Trailing soft hero glow."],
   ["illustration", "Illustration container."],
   ["image", "Rendered illustration artwork."],
   ["error", "Validation or error message region."],
@@ -420,27 +469,27 @@ const n = [
   ["bottom", "Mobile bottom navigation slot."]
 ]);
 function l(e) {
-  return e.map((i) => ({
-    part: i,
-    description: s.get(i) ?? "Named style part exposed as public component anatomy."
+  return e.map((t) => ({
+    part: t,
+    description: s.get(t) ?? "Named style part exposed as public component anatomy."
   }));
 }
-function m(e, i) {
-  return i === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : i === "selected" || i === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : i === "hover" ? e.filter((a) => a.includes("hover")) : i === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : i === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : i === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
+function m(e, t) {
+  return t === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : t === "selected" || t === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : t === "hover" ? e.filter((a) => a.includes("hover")) : t === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : t === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : t === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
 }
-function d(e, i) {
+function d(e, t) {
   const a = e.parts.includes("control") ? "control" : e.parts[0] ?? "base";
-  return i.map((t) => ({
+  return t.map((i) => ({
     part: a,
-    state: t,
-    tokens: m(e.tokens, t)
-  })).filter((t) => t.tokens.length > 0);
+    state: i,
+    tokens: m(e.tokens, i)
+  })).filter((i) => i.tokens.length > 0);
 }
 const c = n.map((e) => {
-  const i = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[i];
+  const t = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[t];
   return {
     ...e,
-    category: i,
+    category: t,
     anatomy: e.anatomy ?? l(e.parts),
     states: a,
     styleHooks: e.styleHooks ?? d(e, a)

@@ -94,6 +94,29 @@ import '@nami-web/ui/input';
 import '@nami-web/ui/button/register';
 ```
 
+## Scroll Motion Components
+
+Scroll-aware components are part of `@nami-web/ui` and use Motion's JavaScript runtime internally. npm users do not need a separate install; CDN builds bundle the Motion runtime into the Nami assets.
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/scroll-header';
+import '@nami-web/ui/scroll-reveal';
+import '@nami-web/ui/hero-stage';
+```
+
+```html
+<nami-scroll-header>
+  <nav>Navigation</nav>
+</nami-scroll-header>
+
+<nami-hero-stage height="compact" intensity="soft">
+  <nami-scroll-reveal effect="fade-up">
+    <h1>Motion-aware page</h1>
+  </nami-scroll-reveal>
+</nami-hero-stage>
+```
+
 ## Advanced CDN Usage
 
 CDN assets are published with the docs site and served from `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/`. The default global file registers every component:

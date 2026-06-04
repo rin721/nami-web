@@ -18,12 +18,15 @@ import type { NamiDrawer } from './components/drawer';
 import type { NamiEmpty } from './components/empty';
 import type { NamiFormField } from './components/form-field';
 import type { NamiIconButton } from './components/icon-button';
+import type { NamiHeroStage } from './components/hero-stage';
 import type { NamiIllustration } from './components/illustration';
 import type { NamiInput } from './components/input';
 import type { NamiPageTransition } from './components/page-transition';
 import type { NamiProgress } from './components/progress';
 import type { NamiRadioCard } from './components/radio-card';
 import type { NamiResult } from './components/result';
+import type { NamiScrollHeader } from './components/scroll-header';
+import type { NamiScrollReveal } from './components/scroll-reveal';
 import type { NamiSwitch } from './components/switch';
 import type { NamiTabBar } from './components/tab-bar';
 import type { NamiTextarea } from './components/textarea';
@@ -592,6 +595,108 @@ describe('@nami-web/ui components', () => {
     progress.remove();
   });
 
+  it('renders scroll motion primitives with reflected state and hook methods', async () => {
+    const header = document.createElement('nami-scroll-header') as NamiScrollHeader;
+    const reveal = document.createElement('nami-scroll-reveal') as NamiScrollReveal;
+    const stage = document.createElement('nami-hero-stage') as NamiHeroStage;
+    header.threshold = 20;
+    header.hideThreshold = 56;
+    reveal.effect = 'line-expand';
+    reveal.once = false;
+    reveal.duration = 0;
+    stage.height = 'compact';
+    stage.intensity = 'soft';
+    stage.animated = false;
+    document.body.append(header, reveal, stage);
+    await header.updateComplete;
+    await reveal.updateComplete;
+    await stage.updateComplete;
+
+    const scrollStates: unknown[] = [];
+    header.addEventListener('nami-scroll-state', (event) => scrollStates.push((event as CustomEvent).detail));
+
+    Object.defineProperty(window, 'scrollY', { configurable: true, value: 80 });
+    header.sync();
+    await header.updateComplete;
+
+    expect(header.elevated).toBe(true);
+    expect(header.hidden).toBe(true);
+    expect(header.getAttribute('direction')).toBe('down');
+    expect(scrollStates.at(-1)).toMatchObject({ scrollY: 80, direction: 'down', hidden: true, elevated: true });
+
+    Object.defineProperty(window, 'scrollY', { configurable: true, value: 40 });
+    header.sync();
+    await header.updateComplete;
+
+    expect(header.elevated).toBe(true);
+    expect(header.hidden).toBe(false);
+    expect(header.getAttribute('direction')).toBe('up');
+    expect(header.shadowRoot?.querySelector('[part~="backdrop"]')).not.toBeNull();
+    expect(header.shadowRoot?.querySelector('[part~="edge"]')).not.toBeNull();
+    expect(header.shadowRoot?.querySelector('[part~="content"]')).not.toBeNull();
+
+    let revealEvents = 0;
+    let hideEvents = 0;
+    reveal.addEventListener('nami-reveal', () => revealEvents += 1);
+    reveal.addEventListener('nami-hide', () => hideEvents += 1);
+    reveal.reveal();
+    await reveal.updateComplete;
+
+    expect(reveal.revealed).toBe(true);
+    expect(reveal.hasAttribute('in-view')).toBe(true);
+    expect(revealEvents).toBeGreaterThan(0);
+
+    reveal.hide();
+    await reveal.updateComplete;
+
+    expect(reveal.revealed).toBe(false);
+    expect(reveal.hasAttribute('in-view')).toBe(false);
+    expect(hideEvents).toBeGreaterThan(0);
+    expect(reveal.shadowRoot?.querySelector('[part~="base"]')).not.toBeNull();
+
+    expect(stage.getAttribute('height')).toBe('compact');
+    expect(stage.getAttribute('intensity')).toBe('soft');
+    for (const part of ['base', 'backdrop', 'beam-a', 'beam-b', 'glow-a', 'glow-b', 'content']) {
+      expect(stage.shadowRoot?.querySelector(`[part~="${part}"]`), `nami-hero-stage should expose ${part}`).not.toBeNull();
+    }
+
+    header.remove();
+    reveal.remove();
+    stage.remove();
+  });
+
+  it('keeps scroll motion components stable when motion is reduced', async () => {
+    const reveal = document.createElement('nami-scroll-reveal') as NamiScrollReveal;
+    const stage = document.createElement('nami-hero-stage') as NamiHeroStage;
+    reveal.style.setProperty('--nami-motion-normal', '1ms');
+    stage.style.setProperty('--nami-motion-normal', '1ms');
+    document.body.append(reveal, stage);
+    await reveal.updateComplete;
+    await stage.updateComplete;
+
+    const revealBase = reveal.shadowRoot?.querySelector<HTMLElement>('[part~="base"]');
+    const beamA = stage.shadowRoot?.querySelector<HTMLElement>('[part~="beam-a"]');
+    expect(revealBase).not.toBeNull();
+    expect(beamA).not.toBeNull();
+
+    revealBase!.style.opacity = '0';
+    revealBase!.style.transform = 'translateY(16px)';
+
+    let revealEvents = 0;
+    reveal.addEventListener('nami-reveal', () => revealEvents += 1);
+    reveal.reveal();
+    await reveal.updateComplete;
+
+    expect(reveal.revealed).toBe(true);
+    expect(revealBase!.style.opacity).toBe('');
+    expect(revealBase!.style.transform).toBe('');
+    expect(beamA!.style.transform).toBe('');
+    expect(revealEvents).toBe(1);
+
+    reveal.remove();
+    stage.remove();
+  });
+
   it('publishes metadata for all registered public components', () => {
     const names = namiComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
@@ -601,6 +706,9 @@ describe('@nami-web/ui components', () => {
       'nami-spinner',
       'nami-page-transition',
       'nami-top-progress',
+      'nami-scroll-header',
+      'nami-scroll-reveal',
+      'nami-hero-stage',
       'nami-illustration',
       'nami-empty',
       'nami-result',
@@ -647,6 +755,7 @@ describe('@nami-web/ui components', () => {
       'general',
       'layout',
       'navigation',
+      'motion',
       'data-entry',
       'data-display',
       'feedback',

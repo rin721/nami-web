@@ -1,4 +1,4 @@
-import { namiComponentMetadata as l } from "./metadata.js";
+import { namiComponentMetadata as p } from "./metadata.js";
 const r = [
   {
     id: "general",
@@ -26,6 +26,15 @@ const r = [
       "en-US": "Peer content switching and route feedback for navigation flows."
     },
     names: ["nami-tab-bar", "nami-top-progress", "nami-page-transition"]
+  },
+  {
+    id: "motion",
+    title: { "zh-CN": "滚动与动效", "en-US": "Scroll and Motion" },
+    description: {
+      "zh-CN": "滚动方向感知、视口 reveal 和 hero 舞台氛围，用于页面级视觉反馈与叙事入口。",
+      "en-US": "Scroll-aware surfaces, viewport reveal, and hero-stage atmosphere for page-level motion feedback."
+    },
+    names: ["nami-scroll-header", "nami-scroll-reveal", "nami-hero-stage"]
   },
   {
     id: "data-entry",
@@ -63,7 +72,7 @@ const r = [
     },
     names: ["nami-config", "nami-theme"]
   }
-], p = new Map(l.map((a) => [a.name, a])), v = /* @__PURE__ */ new Map([
+], l = new Map(p.map((a) => [a.name, a])), y = /* @__PURE__ */ new Map([
   ["nami-config", '<nami-config locale="zh-CN"><nami-empty compact></nami-empty></nami-config>'],
   ["nami-theme", '<nami-theme accent="#14b8a6" style-preset="illustration"><nami-button>Scoped theme</nami-button></nami-theme>'],
   ["nami-app-shell", '<div class="mini-shell"><span>Rail</span><strong>App shell</strong><small>Responsive layout slots</small></div>'],
@@ -90,6 +99,9 @@ const r = [
   ["nami-alert", '<nami-alert variant="warning" title="Check settings">Review the configuration.</nami-alert>'],
   ["nami-page-transition", '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
   ["nami-top-progress", '<div class="component-preview-frame progress-preview-frame"><nami-top-progress active variant="inline" progress="64" height="12" duration="0"></nami-top-progress></div>'],
+  ["nami-scroll-header", '<nami-scroll-header elevated><nami-cluster gap="sm"><nami-badge variant="primary">Scroll</nami-badge><nami-button variant="soft">Nav</nami-button></nami-cluster></nami-scroll-header>'],
+  ["nami-scroll-reveal", '<nami-scroll-reveal revealed effect="fade-up"><nami-card>Viewport reveal</nami-card></nami-scroll-reveal>'],
+  ["nami-hero-stage", '<nami-hero-stage height="compact" intensity="soft" style="--nami-hero-stage-compact-height: 132px; --nami-hero-stage-padding: 18px;"><strong>Hero stage</strong></nami-hero-stage>'],
   ["nami-dialog", '<nami-button variant="soft">Open dialog</nami-button>'],
   ["nami-drawer", '<nami-button variant="soft">Open drawer</nami-button>'],
   ["nami-toast", '<nami-button variant="soft">Show toast</nami-button>'],
@@ -123,6 +135,9 @@ const r = [
   ["nami-alert", "显示信息、成功、警告和危险状态的行内反馈。"],
   ["nami-page-transition", "处理首屏揭幕和阻断式任务过渡。"],
   ["nami-top-progress", "在框架路由钩子中显示顶部进度轨道与填充。"],
+  ["nami-scroll-header", "构建会感知滚动方向的 sticky 顶栏，向下隐藏、向上显示，并在滚动后获得毛玻璃层。"],
+  ["nami-scroll-reveal", "在内容进入视口时触发 Motion reveal，用于教程、营销区块和文档示例的渐入。"],
+  ["nami-hero-stage", "构建 token 驱动的 hero 舞台背景，提供柔光、双光带和主题化内容插槽。"],
   ["nami-dialog", "承载需要焦点管理的模态任务。"],
   ["nami-drawer", "在移动端或辅助流程中打开侧向面板。"],
   ["nami-toast", "显示短时反馈和操作结果。"],
@@ -135,6 +150,9 @@ const r = [
   ["nami-spinner", "Spinner 加载"],
   ["nami-page-transition", "PageTransition 页面过渡"],
   ["nami-top-progress", "TopProgress 顶部进度"],
+  ["nami-scroll-header", "ScrollHeader 滚动头部"],
+  ["nami-scroll-reveal", "ScrollReveal 视口显现"],
+  ["nami-hero-stage", "HeroStage 舞台背景"],
   ["nami-illustration", "Illustration 插画"],
   ["nami-empty", "Empty 空状态"],
   ["nami-result", "Result 结果页"],
@@ -317,6 +335,9 @@ const r = [
   ["nami-drawer", '<nami-drawer open placement="right"><h3 slot="label">Filters</h3><nami-checkbox checked>Only active</nami-checkbox></nami-drawer>'],
   ["nami-toast", 'NamiToast.show({ message: "Saved", variant: "success", duration: 2400 })'],
   ["nami-app-shell", '<nami-app-shell rail-width="64" mobile-bar-height="60" sticky safe-area><nav slot="rail">Nav</nav><main>Content</main></nami-app-shell>'],
+  ["nami-scroll-header", '<nami-scroll-header threshold="20" hide-threshold="56"><nami-cluster gap="sm"><nami-badge variant="primary">Docs</nami-badge><a href="#">Overview</a><a href="#">API</a></nami-cluster></nami-scroll-header>'],
+  ["nami-scroll-reveal", '<nami-scroll-reveal effect="line-expand" amount="0.4"><nami-card>Line expansion reveal</nami-card></nami-scroll-reveal>'],
+  ["nami-hero-stage", '<nami-hero-stage variant="beam" height="compact" intensity="normal"><nami-stack><h2>Motion-aware stage</h2><nami-button>Explore</nami-button></nami-stack></nami-hero-stage>'],
   ["nami-grid", '<nami-grid min="12rem" gap="lg"><nami-card>Metric</nami-card><nami-card>Trend</nami-card><nami-card>Task</nami-card></nami-grid>'],
   ["nami-split", '<nami-split ratio="sidebar-main" min="16rem"><aside>Filters</aside><main>Results</main></nami-split>'],
   ["nami-empty", '<nami-empty title="No projects" description="Create the first project to continue"><nami-button slot="actions">Create</nami-button></nami-empty>'],
@@ -324,8 +345,8 @@ const r = [
   ["nami-progress", '<nami-progress indeterminate label="Syncing"></nami-progress>'],
   ["nami-skeleton", '<nami-stack gap="sm"><nami-skeleton variant="avatar"></nami-skeleton><nami-skeleton variant="text"></nami-skeleton><nami-skeleton variant="text"></nami-skeleton></nami-stack>']
 ]);
-function d(a, n) {
-  return a.replace(/^nami-/, ""), n === "basic" ? { "zh-CN": "基础示例", "en-US": "Basic example" } : { "zh-CN": "进阶示例", "en-US": "Advanced example" };
+function d(a, e) {
+  return a.replace(/^nami-/, ""), e === "basic" ? { "zh-CN": "基础示例", "en-US": "Basic example" } : { "zh-CN": "进阶示例", "en-US": "Advanced example" };
 }
 function u(a) {
   return a === "basic" ? {
@@ -336,23 +357,23 @@ function u(a) {
     "en-US": "Shows a fuller composition with state, slots, or theme boundaries."
   };
 }
-function N(a, n) {
-  const e = a.replace(/^nami-/, "").replace(/-/g, "");
+function S(a, e) {
+  const n = a.replace(/^nami-/, "").replace(/-/g, "");
   return {
-    html: n,
+    html: e,
     vue: `<template>
-  ${n}
+  ${e}
 </template>`,
-    react: `export function ${e[0]?.toUpperCase() ?? "N"}${e.slice(1)}Example() {
-  return <div dangerouslySetInnerHTML={{ __html: ${JSON.stringify(n)} }} />;
+    react: `export function ${n[0]?.toUpperCase() ?? "N"}${n.slice(1)}Example() {
+  return <div dangerouslySetInnerHTML={{ __html: ${JSON.stringify(e)} }} />;
 }`
   };
 }
 function s(a) {
-  return a.replace(/^nami-/, "").split("-").map((n) => n[0]?.toUpperCase() + n.slice(1)).join("");
+  return a.replace(/^nami-/, "").split("-").map((e) => e[0]?.toUpperCase() + e.slice(1)).join("");
 }
-function S(a) {
-  return r.find((n) => n.names.includes(a))?.id ?? "system";
+function N(a) {
+  return r.find((e) => e.names.includes(a))?.id ?? "system";
 }
 function P(a) {
   return a.replace(/^nami-/, "");
@@ -360,41 +381,41 @@ function P(a) {
 function T(a) {
   return `nami-${a}`;
 }
-function A(a, n) {
-  return a.title[n];
+function A(a, e) {
+  return a.title[e];
 }
-function D(a, n) {
-  return a.description[n];
+function D(a, e) {
+  return a.description[e];
 }
-function m(a, n) {
-  return n === "zh-CN" ? C.get(a) ?? s(a) : s(a);
+function m(a, e) {
+  return e === "zh-CN" ? C.get(a) ?? s(a) : s(a);
 }
-function o(a, n) {
-  const e = p.get(a);
-  return n === "zh-CN" ? f.get(a) ?? e?.summary ?? a : e?.summary ?? a;
+function o(a, e) {
+  const n = l.get(a);
+  return e === "zh-CN" ? f.get(a) ?? n?.summary ?? a : n?.summary ?? a;
 }
 function c(a) {
-  return v.get(a) ?? p.get(a)?.usage ?? "";
+  return y.get(a) ?? l.get(a)?.usage ?? "";
 }
 function z(a) {
   return {
     title: d(a, "basic"),
     description: u("basic"),
-    code: p.get(a)?.usage ?? c(a)
+    code: l.get(a)?.usage ?? c(a)
   };
 }
-function U(a) {
+function x(a) {
   return {
     title: d(a, "advanced"),
     description: u("advanced"),
     code: k.get(a) ?? c(a)
   };
 }
-function M(a, n) {
-  return h(a).frameworks[n];
+function M(a, e) {
+  return h(a).frameworks[e];
 }
 function h(a) {
-  const n = z(a), e = U(a), t = S(a), i = r.find((y) => y.id === t)?.names.indexOf(a) ?? 0;
+  const e = z(a), n = x(a), t = N(a), i = r.find((v) => v.id === t)?.names.indexOf(a) ?? 0;
   return {
     name: a,
     groupId: t,
@@ -410,29 +431,29 @@ function h(a) {
     },
     priority: i,
     keywords: [a, s(a), m(a, "zh-CN"), o(a, "zh-CN"), o(a, "en-US")],
-    basic: n,
-    advanced: e,
-    frameworks: N(a, n.code)
+    basic: e,
+    advanced: n,
+    frameworks: S(a, e.code)
   };
 }
-const g = l.map((a) => h(a.name)), x = w, b = [
+const g = p.map((a) => h(a.name)), U = w, b = [
   ...g,
-  ...x
-].sort((a, n) => {
-  if (a.groupId !== n.groupId) {
-    const e = r.findIndex((i) => i.id === a.groupId), t = r.findIndex((i) => i.id === n.groupId);
-    return e - t;
+  ...U
+].sort((a, e) => {
+  if (a.groupId !== e.groupId) {
+    const n = r.findIndex((i) => i.id === a.groupId), t = r.findIndex((i) => i.id === e.groupId);
+    return n - t;
   }
-  return a.priority - n.priority;
+  return a.priority - e.priority;
 }), R = new Map(g.map((a) => [a.name, a]));
 function E(a) {
-  return b.filter((n) => n.groupId === a).sort((n, e) => n.priority - e.priority);
+  return b.filter((e) => e.groupId === a).sort((e, n) => e.priority - n.priority);
 }
 function G(a) {
-  return b.find((n) => n.name === a)?.status;
+  return b.find((e) => e.name === a)?.status;
 }
 export {
-  U as componentAdvancedExample,
+  x as componentAdvancedExample,
   G as componentAvailability,
   z as componentBasicExample,
   h as componentCatalogEntry,
@@ -449,7 +470,7 @@ export {
   r as namiComponentCatalogGroups,
   b as namiComponentCatalogItems,
   R as namiComponentExamples,
-  v as namiComponentPreviews,
-  p as namiMetadataByName,
-  x as namiPlannedComponentCatalog
+  y as namiComponentPreviews,
+  l as namiMetadataByName,
+  U as namiPlannedComponentCatalog
 };

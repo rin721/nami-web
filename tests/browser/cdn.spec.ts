@@ -49,6 +49,9 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     'esm/register.js',
     'esm/components/button.js',
     'esm/components/input.js',
+    'esm/components/scroll-header.js',
+    'esm/components/scroll-reveal.js',
+    'esm/components/hero-stage.js',
     'css/default.css',
     'css/ant-illustration.css',
     'css/critical.css',
@@ -80,6 +83,8 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     const source = readFileSync(file, 'utf8');
     expect(source, file).not.toMatch(/\bfrom\s*["'](?:lit|@lit\/localize|@nami\/)/);
     expect(source, file).not.toMatch(/\bimport\s*\(\s*["'](?:lit|@lit\/localize|@nami\/)/);
+    expect(source, file).not.toMatch(/\bfrom\s*["']motion/);
+    expect(source, file).not.toMatch(/\bimport\s*\(\s*["']motion/);
   }
 });
 
@@ -91,7 +96,13 @@ test('global CDN script registers components and applies default theme CSS', asy
     <nami-button>Hello Nami</nami-button>
   `);
 
-  await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-theme'));
+  await page.waitForFunction(() =>
+    customElements.get('nami-button') &&
+    customElements.get('nami-theme') &&
+    customElements.get('nami-scroll-header') &&
+    customElements.get('nami-scroll-reveal') &&
+    customElements.get('nami-hero-stage')
+  );
   await expect(page.locator('nami-button')).toBeVisible();
 
   const state = await page.evaluate(() => {
@@ -99,6 +110,9 @@ test('global CDN script registers components and applies default theme CSS', asy
     return {
       hasGlobal: Boolean((window as Window & { NamiUI?: unknown }).NamiUI),
       registered: Boolean(customElements.get('nami-button')),
+      scrollHeader: Boolean(customElements.get('nami-scroll-header')),
+      scrollReveal: Boolean(customElements.get('nami-scroll-reveal')),
+      heroStage: Boolean(customElements.get('nami-hero-stage')),
       primary: getComputedStyle(document.documentElement).getPropertyValue('--nami-color-primary').trim(),
       buttonDisplay: button ? getComputedStyle(button).display : ''
     };
@@ -107,6 +121,9 @@ test('global CDN script registers components and applies default theme CSS', asy
   expect(state).toEqual({
     hasGlobal: true,
     registered: true,
+    scrollHeader: true,
+    scrollReveal: true,
+    heroStage: true,
     primary: '#3b82f6',
     buttonDisplay: 'inline-flex'
   });
@@ -124,7 +141,10 @@ test('ESM CDN register entry defines the component set', async ({ page }) => {
     customElements.get('nami-button') &&
     customElements.get('nami-card') &&
     customElements.get('nami-theme') &&
-    customElements.get('nami-input')
+    customElements.get('nami-input') &&
+    customElements.get('nami-scroll-header') &&
+    customElements.get('nami-scroll-reveal') &&
+    customElements.get('nami-hero-stage')
   );
 
   await expect(page.locator('nami-button')).toBeVisible();

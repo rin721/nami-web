@@ -94,6 +94,29 @@ import '@nami-web/ui/input';
 import '@nami-web/ui/button/register';
 ```
 
+## 滚动动效组件
+
+滚动感知组件属于 `@nami-web/ui`，内部使用 Motion 的 JavaScript runtime。npm 用户不需要单独安装 Motion；CDN 产物会把 Motion runtime 打进 Nami 静态资源。
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/scroll-header';
+import '@nami-web/ui/scroll-reveal';
+import '@nami-web/ui/hero-stage';
+```
+
+```html
+<nami-scroll-header>
+  <nav>Navigation</nav>
+</nami-scroll-header>
+
+<nami-hero-stage height="compact" intensity="soft">
+  <nami-scroll-reveal effect="fade-up">
+    <h1>Motion-aware page</h1>
+  </nami-scroll-reveal>
+</nami-hero-stage>
+```
+
 ## CDN 进阶引用
 
 CDN 产物随官网一起发布，并通过 `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/` 访问。默认 global 文件会一次注册全部组件：
