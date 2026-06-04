@@ -174,7 +174,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json --emitDeclarationOnly && vite build && node ./scripts/write-machine-readable.mjs && node ./scripts/copy-css.mjs",
+    "build": "vite build && tsc -p tsconfig.json --emitDeclarationOnly && node ./scripts/write-machine-readable.mjs && node ./scripts/copy-css.mjs",
     "build:cdn": "vite build -c vite.cdn.config.ts --mode cdn-global && vite build -c vite.cdn.config.ts --mode cdn-esm && node ./scripts/copy-cdn-assets.mjs",
     "manifest": "cem analyze --litelement --globs \"src/**/*.ts\" --outdir dist",
     "test": "vitest run"
