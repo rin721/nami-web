@@ -41,8 +41,8 @@ import '@nami/ui/register';
 CDN 免安装接入：
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 <nami-docs-callout variant="info" title="Vue / Vite 项目">
@@ -94,11 +94,11 @@ import '@nami/ui/button/register';
 
 ## CDN 进阶引用
 
-CDN 产物随官网一起发布，并通过 `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/` 访问。默认 global 文件会一次注册全部组件：
+CDN 产物随官网一起发布，并通过 `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/` 访问。默认 global 文件会一次注册全部组件：
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 
 <nami-button>Hello Nami</nami-button>
 ```
@@ -106,25 +106,25 @@ CDN 产物随官网一起发布，并通过 `https://aoi-wen.iqwq.com/cdn/nami-u
 需要未定义 custom elements 时的首屏 fallback 样式，可以先加载 `critical.css`：
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 如果希望使用浏览器原生 ESM，也可以引用 ESM 全量注册入口：
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script type="module" src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
 ```
 
 按需加载组件时引用 ESM 单组件文件：
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
 <script type="module">
-  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
-  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
+  import 'https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
 </script>
 ```
 

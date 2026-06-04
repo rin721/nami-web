@@ -41,8 +41,8 @@ import '@nami/ui/register';
 CDN usage requires no install step:
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 <nami-docs-callout variant="info" title="Vue / Vite apps">
@@ -94,11 +94,11 @@ import '@nami/ui/button/register';
 
 ## Advanced CDN Usage
 
-CDN assets are published with the docs site and served from `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/`. The default global file registers every component:
+CDN assets are published with the docs site and served from `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/`. The default global file registers every component:
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 
 <nami-button>Hello Nami</nami-button>
 ```
@@ -106,25 +106,25 @@ CDN assets are published with the docs site and served from `https://aoi-wen.iqw
 Load `critical.css` first when you want fallback styles before custom elements are defined:
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 If you prefer native browser ESM, use the ESM register entry:
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
-<script type="module" src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
 ```
 
 For per-component loading, import ESM component files directly:
 
 ```html
-<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
 <script type="module">
-  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
-  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
+  import 'https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
 </script>
 ```
 

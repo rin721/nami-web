@@ -8,7 +8,7 @@ const corePackage = JSON.parse(await readFile(resolve(coreRoot, 'package.json'),
 const version = corePackage.version;
 const cdnRoot = resolve(workspaceRoot, 'artifacts/cdn/nami-ui', version);
 const docsPublicCdnRoot = resolve(workspaceRoot, 'apps/docs/public/cdn/nami-ui', version);
-const publicBaseUrl = `https://aoi-wen.iqwq.com/cdn/nami-ui/${version}/`;
+const publicBaseUrl = `https://nami-web.iqwq.com/cdn/nami-ui/${version}/`;
 
 const files = {
   global: 'nami-ui.global.js',

@@ -2,7 +2,7 @@
   "name": "@nami/ui",
   "version": "0.1.0",
   "basePath": "cdn/nami-ui/0.1.0/",
-  "publicBaseUrl": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/",
+  "publicBaseUrl": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/",
   "files": {
     "global": "nami-ui.global.js",
     "esmRegister": "esm/register.js",
@@ -14,17 +14,17 @@
   },
   "usage": {
     "global": {
-      "css": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
-      "script": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"
+      "css": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
+      "script": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"
     },
     "globalWithCriticalCss": {
-      "criticalCss": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css",
-      "css": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
-      "script": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"
+      "criticalCss": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css",
+      "css": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
+      "script": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"
     },
     "esm": {
-      "css": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
-      "script": "https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"
+      "css": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
+      "script": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"
     }
   }
 }

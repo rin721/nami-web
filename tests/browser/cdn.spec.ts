@@ -64,7 +64,7 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     name: '@nami/ui',
     version,
     basePath: `cdn/nami-ui/${version}/`,
-    publicBaseUrl: `https://aoi-wen.iqwq.com/cdn/nami-ui/${version}/`,
+    publicBaseUrl: `https://nami-web.iqwq.com/cdn/nami-ui/${version}/`,
     files: {
       global: 'nami-ui.global.js',
       esmRegister: 'esm/register.js'
