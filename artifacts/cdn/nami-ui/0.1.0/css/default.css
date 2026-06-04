@@ -1,0 +1,310 @@
+:root,
+.nami-theme,
+nami-theme {
+  color-scheme: light;
+  accent-color: var(--nami-color-primary);
+  --nami-accent-50: #3b82f6;
+  --nami-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --nami-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --nami-radius-control: 999px;
+  --nami-radius-surface: 6px;
+  --nami-radius-tight: 4px;
+  --nami-radius-round: 999px;
+  --nami-contrast-level: normal;
+  --nami-shadow-color: color-mix(in oklab, var(--nami-accent-50), #8a8f98 80%);
+  --nami-style-stroke-width: 1px;
+  --nami-style-stroke-color: var(--nami-border);
+  --nami-style-ink-color: var(--nami-text);
+  --nami-style-on-paper: var(--nami-text);
+  --nami-style-on-paper-muted: var(--nami-text-muted);
+  --nami-style-offset-shadow: none;
+  --nami-style-control-bg: transparent;
+  --nami-style-panel-bg: var(--nami-surface-raised);
+  --nami-style-paper-bg: var(--nami-surface);
+  --nami-style-border-radius: var(--nami-radius-surface);
+  --nami-style-background-pattern: none;
+  --nami-style-doodle-opacity: 0;
+  --nami-style-paper-line-color: var(--nami-border);
+  --nami-style-focus-shadow: var(--nami-focus-ring);
+  --nami-motion-fast: 120ms;
+  --nami-motion-normal: 250ms;
+  --nami-motion-slow: 700ms;
+  --nami-motion-exit: 150ms;
+  --nami-ease-standard: cubic-bezier(0.19, 1, 0.22, 1);
+  --nami-ease-emphasized: cubic-bezier(0.1, 0.9, 0.2, 1);
+  --nami-breakpoint-compact: 639px;
+  --nami-breakpoint-medium: 880px;
+  --nami-breakpoint-wide: 1080px;
+  --nami-container-sm: 720px;
+  --nami-container-md: 960px;
+  --nami-container-lg: 1240px;
+  --nami-layout-gutter: 16px;
+  --nami-app-shell-rail-width: 56px;
+  --nami-app-shell-mobile-bar-height: 56px;
+  --nami-app-shell-breakpoint: 639px;
+  --nami-accent-90: color-mix(in oklab, var(--nami-accent-50), #000 40%);
+  --nami-accent-80: color-mix(in oklab, var(--nami-accent-50), #000 30%);
+  --nami-accent-70: color-mix(in oklab, var(--nami-accent-50), #000 20%);
+  --nami-accent-60: color-mix(in oklab, var(--nami-accent-50), #000 10%);
+  --nami-accent-40: color-mix(in oklab, var(--nami-accent-50), #fff 20%);
+  --nami-accent-30: color-mix(in oklab, var(--nami-accent-50), #fff 40%);
+  --nami-accent-20: color-mix(in oklab, var(--nami-accent-50), #fff 60%);
+  --nami-accent-10: color-mix(in oklab, var(--nami-accent-50), #fff 80%);
+  --nami-accent-5: color-mix(in oklab, var(--nami-accent-50), #fff 90%);
+  --nami-neutral-10: color-mix(in oklab, var(--nami-accent-50), #b3b3b3 84%);
+  --nami-neutral-50: color-mix(in oklab, var(--nami-accent-50), #646a73 94%);
+  --nami-color-primary: var(--nami-accent-50);
+  --nami-color-primary-hover: var(--nami-accent-40);
+  --nami-color-primary-pressed: var(--nami-accent-60);
+  --nami-color-primary-focus: var(--nami-accent-30);
+  --nami-color-primary-muted: var(--nami-accent-10);
+  --nami-color-danger: #dc2626;
+  --nami-surface: #fff;
+  --nami-surface-raised: #fff;
+  --nami-surface-inset: color-mix(in oklab, #000, transparent 97%);
+  --nami-surface-overlay: color-mix(in oklab, #fff, transparent 18%);
+  --nami-border: color-mix(in oklab, #000, transparent 88%);
+  --nami-border-strong: color-mix(in oklab, #000, transparent 76%);
+  --nami-text: #171717;
+  --nami-text-muted: #666b74;
+  --nami-text-inverse: #fff;
+  --nami-icon-color: var(--nami-neutral-50);
+  --nami-hover-overlay: color-mix(in oklab, #000, transparent 95%);
+  --nami-ripple: color-mix(in oklab, #000, transparent 86%);
+  --nami-overlay-backdrop: color-mix(in oklab, #000, transparent 52%);
+  --nami-accent-ripple: color-mix(in oklab, var(--nami-color-primary-pressed), transparent 84%);
+  --nami-accent-hover-overlay: color-mix(in oklab, var(--nami-color-primary-hover), transparent 90%);
+  --nami-focus-ring: 0 4px 4px color-mix(in oklab, var(--nami-color-primary), transparent 74%), 0 0 0 3px color-mix(in oklab, var(--nami-color-primary-focus), transparent 46%);
+  --nami-button-bg: var(--nami-color-primary);
+  --nami-button-fg: var(--nami-text-inverse);
+  --nami-button-border: transparent;
+  --nami-button-hover-bg: var(--nami-color-primary-hover);
+  --nami-card-bg: var(--nami-surface-raised);
+  --nami-card-fg: var(--nami-text);
+  --nami-card-inset-bg: var(--nami-surface-inset);
+  --nami-card-border: var(--nami-border);
+  --nami-card-border-width: var(--nami-style-stroke-width);
+  --nami-card-radius: var(--nami-radius-surface);
+  --nami-card-shadow: none;
+  --nami-card-padding: var(--nami-space-4);
+  --nami-card-gap: var(--nami-space-3);
+  --nami-badge-bg: var(--nami-hover-overlay);
+  --nami-badge-fg: var(--nami-text);
+  --nami-badge-border: transparent;
+  --nami-badge-border-width: var(--nami-style-stroke-width);
+  --nami-badge-radius: var(--nami-radius-control);
+  --nami-badge-height: 24px;
+  --nami-badge-font-size: 0.75rem;
+  --nami-badge-padding-x: 9px;
+  --nami-control-height: var(--nami-control-height-md);
+  --nami-control-padding-x: 16px;
+  --nami-control-font-size: 0.9375rem;
+  --nami-icon-size: 18px;
+  --nami-icon-button-size: var(--nami-control-height);
+  --nami-chip-bg: var(--nami-hover-overlay);
+  --nami-chip-selected-bg: var(--nami-color-primary);
+  --nami-input-bg: transparent;
+  --nami-input-border: var(--nami-border);
+  --nami-dialog-shadow: 0 18px 50px color-mix(in oklab, var(--nami-shadow-color), transparent 54%);
+  --nami-drawer-shadow: 0 8px 24px color-mix(in oklab, var(--nami-shadow-color), transparent 52%);
+  --nami-toast-bg: var(--nami-surface-raised);
+  --nami-radio-card-selected-shadow: 0 0 0 1px var(--nami-color-primary), var(--nami-focus-ring);
+  --nami-switch-thumb-shadow: 0 1px 4px color-mix(in oklab, var(--nami-shadow-color), transparent 64%);
+  --nami-spinner-track-color: color-mix(in oklab, currentColor, transparent 72%);
+  --nami-transition-progress-height: 4px;
+  --nami-page-transition-z-index: 2147483646;
+  --nami-top-progress-height: var(--nami-transition-progress-height);
+  --nami-top-progress-duration: 260ms;
+  --nami-top-progress-ease: var(--nami-ease-standard);
+  --nami-top-progress-indeterminate-duration: 1280ms;
+  --nami-top-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%);
+  --nami-top-progress-fill-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%);
+  --nami-top-progress-shadow: 0 8px 24px color-mix(in oklab, var(--nami-color-primary), transparent 78%);
+  --nami-top-progress-z-index: 2147483647;
+  --nami-illus-primary: var(--nami-color-primary);
+  --nami-illus-secondary: var(--nami-accent-20);
+  --nami-illus-accent: #f5b84b;
+  --nami-illus-muted: color-mix(in oklab, var(--nami-text-muted), transparent 48%);
+  --nami-illus-line: color-mix(in oklab, var(--nami-text), transparent 36%);
+  --nami-illus-bg: var(--nami-color-primary-muted);
+  --nami-illus-size-sm: 92px;
+  --nami-illus-size-md: 140px;
+  --nami-illus-size-lg: 184px;
+  --nami-empty-gap: 12px;
+  --nami-empty-title-color: var(--nami-text);
+  --nami-empty-description-color: var(--nami-text-muted);
+  --nami-result-title-size: 1.5rem;
+  --nami-result-subtitle-size: 0.95rem;
+  --nami-result-gap: 14px;
+  --nami-result-actions-margin: 10px 0 0;
+  --nami-container-max-width: var(--nami-container-lg);
+  --nami-container-padding: var(--nami-layout-gutter);
+  --nami-stack-gap: var(--nami-space-3);
+  --nami-cluster-gap: var(--nami-space-2);
+  --nami-grid-min: 16rem;
+  --nami-grid-gap: var(--nami-layout-gutter);
+  --nami-split-min: 18rem;
+  --nami-split-gap: var(--nami-layout-gutter);
+  --nami-checkbox-bg: transparent;
+  --nami-checkbox-border: var(--nami-border);
+  --nami-checkbox-border-width: var(--nami-style-stroke-width);
+  --nami-checkbox-radius: var(--nami-radius-tight);
+  --nami-checkbox-indicator-color: #fff;
+  --nami-textarea-bg: transparent;
+  --nami-textarea-border: var(--nami-border);
+  --nami-textarea-border-width: var(--nami-style-stroke-width);
+  --nami-textarea-radius: var(--nami-radius-surface);
+  --nami-textarea-shadow: none;
+  --nami-form-field-gap: var(--nami-space-2);
+  --nami-alert-bg: var(--nami-surface-raised);
+  --nami-alert-border: var(--nami-border);
+  --nami-alert-border-width: var(--nami-style-stroke-width);
+  --nami-alert-radius: var(--nami-radius-surface);
+  --nami-alert-shadow: none;
+  --nami-skeleton-bg: var(--nami-hover-overlay);
+  --nami-skeleton-highlight: color-mix(in oklab, #fff, transparent 18%);
+  --nami-progress-track-bg: color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 82%);
+  --nami-progress-fill-bg: var(--nami-color-primary);
+  --nami-progress-height: 8px;
+  --nami-progress-radius: var(--nami-radius-control);
+}
+
+:root,
+[data-nami-theme="light"],
+nami-theme[theme="light"] {
+  color-scheme: light;
+}
+
+[data-nami-theme="dark"],
+nami-theme[theme="dark"],
+.nami-theme-dark {
+  color-scheme: dark;
+  --nami-surface: #151718;
+  --nami-surface-raised: #1c1f21;
+  --nami-surface-inset: color-mix(in oklab, #fff, transparent 94%);
+  --nami-surface-overlay: color-mix(in oklab, #17191b, transparent 16%);
+  --nami-border: color-mix(in oklab, #fff, transparent 86%);
+  --nami-border-strong: color-mix(in oklab, #fff, transparent 72%);
+  --nami-text: #f8fafc;
+  --nami-text-muted: #a1a8b3;
+  --nami-hover-overlay: color-mix(in oklab, #fff, transparent 94%);
+  --nami-ripple: color-mix(in oklab, #fff, transparent 84%);
+  --nami-overlay-backdrop: color-mix(in oklab, #000, transparent 38%);
+  --nami-shadow-color: #000;
+  --nami-accent-90: color-mix(in oklab, var(--nami-accent-50), #fff 80%);
+  --nami-accent-80: color-mix(in oklab, var(--nami-accent-50), #fff 60%);
+  --nami-accent-70: color-mix(in oklab, var(--nami-accent-50), #fff 40%);
+  --nami-accent-60: color-mix(in oklab, var(--nami-accent-50), #fff 20%);
+  --nami-accent-40: color-mix(in oklab, var(--nami-accent-50), #000 10%);
+  --nami-accent-30: color-mix(in oklab, var(--nami-accent-50), #000 20%);
+  --nami-accent-20: color-mix(in oklab, var(--nami-accent-50), #000 30%);
+  --nami-accent-10: color-mix(in oklab, var(--nami-accent-50), #000 40%);
+  --nami-accent-5: color-mix(in oklab, var(--nami-accent-50), #000 50%);
+  --nami-neutral-50: color-mix(in oklab, var(--nami-accent-50), #eef2f7 94%);
+}
+
+[data-nami-density="compact"],
+nami-theme[density="compact"] {
+  --nami-control-height-sm: 28px;
+  --nami-control-height-md: 34px;
+  --nami-control-height-lg: 40px;
+  --nami-space-1: 2px;
+  --nami-space-2: 4px;
+  --nami-space-3: 8px;
+  --nami-space-4: 12px;
+  --nami-space-5: 16px;
+  --nami-layout-gutter: 12px;
+}
+
+:root,
+[data-nami-density="comfortable"],
+nami-theme[density="comfortable"] {
+  --nami-control-height-sm: 32px;
+  --nami-control-height-md: 40px;
+  --nami-control-height-lg: 48px;
+  --nami-space-1: 4px;
+  --nami-space-2: 6px;
+  --nami-space-3: 10px;
+  --nami-space-4: 16px;
+  --nami-space-5: 24px;
+}
+
+:root,
+[data-nami-size="md"],
+nami-theme[size="md"] {
+  --nami-control-height: var(--nami-control-height-md);
+  --nami-control-padding-x: 16px;
+  --nami-control-font-size: 0.9375rem;
+  --nami-icon-size: 18px;
+  --nami-icon-button-size: var(--nami-control-height);
+}
+
+[data-nami-size="sm"],
+nami-theme[size="sm"] {
+  --nami-control-height: var(--nami-control-height-sm);
+  --nami-control-padding-x: 12px;
+  --nami-control-font-size: 0.875rem;
+  --nami-icon-size: 16px;
+  --nami-icon-button-size: var(--nami-control-height);
+}
+
+[data-nami-size="lg"],
+nami-theme[size="lg"] {
+  --nami-control-height: var(--nami-control-height-lg);
+  --nami-control-padding-x: 20px;
+  --nami-control-font-size: 1rem;
+  --nami-icon-size: 20px;
+  --nami-icon-button-size: var(--nami-control-height);
+}
+
+[data-nami-motion="reduced"],
+nami-theme[motion="reduced"] {
+  --nami-motion-fast: 1ms;
+  --nami-motion-normal: 1ms;
+  --nami-motion-slow: 1ms;
+  --nami-motion-exit: 1ms;
+}
+
+[data-nami-radius="sharp"],
+nami-theme[radius="sharp"] {
+  --nami-radius-control: 4px;
+  --nami-radius-surface: 4px;
+  --nami-radius-tight: 2px;
+}
+
+[data-nami-radius="soft"],
+nami-theme[radius="soft"] {
+  --nami-radius-control: 10px;
+  --nami-radius-surface: 8px;
+  --nami-radius-tight: 4px;
+}
+
+[data-nami-radius="round"],
+nami-theme[radius="round"] {
+  --nami-radius-control: 999px;
+  --nami-radius-surface: 6px;
+  --nami-radius-tight: 4px;
+}
+
+[data-nami-contrast="high"],
+nami-theme[contrast="high"] {
+  --nami-contrast-level: high;
+  --nami-border: color-mix(in oklab, currentColor, transparent 62%);
+  --nami-border-strong: color-mix(in oklab, currentColor, transparent 42%);
+  --nami-style-stroke-width: max(2px, var(--nami-style-stroke-width, 1px));
+  --nami-focus-ring: 0 0 0 4px color-mix(in oklab, var(--nami-color-primary-focus), transparent 20%), 0 0 0 1px var(--nami-color-primary);
+  --nami-button-border-width: max(2px, var(--nami-button-border-width, 1px));
+  --nami-input-border-width: max(2px, var(--nami-input-border-width, 1px));
+  --nami-radio-card-border-width: max(2px, var(--nami-radio-card-border-width, 1px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  .nami-theme,
+  nami-theme {
+    --nami-motion-fast: 1ms;
+    --nami-motion-normal: 1ms;
+    --nami-motion-slow: 1ms;
+    --nami-motion-exit: 1ms;
+  }
+}

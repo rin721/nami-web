@@ -72,6 +72,42 @@ import '@nami/ui/input';
 import '@nami/ui/button/register';
 ```
 
+## CDN 引用
+
+如果页面不经过 npm 构建，可以上传 `npm run build:cdn` 生成的 `artifacts/cdn/nami-ui/0.1.0/` 目录，然后用静态文件引用。
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+
+<nami-button>Hello Nami</nami-button>
+```
+
+需要未定义 custom elements 时的首屏 fallback 样式，可以先加载 `critical.css`：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+```
+
+也可以保留 ESM 引用方式：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://cdn.example.com/nami-ui/0.1.0/esm/register.js"></script>
+```
+
+按需加载组件时引用 ESM 单组件文件：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script type="module">
+  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/input.js';
+</script>
+```
+
 ## 主题定制
 
 `nami-theme` 是运行时主题边界。默认主题 CSS 提供变量，`accent`、`theme`、`density`、`size`、`radius`、`contrast` 和 `motion` 会派生出可复用 token。

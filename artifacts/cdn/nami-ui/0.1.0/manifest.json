@@ -1,0 +1,29 @@
+{
+  "name": "@nami/ui",
+  "version": "0.1.0",
+  "basePath": "nami-ui/0.1.0/",
+  "files": {
+    "global": "nami-ui.global.js",
+    "esmRegister": "esm/register.js",
+    "css": {
+      "default": "css/default.css",
+      "antIllustration": "css/ant-illustration.css",
+      "critical": "css/critical.css"
+    }
+  },
+  "usage": {
+    "global": {
+      "css": "nami-ui/0.1.0/css/default.css",
+      "script": "nami-ui/0.1.0/nami-ui.global.js"
+    },
+    "globalWithCriticalCss": {
+      "criticalCss": "nami-ui/0.1.0/css/critical.css",
+      "css": "nami-ui/0.1.0/css/default.css",
+      "script": "nami-ui/0.1.0/nami-ui.global.js"
+    },
+    "esm": {
+      "css": "nami-ui/0.1.0/css/default.css",
+      "script": "nami-ui/0.1.0/esm/register.js"
+    }
+  }
+}

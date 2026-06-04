@@ -53,6 +53,12 @@ npm run build:packages
 npm run build:apps
 ```
 
+构建静态 CDN 产物：
+
+```bash
+npm run build:cdn
+```
+
 生成 custom elements manifest：
 
 ```bash
@@ -97,6 +103,53 @@ packages/tokens/dist/
 - `packages/core/dist/`：`@nami/ui` 的 JS、类型声明、单组件入口、metadata、anatomy JSON、theme schema。
 - `packages/themes/dist/`：`default.css`、`ant-illustration.css` 等主题 CSS。
 - `packages/tokens/dist/`：token JS、类型声明、DTCG token JSON 与主题算法入口。
+
+静态 CDN 产物在：
+
+```text
+artifacts/cdn/nami-ui/0.1.0/
+```
+
+其中：
+
+- `nami-ui.global.js`：自包含全量组件注册文件，暴露 `window.NamiUI.registerNamiElements`。
+- `esm/`：可通过 `type="module"` 引用的 ESM 多文件目录。
+- `css/default.css`、`css/ant-illustration.css`、`css/critical.css`：主题 CSS 与首屏 fallback CSS。
+- `manifest.json`：版本、文件名与推荐引用路径。
+
+普通 HTML 推荐引用：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+
+<nami-button>Hello Nami</nami-button>
+```
+
+需要首屏 fallback 时：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+```
+
+ESM 全量注册：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://cdn.example.com/nami-ui/0.1.0/esm/register.js"></script>
+```
+
+ESM 按需引用：
+
+```html
+<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<script type="module">
+  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/input.js';
+</script>
+```
 
 ## 测试
 
