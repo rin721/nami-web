@@ -30,6 +30,26 @@ nami-docs-theme-designer {
   display: block;
 }
 
+:where(
+  .brand-link,
+  .brand-link *,
+  .mobile-settings-link,
+  .rail-stack a,
+  .bottom-nav a,
+  .docs-side-nav a,
+  .docs-next-prev a,
+  .component-overview-index a,
+  .settings-section-list a,
+  nami-button,
+  nami-chip,
+  nami-badge,
+  [role='button']
+) {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
 .rail-stack {
   align-items: center;
   display: flex;
