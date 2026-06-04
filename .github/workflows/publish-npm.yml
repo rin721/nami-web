@@ -1,0 +1,64 @@
+name: Publish npm packages
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+concurrency:
+  group: publish-npm
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish packages to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build:packages
+
+      - name: Test packages
+        run: npm test
+
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          publish_workspace() {
+            local workspace="$1"
+            local package_json="$2"
+            local name
+            local version
+
+            name="$(node -p "require('./${package_json}').name")"
+            version="$(node -p "require('./${package_json}').version")"
+
+            if npm view "${name}@${version}" version >/dev/null 2>&1; then
+              echo "${name}@${version} already exists; skipping."
+              return
+            fi
+
+            npm publish --workspace "${workspace}" --access public
+          }
+
+          publish_workspace "@nami/tokens" "packages/tokens/package.json"
+          publish_workspace "@nami/themes" "packages/themes/package.json"
+          publish_workspace "@nami/ui" "packages/core/package.json"
