@@ -15,13 +15,11 @@ Keep the same `nami-*` elements consistent across frameworks: the browser regist
 
 ## Native HTML
 
-Use this for static pages, low-code previews, CMS fragments, and quick prototypes. Load ESM and theme CSS, then write the tags directly.
+Use this for static pages, low-code previews, CMS fragments, and quick prototypes. Load theme CSS and the global CDN file, then write the tags directly.
 
 ```html
-<link rel="stylesheet" href="/node_modules/@nami/themes/default.css" />
-<script type="module">
-  import '@nami/ui/register';
-</script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 
 <nami-theme accent="#3b82f6">
   <nami-button>Save</nami-button>
@@ -49,6 +47,8 @@ export default {
 };
 ```
 
+When using npm packages, import CSS and components from an entry file or a single-file component:
+
 ```vue
 <script setup lang="ts">
 import '@nami/themes/default.css';
@@ -58,6 +58,25 @@ import '@nami/ui/button';
 <template>
   <nami-button @nami-click="() => console.log('clicked')">Save</nami-button>
 </template>
+```
+
+When using CDN, put CSS and script tags in `index.html`; Vue templates still render `nami-*` tags directly:
+
+```html
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+```
+
+```vue
+<template>
+  <nami-button variant="soft" @nami-click="save">Save</nami-button>
+</template>
+
+<script setup lang="ts">
+function save(event: CustomEvent) {
+  console.log(event.detail);
+}
+</script>
 ```
 
 ## React

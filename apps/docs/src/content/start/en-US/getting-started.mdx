@@ -7,7 +7,7 @@ description: Install packages, render Hello World, choose a registration strateg
 
 # Getting Started
 
-This guide follows the actual integration path: install packages, load theme CSS, register components, render the first button, then choose all-component registration or per-component imports.
+This guide follows the actual integration path: choose npm or CDN, load theme CSS, register components, render the first button, then choose all-component registration or per-component imports.
 
 ## Goal
 
@@ -15,11 +15,13 @@ By the end you should see an interactive `nami-button` on the page and know wher
 
 ## Prerequisites
 
-- Node.js 18 or newer.
-- Vite, Astro, Vue, React, or any build setup that supports ESM.
+- Use Node.js 18 or newer when integrating from npm.
+- Use the CDN path when you only need to edit HTML.
 - Load theme CSS once; register every component or import components one at a time.
 
 ## Install
+
+Use npm packages for apps with a build step. Use the docs-site CDN for static pages, CMS snippets, low-code previews, and quick prototypes.
 
 <nami-docs-install-tabs></nami-docs-install-tabs>
 
@@ -28,6 +30,24 @@ By the end you should see an interactive `nami-button` on the page and know wher
 | npm | `npm install @nami/ui @nami/themes` |
 | pnpm | `pnpm add @nami/ui @nami/themes` |
 | yarn | `yarn add @nami/ui @nami/themes` |
+
+After installing, import theme CSS and a component entry from the app entry:
+
+```ts
+import '@nami/themes/default.css';
+import '@nami/ui/register';
+```
+
+CDN usage requires no install step:
+
+```html
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
+```
+
+<nami-docs-callout variant="info" title="Vue / Vite apps">
+When using `nami-*` tags in Vue templates, configure `isCustomElement` in the Vite Vue plugin. See the Frameworks guide for the exact config.
+</nami-docs-callout>
 
 ## Hello World
 
@@ -72,9 +92,9 @@ import '@nami/ui/input';
 import '@nami/ui/button/register';
 ```
 
-## CDN Usage
+## Advanced CDN Usage
 
-For pages without an npm build step, use the static files generated under `apps/docs/public/cdn/nami-ui/0.1.0/`. They are published with the docs site and served from `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/`.
+CDN assets are published with the docs site and served from `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/`. The default global file registers every component:
 
 ```html
 <link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
@@ -91,7 +111,7 @@ Load `critical.css` first when you want fallback styles before custom elements a
 <script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
-You can also keep the ESM path:
+If you prefer native browser ESM, use the ESM register entry:
 
 ```html
 <link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
