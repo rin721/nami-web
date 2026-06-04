@@ -8,7 +8,6 @@ export type NamiComponentCatalogGroupId =
   | 'general'
   | 'layout'
   | 'navigation'
-  | 'motion'
   | 'data-entry'
   | 'data-display'
   | 'feedback'
@@ -89,15 +88,6 @@ export const namiComponentCatalogGroups: NamiComponentCatalogGroup[] = [
     names: ['nami-tab-bar', 'nami-top-progress', 'nami-page-transition']
   },
   {
-    id: 'motion',
-    title: { 'zh-CN': '滚动与动效', 'en-US': 'Scroll and Motion' },
-    description: {
-      'zh-CN': '滚动方向感知、视口 reveal 和 hero 舞台氛围，用于页面级视觉反馈与叙事入口。',
-      'en-US': 'Scroll-aware surfaces, viewport reveal, and hero-stage atmosphere for page-level motion feedback.'
-    },
-    names: ['nami-scroll-header', 'nami-scroll-reveal', 'nami-hero-stage']
-  },
-  {
     id: 'data-entry',
     title: { 'zh-CN': '数据录入', 'en-US': 'Data entry' },
     description: {
@@ -164,9 +154,6 @@ export const namiComponentPreviews = new Map<string, string>([
   ['nami-alert', '<nami-alert variant="warning" title="Check settings">Review the configuration.</nami-alert>'],
   ['nami-page-transition', '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
   ['nami-top-progress', '<div class="component-preview-frame progress-preview-frame"><nami-top-progress active variant="inline" progress="64" height="12" duration="0"></nami-top-progress></div>'],
-  ['nami-scroll-header', '<nami-scroll-header elevated><nami-cluster gap="sm"><nami-badge variant="primary">Scroll</nami-badge><nami-button variant="soft">Nav</nami-button></nami-cluster></nami-scroll-header>'],
-  ['nami-scroll-reveal', '<nami-scroll-reveal revealed effect="fade-up"><nami-card>Viewport reveal</nami-card></nami-scroll-reveal>'],
-  ['nami-hero-stage', '<nami-hero-stage height="compact" intensity="soft" style="--nami-hero-stage-compact-height: 132px; --nami-hero-stage-padding: 18px;"><strong>Hero stage</strong></nami-hero-stage>'],
   ['nami-dialog', '<nami-button variant="soft">Open dialog</nami-button>'],
   ['nami-drawer', '<nami-button variant="soft">Open drawer</nami-button>'],
   ['nami-toast', '<nami-button variant="soft">Show toast</nami-button>'],
@@ -202,9 +189,6 @@ const zhUseCases = new Map<string, string>([
   ['nami-alert', '显示信息、成功、警告和危险状态的行内反馈。'],
   ['nami-page-transition', '处理首屏揭幕和阻断式任务过渡。'],
   ['nami-top-progress', '在框架路由钩子中显示顶部进度轨道与填充。'],
-  ['nami-scroll-header', '构建会感知滚动方向的 sticky 顶栏，向下隐藏、向上显示，并在滚动后获得毛玻璃层。'],
-  ['nami-scroll-reveal', '在内容进入视口时触发 Motion reveal，用于教程、营销区块和文档示例的渐入。'],
-  ['nami-hero-stage', '构建 token 驱动的 hero 舞台背景，提供柔光、双光带和主题化内容插槽。'],
   ['nami-dialog', '承载需要焦点管理的模态任务。'],
   ['nami-drawer', '在移动端或辅助流程中打开侧向面板。'],
   ['nami-toast', '显示短时反馈和操作结果。'],
@@ -219,9 +203,6 @@ const zhDisplayNames = new Map<string, string>([
   ['nami-spinner', 'Spinner 加载'],
   ['nami-page-transition', 'PageTransition 页面过渡'],
   ['nami-top-progress', 'TopProgress 顶部进度'],
-  ['nami-scroll-header', 'ScrollHeader 滚动头部'],
-  ['nami-scroll-reveal', 'ScrollReveal 视口显现'],
-  ['nami-hero-stage', 'HeroStage 舞台背景'],
   ['nami-illustration', 'Illustration 插画'],
   ['nami-empty', 'Empty 空状态'],
   ['nami-result', 'Result 结果页'],
@@ -408,9 +389,6 @@ const advancedExamples = new Map<string, string>([
   ['nami-drawer', '<nami-drawer open placement="right"><h3 slot="label">Filters</h3><nami-checkbox checked>Only active</nami-checkbox></nami-drawer>'],
   ['nami-toast', 'NamiToast.show({ message: "Saved", variant: "success", duration: 2400 })'],
   ['nami-app-shell', '<nami-app-shell rail-width="64" mobile-bar-height="60" sticky safe-area><nav slot="rail">Nav</nav><main>Content</main></nami-app-shell>'],
-  ['nami-scroll-header', '<nami-scroll-header threshold="20" hide-threshold="56"><nami-cluster gap="sm"><nami-badge variant="primary">Docs</nami-badge><a href="#">Overview</a><a href="#">API</a></nami-cluster></nami-scroll-header>'],
-  ['nami-scroll-reveal', '<nami-scroll-reveal effect="line-expand" amount="0.4"><nami-card>Line expansion reveal</nami-card></nami-scroll-reveal>'],
-  ['nami-hero-stage', '<nami-hero-stage variant="beam" height="compact" intensity="normal"><nami-stack><h2>Motion-aware stage</h2><nami-button>Explore</nami-button></nami-stack></nami-hero-stage>'],
   ['nami-grid', '<nami-grid min="12rem" gap="lg"><nami-card>Metric</nami-card><nami-card>Trend</nami-card><nami-card>Task</nami-card></nami-grid>'],
   ['nami-split', '<nami-split ratio="sidebar-main" min="16rem"><aside>Filters</aside><main>Results</main></nami-split>'],
   ['nami-empty', '<nami-empty title="No projects" description="Create the first project to continue"><nami-button slot="actions">Create</nami-button></nami-empty>'],

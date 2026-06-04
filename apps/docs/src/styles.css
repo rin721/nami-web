@@ -488,13 +488,6 @@ nami-docs-live-demo,
   padding: 16px 0 18px;
 }
 
-.home-stage {
-  --nami-hero-stage-content-width: var(--nami-container-lg);
-  --nami-hero-stage-padding: 0;
-  border-radius: var(--nami-radius-surface);
-  overflow: clip;
-}
-
 .hero-copy {
   display: grid;
   gap: 18px;

@@ -43,8 +43,6 @@ Default style uses fewer large shadows and leans on borders, surface layers, and
 
 Motion must respect `motion="reduced"`. Loading, page transitions, and overlays can have rhythm, but they should not block reading or make component state unpredictable.
 
-Page-level scroll motion should stay composable: use `nami-scroll-header` for direction-aware navigation, `nami-scroll-reveal` for viewport-triggered entrance, and `nami-hero-stage` for ambient hero backgrounds. Keep scroll-linked effects on opacity and transform whenever possible.
-
 ## Layout
 
 Prefer `nami-container`, `nami-stack`, `nami-cluster`, `nami-grid`, and `nami-split`. Spacing, breakpoints, gutter, rail, and mobile bar sizes belong in tokens instead of scattered page CSS.

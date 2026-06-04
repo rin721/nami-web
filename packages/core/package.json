@@ -60,18 +60,6 @@
       "types": "./dist/components/top-progress.d.ts",
       "default": "./dist/components/top-progress.js"
     },
-    "./scroll-header": {
-      "types": "./dist/components/scroll-header.d.ts",
-      "default": "./dist/components/scroll-header.js"
-    },
-    "./scroll-reveal": {
-      "types": "./dist/components/scroll-reveal.d.ts",
-      "default": "./dist/components/scroll-reveal.js"
-    },
-    "./hero-stage": {
-      "types": "./dist/components/hero-stage.d.ts",
-      "default": "./dist/components/hero-stage.js"
-    },
     "./illustration": {
       "types": "./dist/components/illustration.d.ts",
       "default": "./dist/components/illustration.js"
@@ -195,8 +183,7 @@
     "@lit/localize": "^0.12.2",
     "@nami-web/themes": "0.1.0",
     "@nami-web/tokens": "0.1.0",
-    "lit": "^3.0.0",
-    "motion": "12.40.0"
+    "lit": "^3.0.0"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0"

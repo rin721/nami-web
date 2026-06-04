@@ -201,7 +201,6 @@ test('component catalog and reference pages are driven by catalog plus metadata'
   await expect(page.locator('#component-docs')).toContainText('通用');
   await expect(page.locator('#component-docs')).toContainText('布局');
   await expect(page.locator('#component-docs')).toContainText('导航');
-  await expect(page.locator('#component-docs')).toContainText('滚动与动效');
   await expect(page.locator('#component-docs')).toContainText('数据录入');
   await expect(page.locator('#component-docs')).toContainText('数据展示');
   await expect(page.locator('#component-docs')).toContainText('反馈');
@@ -237,16 +236,6 @@ test('component catalog and reference pages are driven by catalog plus metadata'
   await expect(page.locator('#parts')).toContainText('CSS Parts');
   await expect(page.locator('#tokens')).toContainText('--nami-button-bg');
   await expect(page.locator('nami-docs-code-block[data-framework-example="html"]')).toBeVisible();
-  await expectNoVisibleMojibake(page);
-
-  await page.goto('/en-US/components/scroll-header/');
-  await waitForNami(page);
-  await expectDocsFrame(page);
-  await expect(page.locator('h1')).toHaveText('ScrollHeader');
-  await expect(page.locator('#events')).toContainText('nami-scroll-state');
-  await expect(page.locator('#parts')).toContainText('backdrop');
-  await expect(page.locator('#tokens')).toContainText('--nami-motion-normal');
-  await expect(page.locator('nami-docs-code-block[data-framework-example="html"]')).toContainText('nami-scroll-header');
   await expectNoVisibleMojibake(page);
   expect(errors).toEqual([]);
 });
