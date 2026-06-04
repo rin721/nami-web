@@ -1,9 +1,10 @@
-import { i as p, c as h, a as m, A as o, b as c } from "../chunks/styles-DgWJnXXm.js";
-import { m as d } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as g } from "../chunks/localized-controller-BapUPJ8o.js";
+import { i as p, a as h, A as o, b as m } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as c } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as d } from "../chunks/localized-controller-BapUPJ8o.js";
+import { c as g } from "../chunks/styles-C6m3uqJJ.js";
 const r = class r extends p {
   constructor() {
-    super(), this.hideTimer = 0, this.shownAt = 0, g(this), this.active = !1, this.duration = 220, this.effect = "flow", this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
+    super(), this.hideTimer = 0, this.shownAt = 0, d(this), this.active = !1, this.duration = 220, this.effect = "flow", this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
   }
   connectedCallback() {
     super.connectedCallback(), this.active && (this.visible = !0, this.shownAt = Date.now());
@@ -72,12 +73,12 @@ const r = class r extends p {
     this.style.setProperty("--nami-top-progress-duration", `${Number(this.duration)}ms`);
   }
   get fallbackLabel() {
-    return this.label || d("Navigating", { id: "nami.topProgress.navigating" });
+    return this.label || c("Navigating", { id: "nami.topProgress.navigating" });
   }
   render() {
     if (!this.visible) return o;
     const e = this.progress !== void 0 && this.progress !== null && !Number.isNaN(Number(this.progress));
-    return c`
+    return m`
       <div class="base" part="base">
         <span
           class="track"
@@ -104,8 +105,8 @@ r.properties = {
   variant: { reflect: !0 },
   visible: { state: !0 }
 }, r.styles = [
-  h,
-  m`
+  g,
+  h`
       :host {
         --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
         --top-progress-duration: var(--nami-top-progress-duration, 220ms);

@@ -59,6 +59,19 @@ const n = [
     states: ["default", "loading", "active"]
   },
   {
+    name: "nami-scroll-smoother",
+    summary: "Lenis-powered page scroll controller that adds inertial resistance while preserving native document flow.",
+    usage: '<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors></nami-scroll-smoother>',
+    attributes: ["disabled", "duration", "smooth-wheel", "sync-touch", "anchors", "auto-raf", "touch-multiplier", "wheel-multiplier", "stop-inertia-on-navigate", "resize-on-load"],
+    properties: ["active", "disabled", "duration", "smoothWheel", "syncTouch", "anchors", "autoRaf", "touchMultiplier", "wheelMultiplier", "stopInertiaOnNavigate", "resizeOnLoad", "start()", "stop()", "resize()", "sync()", "scrollTo()"],
+    events: ["nami-scroll-smoother", "nami-scroll-smoother-state"],
+    slots: [],
+    parts: [],
+    tokens: ["--nami-motion-normal"],
+    category: "feedback",
+    states: ["default", "active", "disabled", "reduced-motion"]
+  },
+  {
     name: "nami-illustration",
     summary: "Token-driven status illustration.",
     usage: '<nami-illustration name="empty" size="md"></nami-illustration>',
@@ -382,6 +395,7 @@ const n = [
   ["nami-spinner", "feedback"],
   ["nami-page-transition", "feedback"],
   ["nami-top-progress", "feedback"],
+  ["nami-scroll-smoother", "feedback"],
   ["nami-illustration", "feedback"],
   ["nami-empty", "feedback"],
   ["nami-result", "feedback"],
@@ -420,27 +434,27 @@ const n = [
   ["bottom", "Mobile bottom navigation slot."]
 ]);
 function l(e) {
-  return e.map((i) => ({
-    part: i,
-    description: s.get(i) ?? "Named style part exposed as public component anatomy."
+  return e.map((t) => ({
+    part: t,
+    description: s.get(t) ?? "Named style part exposed as public component anatomy."
   }));
 }
-function m(e, i) {
-  return i === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : i === "selected" || i === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : i === "hover" ? e.filter((a) => a.includes("hover")) : i === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : i === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : i === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
+function m(e, t) {
+  return t === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : t === "selected" || t === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : t === "hover" ? e.filter((a) => a.includes("hover")) : t === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : t === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : t === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
 }
-function d(e, i) {
+function d(e, t) {
   const a = e.parts.includes("control") ? "control" : e.parts[0] ?? "base";
-  return i.map((t) => ({
+  return t.map((i) => ({
     part: a,
-    state: t,
-    tokens: m(e.tokens, t)
-  })).filter((t) => t.tokens.length > 0);
+    state: i,
+    tokens: m(e.tokens, i)
+  })).filter((i) => i.tokens.length > 0);
 }
 const c = n.map((e) => {
-  const i = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[i];
+  const t = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[t];
   return {
     ...e,
-    category: i,
+    category: t,
     anatomy: e.anatomy ?? l(e.parts),
     states: a,
     styleHooks: e.styleHooks ?? d(e, a)

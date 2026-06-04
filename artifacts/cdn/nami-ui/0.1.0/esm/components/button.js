@@ -1,13 +1,14 @@
-import { i as r, c as i, a as e, A as s, b as o } from "../chunks/styles-DgWJnXXm.js";
-import { m as l } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as d } from "../chunks/localized-controller-BapUPJ8o.js";
+import { i as r, a as i, A as e, b as o } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as s } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as l } from "../chunks/localized-controller-BapUPJ8o.js";
 import { e as m } from "../chunks/events-DtyLzvDt.js";
-import { d as u } from "../chunks/define-BpqXLfIT.js";
+import { d } from "../chunks/define-BpqXLfIT.js";
+import { c as u } from "../chunks/styles-C6m3uqJJ.js";
 import { NamiSpinner as c } from "./spinner.js";
-u("nami-spinner", c);
+d("nami-spinner", c);
 const a = class a extends r {
   constructor() {
-    super(), d(this), this.variant = "solid", this.disabled = !1, this.loading = !1, this.type = "button";
+    super(), l(this), this.variant = "solid", this.disabled = !1, this.loading = !1, this.type = "button";
   }
   handleClick(t) {
     if (this.disabled || this.loading) {
@@ -33,9 +34,9 @@ const a = class a extends r {
         aria-busy=${this.loading ? "true" : "false"}
         @click=${this.handleClick}
       >
-        ${this.loading ? o`<nami-spinner size="sm" label=${l("Loading", { id: "nami.spinner.loading" })} part="indicator"></nami-spinner>` : o`<slot name="icon" part="icon"></slot>`}
+        ${this.loading ? o`<nami-spinner size="sm" label=${s("Loading", { id: "nami.spinner.loading" })} part="indicator"></nami-spinner>` : o`<slot name="icon" part="icon"></slot>`}
         <span part="label"><slot></slot></span>
-        ${this.loading ? s : o`<slot name="actions"></slot>`}
+        ${this.loading ? e : o`<slot name="actions"></slot>`}
       </button>
     `;
   }
@@ -47,8 +48,8 @@ a.properties = {
   loading: { type: Boolean, reflect: !0 },
   type: {}
 }, a.styles = [
-  i,
-  e`
+  u,
+  i`
       :host {
         --button-height: var(--nami-control-height, var(--nami-control-height-md, 40px));
         --button-padding: var(--nami-control-padding-x, 16px);

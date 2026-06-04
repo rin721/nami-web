@@ -1,4 +1,5 @@
-import { i as r, c as i, a as s, A as n, b as o } from "../chunks/styles-DgWJnXXm.js";
+import { i as r, a as i, A as s, b as n } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as o } from "../chunks/styles-C6m3uqJJ.js";
 const e = class e extends r {
   constructor() {
     super(), this.value = 0, this.max = 100, this.label = "", this.indeterminate = !1;
@@ -9,7 +10,7 @@ const e = class e extends r {
   }
   render() {
     const a = this.max > 0 ? Math.min(this.max, Math.max(0, this.value)) : 0;
-    return this.max > 0 && a / this.max * 100, o`
+    return this.max > 0 && a / this.max * 100, n`
       <div
         class="track"
         part="base track"
@@ -17,7 +18,7 @@ const e = class e extends r {
         aria-label=${this.label || "Progress"}
         aria-valuemin="0"
         aria-valuemax=${this.max}
-        aria-valuenow=${this.indeterminate ? n : a}
+        aria-valuenow=${this.indeterminate ? s : a}
       >
         <div class="fill" part="indicator"></div>
       </div>
@@ -30,8 +31,8 @@ e.properties = {
   label: {},
   indeterminate: { type: Boolean, reflect: !0 }
 }, e.styles = [
-  i,
-  s`
+  o,
+  i`
       :host {
         display: block;
       }

@@ -94,6 +94,30 @@ import '@nami-web/ui/input';
 import '@nami-web/ui/button/register';
 ```
 
+## 页面滚动阻力感
+
+需要类似 lantxx.com.cn 那种“滚动有一点阻力、松手后继续缓动”的整页手感时，引入 `nami-scroll-smoother`。它基于 Lenis 的文档滚动控制器，不改变页面结构，也不会添加背景特效。
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/scroll-smoother';
+```
+
+```html
+<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
+如果已经使用全量注册入口，直接写标签即可：
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
+```
+
+<nami-docs-callout variant="info" title="可访问性">
+当系统设置 `prefers-reduced-motion: reduce`，或 `nami-theme motion="reduced"` 时，`nami-scroll-smoother` 会自动降级为原生滚动。
+</nami-docs-callout>
+
 ## CDN 进阶引用
 
 CDN 产物随官网一起发布，并通过 `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/` 访问。默认 global 文件会一次注册全部组件：

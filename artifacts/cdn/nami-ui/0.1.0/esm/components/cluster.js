@@ -1,4 +1,5 @@
-import { i as e, c as a, a as i, b as r } from "../chunks/styles-DgWJnXXm.js";
+import { i as e, a, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as r } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends e {
   constructor() {
     super(), this.gap = "sm", this.align = "", this.justify = "";
@@ -7,7 +8,7 @@ const t = class t extends e {
     this.align ? this.style.setProperty("--nami-cluster-align", this.align) : this.style.removeProperty("--nami-cluster-align"), this.justify ? this.style.setProperty("--nami-cluster-justify", this.justify) : this.style.removeProperty("--nami-cluster-justify");
   }
   render() {
-    return r`<div class="base" part="base"><slot></slot></div>`;
+    return i`<div class="base" part="base"><slot></slot></div>`;
   }
 };
 t.properties = {
@@ -15,8 +16,8 @@ t.properties = {
   align: { reflect: !0 },
   justify: { reflect: !0 }
 }, t.styles = [
-  a,
-  i`
+  r,
+  a`
       :host {
         display: block;
       }

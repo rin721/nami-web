@@ -1,5 +1,6 @@
-import { i as s, c as t, a, b as e } from "../chunks/styles-DgWJnXXm.js";
-const r = class r extends s {
+import { i as t, a as s, b as e } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as a } from "../chunks/styles-C6m3uqJJ.js";
+const r = class r extends t {
   constructor() {
     super(), this.name = "empty", this.size = "md";
   }
@@ -42,8 +43,8 @@ r.properties = {
   name: { reflect: !0 },
   size: { reflect: !0 }
 }, r.styles = [
-  t,
-  a`
+  a,
+  s`
       :host {
         --illustration-size: var(--nami-illus-size-md, 140px);
         color: var(--nami-illus-primary, var(--nami-color-primary, #3b82f6));

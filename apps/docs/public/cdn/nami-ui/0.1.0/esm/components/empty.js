@@ -1,12 +1,13 @@
-import { i as o, c as n, a as l, A as p, b as e } from "../chunks/styles-DgWJnXXm.js";
+import { i as o, a as n, A as l, b as e } from "../chunks/lit-element-GeMXvhiH.js";
 import { m as a } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as c } from "../chunks/localized-controller-BapUPJ8o.js";
+import { u as p } from "../chunks/localized-controller-BapUPJ8o.js";
 import { d as m } from "../chunks/define-BpqXLfIT.js";
+import { c } from "../chunks/styles-C6m3uqJJ.js";
 import { NamiIllustration as d } from "./illustration.js";
 m("nami-illustration", d);
 const t = class t extends o {
   constructor() {
-    super(), c(this), this.illustration = "empty", this.title = "", this.description = "", this.compact = !1;
+    super(), p(this), this.illustration = "empty", this.title = "", this.description = "", this.compact = !1;
   }
   render() {
     const i = this.description || a("No data", { id: "nami.empty.description" }), r = this.title || i || a("Empty state", { id: "nami.empty.aria" });
@@ -15,7 +16,7 @@ const t = class t extends o {
         <slot name="illustration" part="illustration">
           <nami-illustration name=${this.illustration} size=${this.compact ? "sm" : "md"}></nami-illustration>
         </slot>
-        ${this.title ? e`<div class="title" part="title"><slot name="title">${this.title}</slot></div>` : p}
+        ${this.title ? e`<div class="title" part="title"><slot name="title">${this.title}</slot></div>` : l}
         <div class="description" part="description"><slot name="description">${i}</slot></div>
         <div class="actions" part="actions"><slot name="actions"></slot></div>
       </section>
@@ -28,8 +29,8 @@ t.properties = {
   description: { reflect: !0 },
   compact: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  n,
-  l`
+  c,
+  n`
       :host {
         display: block;
       }

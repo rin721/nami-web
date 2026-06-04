@@ -39,6 +39,19 @@ npm install @nami-web/ui @nami-web/themes
 pnpm add @nami-web/ui @nami-web/themes
 ```
 
+## 页面滚动阻尼
+
+`nami-scroll-smoother` 使用 Lenis 提供整页滚动阻力感与惯性缓动，适合官网、文档站和需要顺滑滚动手感的长页面。它不渲染背景特效，只控制文档滚动；`motion="reduced"` 或系统 reduced motion 下会退回原生滚动。
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/scroll-smoother';
+```
+
+```html
+<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
 ## 本地运行官网
 
 ```bash

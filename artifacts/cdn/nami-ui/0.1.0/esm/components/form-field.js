@@ -1,8 +1,9 @@
-import { i as a, c as i, a as l, A as n, b as t } from "../chunks/styles-DgWJnXXm.js";
-import { n as d } from "../chunks/ids-BBzulDVF.js";
-const e = class e extends a {
+import { i, a, A as l, b as t } from "../chunks/lit-element-GeMXvhiH.js";
+import { n } from "../chunks/ids-BBzulDVF.js";
+import { c as d } from "../chunks/styles-C6m3uqJJ.js";
+const e = class e extends i {
   constructor() {
-    super(), this.metaId = `${d("nami-field")}-meta`, this.label = "", this.helperText = "", this.error = "", this.required = !1, this.disabled = !1;
+    super(), this.metaId = `${n("nami-field")}-meta`, this.label = "", this.helperText = "", this.error = "", this.required = !1, this.disabled = !1;
   }
   updated() {
     this.dataset.state = this.error ? "invalid" : "valid", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!this.error);
@@ -14,7 +15,7 @@ const e = class e extends a {
     const r = this.error || this.helperText;
     return t`
       <div class="base" part="base">
-        ${this.label ? t`<span class="label" part="label" @click=${this.focusControl}>${this.label}${this.required ? " *" : ""}</span>` : n}
+        ${this.label ? t`<span class="label" part="label" @click=${this.focusControl}>${this.label}${this.required ? " *" : ""}</span>` : l}
         <div class="control" part="control"><slot></slot></div>
         ${r ? t`<div id=${this.metaId} class="meta ${this.error ? "error" : ""}" part=${this.error ? "error" : "description"}>${r}</div>` : t`<slot name="description"></slot>`}
       </div>
@@ -28,8 +29,8 @@ e.properties = {
   required: { type: Boolean, reflect: !0 },
   disabled: { type: Boolean, reflect: !0 }
 }, e.styles = [
-  i,
-  l`
+  d,
+  a`
       :host {
         color: var(--nami-text);
         display: block;

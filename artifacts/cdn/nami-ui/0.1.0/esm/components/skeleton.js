@@ -1,4 +1,5 @@
-import { i as e, c as i, a as r, b as s } from "../chunks/styles-DgWJnXXm.js";
+import { i as e, a as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as s } from "../chunks/styles-C6m3uqJJ.js";
 const a = class a extends e {
   constructor() {
     super(), this.variant = "text", this.animated = !0;
@@ -7,14 +8,14 @@ const a = class a extends e {
     this.dataset.state = this.animated ? "loading" : "idle";
   }
   render() {
-    return s`<span class="base" part="base" aria-hidden="true"><slot></slot></span>`;
+    return i`<span class="base" part="base" aria-hidden="true"><slot></slot></span>`;
   }
 };
 a.properties = {
   variant: { reflect: !0 },
   animated: { type: Boolean, reflect: !0 }
 }, a.styles = [
-  i,
+  s,
   r`
       :host {
         display: block;

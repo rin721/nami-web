@@ -1,6 +1,7 @@
-import { i as s, c as i, a as l, b as c } from "../chunks/styles-DgWJnXXm.js";
-import { g as n, t as d, r as p } from "../chunks/focus-BSADow8U.js";
-import { e as o } from "../chunks/events-DtyLzvDt.js";
+import { i as s, a as i, b as l } from "../chunks/lit-element-GeMXvhiH.js";
+import { g as o, t as c, r as d } from "../chunks/focus-BSADow8U.js";
+import { e as n } from "../chunks/events-DtyLzvDt.js";
+import { c as p } from "../chunks/styles-C6m3uqJJ.js";
 const a = class a extends s {
   constructor() {
     super(), this.previousActiveElement = null, this.handleKeydown = (e) => {
@@ -19,7 +20,7 @@ const a = class a extends s {
   updated(e) {
     if (!e.has("open")) return;
     const t = e.get("open") === !0;
-    this.open ? (this.previousActiveElement = document.activeElement, requestAnimationFrame(() => this.focusInitialElement()), o(this, "nami-open", void 0)) : t && (this.restoreFocus(), o(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0);
+    this.open ? (this.previousActiveElement = document.activeElement, requestAnimationFrame(() => this.focusInitialElement()), n(this, "nami-open", void 0)) : t && (this.restoreFocus(), n(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0);
   }
   get panelElement() {
     return this.renderRoot.querySelector(".panel");
@@ -27,23 +28,23 @@ const a = class a extends s {
   focusInitialElement() {
     const e = this.panelElement;
     if (!e) return;
-    (n(e)[0] ?? e).focus();
+    (o(e)[0] ?? e).focus();
   }
   handlePanelKeydown(e) {
     const t = this.panelElement;
     if (t) {
-      if (e.key === "Tab" && n(t).length === 0) {
+      if (e.key === "Tab" && o(t).length === 0) {
         e.preventDefault(), t.focus();
         return;
       }
-      d(e, t);
+      c(e, t);
     }
   }
   restoreFocus() {
-    p(this.previousActiveElement), this.previousActiveElement = null;
+    d(this.previousActiveElement), this.previousActiveElement = null;
   }
   render() {
-    return c`
+    return l`
       <div class="backdrop" part="backdrop" @click=${(e) => this.close(e)}></div>
       <aside
         class="panel"
@@ -66,8 +67,8 @@ a.properties = {
   open: { type: Boolean, reflect: !0 },
   placement: { reflect: !0 }
 }, a.styles = [
-  i,
-  l`
+  p,
+  i`
       :host {
         display: contents;
       }

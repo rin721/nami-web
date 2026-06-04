@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { componentTokens, seedTokens, semanticTokens } from '../../tokens/src/index';
@@ -24,6 +24,7 @@ import type { NamiPageTransition } from './components/page-transition';
 import type { NamiProgress } from './components/progress';
 import type { NamiRadioCard } from './components/radio-card';
 import type { NamiResult } from './components/result';
+import type { NamiScrollSmoother } from './components/scroll-smoother';
 import type { NamiSwitch } from './components/switch';
 import type { NamiTabBar } from './components/tab-bar';
 import type { NamiTextarea } from './components/textarea';
@@ -592,6 +593,38 @@ describe('@nami-web/ui components', () => {
     progress.remove();
   });
 
+  it('configures scroll smoother defaults and falls back to native scrolling without a Lenis runtime', async () => {
+    const smoother = document.createElement('nami-scroll-smoother') as NamiScrollSmoother;
+    const scrollTo = vi.fn();
+    const originalScrollTo = window.scrollTo;
+    const originalResizeObserver = window.ResizeObserver;
+    Object.defineProperty(window, 'scrollTo', { configurable: true, value: scrollTo });
+    Object.defineProperty(window, 'ResizeObserver', { configurable: true, value: undefined });
+
+    smoother.addEventListener('nami-scroll-smoother-state', (event) => {
+      expect((event as CustomEvent).detail).toMatchObject({
+        reducedMotion: false,
+        velocity: 0,
+        direction: 0
+      });
+    });
+    document.body.append(smoother);
+    await smoother.updateComplete;
+
+    expect(smoother.duration).toBe(1.2);
+    expect(smoother.touchMultiplier).toBe(2);
+    expect(smoother.anchors).toBe(true);
+    expect(smoother.stopInertiaOnNavigate).toBe(true);
+    expect(smoother.hasAttribute('active')).toBe(false);
+
+    smoother.scrollTo(120);
+    expect(scrollTo).toHaveBeenCalledWith({ top: 120, behavior: 'auto' });
+
+    smoother.remove();
+    Object.defineProperty(window, 'scrollTo', { configurable: true, value: originalScrollTo });
+    Object.defineProperty(window, 'ResizeObserver', { configurable: true, value: originalResizeObserver });
+  });
+
   it('publishes metadata for all registered public components', () => {
     const names = namiComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
@@ -601,6 +634,7 @@ describe('@nami-web/ui components', () => {
       'nami-spinner',
       'nami-page-transition',
       'nami-top-progress',
+      'nami-scroll-smoother',
       'nami-illustration',
       'nami-empty',
       'nami-result',

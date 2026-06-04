@@ -1,14 +1,15 @@
-import { i, c, a as d, b as l } from "../chunks/styles-DgWJnXXm.js";
+import { i, a as c, b as d } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as l } from "../chunks/styles-C6m3uqJJ.js";
 const a = class a extends i {
   constructor() {
     super(), this.variant = "surface";
   }
   syncSlotState(n) {
-    const s = n.currentTarget, t = s.name || "default", e = s.assignedNodes({ flatten: !0 }).some((r) => r.nodeType !== Node.TEXT_NODE || r.textContent?.trim());
+    const r = n.currentTarget, t = r.name || "default", e = r.assignedNodes({ flatten: !0 }).some((s) => s.nodeType !== Node.TEXT_NODE || s.textContent?.trim());
     t === "header" && this.toggleAttribute("has-header", e), t === "actions" && this.toggleAttribute("has-actions", e), t === "footer" && this.toggleAttribute("has-footer", e);
   }
   render() {
-    return l`
+    return d`
       <article class="base" part="base">
         <header part="header"><slot name="header" @slotchange=${this.syncSlotState}></slot></header>
         <section class="body" part="body"><slot></slot></section>
@@ -21,8 +22,8 @@ const a = class a extends i {
 a.properties = {
   variant: { reflect: !0 }
 }, a.styles = [
-  c,
-  d`
+  l,
+  c`
       :host {
         display: block;
       }

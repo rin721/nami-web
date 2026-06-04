@@ -1,4 +1,5 @@
-import { i as e, c as o, a as r, b as s } from "../chunks/styles-DgWJnXXm.js";
+import { i as e, a as o, b as r } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as s } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends e {
   constructor() {
     super(), this.railWidth = "", this.mobileBarHeight = "", this.breakpoint = "compact", this.sticky = !0, this.safeArea = !1;
@@ -10,7 +11,7 @@ const t = class t extends e {
     return /^\d+(\.\d+)?$/.test(a) ? `${a}px` : a;
   }
   render() {
-    return s`
+    return r`
       <div class="shell" part="base">
         <aside class="rail" part="rail"><slot name="rail"></slot></aside>
         <header class="top" part="top"><slot name="top"></slot></header>
@@ -27,8 +28,8 @@ t.properties = {
   sticky: { type: Boolean, reflect: !0 },
   safeArea: { attribute: "safe-area", type: Boolean, reflect: !0 }
 }, t.styles = [
-  o,
-  r`
+  s,
+  o`
       :host {
         display: block;
         min-height: 100dvh;

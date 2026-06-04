@@ -1,4 +1,5 @@
-import { i, c as e, a, b as r } from "../chunks/styles-DgWJnXXm.js";
+import { i, a as e, b as r } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as a } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends i {
   constructor() {
     super(), this.columns = 0, this.min = "", this.gap = "md";
@@ -15,8 +16,8 @@ t.properties = {
   min: { reflect: !0 },
   gap: { reflect: !0 }
 }, t.styles = [
-  e,
-  a`
+  a,
+  e`
       :host {
         display: block;
       }

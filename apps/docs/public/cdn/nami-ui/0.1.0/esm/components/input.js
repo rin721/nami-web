@@ -1,16 +1,17 @@
-import { i as l, c as o, a as d, A as r, b as i } from "../chunks/styles-DgWJnXXm.js";
-import { a as h, s as u, b as m } from "../chunks/form-associated-CbqAj2Is.js";
-import { n as c } from "../chunks/ids-BBzulDVF.js";
+import { i as l, a as o, A as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { a as d, s as h, b as u } from "../chunks/form-associated-CbqAj2Is.js";
+import { n as m } from "../chunks/ids-BBzulDVF.js";
 import { e as s } from "../chunks/events-DtyLzvDt.js";
+import { c } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends l {
   constructor() {
-    super(), this.internals = h(this), this.metaId = `${c("nami-input")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.type = "text", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1;
+    super(), this.internals = d(this), this.metaId = `${m("nami-input")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.type = "text", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1;
   }
   get inputElement() {
     return this.renderRoot.querySelector("input");
   }
   updated() {
-    u(this.internals, this.disabled ? null : this.value), m(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? void 0);
+    h(this.internals, this.disabled ? null : this.value), u(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? void 0);
   }
   formResetCallback() {
     this.value = this.defaultValue;
@@ -86,8 +87,8 @@ t.formAssociated = !0, t.properties = {
   disabled: { type: Boolean, reflect: !0 },
   required: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  o,
-  d`
+  c,
+  o`
       :host {
         display: block;
       }

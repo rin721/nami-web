@@ -35,9 +35,19 @@ export interface NamiLocaleStatusEventDetail {
   errorMessage?: string;
 }
 
+export interface NamiScrollSmootherEventDetail {
+  scroll: number;
+  limit: number;
+  progress: number;
+  velocity: number;
+  direction: 1 | -1 | 0;
+  reducedMotion: boolean;
+}
+
 export type NamiClickEvent = CustomEvent<NamiClickEventDetail>;
 export type NamiChangeEvent<TValue = string> = CustomEvent<NamiChangeEventDetail<TValue>>;
 export type NamiSelectEvent<TValue = string> = CustomEvent<NamiSelectEventDetail<TValue>>;
 export type NamiOpenEvent = CustomEvent<NamiOpenEventDetail | undefined>;
 export type NamiCloseEvent = CustomEvent<NamiCloseEventDetail | undefined>;
 export type NamiLocaleStatusEvent = CustomEvent<NamiLocaleStatusEventDetail>;
+export type NamiScrollSmootherEvent = CustomEvent<NamiScrollSmootherEventDetail>;

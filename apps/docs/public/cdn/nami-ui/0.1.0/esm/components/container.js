@@ -1,18 +1,19 @@
-import { i as a, c as e, a as n, b as s } from "../chunks/styles-DgWJnXXm.js";
+import { i as a, a as e, b as n } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as s } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends a {
   constructor() {
     super(), this.size = "lg", this.padded = !0;
   }
   render() {
-    return s`<div class="base" part="base"><slot></slot></div>`;
+    return n`<div class="base" part="base"><slot></slot></div>`;
   }
 };
 t.properties = {
   size: { reflect: !0 },
   padded: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  e,
-  n`
+  s,
+  e`
       :host {
         display: block;
       }

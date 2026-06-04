@@ -1,5 +1,6 @@
-import { i as o, c as e, a as s, A as n, b as a } from "../chunks/styles-DgWJnXXm.js";
-import { e as l } from "../chunks/events-DtyLzvDt.js";
+import { i as o, a as e, A as s, b as a } from "../chunks/lit-element-GeMXvhiH.js";
+import { e as n } from "../chunks/events-DtyLzvDt.js";
+import { c as l } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends o {
   constructor() {
     super(), this.variant = "neutral", this.title = "", this.closable = !1;
@@ -8,7 +9,7 @@ const t = class t extends o {
     this.dataset.state = this.variant;
   }
   close(r) {
-    l(this, "nami-close", { sourceEvent: r }, { cancelable: !0 }) && this.remove();
+    n(this, "nami-close", { sourceEvent: r }, { cancelable: !0 }) && this.remove();
   }
   render() {
     const r = this.variant === "danger" || this.variant === "warning" ? "alert" : "status";
@@ -21,7 +22,7 @@ const t = class t extends o {
         </div>
         <div class="actions" part="actions">
           <slot name="actions"></slot>
-          ${this.closable ? a`<button type="button" aria-label="Close" @click=${this.close}>${"×"}</button>` : n}
+          ${this.closable ? a`<button type="button" aria-label="Close" @click=${this.close}>${"×"}</button>` : s}
         </div>
       </section>
     `;
@@ -32,8 +33,8 @@ t.properties = {
   title: {},
   closable: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  e,
-  s`
+  l,
+  e`
       :host {
         display: block;
       }

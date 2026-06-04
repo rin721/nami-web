@@ -94,6 +94,30 @@ import '@nami-web/ui/input';
 import '@nami-web/ui/button/register';
 ```
 
+## Page Scroll Resistance
+
+Use `nami-scroll-smoother` when you want the page-level resistance and inertial easing seen on sites like lantxx.com.cn. It wraps document scrolling with Lenis, keeps the normal page flow, and does not add visual background effects.
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/scroll-smoother';
+```
+
+```html
+<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
+If you already use the all-component register entry, write the element directly:
+
+```ts
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
+```
+
+<nami-docs-callout variant="info" title="Accessibility">
+When the user has `prefers-reduced-motion: reduce`, or when `nami-theme motion="reduced"` is active, `nami-scroll-smoother` falls back to native scrolling.
+</nami-docs-callout>
+
 ## Advanced CDN Usage
 
 CDN assets are published with the docs site and served from `https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/`. The default global file registers every component:

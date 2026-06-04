@@ -49,6 +49,7 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     'esm/register.js',
     'esm/components/button.js',
     'esm/components/input.js',
+    'esm/components/scroll-smoother.js',
     'css/default.css',
     'css/ant-illustration.css',
     'css/critical.css',
@@ -78,8 +79,8 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
 
   for (const file of collectJsFiles(cdnRoot)) {
     const source = readFileSync(file, 'utf8');
-    expect(source, file).not.toMatch(/\bfrom\s*["'](?:lit|@lit\/localize|@nami\/)/);
-    expect(source, file).not.toMatch(/\bimport\s*\(\s*["'](?:lit|@lit\/localize|@nami\/)/);
+    expect(source, file).not.toMatch(/\bfrom\s*["'](?:lit|lenis|@lit\/localize|@nami(?:-web)?\/)/);
+    expect(source, file).not.toMatch(/\bimport\s*\(\s*["'](?:lit|lenis|@lit\/localize|@nami(?:-web)?\/)/);
   }
 });
 
@@ -91,7 +92,7 @@ test('global CDN script registers components and applies default theme CSS', asy
     <nami-button>Hello Nami</nami-button>
   `);
 
-  await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-theme'));
+  await page.waitForFunction(() => customElements.get('nami-button') && customElements.get('nami-theme') && customElements.get('nami-scroll-smoother'));
   await expect(page.locator('nami-button')).toBeVisible();
 
   const state = await page.evaluate(() => {
@@ -124,7 +125,8 @@ test('ESM CDN register entry defines the component set', async ({ page }) => {
     customElements.get('nami-button') &&
     customElements.get('nami-card') &&
     customElements.get('nami-theme') &&
-    customElements.get('nami-input')
+    customElements.get('nami-input') &&
+    customElements.get('nami-scroll-smoother')
   );
 
   await expect(page.locator('nami-button')).toBeVisible();

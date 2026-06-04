@@ -1,4 +1,5 @@
-import { i as V, c as A, a as D, b as M } from "../chunks/styles-DgWJnXXm.js";
+import { i as V, a as A, b as D } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as M } from "../chunks/styles-C6m3uqJJ.js";
 const p = {
   accent: "#3b82f6",
   mode: "light",
@@ -605,7 +606,7 @@ const b = class b extends V {
     this.dataset.namiTheme = i, this.dataset.namiThemeRequested = this.theme, this.dataset.namiDensity = o, this.dataset.namiSize = l, this.dataset.namiMotion = u, this.dataset.namiStyle = n, this.dataset.namiRadius = x, this.dataset.namiContrast = k;
   }
   render() {
-    return M`<slot></slot>`;
+    return D`<slot></slot>`;
   }
 };
 b.properties = {
@@ -620,8 +621,8 @@ b.properties = {
   inherit: { type: Boolean, reflect: !0 },
   config: { attribute: !1 }
 }, b.styles = [
-  A,
-  D`
+  M,
+  A`
       :host {
         display: block;
         min-height: 0;

@@ -1,7 +1,8 @@
-import { i as s, c as r, a as n, A as l, b as c } from "../chunks/styles-DgWJnXXm.js";
-import { g as d, r as p, t as h } from "../chunks/focus-BSADow8U.js";
-import { e as t } from "../chunks/events-DtyLzvDt.js";
-const a = class a extends s {
+import { i as s, a as r, A as n, b as l } from "../chunks/lit-element-GeMXvhiH.js";
+import { g as c, r as d, t as p } from "../chunks/focus-BSADow8U.js";
+import { e as a } from "../chunks/events-DtyLzvDt.js";
+import { c as h } from "../chunks/styles-C6m3uqJJ.js";
+const t = class t extends s {
   constructor() {
     super(), this.previousActiveElement = null, this.open = !1, this.label = "", this.closeOnBackdrop = !0;
   }
@@ -9,18 +10,18 @@ const a = class a extends s {
     return this.renderRoot.querySelector("dialog");
   }
   get focusableElements() {
-    return d(this.dialogElement);
+    return c(this.dialogElement);
   }
   updated(e) {
     if (!e.has("open")) return;
     const i = e.get("open") === !0;
-    this.open && !this.dialogElement.open && (this.previousActiveElement = document.activeElement, this.dialogElement.showModal(), requestAnimationFrame(() => this.focusInitialElement()), t(this, "nami-open", void 0)), !this.open && this.dialogElement.open && this.dialogElement.close(), !this.open && i && (this.restoreFocus(), t(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0);
+    this.open && !this.dialogElement.open && (this.previousActiveElement = document.activeElement, this.dialogElement.showModal(), requestAnimationFrame(() => this.focusInitialElement()), a(this, "nami-open", void 0)), !this.open && this.dialogElement.open && this.dialogElement.close(), !this.open && i && (this.restoreFocus(), a(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0);
   }
   focusInitialElement() {
     this.focusableElements[0]?.focus();
   }
   restoreFocus() {
-    p(this.previousActiveElement), this.previousActiveElement = null;
+    d(this.previousActiveElement), this.previousActiveElement = null;
   }
   close(e) {
     this.open && (this.closeSourceEvent = e, this.open = !1);
@@ -35,13 +36,13 @@ const a = class a extends s {
     this.open && this.close();
   }
   handleKeydown(e) {
-    this.open && h(e, this.dialogElement);
+    this.open && p(e, this.dialogElement);
   }
   render() {
-    return c`
+    return l`
       <dialog
         part="base"
-        aria-label=${this.label || l}
+        aria-label=${this.label || n}
         @cancel=${this.handleCancel}
         @click=${this.handleClick}
         @close=${this.handleNativeClose}
@@ -59,13 +60,13 @@ const a = class a extends s {
     `;
   }
 };
-a.properties = {
+t.properties = {
   open: { type: Boolean, reflect: !0 },
   label: {},
   closeOnBackdrop: { attribute: "close-on-backdrop", type: Boolean, reflect: !0 }
-}, a.styles = [
-  r,
-  n`
+}, t.styles = [
+  h,
+  r`
       dialog {
         background: var(--nami-dialog-bg, var(--nami-surface-raised));
         border: var(--nami-dialog-border-width, var(--nami-style-stroke-width, 1px)) solid var(--nami-dialog-border-color, var(--nami-border));
@@ -130,7 +131,7 @@ a.properties = {
       }
     `
 ];
-let o = a;
+let o = t;
 export {
   o as NamiDialog
 };

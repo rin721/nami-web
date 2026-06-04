@@ -16,6 +16,7 @@ const entries = {
   'components/spinner': resolve(__dirname, 'src/components/spinner.ts'),
   'components/page-transition': resolve(__dirname, 'src/components/page-transition.ts'),
   'components/top-progress': resolve(__dirname, 'src/components/top-progress.ts'),
+  'components/scroll-smoother': resolve(__dirname, 'src/components/scroll-smoother.ts'),
   'components/illustration': resolve(__dirname, 'src/components/illustration.ts'),
   'components/empty': resolve(__dirname, 'src/components/empty.ts'),
   'components/result': resolve(__dirname, 'src/components/result.ts'),
@@ -52,7 +53,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['lit', 'lit/decorators.js', '@lit/localize', '@nami-web/tokens/theme', '@nami-web/themes'],
+      external: ['lit', 'lit/decorators.js', '@lit/localize', '@nami-web/tokens/theme', '@nami-web/themes', 'lenis'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'chunks/[name]-[hash].js'

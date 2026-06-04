@@ -1,4 +1,4 @@
-import { namiComponentMetadata as l } from "./metadata.js";
+import { namiComponentMetadata as c } from "./metadata.js";
 const r = [
   {
     id: "general",
@@ -25,7 +25,7 @@ const r = [
       "zh-CN": "同级内容切换、路由进度和页面过渡所需的导航反馈。",
       "en-US": "Peer content switching and route feedback for navigation flows."
     },
-    names: ["nami-tab-bar", "nami-top-progress", "nami-page-transition"]
+    names: ["nami-tab-bar", "nami-top-progress", "nami-page-transition", "nami-scroll-smoother"]
   },
   {
     id: "data-entry",
@@ -63,7 +63,7 @@ const r = [
     },
     names: ["nami-config", "nami-theme"]
   }
-], p = new Map(l.map((a) => [a.name, a])), v = /* @__PURE__ */ new Map([
+], p = new Map(c.map((a) => [a.name, a])), v = /* @__PURE__ */ new Map([
   ["nami-config", '<nami-config locale="zh-CN"><nami-empty compact></nami-empty></nami-config>'],
   ["nami-theme", '<nami-theme accent="#14b8a6" style-preset="illustration"><nami-button>Scoped theme</nami-button></nami-theme>'],
   ["nami-app-shell", '<div class="mini-shell"><span>Rail</span><strong>App shell</strong><small>Responsive layout slots</small></div>'],
@@ -90,6 +90,7 @@ const r = [
   ["nami-alert", '<nami-alert variant="warning" title="Check settings">Review the configuration.</nami-alert>'],
   ["nami-page-transition", '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
   ["nami-top-progress", '<div class="component-preview-frame progress-preview-frame"><nami-top-progress active variant="inline" progress="64" height="12" duration="0"></nami-top-progress></div>'],
+  ["nami-scroll-smoother", '<nami-card><nami-badge slot="header" variant="primary">Smooth scroll</nami-badge><p>Lenis resistance for document scrolling.</p></nami-card>'],
   ["nami-dialog", '<nami-button variant="soft">Open dialog</nami-button>'],
   ["nami-drawer", '<nami-button variant="soft">Open drawer</nami-button>'],
   ["nami-toast", '<nami-button variant="soft">Show toast</nami-button>'],
@@ -123,6 +124,7 @@ const r = [
   ["nami-alert", "显示信息、成功、警告和危险状态的行内反馈。"],
   ["nami-page-transition", "处理首屏揭幕和阻断式任务过渡。"],
   ["nami-top-progress", "在框架路由钩子中显示顶部进度轨道与填充。"],
+  ["nami-scroll-smoother", "为整页滚动加入 Lenis 阻力感、惯性缓动和锚点滚动控制。"],
   ["nami-dialog", "承载需要焦点管理的模态任务。"],
   ["nami-drawer", "在移动端或辅助流程中打开侧向面板。"],
   ["nami-toast", "显示短时反馈和操作结果。"],
@@ -135,6 +137,7 @@ const r = [
   ["nami-spinner", "Spinner 加载"],
   ["nami-page-transition", "PageTransition 页面过渡"],
   ["nami-top-progress", "TopProgress 顶部进度"],
+  ["nami-scroll-smoother", "ScrollSmoother 滚动阻尼"],
   ["nami-illustration", "Illustration 插画"],
   ["nami-empty", "Empty 空状态"],
   ["nami-result", "Result 结果页"],
@@ -316,6 +319,7 @@ const r = [
   ["nami-dialog", '<nami-dialog open label="Confirm"><p>Review the operation before continuing.</p><nami-button slot="actions">Confirm</nami-button></nami-dialog>'],
   ["nami-drawer", '<nami-drawer open placement="right"><h3 slot="label">Filters</h3><nami-checkbox checked>Only active</nami-checkbox></nami-drawer>'],
   ["nami-toast", 'NamiToast.show({ message: "Saved", variant: "success", duration: 2400 })'],
+  ["nami-scroll-smoother", '<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>'],
   ["nami-app-shell", '<nami-app-shell rail-width="64" mobile-bar-height="60" sticky safe-area><nav slot="rail">Nav</nav><main>Content</main></nami-app-shell>'],
   ["nami-grid", '<nami-grid min="12rem" gap="lg"><nami-card>Metric</nami-card><nami-card>Trend</nami-card><nami-card>Task</nami-card></nami-grid>'],
   ["nami-split", '<nami-split ratio="sidebar-main" min="16rem"><aside>Filters</aside><main>Results</main></nami-split>'],
@@ -336,7 +340,7 @@ function u(a) {
     "en-US": "Shows a fuller composition with state, slots, or theme boundaries."
   };
 }
-function N(a, n) {
+function S(a, n) {
   const e = a.replace(/^nami-/, "").replace(/-/g, "");
   return {
     html: n,
@@ -351,7 +355,7 @@ function N(a, n) {
 function s(a) {
   return a.replace(/^nami-/, "").split("-").map((n) => n[0]?.toUpperCase() + n.slice(1)).join("");
 }
-function S(a) {
+function N(a) {
   return r.find((n) => n.names.includes(a))?.id ?? "system";
 }
 function P(a) {
@@ -373,28 +377,28 @@ function o(a, n) {
   const e = p.get(a);
   return n === "zh-CN" ? f.get(a) ?? e?.summary ?? a : e?.summary ?? a;
 }
-function c(a) {
+function l(a) {
   return v.get(a) ?? p.get(a)?.usage ?? "";
 }
 function z(a) {
   return {
     title: d(a, "basic"),
     description: u("basic"),
-    code: p.get(a)?.usage ?? c(a)
+    code: p.get(a)?.usage ?? l(a)
   };
 }
 function U(a) {
   return {
     title: d(a, "advanced"),
     description: u("advanced"),
-    code: k.get(a) ?? c(a)
+    code: k.get(a) ?? l(a)
   };
 }
 function M(a, n) {
   return h(a).frameworks[n];
 }
 function h(a) {
-  const n = z(a), e = U(a), t = S(a), i = r.find((y) => y.id === t)?.names.indexOf(a) ?? 0;
+  const n = z(a), e = U(a), t = N(a), i = r.find((y) => y.id === t)?.names.indexOf(a) ?? 0;
   return {
     name: a,
     groupId: t,
@@ -403,7 +407,7 @@ function h(a) {
       "zh-CN": m(a, "zh-CN"),
       "en-US": m(a, "en-US")
     },
-    preview: c(a),
+    preview: l(a),
     useCase: {
       "zh-CN": o(a, "zh-CN"),
       "en-US": o(a, "en-US")
@@ -412,10 +416,10 @@ function h(a) {
     keywords: [a, s(a), m(a, "zh-CN"), o(a, "zh-CN"), o(a, "en-US")],
     basic: n,
     advanced: e,
-    frameworks: N(a, n.code)
+    frameworks: S(a, n.code)
   };
 }
-const g = l.map((a) => h(a.name)), x = w, b = [
+const g = c.map((a) => h(a.name)), x = w, b = [
   ...g,
   ...x
 ].sort((a, n) => {
@@ -442,7 +446,7 @@ export {
   D as componentGroupDescription,
   A as componentGroupTitle,
   T as componentNameFromSlug,
-  c as componentPreview,
+  l as componentPreview,
   P as componentSlug,
   o as componentUseCase,
   g as namiComponentCatalog,

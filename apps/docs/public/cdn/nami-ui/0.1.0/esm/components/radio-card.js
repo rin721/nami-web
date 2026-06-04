@@ -1,5 +1,6 @@
-import { i, c as s, a as n, A as d, b as r } from "../chunks/styles-DgWJnXXm.js";
+import { i, a as s, A as n, b as r } from "../chunks/lit-element-GeMXvhiH.js";
 import { e as t } from "../chunks/events-DtyLzvDt.js";
+import { c as d } from "../chunks/styles-C6m3uqJJ.js";
 const a = class a extends i {
   constructor() {
     super(), this.value = "", this.label = "", this.description = "", this.selected = !1, this.disabled = !1;
@@ -20,7 +21,7 @@ const a = class a extends i {
         <span class="indicator" part="indicator"></span>
         <slot name="icon" part="icon"></slot>
         <span class="label" part="label"><slot name="label">${this.label}</slot></span>
-        ${this.description ? r`<span class="description" part="description"><slot name="description">${this.description}</slot></span>` : d}
+        ${this.description ? r`<span class="description" part="description"><slot name="description">${this.description}</slot></span>` : n}
         <slot name="actions"></slot>
       </button>
     `;
@@ -33,8 +34,8 @@ a.properties = {
   selected: { type: Boolean, reflect: !0 },
   disabled: { type: Boolean, reflect: !0 }
 }, a.styles = [
-  s,
-  n`
+  d,
+  s`
       :host {
         display: block;
       }

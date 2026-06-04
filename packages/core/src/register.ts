@@ -18,6 +18,7 @@ import { NamiInput } from './components/input';
 import { NamiProgress } from './components/progress';
 import { NamiRadioCard } from './components/radio-card';
 import { NamiResult } from './components/result';
+import { NamiScrollSmoother } from './components/scroll-smoother';
 import { NamiSkeleton } from './components/skeleton';
 import { NamiSplit } from './components/split';
 import { NamiPageTransition } from './components/page-transition';
@@ -38,6 +39,7 @@ export function registerNamiElements() {
   defineElement('nami-spinner', NamiSpinner);
   defineElement('nami-page-transition', NamiPageTransition);
   defineElement('nami-top-progress', NamiTopProgress);
+  defineElement('nami-scroll-smoother', NamiScrollSmoother);
   defineElement('nami-illustration', NamiIllustration);
   defineElement('nami-empty', NamiEmpty);
   defineElement('nami-result', NamiResult);

@@ -1,12 +1,13 @@
-import { i as l, c as p, a as d, A as c, b as h } from "../chunks/styles-DgWJnXXm.js";
-import { m } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as v } from "../chunks/localized-controller-BapUPJ8o.js";
+import { i as l, a as p, A as d, b as c } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as h } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as m } from "../chunks/localized-controller-BapUPJ8o.js";
+import { c as v } from "../chunks/styles-C6m3uqJJ.js";
 import { d as b } from "../chunks/define-BpqXLfIT.js";
 import { NamiSpinner as u } from "./spinner.js";
 b("nami-spinner", u);
 const t = class t extends l {
   constructor() {
-    super(), this.hideTimer = 0, this.shownAt = 0, v(this), this.active = !1, this.appearance = "veil", this.duration = 240, this.hasDefaultContent = !1, this.label = "", this.tone = "surface", this.variant = "screen", this.visible = !1;
+    super(), this.hideTimer = 0, this.shownAt = 0, m(this), this.active = !1, this.appearance = "veil", this.duration = 240, this.hasDefaultContent = !1, this.label = "", this.tone = "surface", this.variant = "screen", this.visible = !1;
   }
   connectedCallback() {
     super.connectedCallback(), this.active && (this.visible = !0, this.shownAt = Date.now());
@@ -51,10 +52,10 @@ const t = class t extends l {
     this.hasDefaultContent = i.assignedNodes({ flatten: !0 }).some((e) => e.nodeType === Node.TEXT_NODE ? !!e.textContent?.trim() : !0);
   }
   get fallbackLabel() {
-    return this.label || m("Preparing interface", { id: "nami.pageTransition.preparing" });
+    return this.label || h("Preparing interface", { id: "nami.pageTransition.preparing" });
   }
   render() {
-    return this.visible ? h`
+    return this.visible ? c`
       <div class="base" part="base" role="status" aria-live="polite" aria-busy=${this.active ? "true" : "false"} aria-label=${this.fallbackLabel} aria-hidden=${this.active ? "false" : "true"}>
         <div class="veil" aria-hidden="true">
           <span class="brand" part="brand">
@@ -72,7 +73,7 @@ const t = class t extends l {
           <span class=${this.hasDefaultContent ? "label has-content" : "label"} part="label"><slot @slotchange=${this.handleSlotChange}></slot></span>
         </div>
       </div>
-    ` : c;
+    ` : d;
   }
 };
 t.properties = {
@@ -85,8 +86,8 @@ t.properties = {
   variant: { reflect: !0 },
   visible: { state: !0 }
 }, t.styles = [
-  p,
-  d`
+  v,
+  p`
       :host {
         --page-transition-backdrop: color-mix(in oklab, var(--nami-surface), transparent 8%);
         --page-transition-brand-ink: color-mix(in oklab, var(--nami-color-primary), black 44%);

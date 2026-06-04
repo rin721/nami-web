@@ -89,6 +89,19 @@ const namiComponentMetadataSource: NamiComponentMetadataSource[] = [
     states: ['default', 'loading', 'active']
   },
   {
+    name: 'nami-scroll-smoother',
+    summary: 'Lenis-powered page scroll controller that adds inertial resistance while preserving native document flow.',
+    usage: '<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors></nami-scroll-smoother>',
+    attributes: ['disabled', 'duration', 'smooth-wheel', 'sync-touch', 'anchors', 'auto-raf', 'touch-multiplier', 'wheel-multiplier', 'stop-inertia-on-navigate', 'resize-on-load'],
+    properties: ['active', 'disabled', 'duration', 'smoothWheel', 'syncTouch', 'anchors', 'autoRaf', 'touchMultiplier', 'wheelMultiplier', 'stopInertiaOnNavigate', 'resizeOnLoad', 'start()', 'stop()', 'resize()', 'sync()', 'scrollTo()'],
+    events: ['nami-scroll-smoother', 'nami-scroll-smoother-state'],
+    slots: [],
+    parts: [],
+    tokens: ['--nami-motion-normal'],
+    category: 'feedback',
+    states: ['default', 'active', 'disabled', 'reduced-motion']
+  },
+  {
     name: 'nami-illustration',
     summary: 'Token-driven status illustration.',
     usage: '<nami-illustration name="empty" size="md"></nami-illustration>',
@@ -414,6 +427,7 @@ const categoryByName = new Map<string, NamiComponentMetadata['category']>([
   ['nami-spinner', 'feedback'],
   ['nami-page-transition', 'feedback'],
   ['nami-top-progress', 'feedback'],
+  ['nami-scroll-smoother', 'feedback'],
   ['nami-illustration', 'feedback'],
   ['nami-empty', 'feedback'],
   ['nami-result', 'feedback'],

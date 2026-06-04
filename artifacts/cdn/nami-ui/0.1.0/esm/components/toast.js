@@ -1,10 +1,11 @@
-import { i, c as n, a as m, A as l, b as r } from "../chunks/styles-DgWJnXXm.js";
-import { m as c } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as p } from "../chunks/localized-controller-BapUPJ8o.js";
+import { i, a as n, A as m, b as r } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as l } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as c } from "../chunks/localized-controller-BapUPJ8o.js";
 import { e as o } from "../chunks/events-DtyLzvDt.js";
+import { c as p } from "../chunks/styles-C6m3uqJJ.js";
 const e = class e extends i {
   constructor() {
-    super(), this.timer = 0, p(this), this.open = !1, this.message = "", this.variant = "neutral", this.placement = "top", this.duration = 3200;
+    super(), this.timer = 0, c(this), this.open = !1, this.message = "", this.variant = "neutral", this.placement = "top", this.duration = 3200;
   }
   static show(t) {
     const a = document.createElement("nami-toast");
@@ -24,9 +25,9 @@ const e = class e extends i {
   render() {
     return r`
       <div class="base" part="base" role="status" aria-live="polite">
-        <span class="indicator" part="indicator"><slot name="icon">${this.variant === "neutral" ? l : r`<span aria-hidden="true">*</span>`}</slot></span>
+        <span class="indicator" part="indicator"><slot name="icon">${this.variant === "neutral" ? m : r`<span aria-hidden="true">*</span>`}</slot></span>
         <span part="label"><slot>${this.message}</slot></span>
-        <button type="button" part="actions" aria-label=${c("Close", { id: "nami.toast.close" })} @click=${(t) => this.close(t)}>X</button>
+        <button type="button" part="actions" aria-label=${l("Close", { id: "nami.toast.close" })} @click=${(t) => this.close(t)}>X</button>
       </div>
     `;
   }
@@ -38,8 +39,8 @@ e.properties = {
   placement: { reflect: !0 },
   duration: { type: Number }
 }, e.styles = [
-  n,
-  m`
+  p,
+  n`
       :host {
         display: block;
         left: 50%;

@@ -1,9 +1,10 @@
-import { i as s, c as r, a as n, A as a, b as i } from "../chunks/styles-DgWJnXXm.js";
-import { m as o } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as l } from "../chunks/localized-controller-BapUPJ8o.js";
-import { d as m } from "../chunks/define-BpqXLfIT.js";
+import { i as s, a as r, A as a, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as n } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as o } from "../chunks/localized-controller-BapUPJ8o.js";
+import { d as l } from "../chunks/define-BpqXLfIT.js";
+import { c as m } from "../chunks/styles-C6m3uqJJ.js";
 import { NamiIllustration as c } from "./illustration.js";
-m("nami-illustration", c);
+l("nami-illustration", c);
 const p = {
   success: "success",
   error: "error",
@@ -14,14 +15,14 @@ const p = {
   500: "server-error"
 }, t = class t extends s {
   constructor() {
-    super(), l(this), this.status = "info", this.title = "", this.subTitle = "", this.compact = !1;
+    super(), o(this), this.status = "info", this.title = "", this.subTitle = "", this.compact = !1;
   }
   get illustrationName() {
     return p[this.status] ?? "info";
   }
   render() {
     return i`
-      <section class="base" part="base" aria-label=${this.title || this.subTitle || o("Result", { id: "nami.result.aria" })}>
+      <section class="base" part="base" aria-label=${this.title || this.subTitle || n("Result", { id: "nami.result.aria" })}>
         <slot name="illustration" part="illustration">
           <nami-illustration name=${this.illustrationName} size=${this.compact ? "sm" : "lg"}></nami-illustration>
         </slot>
@@ -39,8 +40,8 @@ t.properties = {
   subTitle: { attribute: "sub-title", reflect: !0 },
   compact: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  r,
-  n`
+  m,
+  r`
       :host {
         display: block;
       }

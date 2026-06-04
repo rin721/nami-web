@@ -1,5 +1,6 @@
-import { i as s, c as r, a as i, b as n } from "../chunks/styles-DgWJnXXm.js";
+import { i as s, a as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
 import { e as t } from "../chunks/events-DtyLzvDt.js";
+import { c as n } from "../chunks/styles-C6m3uqJJ.js";
 const e = class e extends s {
   constructor() {
     super(), this.value = "", this.selected = !1, this.checkbox = !1, this.disabled = !1;
@@ -8,7 +9,7 @@ const e = class e extends s {
     this.disabled || (this.checkbox && (this.selected = !this.selected), t(this, "nami-change", { selected: this.selected, value: this.value, sourceEvent: a }), t(this, "nami-select", { selected: this.selected, value: this.value, sourceEvent: a }));
   }
   render() {
-    return n`
+    return i`
       <button
         part="base control"
         type="button"
@@ -29,8 +30,8 @@ e.properties = {
   checkbox: { type: Boolean, reflect: !0 },
   disabled: { type: Boolean, reflect: !0 }
 }, e.styles = [
-  r,
-  i`
+  n,
+  r`
       :host {
         display: inline-flex;
       }

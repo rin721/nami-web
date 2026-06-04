@@ -1,5 +1,6 @@
-import { i as h, c as m, a as b, b as v } from "../chunks/styles-DgWJnXXm.js";
+import { i as h, a as m, b } from "../chunks/lit-element-GeMXvhiH.js";
 import { e as c } from "../chunks/events-DtyLzvDt.js";
+import { c as v } from "../chunks/styles-C6m3uqJJ.js";
 function o(i) {
   return i.getAttribute("value") || i.dataset.value || i.textContent?.trim() || "";
 }
@@ -55,7 +56,7 @@ const l = class l extends h {
     !s || s === this.value || (this.value = s, this.syncItems(), c(this, "nami-select", { value: s, sourceEvent: r }), c(this, "nami-change", { value: s, sourceEvent: r }));
   }
   render() {
-    return v`
+    return b`
       <div class="base" part="base" role="tablist" aria-orientation=${this.orientation}>
         <slot @slotchange=${() => this.syncItems()}></slot>
       </div>
@@ -66,8 +67,8 @@ l.properties = {
   value: {},
   orientation: { reflect: !0 }
 }, l.styles = [
-  m,
-  b`
+  v,
+  m`
       :host {
         display: block;
       }

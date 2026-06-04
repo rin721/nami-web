@@ -1,16 +1,17 @@
-import { i as o, c as n, a as d, A as r, b as i } from "../chunks/styles-DgWJnXXm.js";
-import { a as h, s as u, b as m } from "../chunks/form-associated-CbqAj2Is.js";
-import { n as c } from "../chunks/ids-BBzulDVF.js";
+import { i as o, a as n, A as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { a as d, s as h, b as u } from "../chunks/form-associated-CbqAj2Is.js";
+import { n as m } from "../chunks/ids-BBzulDVF.js";
 import { e as s } from "../chunks/events-DtyLzvDt.js";
+import { c } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends o {
   constructor() {
-    super(), this.internals = h(this), this.metaId = `${c("nami-textarea")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1, this.rows = 4;
+    super(), this.internals = d(this), this.metaId = `${m("nami-textarea")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1, this.rows = 4;
   }
   get textareaElement() {
     return this.renderRoot.querySelector("textarea");
   }
   updated() {
-    this.dataset.state = this.error ? "invalid" : "valid", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!this.error), u(this.internals, this.disabled ? null : this.value), m(this.internals, this.validityFlags, this.validityMessage, this.textareaElement ?? void 0);
+    this.dataset.state = this.error ? "invalid" : "valid", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!this.error), h(this.internals, this.disabled ? null : this.value), u(this.internals, this.validityFlags, this.validityMessage, this.textareaElement ?? void 0);
   }
   formResetCallback() {
     this.value = this.defaultValue;
@@ -74,8 +75,8 @@ t.formAssociated = !0, t.properties = {
   required: { type: Boolean, reflect: !0 },
   rows: { type: Number, reflect: !0 }
 }, t.styles = [
-  n,
-  d`
+  c,
+  n`
       :host {
         display: block;
       }

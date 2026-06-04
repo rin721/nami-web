@@ -1,4 +1,5 @@
-import { i as a, c as i, a as e, b as r } from "../chunks/styles-DgWJnXXm.js";
+import { i as a, a as i, b as e } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as r } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends a {
   constructor() {
     super(), this.gap = "md", this.direction = "vertical", this.align = "", this.justify = "";
@@ -7,7 +8,7 @@ const t = class t extends a {
     this.align ? this.style.setProperty("--nami-stack-align", this.align) : this.style.removeProperty("--nami-stack-align"), this.justify ? this.style.setProperty("--nami-stack-justify", this.justify) : this.style.removeProperty("--nami-stack-justify");
   }
   render() {
-    return r`<div class="base" part="base"><slot></slot></div>`;
+    return e`<div class="base" part="base"><slot></slot></div>`;
   }
 };
 t.properties = {
@@ -16,8 +17,8 @@ t.properties = {
   align: { reflect: !0 },
   justify: { reflect: !0 }
 }, t.styles = [
-  i,
-  e`
+  r,
+  i`
       :host {
         display: block;
       }

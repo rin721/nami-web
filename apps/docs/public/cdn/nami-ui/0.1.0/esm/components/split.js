@@ -1,4 +1,5 @@
-import { i as s, c as a, a as e, b as r } from "../chunks/styles-DgWJnXXm.js";
+import { i as s, a, b as e } from "../chunks/lit-element-GeMXvhiH.js";
+import { c as r } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends s {
   constructor() {
     super(), this.min = "", this.gap = "md", this.ratio = "even";
@@ -7,7 +8,7 @@ const t = class t extends s {
     this.style.containerType = "inline-size", this.min ? this.style.setProperty("--nami-split-min", this.min) : this.style.removeProperty("--nami-split-min");
   }
   render() {
-    return r`<div class="base" part="base"><slot></slot></div>`;
+    return e`<div class="base" part="base"><slot></slot></div>`;
   }
 };
 t.properties = {
@@ -15,8 +16,8 @@ t.properties = {
   gap: { reflect: !0 },
   ratio: { reflect: !0 }
 }, t.styles = [
-  a,
-  e`
+  r,
+  a`
       :host {
         display: block;
       }
