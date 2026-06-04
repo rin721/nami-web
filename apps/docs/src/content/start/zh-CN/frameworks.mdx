@@ -51,8 +51,8 @@ export default {
 
 ```vue
 <script setup lang="ts">
-import '@nami/themes/default.css';
-import '@nami/ui/button';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
 </script>
 
 <template>
@@ -85,8 +85,8 @@ React 可以渲染 custom elements。复杂事件建议用 `ref` 和 `addEventLi
 
 ```tsx
 import { useEffect, useRef } from 'react';
-import '@nami/themes/default.css';
-import '@nami/ui/button';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
 
 export function SaveButton() {
   const ref = useRef<HTMLElement>(null);
@@ -113,8 +113,8 @@ Astro 页面可以在 layout 或入口脚本中导入主题 CSS 与组件入口�
 
 ```astro
 ---
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
 ---
 
 <nami-config locale="zh-CN">

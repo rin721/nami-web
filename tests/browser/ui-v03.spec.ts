@@ -111,7 +111,7 @@ test('home exposes focused library entry points with real contributor and sponso
 
   await expect(page.getByRole('heading', { name: 'Nami UI', exact: true })).toBeVisible();
   await expect(page.locator('[data-product-hero]')).toContainText('跨框架、可换肤的 Web Components UI 组件库');
-  await expect(page.locator('body')).toContainText('npm install @nami/ui @nami/themes');
+  await expect(page.locator('body')).toContainText('npm install @nami-web/ui @nami-web/themes');
   await expect(page.locator('body')).toContainText('快速开始');
   await expect(page.locator('body')).toContainText('浏览组件');
   await expect(page.locator('body')).toContainText('rin721');
@@ -141,12 +141,12 @@ test('getting started reads like a docs tutorial', async ({ page }) => {
   await expect(page.locator('.docs-toc')).toContainText('安装');
   await expect(page.locator('.docs-article-content')).toContainText('目标');
   await expect(page.locator('.docs-article-content')).toContainText('前置条件');
-  await expect(page.locator('.docs-article-content')).toContainText('npm install @nami/ui @nami/themes');
-  await expect(page.locator('.docs-article-content')).toContainText('pnpm add @nami/ui @nami/themes');
-  await expect(page.locator('.docs-article-content')).toContainText('yarn add @nami/ui @nami/themes');
+  await expect(page.locator('.docs-article-content')).toContainText('npm install @nami-web/ui @nami-web/themes');
+  await expect(page.locator('.docs-article-content')).toContainText('pnpm add @nami-web/ui @nami-web/themes');
+  await expect(page.locator('.docs-article-content')).toContainText('yarn add @nami-web/ui @nami-web/themes');
   await expect(page.locator('.docs-article-content')).toContainText('Hello Nami');
-  await expect(page.locator('.docs-article-content')).toContainText("import '@nami/ui/register'");
-  await expect(page.locator('.docs-article-content')).toContainText("import '@nami/ui/button'");
+  await expect(page.locator('.docs-article-content')).toContainText("import '@nami-web/ui/register'");
+  await expect(page.locator('.docs-article-content')).toContainText("import '@nami-web/ui/button'");
   await expect(page.locator('.docs-article-content')).toContainText('<nami-theme accent="#14b8a6" theme="dark" size="lg">');
   await expect(page.locator('.docs-article-content')).toContainText('<nami-config locale="zh-CN">');
   await expect(page.locator('.docs-article-content')).toContainText('常见错误');

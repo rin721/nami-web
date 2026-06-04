@@ -3,8 +3,8 @@ import type { DocsLocale } from './site';
 export const projectInfo = {
   name: 'Nami UI',
   version: '0.1.0',
-  packageName: '@nami/ui',
-  themeCss: '@nami/themes/default.css',
+  packageName: '@nami-web/ui',
+  themeCss: '@nami-web/themes/default.css',
   repositoryUrl: 'https://github.com/rin721/nami-web',
   repositoryLabel: 'github.com/rin721/nami-web',
   contributors: [

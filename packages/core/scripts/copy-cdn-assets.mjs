@@ -36,7 +36,7 @@ for (const [source, destination] of copies) {
 
 const basePath = `cdn/nami-ui/${version}/`;
 const manifest = {
-  name: '@nami/ui',
+  name: '@nami-web/ui',
   version,
   basePath,
   publicBaseUrl,

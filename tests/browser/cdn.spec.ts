@@ -61,7 +61,7 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
 
   const manifest = JSON.parse(readFileSync(join(cdnRoot, 'manifest.json'), 'utf8'));
   expect(manifest).toMatchObject({
-    name: '@nami/ui',
+    name: '@nami-web/ui',
     version,
     basePath: `cdn/nami-ui/${version}/`,
     publicBaseUrl: `https://nami-web.iqwq.com/cdn/nami-ui/${version}/`,

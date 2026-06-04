@@ -4,7 +4,7 @@ import { createNamiThemeSystem, defineNamiTheme, deriveNamiTheme, themeToCssText
 import { contrastRatio, createNamiThemeStudio, readDtcgCssVars } from './theme-studio';
 import dtcgTokens from './tokens.dtcg.json';
 
-describe('@nami/tokens', () => {
+describe('@nami-web/tokens', () => {
   it('exposes the deep design token layers', () => {
     expect(seedTokens).toContain('--nami-accent-50');
     expect(seedTokens).toContain('--nami-style-stroke-width');

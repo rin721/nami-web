@@ -52,7 +52,7 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['lit', 'lit/decorators.js', '@lit/localize', '@nami/tokens/theme'],
+      external: ['lit', 'lit/decorators.js', '@lit/localize', '@nami-web/tokens/theme', '@nami-web/themes'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'chunks/[name]-[hash].js'

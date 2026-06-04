@@ -1,5 +1,5 @@
 ---
-import type { NamiComponentMetadata } from '@nami/ui/metadata';
+import type { NamiComponentMetadata } from '@nami-web/ui/metadata';
 import {
   componentAdvancedExample,
   componentBasicExample,
@@ -24,7 +24,7 @@ const displayName = componentDisplayName(item.name, locale);
 const basic = componentBasicExample(item.name);
 const advanced = componentAdvancedExample(item.name);
 const slug = componentSlug(item.name);
-const installCode = `import '@nami/themes/default.css';\nimport '@nami/ui/${slug}';`;
+const installCode = `import '@nami-web/themes/default.css';\nimport '@nami-web/ui/${slug}';`;
 const frameworkExamples = {
   html: componentFrameworkExample(item.name, 'html'),
   vue: componentFrameworkExample(item.name, 'vue'),

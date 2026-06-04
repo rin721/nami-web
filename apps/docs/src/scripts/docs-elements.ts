@@ -1,6 +1,6 @@
-import { namiComponentMetadata } from '@nami/ui/metadata';
-import { createNamiThemeStudio, readDtcgCssVars } from '@nami/tokens/theme-studio';
-import type { NamiThemeConfig } from '@nami/tokens/theme';
+import { namiComponentMetadata } from '@nami-web/ui/metadata';
+import { createNamiThemeStudio, readDtcgCssVars } from '@nami-web/tokens/theme-studio';
+import type { NamiThemeConfig } from '@nami-web/tokens/theme';
 
 function escapeHtml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -52,7 +52,7 @@ class NamiDocsInstallTabs extends HTMLElement {
   }
 
   private render() {
-    const packages = this.dataset.packages || '@nami/ui @nami/themes';
+    const packages = this.dataset.packages || '@nami-web/ui @nami-web/themes';
     const commands = {
       npm: `npm install ${packages}`,
       pnpm: `pnpm add ${packages}`,

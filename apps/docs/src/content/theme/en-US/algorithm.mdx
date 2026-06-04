@@ -28,7 +28,7 @@ Understand the roles of `deriveNamiTheme(seed)`, `defineNamiTheme(config)`, and 
 ## Basic Code
 
 ```ts
-import { defineNamiTheme, createNamiThemeSystem } from '@nami/tokens/theme';
+import { defineNamiTheme, createNamiThemeSystem } from '@nami-web/tokens/theme';
 
 const config = defineNamiTheme({
   seed: {
@@ -60,8 +60,8 @@ const system = createNamiThemeSystem(config);
 ## Export
 
 ```ts
-import { themeToCssVars, themeToCssText, themeToDtcg } from '@nami/tokens/theme';
-import { createNamiThemeStudio } from '@nami/tokens/theme-studio';
+import { themeToCssVars, themeToCssText, themeToDtcg } from '@nami-web/tokens/theme';
+import { createNamiThemeStudio } from '@nami-web/tokens/theme-studio';
 
 const cssVars = themeToCssVars(system);
 const cssText = themeToCssText(system, '.brand-theme');

@@ -1,5 +1,5 @@
 import { css, html, LitElement } from 'lit';
-import { createNamiThemeSystem, type NamiThemeConfig } from '@nami/tokens/theme';
+import { createNamiThemeSystem, type NamiThemeConfig } from '@nami-web/tokens/theme';
 import { componentHostStyles } from '../internal/styles';
 
 export type NamiThemeMode = 'light' | 'dark' | 'system';

@@ -33,7 +33,7 @@ import type { NamiTopProgress } from './components/top-progress';
 import { getLocale, setLocale } from './localize';
 import { namiComponentMetadata } from './metadata';
 
-describe('@nami/ui components', () => {
+describe('@nami-web/ui components', () => {
   it('applies accent seed tokens through nami-theme', async () => {
     const theme = document.createElement('nami-theme') as NamiTheme;
     theme.accent = '#22c55e';

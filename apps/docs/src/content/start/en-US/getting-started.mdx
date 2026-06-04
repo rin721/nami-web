@@ -27,15 +27,15 @@ Use npm packages for apps with a build step. Use the docs-site CDN for static pa
 
 | Manager | Command |
 | --- | --- |
-| npm | `npm install @nami/ui @nami/themes` |
-| pnpm | `pnpm add @nami/ui @nami/themes` |
-| yarn | `yarn add @nami/ui @nami/themes` |
+| npm | `npm install @nami-web/ui @nami-web/themes` |
+| pnpm | `pnpm add @nami-web/ui @nami-web/themes` |
+| yarn | `yarn add @nami-web/ui @nami-web/themes` |
 
 After installing, import theme CSS and a component entry from the app entry:
 
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
 ```
 
 CDN usage requires no install step:
@@ -54,9 +54,9 @@ When using `nami-*` tags in Vue templates, configure `isCustomElement` in the Vi
 <nami-docs-live-demo data-code="%3Cnami-button%3EHello%20Nami%3C%2Fnami-button%3E%0A%3Cnami-badge%20variant%3D%22primary%22%3E0.1.0%3C%2Fnami-badge%3E"></nami-docs-live-demo>
 
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/button';
-import '@nami/ui/badge';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
+import '@nami-web/ui/badge';
 ```
 
 ```html
@@ -70,26 +70,26 @@ import '@nami/ui/badge';
 <ol>
 <li><strong>Register everything.</strong>Best for docs, prototypes, admin tools, and low-frequency pages.</li>
 <li><strong>Import one component.</strong>Best for production pages where the bundler should only touch used elements.</li>
-<li><strong>Use explicit side-effect registration.</strong>Use `@nami/ui/button/register` when a file should only define the element.</li>
+<li><strong>Use explicit side-effect registration.</strong>Use `@nami-web/ui/button/register` when a file should only define the element.</li>
 </ol>
 </nami-docs-steps>
 
 ```ts
 // main.ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
 ```
 
 ```ts
 // page.ts
-import '@nami/themes/default.css';
-import '@nami/ui/button';
-import '@nami/ui/input';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
+import '@nami-web/ui/input';
 ```
 
 ```ts
 // explicit side-effect register
-import '@nami/ui/button/register';
+import '@nami-web/ui/button/register';
 ```
 
 ## Advanced CDN Usage
@@ -156,8 +156,8 @@ Nami UI uses CSS variables and custom elements as the core protocol. React, Vue,
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| Element renders like a plain tag | Component entry was not imported | Import `@nami/ui/register` or the single component entry. |
-| Styles look wrong | Theme CSS is missing | Import `@nami/themes/default.css` at the app entry. |
+| Element renders like a plain tag | Component entry was not imported | Import `@nami-web/ui/register` or the single component entry. |
+| Styles look wrong | Theme CSS is missing | Import `@nami-web/themes/default.css` at the app entry. |
 | Theme affects only part of the UI | Theme boundary is in the wrong place | Put components that should inherit variables inside the same `nami-theme`. |
 
 ## Next

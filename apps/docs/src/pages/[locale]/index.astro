@@ -63,8 +63,8 @@ const primaryContributor = projectInfo.contributors[0];
         </nami-card>
         <nami-card class="install-card">
           <nami-badge slot="header" variant="primary">{t(locale, 'home.install')}</nami-badge>
-          <nami-docs-code-block data-language="bash" data-code={encodeURIComponent('npm install @nami/ui @nami/themes')}></nami-docs-code-block>
-          <nami-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@nami/themes/default.css';\nimport '@nami/ui/register';")}></nami-docs-code-block>
+          <nami-docs-code-block data-language="bash" data-code={encodeURIComponent('npm install @nami-web/ui @nami-web/themes')}></nami-docs-code-block>
+          <nami-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@nami-web/themes/default.css';\nimport '@nami-web/ui/register';")}></nami-docs-code-block>
           <div class="swatches">
             <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
             <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>

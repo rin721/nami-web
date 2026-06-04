@@ -788,7 +788,7 @@ export function themeToDtcg(theme: NamiResolvedTheme): NamiThemeDtcgDocument {
     $schema: 'https://www.designtokens.org/schemas/2025.10/tokens.json',
     $extensions: {
       'org.nami.theme': {
-        generatedBy: '@nami/tokens',
+        generatedBy: '@nami-web/tokens',
         layers: ['seed', 'palette', 'semantic', 'component', 'style', 'cssVars']
       }
     },

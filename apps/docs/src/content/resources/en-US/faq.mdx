@@ -17,22 +17,22 @@ Not yet. The current repository does not contain a verifiable Figma file, team l
 
 ## Are CLI, Admin Templates, Or Ecosystem Links Available?
 
-Not yet. The currently verifiable ecosystem entries are `@nami/ui`, `@nami/themes`, `@nami/tokens`, and this docs site. CLI, Admin templates, and third-party ecosystem links should be added only after real repositories or package entries exist.
+Not yet. The currently verifiable ecosystem entries are `@nami-web/ui`, `@nami-web/themes`, `@nami-web/tokens`, and this docs site. CLI, Admin templates, and third-party ecosystem links should be added only after real repositories or package entries exist.
 
 ## Why Did A Component Not Render?
 
 The component is usually not registered.
 
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
 ```
 
 Or import a single component:
 
 ```ts
-import '@nami/themes/default.css';
-import '@nami/ui/button';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
 ```
 
 ## Why Do Styles Look Wrong?
@@ -41,7 +41,7 @@ Check three things first:
 
 <nami-docs-steps>
 <ol>
-<li><strong>Theme CSS is imported.</strong>The app entry should import `@nami/themes/default.css`.</li>
+<li><strong>Theme CSS is imported.</strong>The app entry should import `@nami-web/themes/default.css`.</li>
 <li><strong>The theme boundary wraps the component.</strong>Local themes need components inside the same `nami-theme`.</li>
 <li><strong>Hard-coded values bypass tokens.</strong>Color, radius, and motion should usually come from seeds or CSS variables.</li>
 </ol>

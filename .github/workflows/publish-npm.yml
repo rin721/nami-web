@@ -59,6 +59,6 @@ jobs:
             npm publish --workspace "${workspace}" --access public
           }
 
-          publish_workspace "@nami/tokens" "packages/tokens/package.json"
-          publish_workspace "@nami/themes" "packages/themes/package.json"
-          publish_workspace "@nami/ui" "packages/core/package.json"
+          publish_workspace "@nami-web/tokens" "packages/tokens/package.json"
+          publish_workspace "@nami-web/themes" "packages/themes/package.json"
+          publish_workspace "@nami-web/ui" "packages/core/package.json"

@@ -51,8 +51,8 @@ When using npm packages, import CSS and components from an entry file or a singl
 
 ```vue
 <script setup lang="ts">
-import '@nami/themes/default.css';
-import '@nami/ui/button';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
 </script>
 
 <template>
@@ -85,8 +85,8 @@ React can render custom elements. For richer events, use `ref` and `addEventList
 
 ```tsx
 import { useEffect, useRef } from 'react';
-import '@nami/themes/default.css';
-import '@nami/ui/button';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/button';
 
 export function SaveButton() {
   const ref = useRef<HTMLElement>(null);
@@ -113,8 +113,8 @@ Astro pages can import theme CSS and component entries in a layout or entry scri
 
 ```astro
 ---
-import '@nami/themes/default.css';
-import '@nami/ui/register';
+import '@nami-web/themes/default.css';
+import '@nami-web/ui/register';
 ---
 
 <nami-config locale="en-US">

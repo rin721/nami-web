@@ -1,5 +1,5 @@
 {
-  "name": "@nami/ui",
+  "name": "@nami-web/ui",
   "version": "0.1.0",
   "basePath": "cdn/nami-ui/0.1.0/",
   "publicBaseUrl": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/",

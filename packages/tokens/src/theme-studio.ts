@@ -90,7 +90,7 @@ export function createNamiThemeStudio(config: NamiThemeConfig = {}, options: Nam
     system,
     cssText: themeToCssText(system, selector),
     dtcgJson: JSON.stringify(dtcg, null, 2),
-    tsConfig: `import { defineNamiTheme } from '@nami/tokens/theme';\n\nexport default defineNamiTheme(${JSON.stringify(normalizedConfig, null, 2)});\n`,
+    tsConfig: `import { defineNamiTheme } from '@nami-web/tokens/theme';\n\nexport default defineNamiTheme(${JSON.stringify(normalizedConfig, null, 2)});\n`,
     diagnostics: [
       diagnostic('Text / surface', contrastRatio(system.cssVars['--nami-text'], system.cssVars['--nami-surface'])),
       diagnostic('Accent / surface', contrastRatio(system.cssVars['--nami-accent-50'], system.cssVars['--nami-surface']))

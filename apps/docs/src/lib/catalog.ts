@@ -17,8 +17,8 @@ import {
   namiPlannedComponentCatalog,
   namiComponentPreviews,
   namiMetadataByName
-} from '@nami/ui/catalog';
-import { namiComponentMetadata } from '@nami/ui/metadata';
+} from '@nami-web/ui/catalog';
+import { namiComponentMetadata } from '@nami-web/ui/metadata';
 import type { DocsLocale } from './site';
 
 export const componentGroups = namiComponentCatalogGroups;
