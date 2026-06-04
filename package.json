@@ -8,10 +8,11 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run localize:build && npm run build:packages && npm run build:apps",
+    "build": "npm run localize:build && npm run build:packages && npm run build:cdn:core && npm run build:apps",
     "build:packages": "npm run build --workspace @nami/tokens && npm run build --workspace @nami/themes && npm run build --workspace @nami/ui",
     "build:apps": "npm run build --workspace @nami/docs",
-    "build:cdn": "npm run localize:build && npm run build --workspace @nami/tokens && npm run build --workspace @nami/themes && npm run build:cdn --workspace @nami/ui",
+    "build:cdn": "npm run localize:build && npm run build --workspace @nami/tokens && npm run build --workspace @nami/themes && npm run build:cdn:core",
+    "build:cdn:core": "npm run build:cdn --workspace @nami/ui",
     "test": "npm run test --workspace @nami/tokens && npm run test --workspace @nami/ui",
     "test:browser": "playwright test",
     "dev": "npm run dev --workspace @nami/docs",

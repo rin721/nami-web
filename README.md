@@ -108,6 +108,7 @@ packages/tokens/dist/
 
 ```text
 artifacts/cdn/nami-ui/0.1.0/
+apps/docs/public/cdn/nami-ui/0.1.0/
 ```
 
 其中：
@@ -117,11 +118,13 @@ artifacts/cdn/nami-ui/0.1.0/
 - `css/default.css`、`css/ant-illustration.css`、`css/critical.css`：主题 CSS 与首屏 fallback CSS。
 - `manifest.json`：版本、文件名与推荐引用路径。
 
+官网构建后会把 `apps/docs/public/cdn/` 复制到静态站根目录，因此当前官网域名下的引用地址为 `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/`。
+
 普通 HTML 推荐引用：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 
 <nami-button>Hello Nami</nami-button>
 ```
@@ -129,25 +132,25 @@ artifacts/cdn/nami-ui/0.1.0/
 需要首屏 fallback 时：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/critical.css" />
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 ESM 全量注册：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script type="module" src="https://cdn.example.com/nami-ui/0.1.0/esm/register.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
 ```
 
 ESM 按需引用：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
 <script type="module">
-  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/button.js';
-  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/input.js';
+  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
 </script>
 ```
 

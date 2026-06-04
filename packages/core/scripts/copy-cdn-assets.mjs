@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
@@ -7,6 +7,8 @@ const workspaceRoot = resolve(coreRoot, '../..');
 const corePackage = JSON.parse(await readFile(resolve(coreRoot, 'package.json'), 'utf8'));
 const version = corePackage.version;
 const cdnRoot = resolve(workspaceRoot, 'artifacts/cdn/nami-ui', version);
+const docsPublicCdnRoot = resolve(workspaceRoot, 'apps/docs/public/cdn/nami-ui', version);
+const publicBaseUrl = `https://aoi-wen.iqwq.com/cdn/nami-ui/${version}/`;
 
 const files = {
   global: 'nami-ui.global.js',
@@ -32,27 +34,31 @@ for (const [source, destination] of copies) {
   await copyFile(source, destination);
 }
 
-const basePath = `nami-ui/${version}/`;
+const basePath = `cdn/nami-ui/${version}/`;
 const manifest = {
   name: '@nami/ui',
   version,
   basePath,
+  publicBaseUrl,
   files,
   usage: {
     global: {
-      css: `${basePath}${files.css.default}`,
-      script: `${basePath}${files.global}`
+      css: `${publicBaseUrl}${files.css.default}`,
+      script: `${publicBaseUrl}${files.global}`
     },
     globalWithCriticalCss: {
-      criticalCss: `${basePath}${files.css.critical}`,
-      css: `${basePath}${files.css.default}`,
-      script: `${basePath}${files.global}`
+      criticalCss: `${publicBaseUrl}${files.css.critical}`,
+      css: `${publicBaseUrl}${files.css.default}`,
+      script: `${publicBaseUrl}${files.global}`
     },
     esm: {
-      css: `${basePath}${files.css.default}`,
-      script: `${basePath}${files.esmRegister}`
+      css: `${publicBaseUrl}${files.css.default}`,
+      script: `${publicBaseUrl}${files.esmRegister}`
     }
   }
 };
 
 await writeFile(resolve(cdnRoot, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+await rm(docsPublicCdnRoot, { recursive: true, force: true });
+await mkdir(dirname(docsPublicCdnRoot), { recursive: true });
+await cp(cdnRoot, docsPublicCdnRoot, { recursive: true });

@@ -74,11 +74,11 @@ import '@nami/ui/button/register';
 
 ## CDN 引用
 
-如果页面不经过 npm 构建，可以上传 `npm run build:cdn` 生成的 `artifacts/cdn/nami-ui/0.1.0/` 目录，然后用静态文件引用。
+如果页面不经过 npm 构建，可以使用 `apps/docs/public/cdn/nami-ui/0.1.0/` 下的静态文件。它们会随官网一起发布，并通过 `https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/` 访问。
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 
 <nami-button>Hello Nami</nami-button>
 ```
@@ -86,25 +86,25 @@ import '@nami/ui/button/register';
 需要未定义 custom elements 时的首屏 fallback 样式，可以先加载 `critical.css`：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/critical.css" />
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script src="https://cdn.example.com/nami-ui/0.1.0/nami-ui.global.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/critical.css" />
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>
 ```
 
 也可以保留 ESM 引用方式：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
-<script type="module" src="https://cdn.example.com/nami-ui/0.1.0/esm/register.js"></script>
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
+<script type="module" src="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"></script>
 ```
 
 按需加载组件时引用 ESM 单组件文件：
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/nami-ui/0.1.0/css/default.css" />
+<link rel="stylesheet" href="https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />
 <script type="module">
-  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/button.js';
-  import 'https://cdn.example.com/nami-ui/0.1.0/esm/components/input.js';
+  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/button.js';
+  import 'https://aoi-wen.iqwq.com/cdn/nami-ui/0.1.0/esm/components/input.js';
 </script>
 ```
 

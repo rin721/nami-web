@@ -6,6 +6,7 @@ import { expect, test, type Page } from '@playwright/test';
 const workspaceRoot = process.cwd();
 const version = '0.1.0';
 const cdnRoot = join(workspaceRoot, 'artifacts/cdn/nami-ui', version);
+const docsPublicCdnRoot = join(workspaceRoot, 'apps/docs/public/cdn/nami-ui', version);
 const cdnBase = `http://127.0.0.1:5173/cdn/nami-ui/${version}`;
 
 test.describe.configure({ mode: 'serial', timeout: 120_000 });
@@ -62,12 +63,18 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
   expect(manifest).toMatchObject({
     name: '@nami/ui',
     version,
-    basePath: `nami-ui/${version}/`,
+    basePath: `cdn/nami-ui/${version}/`,
+    publicBaseUrl: `https://aoi-wen.iqwq.com/cdn/nami-ui/${version}/`,
     files: {
       global: 'nami-ui.global.js',
       esmRegister: 'esm/register.js'
     }
   });
+
+  expect(existsSync(join(docsPublicCdnRoot, 'manifest.json'))).toBe(true);
+  expect(existsSync(join(docsPublicCdnRoot, 'nami-ui.global.js'))).toBe(true);
+  expect(existsSync(join(docsPublicCdnRoot, 'esm/register.js'))).toBe(true);
+  expect(existsSync(join(docsPublicCdnRoot, 'css/default.css'))).toBe(true);
 
   for (const file of collectJsFiles(cdnRoot)) {
     const source = readFileSync(file, 'utf8');
