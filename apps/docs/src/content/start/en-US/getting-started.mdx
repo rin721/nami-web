@@ -31,6 +31,8 @@ Use npm packages for apps with a build step. Use the docs-site CDN for static pa
 | pnpm | `pnpm add @nami-web/ui @nami-web/themes` |
 | yarn | `yarn add @nami-web/ui @nami-web/themes` |
 
+`@nami-web/*` packages are published to the npm registry. npm and pnpm read the same registry metadata, so a GitHub Actions publish makes the same version available to both package managers.
+
 After installing, import theme CSS and a component entry from the app entry:
 
 ```ts

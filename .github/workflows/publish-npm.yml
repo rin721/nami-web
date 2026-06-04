@@ -27,6 +27,12 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org/
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
       - name: Install dependencies
         run: npm install
 
@@ -62,3 +68,31 @@ jobs:
           publish_workspace "@nami-web/tokens" "packages/tokens/package.json"
           publish_workspace "@nami-web/themes" "packages/themes/package.json"
           publish_workspace "@nami-web/ui" "packages/core/package.json"
+
+      - name: Verify npm and pnpm registry metadata
+        run: |
+          set -euo pipefail
+
+          wait_for_registry() {
+            local package_name="$1"
+            local manager="$2"
+
+            for attempt in 1 2 3 4 5 6; do
+              if "${manager}" view "${package_name}" version; then
+                return
+              fi
+
+              echo "${manager} cannot see ${package_name} yet; retry ${attempt}/6."
+              sleep 10
+            done
+
+            "${manager}" view "${package_name}" version
+          }
+
+          wait_for_registry @nami-web/tokens npm
+          wait_for_registry @nami-web/themes npm
+          wait_for_registry @nami-web/ui npm
+
+          wait_for_registry @nami-web/tokens pnpm
+          wait_for_registry @nami-web/themes pnpm
+          wait_for_registry @nami-web/ui pnpm

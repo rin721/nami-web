@@ -7,3 +7,5 @@ test-results/
 .astro/
 *.log
 *.tsbuildinfo
+.npmrc
+.pnpmrc
