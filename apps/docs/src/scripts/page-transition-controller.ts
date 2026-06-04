@@ -3,7 +3,15 @@ import { applyTopProgressElementSettings, readDocsSettings } from './docs-settin
 type PageAppearance = 'veil' | 'panel';
 type PageTransitionOptions = { appearance?: PageAppearance; duration?: number };
 type TopProgressEffect = 'flow' | 'slide' | 'pulse';
-type TopProgressOptions = { duration?: number; effect?: TopProgressEffect; height?: number; progress?: number | null; variant?: 'fixed' | 'inline' };
+type TopProgressOptions = {
+  appear?: boolean;
+  appearDuration?: number;
+  duration?: number;
+  effect?: TopProgressEffect;
+  height?: number;
+  progress?: number | null;
+  variant?: 'fixed' | 'inline';
+};
 
 type NamiPageTransitionElement = HTMLElement & {
   active?: boolean;
@@ -18,7 +26,10 @@ type NamiTopProgressElement = HTMLElement & {
   effect?: TopProgressEffect;
   height?: number;
   progress?: number;
+  appear?: boolean;
+  appearDuration?: number;
   show?: (options?: TopProgressOptions) => void;
+  start?: (options?: TopProgressOptions) => void;
   hide?: (options?: TopProgressOptions) => Promise<void>;
   finish?: (options?: TopProgressOptions) => Promise<void>;
 };
@@ -59,6 +70,15 @@ function syncTopProgressOptions(progress: NamiTopProgressElement, options: TopPr
   progress.style.setProperty('--nami-transition-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-height', `${height}px`);
   progress.style.setProperty('--nami-top-progress-duration', `${duration}ms`);
+  if (options.appear !== undefined) {
+    progress.appear = options.appear;
+    progress.setAttribute('appear', String(options.appear));
+  }
+  if (options.appearDuration !== undefined) {
+    progress.appearDuration = options.appearDuration;
+    progress.setAttribute('appear-duration', String(options.appearDuration));
+    progress.style.setProperty('--nami-top-progress-appear-duration', `${options.appearDuration}ms`);
+  }
   if (options.variant) {
     progress.setAttribute('variant', options.variant);
   }

@@ -36,6 +36,8 @@ describe('@nami-web/tokens', () => {
     expect(componentTokens).toContain('--nami-top-progress-height');
     expect(componentTokens).toContain('--nami-top-progress-duration');
     expect(componentTokens).toContain('--nami-top-progress-ease');
+    expect(componentTokens).toContain('--nami-top-progress-appear-duration');
+    expect(componentTokens).toContain('--nami-top-progress-appear-ease');
     expect(componentTokens).toContain('--nami-top-progress-indeterminate-duration');
     expect(componentTokens).toContain('--nami-top-progress-track-bg');
     expect(componentTokens).toContain('--nami-top-progress-fill-bg');
@@ -114,6 +116,7 @@ describe('@nami-web/tokens', () => {
     expect(defaultTheme.cssVars['--nami-transition-progress-height']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(defaultTheme.cssVars['--nami-top-progress-duration']).toBe('1ms');
+    expect(defaultTheme.cssVars['--nami-top-progress-appear-duration']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-top-progress-indeterminate-duration']).toBe('1ms');
     expect(defaultTheme.cssVars['--nami-top-progress-track-bg']).toContain('var(--nami-surface)');
     expect(defaultTheme.cssVars['--nami-top-progress-fill-bg']).toContain('var(--nami-color-primary)');

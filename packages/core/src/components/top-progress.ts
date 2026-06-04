@@ -6,6 +6,8 @@ export type NamiTopProgressVariant = 'fixed' | 'inline';
 export type NamiTopProgressEffect = 'flow' | 'slide' | 'pulse';
 
 export interface NamiTopProgressOptions {
+  appear?: boolean;
+  appearDuration?: number;
   duration?: number;
   effect?: NamiTopProgressEffect;
   height?: number;
@@ -18,8 +20,17 @@ export interface NamiTopProgressOptions {
 export class NamiTopProgress extends LitElement {
   static properties = {
     active: { type: Boolean, reflect: true },
+    appear: {
+      converter: {
+        fromAttribute: (value: string | null) => value !== null && value !== 'false' && value !== '0' && value !== 'none',
+        toAttribute: (value: boolean) => (value ? 'true' : 'false')
+      },
+      reflect: true
+    },
+    appearDuration: { type: Number, attribute: 'appear-duration', reflect: true },
     duration: { type: Number, reflect: true },
     effect: { reflect: true },
+    entering: { type: Boolean, reflect: true },
     height: { type: Number, reflect: true },
     label: {},
     progress: { type: Number, reflect: true },
@@ -34,6 +45,11 @@ export class NamiTopProgress extends LitElement {
         --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
         --top-progress-duration: var(--nami-top-progress-duration, 220ms);
         --top-progress-ease: var(--nami-top-progress-ease, var(--nami-ease-standard, cubic-bezier(0.19, 1, 0.22, 1)));
+        --top-progress-appear-duration: var(--nami-top-progress-appear-duration, 360ms);
+        --top-progress-appear-ease: var(
+          --nami-top-progress-appear-ease,
+          var(--nami-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1))
+        );
         --top-progress-indeterminate-duration: var(--nami-top-progress-indeterminate-duration, 1280ms);
         --top-progress-track-bg: var(
           --nami-top-progress-track-bg,
@@ -80,6 +96,11 @@ export class NamiTopProgress extends LitElement {
 
       :host([active]) .track {
         transform: scaleY(1);
+      }
+
+      :host([entering]) .track {
+        animation: nami-top-progress-appear-track var(--top-progress-appear-duration) var(--top-progress-appear-ease) both;
+        transform-origin: left top;
       }
 
       :host([variant='inline']) .track {
@@ -134,6 +155,11 @@ export class NamiTopProgress extends LitElement {
           filter var(--top-progress-duration) var(--top-progress-ease);
       }
 
+      :host([entering][progress]) .indicator {
+        animation: nami-top-progress-appear-indicator var(--top-progress-appear-duration) var(--top-progress-appear-ease)
+          both;
+      }
+
       :host([effect='slide']) .indicator {
         animation-name: nami-top-progress-slide;
         background-image: none;
@@ -173,6 +199,34 @@ export class NamiTopProgress extends LitElement {
 
         100% {
           transform: translateX(166%) scaleX(0.3);
+        }
+      }
+
+      @keyframes nami-top-progress-appear-track {
+        0% {
+          opacity: 0;
+          transform: translateX(-10px) scaleX(0.08) scaleY(1);
+        }
+
+        42% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 1;
+          transform: translateX(0) scaleX(1) scaleY(1);
+        }
+      }
+
+      @keyframes nami-top-progress-appear-indicator {
+        0% {
+          filter: brightness(1.08) saturate(1.08);
+          transform: scaleX(0.08);
+        }
+
+        100% {
+          filter: brightness(1) saturate(1);
+          transform: scaleX(1);
         }
       }
 
@@ -253,6 +307,7 @@ export class NamiTopProgress extends LitElement {
           transition-duration: 1ms;
         }
 
+        .track,
         .indicator,
         .indicator::after {
           animation-duration: 1ms;
@@ -263,14 +318,18 @@ export class NamiTopProgress extends LitElement {
   ];
 
   declare active: boolean;
+  declare appear: boolean;
+  declare appearDuration: number;
   declare duration: number;
   declare effect: NamiTopProgressEffect;
+  declare entering: boolean;
   declare height: number;
   declare label: string;
   declare progress?: number;
   declare variant: NamiTopProgressVariant;
   protected declare visible: boolean;
 
+  private enterTimer = 0;
   private hideTimer = 0;
   private hideResolver?: () => void;
   private hideComplete?: Promise<void>;
@@ -280,8 +339,11 @@ export class NamiTopProgress extends LitElement {
     super();
     updateWhenLocaleChanges(this);
     this.active = false;
+    this.appear = true;
+    this.appearDuration = 360;
     this.duration = 220;
     this.effect = 'flow';
+    this.entering = false;
     this.height = 4;
     this.label = '';
     this.progress = undefined;
@@ -294,10 +356,12 @@ export class NamiTopProgress extends LitElement {
     if (this.active) {
       this.visible = true;
       this.shownAt = Date.now();
+      this.beginEnter();
     }
   }
 
   disconnectedCallback() {
+    window.clearTimeout(this.enterTimer);
     window.clearTimeout(this.hideTimer);
     this.hideResolver?.();
     super.disconnectedCallback();
@@ -305,6 +369,11 @@ export class NamiTopProgress extends LitElement {
 
   updated(changed: Map<string, unknown>) {
     if (changed.has('progress')) this.syncProgressStyle();
+    if (changed.has('appear') && !this.appear) {
+      window.clearTimeout(this.enterTimer);
+      this.entering = false;
+    }
+    if (changed.has('appearDuration')) this.syncAppearDurationStyle();
     if (changed.has('height')) this.syncHeightStyle();
     if (changed.has('duration')) this.syncDurationStyle();
     if (!changed.has('active')) return;
@@ -315,9 +384,12 @@ export class NamiTopProgress extends LitElement {
       this.hideComplete = undefined;
       this.visible = true;
       this.shownAt = Date.now();
+      this.beginEnter();
       return;
     }
 
+    window.clearTimeout(this.enterTimer);
+    this.entering = false;
     const elapsed = Date.now() - this.shownAt;
     const delay = Math.max(0, Number(this.duration) - elapsed);
     this.hideComplete = new Promise((resolve) => {
@@ -331,10 +403,16 @@ export class NamiTopProgress extends LitElement {
   }
 
   show(options: NamiTopProgressOptions = {}) {
+    const shouldEnter = !this.visible;
     this.applyOptions(options);
     this.visible = true;
     this.shownAt = Date.now();
     this.active = true;
+    if (shouldEnter) this.beginEnter();
+  }
+
+  start(options: NamiTopProgressOptions = {}) {
+    this.show(options);
   }
 
   set(progress: number | null | undefined) {
@@ -370,12 +448,28 @@ export class NamiTopProgress extends LitElement {
   }
 
   private applyOptions(options: NamiTopProgressOptions) {
+    if (options.appear !== undefined) this.appear = options.appear;
+    if (options.appearDuration !== undefined) this.appearDuration = options.appearDuration;
     if (options.duration !== undefined) this.duration = options.duration;
     if (options.effect) this.effect = options.effect;
     if (options.height !== undefined) this.height = options.height;
     if (options.label !== undefined) this.label = options.label;
     if (options.variant) this.variant = options.variant;
     if (options.progress !== undefined) this.set(options.progress);
+  }
+
+  private beginEnter() {
+    window.clearTimeout(this.enterTimer);
+    if (!this.appear) {
+      this.entering = false;
+      return;
+    }
+
+    this.entering = true;
+    const duration = Number.isFinite(Number(this.appearDuration)) ? Math.max(0, Number(this.appearDuration)) : 360;
+    this.enterTimer = window.setTimeout(() => {
+      this.entering = false;
+    }, duration + 40);
   }
 
   private syncProgressStyle() {
@@ -393,6 +487,14 @@ export class NamiTopProgress extends LitElement {
       return;
     }
     this.style.setProperty('--nami-top-progress-height', `${Number(this.height)}px`);
+  }
+
+  private syncAppearDurationStyle() {
+    if (!Number.isFinite(Number(this.appearDuration)) || Number(this.appearDuration) < 0) {
+      this.style.removeProperty('--nami-top-progress-appear-duration');
+      return;
+    }
+    this.style.setProperty('--nami-top-progress-appear-duration', `${Number(this.appearDuration)}ms`);
   }
 
   private syncDurationStyle() {

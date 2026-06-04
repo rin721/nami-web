@@ -1,54 +1,70 @@
-import { i as p, a as h, A as o, b as m } from "../chunks/lit-element-GeMXvhiH.js";
-import { m as c } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as d } from "../chunks/localized-controller-BapUPJ8o.js";
+import { i as l, a as h, A as o, b as m } from "../chunks/lit-element-GeMXvhiH.js";
+import { m as u } from "../chunks/runtime-4rCsJ4EI.js";
+import { u as c } from "../chunks/localized-controller-BapUPJ8o.js";
 import { c as g } from "../chunks/styles-C6m3uqJJ.js";
-const r = class r extends p {
+const t = class t extends l {
   constructor() {
-    super(), this.hideTimer = 0, this.shownAt = 0, d(this), this.active = !1, this.duration = 220, this.effect = "flow", this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
+    super(), this.enterTimer = 0, this.hideTimer = 0, this.shownAt = 0, c(this), this.active = !1, this.appear = !0, this.appearDuration = 360, this.duration = 220, this.effect = "flow", this.entering = !1, this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
   }
   connectedCallback() {
-    super.connectedCallback(), this.active && (this.visible = !0, this.shownAt = Date.now());
+    super.connectedCallback(), this.active && (this.visible = !0, this.shownAt = Date.now(), this.beginEnter());
   }
   disconnectedCallback() {
-    window.clearTimeout(this.hideTimer), this.hideResolver?.(), super.disconnectedCallback();
+    window.clearTimeout(this.enterTimer), window.clearTimeout(this.hideTimer), this.hideResolver?.(), super.disconnectedCallback();
   }
   updated(e) {
-    if (e.has("progress") && this.syncProgressStyle(), e.has("height") && this.syncHeightStyle(), e.has("duration") && this.syncDurationStyle(), !e.has("active")) return;
+    if (e.has("progress") && this.syncProgressStyle(), e.has("appear") && !this.appear && (window.clearTimeout(this.enterTimer), this.entering = !1), e.has("appearDuration") && this.syncAppearDurationStyle(), e.has("height") && this.syncHeightStyle(), e.has("duration") && this.syncDurationStyle(), !e.has("active")) return;
     if (window.clearTimeout(this.hideTimer), this.active) {
-      this.hideResolver?.(), this.hideComplete = void 0, this.visible = !0, this.shownAt = Date.now();
+      this.hideResolver?.(), this.hideComplete = void 0, this.visible = !0, this.shownAt = Date.now(), this.beginEnter();
       return;
     }
-    const t = Date.now() - this.shownAt, i = Math.max(0, Number(this.duration) - t);
-    this.hideComplete = new Promise((s) => {
-      this.hideResolver = s;
+    window.clearTimeout(this.enterTimer), this.entering = !1;
+    const r = Date.now() - this.shownAt, a = Math.max(0, Number(this.duration) - r);
+    this.hideComplete = new Promise((i) => {
+      this.hideResolver = i;
     }), this.hideTimer = window.setTimeout(() => {
       this.active || (this.visible = !1), this.hideResolver?.(), this.hideResolver = void 0;
-    }, i);
+    }, a);
   }
   show(e = {}) {
-    this.applyOptions(e), this.visible = !0, this.shownAt = Date.now(), this.active = !0;
+    const r = !this.visible;
+    this.applyOptions(e), this.visible = !0, this.shownAt = Date.now(), this.active = !0, r && this.beginEnter();
+  }
+  start(e = {}) {
+    this.show(e);
   }
   set(e) {
     this.progress = e ?? void 0;
   }
   async finish(e = {}) {
-    this.applyOptions({ ...e, progress: e.progress ?? 100 }), this.active = !0, await this.updateComplete, await new Promise((t) => window.setTimeout(t, Number(e.minDuration ?? this.duration))), await this.hide({ ...e, progress: null });
+    this.applyOptions({ ...e, progress: e.progress ?? 100 }), this.active = !0, await this.updateComplete, await new Promise((r) => window.setTimeout(r, Number(e.minDuration ?? this.duration))), await this.hide({ ...e, progress: null });
   }
   async hide(e = {}) {
     this.applyOptions(e), this.active = !1, await this.updateComplete, this.hideComplete && await this.hideComplete;
   }
-  async waitFor(e, t = {}) {
-    const i = t.minDuration ?? this.duration, s = Date.now();
-    this.show(t);
+  async waitFor(e, r = {}) {
+    const a = r.minDuration ?? this.duration, i = Date.now();
+    this.show(r);
     try {
       return await (typeof e == "function" ? e() : e);
     } finally {
-      const a = Math.max(0, Number(i) - (Date.now() - s));
-      a > 0 && await new Promise((l) => window.setTimeout(l, a)), await this.finish(t);
+      const s = Math.max(0, Number(a) - (Date.now() - i));
+      s > 0 && await new Promise((p) => window.setTimeout(p, s)), await this.finish(r);
     }
   }
   applyOptions(e) {
-    e.duration !== void 0 && (this.duration = e.duration), e.effect && (this.effect = e.effect), e.height !== void 0 && (this.height = e.height), e.label !== void 0 && (this.label = e.label), e.variant && (this.variant = e.variant), e.progress !== void 0 && this.set(e.progress);
+    e.appear !== void 0 && (this.appear = e.appear), e.appearDuration !== void 0 && (this.appearDuration = e.appearDuration), e.duration !== void 0 && (this.duration = e.duration), e.effect && (this.effect = e.effect), e.height !== void 0 && (this.height = e.height), e.label !== void 0 && (this.label = e.label), e.variant && (this.variant = e.variant), e.progress !== void 0 && this.set(e.progress);
+  }
+  beginEnter() {
+    if (window.clearTimeout(this.enterTimer), !this.appear) {
+      this.entering = !1;
+      return;
+    }
+    this.entering = !0;
+    const e = Number.isFinite(Number(this.appearDuration)) ? Math.max(0, Number(this.appearDuration)) : 360;
+    this.enterTimer = window.setTimeout(() => {
+      this.entering = !1;
+    }, e + 40);
   }
   syncProgressStyle() {
     if (this.progress === void 0 || this.progress === null || Number.isNaN(Number(this.progress))) {
@@ -65,6 +81,13 @@ const r = class r extends p {
     }
     this.style.setProperty("--nami-top-progress-height", `${Number(this.height)}px`);
   }
+  syncAppearDurationStyle() {
+    if (!Number.isFinite(Number(this.appearDuration)) || Number(this.appearDuration) < 0) {
+      this.style.removeProperty("--nami-top-progress-appear-duration");
+      return;
+    }
+    this.style.setProperty("--nami-top-progress-appear-duration", `${Number(this.appearDuration)}ms`);
+  }
   syncDurationStyle() {
     if (!Number.isFinite(Number(this.duration)) || Number(this.duration) < 0) {
       this.style.removeProperty("--nami-top-progress-duration");
@@ -73,7 +96,7 @@ const r = class r extends p {
     this.style.setProperty("--nami-top-progress-duration", `${Number(this.duration)}ms`);
   }
   get fallbackLabel() {
-    return this.label || c("Navigating", { id: "nami.topProgress.navigating" });
+    return this.label || u("Navigating", { id: "nami.topProgress.navigating" });
   }
   render() {
     if (!this.visible) return o;
@@ -95,22 +118,36 @@ const r = class r extends p {
     `;
   }
 };
-r.properties = {
+t.properties = {
   active: { type: Boolean, reflect: !0 },
+  appear: {
+    converter: {
+      fromAttribute: (e) => e !== null && e !== "false" && e !== "0" && e !== "none",
+      toAttribute: (e) => e ? "true" : "false"
+    },
+    reflect: !0
+  },
+  appearDuration: { type: Number, attribute: "appear-duration", reflect: !0 },
   duration: { type: Number, reflect: !0 },
   effect: { reflect: !0 },
+  entering: { type: Boolean, reflect: !0 },
   height: { type: Number, reflect: !0 },
   label: {},
   progress: { type: Number, reflect: !0 },
   variant: { reflect: !0 },
   visible: { state: !0 }
-}, r.styles = [
+}, t.styles = [
   g,
   h`
       :host {
         --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));
         --top-progress-duration: var(--nami-top-progress-duration, 220ms);
         --top-progress-ease: var(--nami-top-progress-ease, var(--nami-ease-standard, cubic-bezier(0.19, 1, 0.22, 1)));
+        --top-progress-appear-duration: var(--nami-top-progress-appear-duration, 360ms);
+        --top-progress-appear-ease: var(
+          --nami-top-progress-appear-ease,
+          var(--nami-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1))
+        );
         --top-progress-indeterminate-duration: var(--nami-top-progress-indeterminate-duration, 1280ms);
         --top-progress-track-bg: var(
           --nami-top-progress-track-bg,
@@ -157,6 +194,11 @@ r.properties = {
 
       :host([active]) .track {
         transform: scaleY(1);
+      }
+
+      :host([entering]) .track {
+        animation: nami-top-progress-appear-track var(--top-progress-appear-duration) var(--top-progress-appear-ease) both;
+        transform-origin: left top;
       }
 
       :host([variant='inline']) .track {
@@ -211,6 +253,11 @@ r.properties = {
           filter var(--top-progress-duration) var(--top-progress-ease);
       }
 
+      :host([entering][progress]) .indicator {
+        animation: nami-top-progress-appear-indicator var(--top-progress-appear-duration) var(--top-progress-appear-ease)
+          both;
+      }
+
       :host([effect='slide']) .indicator {
         animation-name: nami-top-progress-slide;
         background-image: none;
@@ -250,6 +297,34 @@ r.properties = {
 
         100% {
           transform: translateX(166%) scaleX(0.3);
+        }
+      }
+
+      @keyframes nami-top-progress-appear-track {
+        0% {
+          opacity: 0;
+          transform: translateX(-10px) scaleX(0.08) scaleY(1);
+        }
+
+        42% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 1;
+          transform: translateX(0) scaleX(1) scaleY(1);
+        }
+      }
+
+      @keyframes nami-top-progress-appear-indicator {
+        0% {
+          filter: brightness(1.08) saturate(1.08);
+          transform: scaleX(0.08);
+        }
+
+        100% {
+          filter: brightness(1) saturate(1);
+          transform: scaleX(1);
         }
       }
 
@@ -330,6 +405,7 @@ r.properties = {
           transition-duration: 1ms;
         }
 
+        .track,
         .indicator,
         .indicator::after {
           animation-duration: 1ms;
@@ -338,7 +414,7 @@ r.properties = {
       }
     `
 ];
-let n = r;
+let n = t;
 export {
   n as NamiTopProgress
 };

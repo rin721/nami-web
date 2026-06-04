@@ -599,6 +599,8 @@ function deriveComponent(seed: NamiResolvedThemeSeed): Record<string, string> {
     '--nami-top-progress-height': 'var(--nami-transition-progress-height)',
     '--nami-top-progress-duration': seed.motion === 'reduced' ? '1ms' : '260ms',
     '--nami-top-progress-ease': 'var(--nami-ease-standard)',
+    '--nami-top-progress-appear-duration': seed.motion === 'reduced' ? '1ms' : '360ms',
+    '--nami-top-progress-appear-ease': 'var(--nami-ease-emphasized)',
     '--nami-top-progress-indeterminate-duration': seed.motion === 'reduced' ? '1ms' : '1280ms',
     '--nami-top-progress-track-bg': illustration
       ? (darkIllustration ? mix('var(--nami-color-primary)', 'var(--nami-style-panel-bg)', 68) : mix('var(--nami-color-primary)', '#fff', 78))

@@ -391,6 +391,8 @@ function G(t) {
     "--nami-top-progress-height": "var(--nami-transition-progress-height)",
     "--nami-top-progress-duration": t.motion === "reduced" ? "1ms" : "260ms",
     "--nami-top-progress-ease": "var(--nami-ease-standard)",
+    "--nami-top-progress-appear-duration": t.motion === "reduced" ? "1ms" : "360ms",
+    "--nami-top-progress-appear-ease": "var(--nami-ease-emphasized)",
     "--nami-top-progress-indeterminate-duration": t.motion === "reduced" ? "1ms" : "1280ms",
     "--nami-top-progress-track-bg": a ? r ? s("var(--nami-color-primary)", "var(--nami-style-panel-bg)", 68) : s("var(--nami-color-primary)", "#fff", 78) : "color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%)",
     "--nami-top-progress-fill-bg": a ? "var(--nami-color-primary)" : "color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%)",

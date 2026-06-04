@@ -554,6 +554,7 @@ describe('@nami-web/ui components', () => {
     progress.progress = 64;
     progress.height = 16;
     progress.duration = 320;
+    progress.appearDuration = 420;
     progress.effect = 'pulse';
     document.body.append(progress);
     await progress.updateComplete;
@@ -563,21 +564,28 @@ describe('@nami-web/ui components', () => {
     expect(progress.getAttribute('progress')).toBe('64');
     expect(progress.getAttribute('height')).toBe('16');
     expect(progress.getAttribute('duration')).toBe('320');
+    expect(progress.getAttribute('appear')).toBe('true');
+    expect(progress.getAttribute('appear-duration')).toBe('420');
     expect(progress.getAttribute('effect')).toBe('pulse');
+    expect(progress.hasAttribute('entering')).toBe(true);
     expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('64%');
     expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('16px');
     expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('320ms');
+    expect(progress.style.getPropertyValue('--nami-top-progress-appear-duration')).toBe('420ms');
     expect(progress.shadowRoot?.querySelector('[part~="track"]')?.getAttribute('aria-label')).toBe('Navigating');
 
-    progress.show({ progress: 50, height: 10, duration: 180, effect: 'slide' });
+    progress.show({ progress: 50, height: 10, duration: 180, appear: false, appearDuration: 120, effect: 'slide' });
     await progress.updateComplete;
     expect(progress.getAttribute('progress')).toBe('50');
     expect(progress.getAttribute('height')).toBe('10');
     expect(progress.getAttribute('duration')).toBe('180');
+    expect(progress.getAttribute('appear')).toBe('false');
+    expect(progress.getAttribute('appear-duration')).toBe('120');
     expect(progress.getAttribute('effect')).toBe('slide');
     expect(progress.style.getPropertyValue('--nami-top-progress-value')).toBe('50%');
     expect(progress.style.getPropertyValue('--nami-top-progress-height')).toBe('10px');
     expect(progress.style.getPropertyValue('--nami-top-progress-duration')).toBe('180ms');
+    expect(progress.style.getPropertyValue('--nami-top-progress-appear-duration')).toBe('120ms');
 
     progress.set(null);
     await progress.updateComplete;

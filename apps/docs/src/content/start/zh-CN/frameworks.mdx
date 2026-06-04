@@ -132,7 +132,7 @@ import '@nami-web/ui/register';
 
 ```ts
 document.addEventListener('astro:before-preparation', () => {
-  document.querySelector('nami-top-progress')?.start?.();
+  document.querySelector('nami-top-progress')?.start?.({ progress: 12, appear: true, appearDuration: 360 });
 });
 
 document.addEventListener('astro:after-swap', () => {
@@ -144,7 +144,7 @@ document.addEventListener('astro:after-swap', () => {
 
 ```ts
 router.beforeEach(() => {
-  document.querySelector('nami-top-progress')?.start?.();
+  document.querySelector('nami-top-progress')?.start?.({ progress: 12, appear: true, appearDuration: 360 });
 });
 
 router.afterEach(() => {

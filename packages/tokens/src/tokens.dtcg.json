@@ -303,6 +303,28 @@
           }
         }
       },
+      "appearDuration": {
+        "$type": "duration",
+        "$value": "360ms",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "route progress first appear duration",
+            "affectedComponents": ["nami-top-progress"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
+      "appearEase": {
+        "$type": "cubicBezier",
+        "$value": "{seed.motion.emphasized}",
+        "$extensions": {
+          "org.nami.theme": {
+            "semanticRole": "route progress first appear easing",
+            "affectedComponents": ["nami-top-progress"],
+            "allowedOverrideLevel": "component-token"
+          }
+        }
+      },
       "indeterminateDuration": {
         "$type": "duration",
         "$value": "1280ms",
