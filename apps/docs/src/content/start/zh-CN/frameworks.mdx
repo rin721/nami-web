@@ -157,7 +157,16 @@ router.afterEach(() => {
 `nami-scroll-smoother` 是整页滚动控制器。Vue Router、Astro 或任何客户端路由在换页后都应调用一次 `resize()`，让 Lenis 重新测量页面高度；组件会在 reduced motion 下自动停用。
 
 ```html
-<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+<nami-scroll-smoother preset="balanced" duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
+```ts
+document.querySelector('nami-scroll-smoother')?.applyConfig?.({
+  preset: 'gentle',
+  duration: 0.9,
+  touchMultiplier: 1.6,
+  anchors: { offset: -64 }
+});
 ```
 
 ### Vue Router

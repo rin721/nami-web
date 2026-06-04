@@ -41,6 +41,7 @@ export interface NamiScrollSmootherEventDetail {
   progress: number;
   velocity: number;
   direction: 1 | -1 | 0;
+  preset: 'gentle' | 'balanced' | 'strong';
   reducedMotion: boolean;
 }
 

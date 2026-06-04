@@ -1,17 +1,40 @@
-import Lenis, { type ScrollToOptions as LenisScrollToOptions } from 'lenis';
+import Lenis, {
+  type EasingFunction,
+  type GestureOrientation,
+  type LenisOptions,
+  type Orientation,
+  type ScrollToOptions as LenisScrollToOptions
+} from 'lenis';
 import { LitElement, css, nothing } from 'lit';
 import { emit } from '../internal/events';
 
-export interface NamiScrollSmootherOptions {
+export type NamiScrollSmootherPreset = 'gentle' | 'balanced' | 'strong';
+
+export interface NamiScrollSmootherConfig {
+  preset?: NamiScrollSmootherPreset;
   duration?: number;
+  lerp?: number;
   touchMultiplier?: number;
   wheelMultiplier?: number;
   smoothWheel?: boolean;
   syncTouch?: boolean;
-  anchors?: boolean;
+  syncTouchLerp?: number;
+  touchInertiaExponent?: number;
+  anchors?: boolean | LenisScrollToOptions;
   autoRaf?: boolean;
+  autoResize?: boolean;
+  overscroll?: boolean;
+  infinite?: boolean;
+  allowNestedScroll?: boolean;
+  orientation?: Orientation;
+  gestureOrientation?: GestureOrientation;
   stopInertiaOnNavigate?: boolean;
+  easing?: EasingFunction;
+  prevent?: LenisOptions['prevent'];
+  virtualScroll?: LenisOptions['virtualScroll'];
 }
+
+export type NamiScrollSmootherOptions = NamiScrollSmootherConfig;
 
 export interface NamiScrollSmootherDetail {
   scroll: number;
@@ -19,11 +42,29 @@ export interface NamiScrollSmootherDetail {
   progress: number;
   velocity: number;
   direction: 1 | -1 | 0;
+  preset: NamiScrollSmootherPreset;
   reducedMotion: boolean;
 }
 
 const expoEase = (time: number) => Math.min(1, 1.001 - Math.pow(2, -10 * time));
 const globalStyleId = 'nami-scroll-smoother-global-style';
+const scrollSmootherPresets = {
+  gentle: {
+    duration: 0.8,
+    touchMultiplier: 1.4,
+    wheelMultiplier: 0.9
+  },
+  balanced: {
+    duration: 1.2,
+    touchMultiplier: 2,
+    wheelMultiplier: 1
+  },
+  strong: {
+    duration: 1.6,
+    touchMultiplier: 2.4,
+    wheelMultiplier: 0.85
+  }
+} satisfies Record<NamiScrollSmootherPreset, NamiScrollSmootherConfig>;
 
 function ensureLenisDocumentStyles() {
   if (typeof document === 'undefined' || document.getElementById(globalStyleId)) return;
@@ -75,15 +116,26 @@ function getScrollTopForTarget(target: number | string | HTMLElement) {
 export class NamiScrollSmoother extends LitElement {
   static properties = {
     active: { type: Boolean, reflect: true },
+    allowNestedScroll: { type: Boolean, attribute: 'allow-nested-scroll' },
     anchors: { type: Boolean },
     autoRaf: { type: Boolean, attribute: 'auto-raf' },
+    autoResize: { type: Boolean, attribute: 'auto-resize' },
+    config: { attribute: false },
     disabled: { type: Boolean, reflect: true },
     duration: { type: Number },
+    gestureOrientation: { attribute: 'gesture-orientation' },
+    infinite: { type: Boolean },
+    lerp: { type: Number },
+    orientation: {},
+    overscroll: { type: Boolean },
+    preset: { reflect: true },
     reducedMotion: { type: Boolean, attribute: 'reduced-motion', reflect: true },
     resizeOnLoad: { type: Boolean, attribute: 'resize-on-load' },
     smoothWheel: { type: Boolean, attribute: 'smooth-wheel' },
     stopInertiaOnNavigate: { type: Boolean, attribute: 'stop-inertia-on-navigate' },
     syncTouch: { type: Boolean, attribute: 'sync-touch' },
+    syncTouchLerp: { type: Number, attribute: 'sync-touch-lerp' },
+    touchInertiaExponent: { type: Number, attribute: 'touch-inertia-exponent' },
     touchMultiplier: { type: Number, attribute: 'touch-multiplier' },
     wheelMultiplier: { type: Number, attribute: 'wheel-multiplier' }
   };
@@ -95,29 +147,52 @@ export class NamiScrollSmoother extends LitElement {
   `;
 
   declare active: boolean;
+  declare allowNestedScroll: boolean;
   declare anchors: boolean;
   declare autoRaf: boolean;
+  declare autoResize: boolean;
+  declare config: NamiScrollSmootherConfig | null;
   declare disabled: boolean;
   declare duration: number;
+  declare gestureOrientation: GestureOrientation;
+  declare infinite: boolean;
+  declare lerp?: number;
+  declare orientation: Orientation;
+  declare overscroll: boolean;
+  declare preset: NamiScrollSmootherPreset;
   declare reducedMotion: boolean;
   declare resizeOnLoad: boolean;
   declare smoothWheel: boolean;
   declare stopInertiaOnNavigate: boolean;
   declare syncTouch: boolean;
+  declare syncTouchLerp?: number;
+  declare touchInertiaExponent?: number;
   declare touchMultiplier: number;
   declare wheelMultiplier: number;
 
+  private anchorOptions?: LenisScrollToOptions;
+  private easing: EasingFunction = expoEase;
   private lenis?: Lenis;
+  private prevent?: LenisOptions['prevent'];
   private unsubscribeScroll?: () => void;
+  private virtualScroll?: LenisOptions['virtualScroll'];
   private motionQuery?: MediaQueryList;
   private pendingResize = 0;
 
   constructor() {
     super();
     this.active = false;
+    this.allowNestedScroll = false;
     this.anchors = true;
     this.autoRaf = true;
+    this.autoResize = true;
+    this.config = null;
     this.disabled = false;
+    this.gestureOrientation = 'vertical';
+    this.infinite = false;
+    this.orientation = 'vertical';
+    this.overscroll = true;
+    this.preset = 'balanced';
     this.duration = 1.2;
     this.reducedMotion = false;
     this.resizeOnLoad = true;
@@ -150,15 +225,37 @@ export class NamiScrollSmoother extends LitElement {
   }
 
   protected updated(changed: Map<string, unknown>) {
+    if (changed.has('config') && this.config) {
+      this.applyConfig(this.config, { persist: false, respectAttributes: true });
+      return;
+    }
+
+    if (changed.has('preset')) {
+      this.applyConfig(scrollSmootherPresets[this.preset] ?? scrollSmootherPresets.balanced, {
+        persist: false,
+        respectAttributes: true
+      });
+      return;
+    }
+
     const configKeys = [
+      'allowNestedScroll',
       'anchors',
       'autoRaf',
+      'autoResize',
       'disabled',
       'duration',
+      'gestureOrientation',
+      'infinite',
+      'lerp',
+      'orientation',
+      'overscroll',
       'resizeOnLoad',
       'smoothWheel',
       'stopInertiaOnNavigate',
       'syncTouch',
+      'syncTouchLerp',
+      'touchInertiaExponent',
       'touchMultiplier',
       'wheelMultiplier'
     ];
@@ -196,6 +293,65 @@ export class NamiScrollSmoother extends LitElement {
     this.resize();
   }
 
+  applyConfig(config: NamiScrollSmootherConfig, options: { persist?: boolean; respectAttributes?: boolean } = {}) {
+    const { persist = true, respectAttributes = false } = options;
+    const nextConfig = config.preset ? { ...scrollSmootherPresets[config.preset], ...config } : config;
+
+    if (persist) {
+      this.config = { ...(this.config ?? {}), ...config };
+    }
+
+    this.assignConfigValue('preset', nextConfig.preset, 'preset', respectAttributes);
+    this.assignConfigValue('duration', nextConfig.duration, 'duration', respectAttributes);
+    this.assignConfigValue('lerp', nextConfig.lerp, 'lerp', respectAttributes);
+    this.assignConfigValue('smoothWheel', nextConfig.smoothWheel, 'smooth-wheel', respectAttributes);
+    this.assignConfigValue('syncTouch', nextConfig.syncTouch, 'sync-touch', respectAttributes);
+    this.assignConfigValue('syncTouchLerp', nextConfig.syncTouchLerp, 'sync-touch-lerp', respectAttributes);
+    this.assignConfigValue(
+      'touchInertiaExponent',
+      nextConfig.touchInertiaExponent,
+      'touch-inertia-exponent',
+      respectAttributes
+    );
+    this.assignConfigValue('touchMultiplier', nextConfig.touchMultiplier, 'touch-multiplier', respectAttributes);
+    this.assignConfigValue('wheelMultiplier', nextConfig.wheelMultiplier, 'wheel-multiplier', respectAttributes);
+    this.assignConfigValue('autoRaf', nextConfig.autoRaf, 'auto-raf', respectAttributes);
+    this.assignConfigValue('autoResize', nextConfig.autoResize, 'auto-resize', respectAttributes);
+    this.assignConfigValue('overscroll', nextConfig.overscroll, 'overscroll', respectAttributes);
+    this.assignConfigValue('infinite', nextConfig.infinite, 'infinite', respectAttributes);
+    this.assignConfigValue('allowNestedScroll', nextConfig.allowNestedScroll, 'allow-nested-scroll', respectAttributes);
+    this.assignConfigValue('orientation', nextConfig.orientation, 'orientation', respectAttributes);
+    this.assignConfigValue(
+      'gestureOrientation',
+      nextConfig.gestureOrientation,
+      'gesture-orientation',
+      respectAttributes
+    );
+    this.assignConfigValue(
+      'stopInertiaOnNavigate',
+      nextConfig.stopInertiaOnNavigate,
+      'stop-inertia-on-navigate',
+      respectAttributes
+    );
+
+    if (typeof nextConfig.anchors === 'boolean') {
+      this.assignConfigValue('anchors', nextConfig.anchors, 'anchors', respectAttributes);
+      this.anchorOptions = undefined;
+    } else if (nextConfig.anchors) {
+      if (!respectAttributes || !this.hasAttribute('anchors')) {
+        this.anchors = true;
+        this.anchorOptions = nextConfig.anchors;
+      }
+    }
+
+    if (nextConfig.easing) this.easing = nextConfig.easing;
+    if (nextConfig.prevent) this.prevent = nextConfig.prevent;
+    if (nextConfig.virtualScroll) this.virtualScroll = nextConfig.virtualScroll;
+
+    this.configure();
+    return this;
+  }
+
   scrollTo(options?: globalThis.ScrollToOptions): void;
   scrollTo(x: number, y: number): void;
   scrollTo(target: number | string | HTMLElement, options?: LenisScrollToOptions): void;
@@ -218,7 +374,7 @@ export class NamiScrollSmoother extends LitElement {
     if (this.lenis && !this.reducedMotion && !this.disabled) {
       this.lenis.scrollTo(target, {
         duration: this.duration,
-        easing: expoEase,
+        easing: this.easing,
         ...options
       });
       return;
@@ -250,17 +406,30 @@ export class NamiScrollSmoother extends LitElement {
     }
 
     ensureLenisDocumentStyles();
-    this.lenis = new Lenis({
-      anchors: this.anchors,
+    const lenisOptions: LenisOptions = {
+      allowNestedScroll: this.allowNestedScroll,
+      anchors: this.anchorOptions ?? this.anchors,
       autoRaf: this.autoRaf,
+      autoResize: this.autoResize,
       duration: this.duration,
-      easing: expoEase,
+      easing: this.easing,
+      gestureOrientation: this.gestureOrientation,
+      infinite: this.infinite,
+      orientation: this.orientation,
+      overscroll: this.overscroll,
+      prevent: this.prevent,
       smoothWheel: this.smoothWheel,
       stopInertiaOnNavigate: this.stopInertiaOnNavigate,
       syncTouch: this.syncTouch,
       touchMultiplier: this.touchMultiplier,
+      virtualScroll: this.virtualScroll,
       wheelMultiplier: this.wheelMultiplier
-    });
+    };
+    if (typeof this.lerp === 'number') lenisOptions.lerp = this.lerp;
+    if (typeof this.syncTouchLerp === 'number') lenisOptions.syncTouchLerp = this.syncTouchLerp;
+    if (typeof this.touchInertiaExponent === 'number') lenisOptions.touchInertiaExponent = this.touchInertiaExponent;
+
+    this.lenis = new Lenis(lenisOptions);
     this.unsubscribeScroll = this.lenis.on('scroll', this.handleScroll);
     this.active = true;
     this.emitState();
@@ -278,6 +447,17 @@ export class NamiScrollSmoother extends LitElement {
     this.lenis?.destroy();
     this.lenis = undefined;
     this.active = false;
+  }
+
+  private assignConfigValue<K extends keyof this>(
+    key: K,
+    value: this[K] | undefined,
+    attribute: string,
+    respectAttributes: boolean
+  ) {
+    if (typeof value === 'undefined') return;
+    if (respectAttributes && this.hasAttribute(attribute)) return;
+    this[key] = value;
   }
 
   private shouldReduceMotion() {
@@ -327,6 +507,7 @@ export class NamiScrollSmoother extends LitElement {
       progress: lenis.progress,
       velocity: lenis.velocity,
       direction: lenis.direction,
+      preset: this.preset,
       reducedMotion: this.reducedMotion
     });
   };
@@ -338,6 +519,7 @@ export class NamiScrollSmoother extends LitElement {
       progress: this.lenis?.progress ?? 0,
       velocity: this.lenis?.velocity ?? 0,
       direction: this.lenis?.direction ?? 0,
+      preset: this.preset,
       reducedMotion: this.reducedMotion
     });
   }

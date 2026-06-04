@@ -157,7 +157,16 @@ router.afterEach(() => {
 `nami-scroll-smoother` is a page-level scroll controller. Vue Router, Astro, or any client-side router should call `resize()` after a page swap so Lenis can measure the new document height. The component disables itself automatically for reduced motion.
 
 ```html
-<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+<nami-scroll-smoother preset="balanced" duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
+```ts
+document.querySelector('nami-scroll-smoother')?.applyConfig?.({
+  preset: 'gentle',
+  duration: 0.9,
+  touchMultiplier: 1.6,
+  anchors: { offset: -64 }
+});
 ```
 
 ### Vue Router

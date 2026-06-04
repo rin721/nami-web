@@ -49,7 +49,19 @@ import '@nami-web/ui/scroll-smoother';
 ```
 
 ```html
-<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+<nami-scroll-smoother preset="balanced" duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>
+```
+
+```ts
+const smoother = document.querySelector('nami-scroll-smoother');
+
+smoother?.applyConfig({
+  preset: 'strong',
+  duration: 1.6,
+  touchMultiplier: 2.4,
+  wheelMultiplier: 0.85,
+  anchors: { offset: -64 }
+});
 ```
 
 ## 本地运行官网

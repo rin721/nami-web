@@ -611,10 +611,11 @@ describe('@nami-web/ui components', () => {
     document.body.append(smoother);
     await smoother.updateComplete;
 
-    expect(smoother.duration).toBe(1.2);
-    expect(smoother.touchMultiplier).toBe(2);
-    expect(smoother.anchors).toBe(true);
-    expect(smoother.stopInertiaOnNavigate).toBe(true);
+      expect(smoother.duration).toBe(1.2);
+      expect(smoother.preset).toBe('balanced');
+      expect(smoother.touchMultiplier).toBe(2);
+      expect(smoother.anchors).toBe(true);
+      expect(smoother.stopInertiaOnNavigate).toBe(true);
     expect(smoother.hasAttribute('active')).toBe(false);
 
     smoother.scrollTo(120);
@@ -622,10 +623,53 @@ describe('@nami-web/ui components', () => {
 
     smoother.remove();
     Object.defineProperty(window, 'scrollTo', { configurable: true, value: originalScrollTo });
-    Object.defineProperty(window, 'ResizeObserver', { configurable: true, value: originalResizeObserver });
-  });
+      Object.defineProperty(window, 'ResizeObserver', { configurable: true, value: originalResizeObserver });
+    });
 
-  it('publishes metadata for all registered public components', () => {
+    it('allows scroll smoother configuration through presets and runtime config objects', async () => {
+      const smoother = document.createElement('nami-scroll-smoother') as NamiScrollSmoother;
+      smoother.applyConfig({
+        preset: 'strong',
+        duration: 1.4,
+        lerp: 0.08,
+        touchMultiplier: 2.6,
+        wheelMultiplier: 0.75,
+        smoothWheel: false,
+        syncTouch: true,
+        syncTouchLerp: 0.12,
+        touchInertiaExponent: 1.8,
+        anchors: { offset: -56 },
+        autoResize: false,
+        overscroll: false,
+        allowNestedScroll: true,
+        orientation: 'vertical',
+        gestureOrientation: 'both',
+        stopInertiaOnNavigate: false
+      });
+
+      expect(smoother.config).toMatchObject({
+        preset: 'strong',
+        duration: 1.4,
+        touchMultiplier: 2.6
+      });
+      expect(smoother.preset).toBe('strong');
+      expect(smoother.duration).toBe(1.4);
+      expect(smoother.lerp).toBe(0.08);
+      expect(smoother.touchMultiplier).toBe(2.6);
+      expect(smoother.wheelMultiplier).toBe(0.75);
+      expect(smoother.smoothWheel).toBe(false);
+      expect(smoother.syncTouch).toBe(true);
+      expect(smoother.syncTouchLerp).toBe(0.12);
+      expect(smoother.touchInertiaExponent).toBe(1.8);
+      expect(smoother.anchors).toBe(true);
+      expect(smoother.autoResize).toBe(false);
+      expect(smoother.overscroll).toBe(false);
+      expect(smoother.allowNestedScroll).toBe(true);
+      expect(smoother.gestureOrientation).toBe('both');
+      expect(smoother.stopInertiaOnNavigate).toBe(false);
+    });
+
+    it('publishes metadata for all registered public components', () => {
     const names = namiComponentMetadata.map((item) => item.name);
     const tokenNames = new Set<string>([...seedTokens, ...semanticTokens, ...componentTokens]);
     expect(names).toEqual([

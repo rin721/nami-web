@@ -391,7 +391,7 @@ const advancedExamples = new Map<string, string>([
   ['nami-dialog', '<nami-dialog open label="Confirm"><p>Review the operation before continuing.</p><nami-button slot="actions">Confirm</nami-button></nami-dialog>'],
   ['nami-drawer', '<nami-drawer open placement="right"><h3 slot="label">Filters</h3><nami-checkbox checked>Only active</nami-checkbox></nami-drawer>'],
   ['nami-toast', 'NamiToast.show({ message: "Saved", variant: "success", duration: 2400 })'],
-  ['nami-scroll-smoother', '<nami-scroll-smoother duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate></nami-scroll-smoother>'],
+  ['nami-scroll-smoother', '<nami-scroll-smoother preset="balanced" duration="1.2" touch-multiplier="2" wheel-multiplier="1" anchors stop-inertia-on-navigate></nami-scroll-smoother>\n<script type="module">\n  const smoother = document.querySelector("nami-scroll-smoother");\n  smoother?.applyConfig({ preset: "strong", duration: 1.6, touchMultiplier: 2.4 });\n</script>'],
   ['nami-app-shell', '<nami-app-shell rail-width="64" mobile-bar-height="60" sticky safe-area><nav slot="rail">Nav</nav><main>Content</main></nami-app-shell>'],
   ['nami-grid', '<nami-grid min="12rem" gap="lg"><nami-card>Metric</nami-card><nami-card>Trend</nami-card><nami-card>Task</nami-card></nami-grid>'],
   ['nami-split', '<nami-split ratio="sidebar-main" min="16rem"><aside>Filters</aside><main>Results</main></nami-split>'],

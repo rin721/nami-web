@@ -55,7 +55,7 @@ function isActive(path: string) {
     <nami-config id="docs-config" locale={locale} dir="ltr">
       <nami-theme id="docs-theme" theme="light" density="comfortable" size="md" motion="normal" style-preset="default" radius="round" contrast="normal" accent="#3b82f6">
         <nami-top-progress id="docs-top-progress" transition:persist="docs-top-progress"></nami-top-progress>
-        <nami-scroll-smoother id="docs-scroll-smoother" duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate transition:persist="docs-scroll-smoother"></nami-scroll-smoother>
+        <nami-scroll-smoother id="docs-scroll-smoother" preset="balanced" duration="1.2" touch-multiplier="2" anchors stop-inertia-on-navigate transition:persist="docs-scroll-smoother"></nami-scroll-smoother>
         <nami-page-transition id="docs-page-transition" appearance="veil" active transition:persist="docs-page-transition">
           <span data-nami-transition-fallback>
             <NamiMark />
