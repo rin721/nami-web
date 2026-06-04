@@ -1,0 +1,1 @@
+export { registerNamiElements } from './register';
