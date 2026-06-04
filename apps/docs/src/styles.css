@@ -599,7 +599,9 @@ nami-card p {
 .hero-showcase {
   display: grid;
   gap: 14px;
+  justify-self: center;
   min-width: 0;
+  width: min(100%, 520px);
 }
 
 .showcase-bar {
@@ -632,6 +634,7 @@ nami-card p {
 
 .install-card {
   --nami-card-gap: 12px;
+  width: 100%;
 }
 
 .install-card pre {

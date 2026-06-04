@@ -35,43 +35,13 @@ const primaryContributor = projectInfo.contributors[0];
       </div>
     </div>
 
-    <section class="hero-showcase" aria-label="Interactive component preview">
-      <div class="showcase-bar">
-        <nami-tab-bar data-theme-mode value="light">
-          <button value="light">{t(locale, 'controls.light')}</button>
-          <button value="dark">{t(locale, 'controls.dark')}</button>
-        </nami-tab-bar>
-        <nami-chip data-style-toggle checkbox value="illustration">{t(locale, 'controls.illustration')}</nami-chip>
-      </div>
-      <div class="showcase-grid">
-        <nami-card class="component-wall">
-          <nami-badge slot="header" variant="primary">Live preview</nami-badge>
-          <div class="preview-toolbar">
-            <nami-chip checkbox selected value="token">Token</nami-chip>
-            <nami-chip checkbox value="docs">Docs</nami-chip>
-            <nami-icon-button label="Favorite" selected><span slot="icon">F</span></nami-icon-button>
-          </div>
-          <nami-input label="Search components" placeholder="button, theme, dialog" helper-text="Focus, border, and text color follow tokens.">
-            <span slot="icon">/</span>
-          </nami-input>
-          <nami-radio-card selected label="One source, two skins" description="Default and illustration presets share the same component implementation."></nami-radio-card>
-          <div class="preview-actions">
-            <nami-button>Primary</nami-button>
-            <nami-button variant="soft">Soft</nami-button>
-            <nami-switch checked>Live</nami-switch>
-          </div>
-        </nami-card>
-        <nami-card class="install-card">
-          <nami-badge slot="header" variant="primary">{t(locale, 'home.install')}</nami-badge>
-          <nami-docs-code-block data-language="bash" data-code={encodeURIComponent('npm install @nami-web/ui @nami-web/themes')}></nami-docs-code-block>
-          <nami-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@nami-web/themes/default.css';\nimport '@nami-web/ui/register';")}></nami-docs-code-block>
-          <div class="swatches">
-            <button data-accent="#3b82f6" style="--swatch: #3b82f6">{t(locale, 'controls.blue')}</button>
-            <button data-accent="#14b8a6" style="--swatch: #14b8a6">{t(locale, 'controls.teal')}</button>
-            <button data-accent="#8b5cf6" style="--swatch: #8b5cf6">{t(locale, 'controls.violet')}</button>
-          </div>
-        </nami-card>
-      </div>
+    <section class="hero-showcase hero-install" aria-label={t(locale, 'home.install')}>
+      <nami-card class="install-card">
+        <nami-badge slot="header" variant="primary">{t(locale, 'home.install')}</nami-badge>
+        <nami-docs-install-tabs></nami-docs-install-tabs>
+        <nami-docs-code-block data-language="ts" data-code={encodeURIComponent("import '@nami-web/themes/default.css';\nimport '@nami-web/ui/register';")}></nami-docs-code-block>
+        <nami-docs-code-block data-language="html" data-code={encodeURIComponent('<link rel="stylesheet" href="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css" />\n<script src="https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/nami-ui.global.js"></script>')}></nami-docs-code-block>
+      </nami-card>
     </section>
   </section>
 
