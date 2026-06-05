@@ -1,35 +1,41 @@
-import { i, a, A as l, b as t } from "../chunks/lit-element-GeMXvhiH.js";
+import { i, a, A as l, b as e } from "../chunks/lit-element-GeMXvhiH.js";
 import { n } from "../chunks/ids-BBzulDVF.js";
-import { c as d } from "../chunks/styles-C6m3uqJJ.js";
-const e = class e extends i {
+import { s as d } from "../chunks/selection-CrKkvo5N.js";
+import { c } from "../chunks/styles-C6m3uqJJ.js";
+const r = class r extends i {
   constructor() {
     super(), this.metaId = `${n("nami-field")}-meta`, this.label = "", this.helperText = "", this.error = "", this.required = !1, this.disabled = !1;
   }
   updated() {
-    this.dataset.state = this.error ? "invalid" : "valid", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!this.error);
+    const t = !this.disabled && !!this.error;
+    d(this, {
+      state: t ? "invalid" : "valid",
+      disabled: this.disabled,
+      invalid: t
+    });
   }
   focusControl() {
     this.renderRoot.querySelector("slot:not([name])")?.assignedElements({ flatten: !0 }).find((o) => "focus" in o)?.focus?.();
   }
   render() {
-    const r = this.error || this.helperText;
-    return t`
+    const t = this.error || this.helperText;
+    return e`
       <div class="base" part="base">
-        ${this.label ? t`<span class="label" part="label" @click=${this.focusControl}>${this.label}${this.required ? " *" : ""}</span>` : l}
+        ${this.label ? e`<span class="label" part="label" @click=${this.focusControl}>${this.label}${this.required ? " *" : ""}</span>` : l}
         <div class="control" part="control"><slot></slot></div>
-        ${r ? t`<div id=${this.metaId} class="meta ${this.error ? "error" : ""}" part=${this.error ? "error" : "description"}>${r}</div>` : t`<slot name="description"></slot>`}
+        ${t ? e`<div id=${this.metaId} class="meta ${this.error ? "error" : ""}" part=${this.error ? "error" : "description"}>${t}</div>` : e`<slot name="description"></slot>`}
       </div>
     `;
   }
 };
-e.properties = {
+r.properties = {
   label: {},
   helperText: { attribute: "helper-text" },
   error: { reflect: !0, useDefault: !0 },
   required: { type: Boolean, reflect: !0 },
   disabled: { type: Boolean, reflect: !0 }
-}, e.styles = [
-  d,
+}, r.styles = [
+  c,
   a`
       :host {
         color: var(--nami-text);
@@ -65,7 +71,7 @@ e.properties = {
       }
     `
 ];
-let s = e;
+let s = r;
 export {
   s as NamiFormField
 };

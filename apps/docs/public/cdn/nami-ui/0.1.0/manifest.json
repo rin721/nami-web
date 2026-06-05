@@ -6,6 +6,8 @@
   "files": {
     "global": "nami-ui.global.js",
     "esmRegister": "esm/register.js",
+    "esmComponent": "esm/{component}.js",
+    "esmComponentImplementation": "esm/components/{component}.js",
     "css": {
       "default": "css/default.css",
       "antIllustration": "css/ant-illustration.css",
@@ -25,6 +27,10 @@
     "esm": {
       "css": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
       "script": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/register.js"
+    },
+    "esmComponent": {
+      "css": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/css/default.css",
+      "import": "https://nami-web.iqwq.com/cdn/nami-ui/0.1.0/esm/button.js"
     }
   }
 }

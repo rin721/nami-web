@@ -1,10 +1,11 @@
 import { i as l, a as p, A as d, b as c } from "../chunks/lit-element-GeMXvhiH.js";
 import { m as h } from "../chunks/runtime-4rCsJ4EI.js";
 import { u as m } from "../chunks/localized-controller-BapUPJ8o.js";
-import { c as v } from "../chunks/styles-C6m3uqJJ.js";
-import { d as b } from "../chunks/define-BpqXLfIT.js";
-import { NamiSpinner as u } from "./spinner.js";
-b("nami-spinner", u);
+import { s as v, b } from "../chunks/selection-CrKkvo5N.js";
+import { c as u } from "../chunks/styles-C6m3uqJJ.js";
+import { d as f } from "../chunks/define-BpqXLfIT.js";
+import { NamiSpinner as g } from "./spinner.js";
+f("nami-spinner", g);
 const t = class t extends l {
   constructor() {
     super(), this.hideTimer = 0, this.shownAt = 0, m(this), this.active = !1, this.appearance = "veil", this.duration = 240, this.hasDefaultContent = !1, this.label = "", this.tone = "surface", this.variant = "screen", this.visible = !1;
@@ -16,7 +17,10 @@ const t = class t extends l {
     window.clearTimeout(this.hideTimer), this.hideResolver?.(), super.disconnectedCallback();
   }
   updated(a) {
-    if (!a.has("active")) return;
+    if (v(this, {
+      state: b(this.active),
+      loading: this.active
+    }), !a.has("active")) return;
     if (window.clearTimeout(this.hideTimer), this.active) {
       this.hideResolver?.(), this.hideComplete = void 0, this.visible = !0, this.shownAt = Date.now();
       return;
@@ -86,7 +90,7 @@ t.properties = {
   variant: { reflect: !0 },
   visible: { state: !0 }
 }, t.styles = [
-  v,
+  u,
   p`
       :host {
         --page-transition-backdrop: color-mix(in oklab, var(--nami-surface), transparent 8%);

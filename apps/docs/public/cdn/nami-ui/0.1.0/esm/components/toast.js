@@ -1,11 +1,12 @@
 import { i, a as n, A as m, b as r } from "../chunks/lit-element-GeMXvhiH.js";
 import { m as l } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as c } from "../chunks/localized-controller-BapUPJ8o.js";
+import { u as p } from "../chunks/localized-controller-BapUPJ8o.js";
+import { o as c, a as d } from "../chunks/overlay-s5986HiD.js";
 import { e as o } from "../chunks/events-DtyLzvDt.js";
-import { c as p } from "../chunks/styles-C6m3uqJJ.js";
+import { c as u } from "../chunks/styles-C6m3uqJJ.js";
 const e = class e extends i {
   constructor() {
-    super(), this.timer = 0, c(this), this.open = !1, this.message = "", this.variant = "neutral", this.placement = "top", this.duration = 3200;
+    super(), this.timer = 0, p(this), this.open = !1, this.message = "", this.variant = "neutral", this.placement = "top", this.duration = 3200;
   }
   static show(t) {
     const a = document.createElement("nami-toast");
@@ -14,7 +15,7 @@ const e = class e extends i {
     }), a;
   }
   updated(t) {
-    t.has("open") && (this.open ? (o(this, "nami-open", void 0), window.clearTimeout(this.timer), this.duration > 0 && (this.timer = window.setTimeout(() => this.close(), this.duration))) : t.get("open") === !0 && (window.clearTimeout(this.timer), o(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0));
+    this.dataset.state = c(this.open), t.has("open") && (this.open ? (o(this, "nami-open", void 0), window.clearTimeout(this.timer), this.duration > 0 && (this.timer = window.setTimeout(() => this.close(), this.duration))) : t.get("open") === !0 && (window.clearTimeout(this.timer), o(this, "nami-close", d(this.closeSourceEvent)), this.closeSourceEvent = void 0));
   }
   disconnectedCallback() {
     window.clearTimeout(this.timer), super.disconnectedCallback();
@@ -39,7 +40,7 @@ e.properties = {
   placement: { reflect: !0 },
   duration: { type: Number }
 }, e.styles = [
-  p,
+  u,
   n`
       :host {
         display: block;

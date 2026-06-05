@@ -1,20 +1,24 @@
 import { i as r, a as s, b as t } from "../chunks/lit-element-GeMXvhiH.js";
-import { m as n } from "../chunks/runtime-4rCsJ4EI.js";
+import { m as a } from "../chunks/runtime-4rCsJ4EI.js";
 import { u as o } from "../chunks/localized-controller-BapUPJ8o.js";
-import { c as a } from "../chunks/styles-C6m3uqJJ.js";
+import { s as n } from "../chunks/selection-CrKkvo5N.js";
+import { c as l } from "../chunks/styles-C6m3uqJJ.js";
 const i = class i extends r {
   constructor() {
     super(), o(this), this.label = "";
   }
+  updated() {
+    n(this, { state: "loading", loading: !0 });
+  }
   render() {
-    return t`<span class="indicator" part="base indicator" role="status" aria-label=${this.label || n("Loading", { id: "nami.spinner.loading" })}></span>`;
+    return t`<span class="indicator" part="base indicator" role="status" aria-label=${this.label || a("Loading", { id: "nami.spinner.loading" })}></span>`;
   }
 };
 i.properties = {
   size: { reflect: !0 },
   label: {}
 }, i.styles = [
-  a,
+  l,
   s`
       :host {
         --spinner-size: var(--nami-icon-size, 1em);

@@ -1,9 +1,16 @@
-import { i as s, a as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { i as o, a as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
 import { e as t } from "../chunks/events-DtyLzvDt.js";
 import { c as n } from "../chunks/styles-C6m3uqJJ.js";
-const e = class e extends s {
+import { s as l, a as c } from "../chunks/selection-CrKkvo5N.js";
+const e = class e extends o {
   constructor() {
     super(), this.value = "", this.selected = !1, this.checkbox = !1, this.disabled = !1;
+  }
+  updated() {
+    l(this, {
+      state: c(this.selected),
+      disabled: this.disabled
+    });
   }
   handleClick(a) {
     this.disabled || (this.checkbox && (this.selected = !this.selected), t(this, "nami-change", { selected: this.selected, value: this.value, sourceEvent: a }), t(this, "nami-select", { selected: this.selected, value: this.value, sourceEvent: a }));
@@ -84,7 +91,7 @@ e.properties = {
       }
     `
 ];
-let o = e;
+let s = e;
 export {
-  o as NamiChip
+  s as NamiChip
 };

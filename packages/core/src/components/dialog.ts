@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from 'lit';
-import { getFocusableElements, restoreFocus, trapFocus } from '../foundation/focus';
+import { getFocusableElements, trapFocus } from '../foundation/focus';
+import { captureOverlayFocus, isBackdropEvent, overlayCloseDetail, overlayState, restoreOverlayFocus } from '../foundation/overlay';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -101,11 +102,12 @@ export class NamiDialog extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    this.dataset.state = overlayState(this.open);
     if (!changed.has('open')) return;
     const wasOpen = changed.get('open') === true;
 
     if (this.open && !this.dialogElement.open) {
-      this.previousActiveElement = document.activeElement;
+      this.previousActiveElement = captureOverlayFocus();
       this.dialogElement.showModal();
       requestAnimationFrame(() => this.focusInitialElement());
       emit(this, 'nami-open', undefined);
@@ -117,7 +119,7 @@ export class NamiDialog extends LitElement {
 
     if (!this.open && wasOpen) {
       this.restoreFocus();
-      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', overlayCloseDetail(this.closeSourceEvent));
       this.closeSourceEvent = undefined;
     }
   }
@@ -128,7 +130,7 @@ export class NamiDialog extends LitElement {
   }
 
   private restoreFocus() {
-    restoreFocus(this.previousActiveElement);
+    restoreOverlayFocus(this.previousActiveElement);
     this.previousActiveElement = null;
   }
 
@@ -145,7 +147,7 @@ export class NamiDialog extends LitElement {
 
   private handleClick(event: MouseEvent) {
     if (!this.closeOnBackdrop) return;
-    if (event.target === this.dialogElement) this.close(event);
+    if (isBackdropEvent(event, this.dialogElement)) this.close(event);
   }
 
   private handleNativeClose() {

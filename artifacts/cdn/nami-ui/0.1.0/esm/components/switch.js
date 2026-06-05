@@ -1,19 +1,23 @@
 import { i as r, a as s, b as i } from "../chunks/lit-element-GeMXvhiH.js";
-import { a as o, s as n } from "../chunks/form-associated-CbqAj2Is.js";
-import { e as c } from "../chunks/events-DtyLzvDt.js";
-import { c as d } from "../chunks/styles-C6m3uqJJ.js";
+import { a as o, s as n } from "../chunks/form-associated-BOUCekea.js";
+import { s as d, c } from "../chunks/selection-CrKkvo5N.js";
+import { e as l } from "../chunks/events-DtyLzvDt.js";
+import { c as h } from "../chunks/styles-C6m3uqJJ.js";
 const a = class a extends r {
   constructor() {
-    super(), this.internals = o(this), this.name = "", this.value = "on", this.checked = !1, this.disabled = !1;
+    super(), this.internals = o(this), this.name = "", this.value = "on", this.checked = !1, this.defaultChecked = !1, this.disabled = !1;
   }
   updated() {
-    n(this.internals, !this.disabled && this.checked ? this.value : null);
+    d(this, {
+      state: c(this.checked),
+      disabled: this.disabled
+    }), n(this.internals, !this.disabled && this.checked ? this.value : null);
   }
   formResetCallback() {
-    this.checked = !1;
+    this.checked = this.defaultChecked;
   }
-  toggle(e) {
-    this.disabled || (this.checked = !this.checked, c(this, "nami-change", { checked: this.checked, value: this.value, sourceEvent: e }));
+  toggle(t) {
+    this.disabled || (this.checked = !this.checked, l(this, "nami-change", { checked: this.checked, value: this.value, sourceEvent: t }));
   }
   render() {
     return i`
@@ -35,9 +39,10 @@ a.formAssociated = !0, a.properties = {
   name: {},
   value: {},
   checked: { type: Boolean, reflect: !0 },
+  defaultChecked: { attribute: "default-checked", type: Boolean },
   disabled: { type: Boolean, reflect: !0 }
 }, a.styles = [
-  d,
+  h,
   s`
       :host {
         display: inline-flex;
@@ -105,7 +110,7 @@ a.formAssociated = !0, a.properties = {
       }
     `
 ];
-let t = a;
+let e = a;
 export {
-  t as NamiSwitch
+  e as NamiSwitch
 };

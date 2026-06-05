@@ -8,6 +8,45 @@ const version = '0.1.0';
 const cdnRoot = join(workspaceRoot, 'artifacts/cdn/nami-ui', version);
 const docsPublicCdnRoot = join(workspaceRoot, 'apps/docs/public/cdn/nami-ui', version);
 const cdnBase = `http://127.0.0.1:5173/cdn/nami-ui/${version}`;
+const componentSlugs = [
+  'config',
+  'theme',
+  'spinner',
+  'page-transition',
+  'top-progress',
+  'scroll-smoother',
+  'illustration',
+  'empty',
+  'result',
+  'card',
+  'badge',
+  'button',
+  'icon-button',
+  'chip',
+  'input',
+  'switch',
+  'radio-item',
+  'radio-group',
+  'radio-card',
+  'tab-bar',
+  'dialog',
+  'drawer',
+  'tooltip',
+  'toast',
+  'app-shell',
+  'container',
+  'stack',
+  'cluster',
+  'grid',
+  'split',
+  'divider',
+  'checkbox',
+  'textarea',
+  'form-field',
+  'alert',
+  'skeleton',
+  'progress'
+];
 
 test.describe.configure({ mode: 'serial', timeout: 120_000 });
 
@@ -47,6 +86,12 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
   const requiredFiles = [
     'nami-ui.global.js',
     'esm/register.js',
+    'esm/button.js',
+    'esm/input.js',
+    'esm/radio-group.js',
+    'esm/tooltip.js',
+    'esm/divider.js',
+    'esm/scroll-smoother.js',
     'esm/components/button.js',
     'esm/components/input.js',
     'esm/components/scroll-smoother.js',
@@ -68,7 +113,9 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     publicBaseUrl: `https://nami-web.iqwq.com/cdn/nami-ui/${version}/`,
     files: {
       global: 'nami-ui.global.js',
-      esmRegister: 'esm/register.js'
+      esmRegister: 'esm/register.js',
+      esmComponent: 'esm/{component}.js',
+      esmComponentImplementation: 'esm/components/{component}.js'
     }
   });
 
@@ -82,6 +129,27 @@ test('build:cdn emits global, ESM, CSS, and manifest artifacts without bare impo
     expect(source, file).not.toMatch(/\bfrom\s*["'](?:lit|lenis|@lit\/localize|@nami(?:-web)?\/)/);
     expect(source, file).not.toMatch(/\bimport\s*\(\s*["'](?:lit|lenis|@lit\/localize|@nami(?:-web)?\/)/);
   }
+});
+
+test('ESM CDN single component entries define their own custom elements', async ({ page }) => {
+  await serveCdnArtifacts(page);
+  await page.setContent(`
+    <link rel="stylesheet" href="${cdnBase}/css/default.css" />
+    <script type="module">
+      const slugs = ${JSON.stringify(componentSlugs)};
+      await Promise.all(slugs.map((slug) => import('${cdnBase}/esm/' + slug + '.js')));
+      window.__namiSingleEntriesReady = true;
+    </script>
+    <nami-button>Hello single ESM</nami-button>
+  `);
+
+  await page.waitForFunction(() => (window as Window & { __namiSingleEntriesReady?: boolean }).__namiSingleEntriesReady === true);
+  await page.waitForFunction((slugs) => {
+    return (slugs as string[]).every((slug) => customElements.get(`nami-${slug}`));
+  }, componentSlugs);
+
+  await expect(page.locator('nami-button')).toBeVisible();
+  await expect(page.locator('nami-button')).toContainText('Hello single ESM');
 });
 
 test('global CDN script registers components and applies default theme CSS', async ({ page }) => {

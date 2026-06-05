@@ -56,11 +56,11 @@ function L(t) {
 function T(t) {
   return t.length === 1 && t[0].startsWith("--") ? t[0] : `--nami-${t.map(L).filter(Boolean).join("-")}`;
 }
-function g(t) {
+function b(t) {
   return !!t && typeof t == "object" && !Array.isArray(t);
 }
 function C(t) {
-  return g(t) && "value" in t;
+  return b(t) && "value" in t;
 }
 function B(t) {
   return String(C(t) ? t.value : t);
@@ -69,13 +69,13 @@ function d(t, a = []) {
   const r = {};
   if (!t)
     return r;
-  for (const [i, n] of Object.entries(t)) {
-    const o = i.startsWith("--") ? [i] : [...a, i];
+  for (const [e, n] of Object.entries(t)) {
+    const s = e.startsWith("--") ? [e] : [...a, e];
     if (C(n) || typeof n == "string" || typeof n == "number") {
-      r[T(o)] = B(n);
+      r[T(s)] = B(n);
       continue;
     }
-    g(n) && Object.assign(r, d(n, o));
+    b(n) && Object.assign(r, d(n, s));
   }
   return r;
 }
@@ -83,8 +83,8 @@ function I(t) {
   const a = {};
   if (!t)
     return a;
-  for (const [r, i] of Object.entries(t)) {
-    const n = g(i) && "tokens" in i ? i.tokens : i;
+  for (const [r, e] of Object.entries(t)) {
+    const n = b(e) && "tokens" in e ? e.tokens : e;
     Object.assign(a, d(n, [r]));
   }
   return a;
@@ -97,7 +97,7 @@ function z(t) {
   };
 }
 function F(t, a) {
-  const r = a.seed, i = t.cssVariablesResolver?.(a) ?? {};
+  const r = a.seed, e = t.cssVariablesResolver?.(a) ?? {};
   return {
     ...z(t),
     ...z(t.modes?.[r.mode]),
@@ -106,31 +106,31 @@ function F(t, a) {
     ...d(t.motion?.[r.motion]),
     ...d(t.radius?.[r.radius]),
     ...d(t.contrast?.[r.contrast]),
-    ...Object.fromEntries(Object.entries(i.variables ?? {}).map(([n, o]) => [n, String(o)])),
-    ...Object.fromEntries(Object.entries(i[r.mode] ?? {}).map(([n, o]) => [n, String(o)]))
+    ...Object.fromEntries(Object.entries(e.variables ?? {}).map(([n, s]) => [n, String(s)])),
+    ...Object.fromEntries(Object.entries(e[r.mode] ?? {}).map(([n, s]) => [n, String(s)]))
   };
 }
-function s(t, a, r) {
+function o(t, a, r) {
   return `color-mix(in oklab, ${t}, ${a} ${r}%)`;
 }
-function e(t, a) {
+function i(t, a) {
   return `color-mix(in oklab, ${t}, transparent ${a}%)`;
 }
 function Q(t) {
   const a = "var(--nami-accent-50)", r = t.mode === "dark";
   return {
     "--nami-accent-50": t.accent,
-    "--nami-accent-90": s(a, r ? "#fff" : "#000", r ? 80 : 40),
-    "--nami-accent-80": s(a, r ? "#fff" : "#000", r ? 60 : 30),
-    "--nami-accent-70": s(a, r ? "#fff" : "#000", r ? 40 : 20),
-    "--nami-accent-60": s(a, r ? "#fff" : "#000", r ? 20 : 10),
-    "--nami-accent-40": s(a, r ? "#000" : "#fff", r ? 10 : 20),
-    "--nami-accent-30": s(a, r ? "#000" : "#fff", r ? 20 : 40),
-    "--nami-accent-20": s(a, r ? "#000" : "#fff", r ? 30 : 60),
-    "--nami-accent-10": s(a, r ? "#000" : "#fff", r ? 40 : 80),
-    "--nami-accent-5": s(a, r ? "#000" : "#fff", r ? 50 : 90),
-    "--nami-neutral-10": s(a, "#b3b3b3", 84),
-    "--nami-neutral-50": s(a, r ? "#eef2f7" : "#646a73", 94)
+    "--nami-accent-90": o(a, r ? "#fff" : "#000", r ? 80 : 40),
+    "--nami-accent-80": o(a, r ? "#fff" : "#000", r ? 60 : 30),
+    "--nami-accent-70": o(a, r ? "#fff" : "#000", r ? 40 : 20),
+    "--nami-accent-60": o(a, r ? "#fff" : "#000", r ? 20 : 10),
+    "--nami-accent-40": o(a, r ? "#000" : "#fff", r ? 10 : 20),
+    "--nami-accent-30": o(a, r ? "#000" : "#fff", r ? 20 : 40),
+    "--nami-accent-20": o(a, r ? "#000" : "#fff", r ? 30 : 60),
+    "--nami-accent-10": o(a, r ? "#000" : "#fff", r ? 40 : 80),
+    "--nami-accent-5": o(a, r ? "#000" : "#fff", r ? 50 : 90),
+    "--nami-neutral-10": o(a, "#b3b3b3", 84),
+    "--nami-neutral-50": o(a, r ? "#eef2f7" : "#646a73", 94)
   };
 }
 function X(t) {
@@ -246,27 +246,27 @@ function N(t) {
     "--nami-color-danger": a ? "#ff7875" : "#dc2626",
     "--nami-surface": a ? "#151718" : "#ffffff",
     "--nami-surface-raised": a ? "#1c1f21" : "#ffffff",
-    "--nami-surface-inset": a ? e("#fff", 94) : e("#000", 97),
-    "--nami-surface-overlay": a ? e("#17191b", 16) : e("#fff", 18),
-    "--nami-border": r ? a ? e("#fff", 70) : e("#000", 68) : a ? e("#fff", 86) : e("#000", 88),
-    "--nami-border-strong": r ? e(a ? "#fff" : "#000", 54) : a ? e("#fff", 72) : e("#000", 76),
+    "--nami-surface-inset": a ? i("#fff", 94) : i("#000", 97),
+    "--nami-surface-overlay": a ? i("#17191b", 16) : i("#fff", 18),
+    "--nami-border": r ? a ? i("#fff", 70) : i("#000", 68) : a ? i("#fff", 86) : i("#000", 88),
+    "--nami-border-strong": r ? i(a ? "#fff" : "#000", 54) : a ? i("#fff", 72) : i("#000", 76),
     "--nami-text": a ? "#f8fafc" : "#171717",
     "--nami-text-muted": r ? a ? "#d8dee8" : "#3f4652" : a ? "#a1a8b3" : "#666b74",
     "--nami-text-inverse": "#ffffff",
     "--nami-icon-color": "var(--nami-neutral-50)",
-    "--nami-hover-overlay": a ? e("#fff", r ? 88 : 94) : e("#000", r ? 90 : 95),
-    "--nami-ripple": a ? e("#fff", 84) : e("#000", 86),
-    "--nami-overlay-backdrop": a ? e("#000", 38) : e("#000", 52),
-    "--nami-accent-ripple": e("var(--nami-color-primary-pressed)", r ? 72 : 84),
-    "--nami-accent-hover-overlay": e("var(--nami-color-primary-hover)", r ? 82 : 90),
-    "--nami-focus-ring": r ? `0 0 0 4px ${e("var(--nami-color-primary-focus)", 20)}, 0 0 0 1px var(--nami-color-primary)` : `0 4px 4px ${e("var(--nami-color-primary)", 74)}, 0 0 0 3px ${e("var(--nami-color-primary-focus)", 46)}`
+    "--nami-hover-overlay": a ? i("#fff", r ? 88 : 94) : i("#000", r ? 90 : 95),
+    "--nami-ripple": a ? i("#fff", 84) : i("#000", 86),
+    "--nami-overlay-backdrop": a ? i("#000", 38) : i("#000", 52),
+    "--nami-accent-ripple": i("var(--nami-color-primary-pressed)", r ? 72 : 84),
+    "--nami-accent-hover-overlay": i("var(--nami-color-primary-hover)", r ? 82 : 90),
+    "--nami-focus-ring": r ? `0 0 0 4px ${i("var(--nami-color-primary-focus)", 20)}, 0 0 0 1px var(--nami-color-primary)` : `0 4px 4px ${i("var(--nami-color-primary)", 74)}, 0 0 0 3px ${i("var(--nami-color-primary-focus)", 46)}`
   };
 }
 function _(t) {
   return {
     "--nami-font-sans": 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     "--nami-font-mono": '"SFMono-Regular", Consolas, "Liberation Mono", monospace',
-    "--nami-shadow-color": t.mode === "dark" ? "#000" : s("var(--nami-accent-50)", "#8a8f98", 80),
+    "--nami-shadow-color": t.mode === "dark" ? "#000" : o("var(--nami-accent-50)", "#8a8f98", 80),
     "--nami-style-stroke-width": t.contrast === "high" ? "2px" : "1px",
     "--nami-style-stroke-color": "var(--nami-border)",
     "--nami-style-ink-color": "var(--nami-text)",
@@ -295,44 +295,44 @@ function q(t) {
     "--nami-style-on-paper": a ? "#29221f" : "#2f2f2f",
     "--nami-style-on-paper-muted": a ? "#6b5f58" : "#62656b",
     "--nami-style-offset-shadow": a ? "6px 6px 0 #050506" : "5px 5px 0 var(--nami-style-ink-color)",
-    "--nami-style-control-bg": a ? s("#fff8ea", "var(--nami-accent-50)", 5) : "#fffefe",
-    "--nami-style-panel-bg": a ? s("#fff1f5", "var(--nami-accent-50)", 7) : s("#fff3f7", "#fff", 18),
-    "--nami-style-paper-bg": a ? s("#fffdf3", "var(--nami-accent-50)", 4) : "#fff8fb",
+    "--nami-style-control-bg": a ? o("#fff8ea", "var(--nami-accent-50)", 5) : "#fffefe",
+    "--nami-style-panel-bg": a ? o("#fff1f5", "var(--nami-accent-50)", 7) : o("#fff3f7", "#fff", 18),
+    "--nami-style-paper-bg": a ? o("#fffdf3", "var(--nami-accent-50)", 4) : "#fff8fb",
     "--nami-style-border-radius": t.radius === "sharp" ? "8px" : t.radius === "soft" ? "14px" : "16px",
     "--nami-style-doodle-opacity": a ? "0.34" : "0.42",
-    "--nami-style-paper-line-color": a ? "rgb(38 31 31 / 0.18)" : e("var(--nami-style-ink-color)", 84),
-    "--nami-style-focus-shadow": a ? `0 0 0 4px ${e("var(--nami-color-primary)", 58)}, 4px 4px 0 #050506` : `0 0 0 4px ${e("var(--nami-color-primary)", 70)}, 4px 4px 0 var(--nami-style-ink-color)`,
+    "--nami-style-paper-line-color": a ? "rgb(38 31 31 / 0.18)" : i("var(--nami-style-ink-color)", 84),
+    "--nami-style-focus-shadow": a ? `0 0 0 4px ${i("var(--nami-color-primary)", 58)}, 4px 4px 0 #050506` : `0 0 0 4px ${i("var(--nami-color-primary)", 70)}, 4px 4px 0 var(--nami-style-ink-color)`,
     "--nami-style-background-pattern": a ? `radial-gradient(circle at 10% 18%, rgb(142 217 255 / var(--nami-style-doodle-opacity)) 0 14px, transparent 15px),
     radial-gradient(circle at 88% 14%, rgb(255 216 93 / var(--nami-style-doodle-opacity)) 0 10px, transparent 11px),
     radial-gradient(circle at 74% 80%, rgb(255 183 208 / var(--nami-style-doodle-opacity)) 0 20px, transparent 21px),
-    linear-gradient(135deg, transparent 0 46%, ${e("#fff7ed", 82)} 47% 49%, transparent 50%),
-    linear-gradient(25deg, transparent 0 70%, ${e("var(--nami-accent-50)", 62)} 71% 73%, transparent 74%)` : `radial-gradient(circle at 12% 22%, rgb(142 217 255 / var(--nami-style-doodle-opacity)) 0 12px, transparent 13px),
+    linear-gradient(135deg, transparent 0 46%, ${i("#fff7ed", 82)} 47% 49%, transparent 50%),
+    linear-gradient(25deg, transparent 0 70%, ${i("var(--nami-accent-50)", 62)} 71% 73%, transparent 74%)` : `radial-gradient(circle at 12% 22%, rgb(142 217 255 / var(--nami-style-doodle-opacity)) 0 12px, transparent 13px),
     radial-gradient(circle at 86% 16%, rgb(255 216 93 / var(--nami-style-doodle-opacity)) 0 9px, transparent 10px),
     radial-gradient(circle at 72% 78%, rgb(255 183 208 / var(--nami-style-doodle-opacity)) 0 18px, transparent 19px),
     linear-gradient(135deg, transparent 0 46%, var(--nami-style-paper-line-color) 47% 49%, transparent 50%),
-    linear-gradient(25deg, transparent 0 70%, ${e("var(--nami-accent-50)", 82)} 71% 73%, transparent 74%)`
+    linear-gradient(25deg, transparent 0 70%, ${i("var(--nami-accent-50)", 82)} 71% 73%, transparent 74%)`
   };
 }
 function G(t) {
-  const a = t.stylePreset === "illustration", r = a && t.mode === "dark", i = t.contrast === "high";
+  const a = t.stylePreset === "illustration", r = a && t.mode === "dark", e = t.contrast === "high";
   return {
     "--nami-button-bg": "var(--nami-color-primary)",
     "--nami-button-fg": "#fff",
-    "--nami-button-border": a ? "var(--nami-style-stroke-color)" : i ? "var(--nami-color-primary)" : "transparent",
-    "--nami-button-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-button-border": a ? "var(--nami-style-stroke-color)" : e ? "var(--nami-color-primary)" : "transparent",
+    "--nami-button-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-button-radius": "var(--nami-radius-control)",
     "--nami-button-shadow": a ? "var(--nami-style-offset-shadow)" : "none",
     "--nami-button-hover-bg": "var(--nami-color-primary-hover)",
     "--nami-card-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-surface-raised)",
     "--nami-card-fg": a ? "var(--nami-style-on-paper)" : "var(--nami-text)",
-    "--nami-card-inset-bg": a ? r ? "var(--nami-style-paper-bg)" : s("var(--nami-style-paper-bg)", "var(--nami-accent-50)", 5) : "var(--nami-surface-inset)",
+    "--nami-card-inset-bg": a ? r ? "var(--nami-style-paper-bg)" : o("var(--nami-style-paper-bg)", "var(--nami-accent-50)", 5) : "var(--nami-surface-inset)",
     "--nami-card-border": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
     "--nami-card-border-width": "var(--nami-style-stroke-width)",
     "--nami-card-radius": a ? "var(--nami-style-border-radius)" : "var(--nami-radius-surface)",
     "--nami-card-shadow": a ? "var(--nami-style-offset-shadow)" : "none",
     "--nami-card-padding": "var(--nami-space-4)",
     "--nami-card-gap": "var(--nami-space-3)",
-    "--nami-badge-bg": a ? r ? "var(--nami-style-control-bg)" : s("var(--nami-accent-50)", "#fff", 88) : "var(--nami-hover-overlay)",
+    "--nami-badge-bg": a ? r ? "var(--nami-style-control-bg)" : o("var(--nami-accent-50)", "#fff", 88) : "var(--nami-hover-overlay)",
     "--nami-badge-fg": a ? "var(--nami-style-on-paper)" : "var(--nami-text)",
     "--nami-badge-border": a ? "var(--nami-style-stroke-color)" : "transparent",
     "--nami-badge-border-width": "var(--nami-style-stroke-width)",
@@ -344,7 +344,7 @@ function G(t) {
     "--nami-soft-control-color": a ? "var(--nami-style-on-paper)" : "var(--nami-text)",
     "--nami-soft-control-border-width": a ? "var(--nami-style-stroke-width)" : "0",
     "--nami-soft-control-border-color": a ? "var(--nami-style-stroke-color)" : "transparent",
-    "--nami-chip-bg": a ? r ? "var(--nami-style-control-bg)" : s("var(--nami-accent-50)", "#fff", 92) : "var(--nami-hover-overlay)",
+    "--nami-chip-bg": a ? r ? "var(--nami-style-control-bg)" : o("var(--nami-accent-50)", "#fff", 92) : "var(--nami-hover-overlay)",
     "--nami-chip-selected-bg": "var(--nami-color-primary)",
     "--nami-chip-border-width": a ? "var(--nami-style-stroke-width)" : "0",
     "--nami-chip-border-color": a ? "var(--nami-style-stroke-color)" : "transparent",
@@ -352,16 +352,25 @@ function G(t) {
     "--nami-chip-shadow": a ? `3px 3px 0 ${r ? "#050506" : "#2f2f2f"}` : "none",
     "--nami-input-bg": a ? "var(--nami-style-control-bg)" : "transparent",
     "--nami-input-border": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
-    "--nami-input-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-input-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-input-radius": a ? "12px" : "var(--nami-radius-control)",
     "--nami-input-shadow": a ? `3px 3px 0 ${r ? "#050506" : "#2f2f2f"}` : "none",
     "--nami-switch-track-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-hover-overlay)",
     "--nami-switch-border-width": "var(--nami-style-stroke-width)",
     "--nami-switch-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
     "--nami-switch-thumb-bg": a ? "var(--nami-style-paper-bg)" : "var(--nami-surface-raised)",
-    "--nami-switch-thumb-shadow": a ? `2px 2px 0 ${r ? "#050506" : "var(--nami-style-ink-color)"}` : `0 1px 4px ${e("var(--nami-shadow-color)", 64)}`,
+    "--nami-switch-thumb-shadow": a ? `2px 2px 0 ${r ? "#050506" : "var(--nami-style-ink-color)"}` : `0 1px 4px ${i("var(--nami-shadow-color)", 64)}`,
+    "--nami-radio-item-bg": a ? "var(--nami-style-control-bg)" : "transparent",
+    "--nami-radio-item-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
+    "--nami-radio-item-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
+    "--nami-radio-item-indicator-color": "var(--nami-color-primary)",
+    "--nami-radio-item-size": "20px",
+    "--nami-radio-item-gap": "var(--nami-space-3)",
+    "--nami-radio-item-padding": "8px 0",
+    "--nami-radio-item-description-color": a ? "var(--nami-style-on-paper-muted)" : "var(--nami-text-muted)",
+    "--nami-radio-group-gap": "var(--nami-space-2)",
     "--nami-radio-card-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-surface-raised)",
-    "--nami-radio-card-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-radio-card-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-radio-card-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
     "--nami-radio-card-radius": a ? "var(--nami-style-border-radius)" : "var(--nami-radius-surface)",
     "--nami-radio-card-shadow": a ? "var(--nami-style-offset-shadow)" : "none",
@@ -374,18 +383,29 @@ function G(t) {
     "--nami-dialog-border-width": a ? "var(--nami-style-stroke-width)" : "1px",
     "--nami-dialog-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
     "--nami-dialog-radius": a ? "18px" : "var(--nami-radius-surface)",
-    "--nami-dialog-shadow": a ? "var(--nami-style-offset-shadow)" : `0 18px 50px ${e("var(--nami-shadow-color)", 54)}`,
+    "--nami-dialog-shadow": a ? "var(--nami-style-offset-shadow)" : `0 18px 50px ${i("var(--nami-shadow-color)", 54)}`,
     "--nami-drawer-bg": a ? "var(--nami-style-panel-bg)" : "var(--nami-surface-overlay)",
     "--nami-drawer-border-width": a ? "var(--nami-style-stroke-width)" : "1px",
     "--nami-drawer-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
-    "--nami-drawer-shadow": a ? "var(--nami-style-offset-shadow)" : `0 8px 24px ${e("var(--nami-shadow-color)", 52)}`,
+    "--nami-drawer-shadow": a ? "var(--nami-style-offset-shadow)" : `0 8px 24px ${i("var(--nami-shadow-color)", 52)}`,
+    "--nami-tooltip-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-text)",
+    "--nami-tooltip-fg": a ? "var(--nami-style-on-paper)" : "var(--nami-text-inverse)",
+    "--nami-tooltip-border-width": a ? "var(--nami-style-stroke-width)" : "0",
+    "--nami-tooltip-border-color": a ? "var(--nami-style-stroke-color)" : "transparent",
+    "--nami-tooltip-radius": "var(--nami-radius-tight)",
+    "--nami-tooltip-shadow": a ? "var(--nami-style-offset-shadow)" : `0 8px 24px ${i("var(--nami-shadow-color)", 72)}`,
+    "--nami-tooltip-offset": "8px",
+    "--nami-tooltip-font-size": "0.75rem",
+    "--nami-tooltip-padding-x": "8px",
+    "--nami-tooltip-padding-y": "6px",
+    "--nami-tooltip-z-index": "80",
     "--nami-toast-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-surface-raised)",
     "--nami-toast-border-width": a ? "var(--nami-style-stroke-width)" : "1px",
     "--nami-toast-border-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
     "--nami-toast-radius": a ? "14px" : "var(--nami-radius-surface)",
     "--nami-app-shell-border-width": a ? "var(--nami-style-stroke-width)" : "1px",
     "--nami-app-shell-shadow": a ? `4px 0 0 ${r ? "#050506" : "#2f2f2f"}` : "none",
-    "--nami-spinner-track-color": e("currentColor", a ? 64 : 72),
+    "--nami-spinner-track-color": i("currentColor", a ? 64 : 72),
     "--nami-transition-progress-height": a ? "5px" : "4px",
     "--nami-page-transition-z-index": "2147483646",
     "--nami-top-progress-height": "var(--nami-transition-progress-height)",
@@ -394,16 +414,16 @@ function G(t) {
     "--nami-top-progress-appear-duration": t.motion === "reduced" ? "1ms" : "360ms",
     "--nami-top-progress-appear-ease": "var(--nami-ease-emphasized)",
     "--nami-top-progress-indeterminate-duration": t.motion === "reduced" ? "1ms" : "1280ms",
-    "--nami-top-progress-track-bg": a ? r ? s("var(--nami-color-primary)", "var(--nami-style-panel-bg)", 68) : s("var(--nami-color-primary)", "#fff", 78) : "color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%)",
+    "--nami-top-progress-track-bg": a ? r ? o("var(--nami-color-primary)", "var(--nami-style-panel-bg)", 68) : o("var(--nami-color-primary)", "#fff", 78) : "color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 72%)",
     "--nami-top-progress-fill-bg": a ? "var(--nami-color-primary)" : "color-mix(in oklab, var(--nami-color-primary), var(--nami-text) 8%)",
-    "--nami-top-progress-shadow": a ? `0 4px 0 ${r ? "#050506" : "var(--nami-style-ink-color)"}` : `0 8px 24px ${e("var(--nami-color-primary)", 78)}`,
+    "--nami-top-progress-shadow": a ? `0 4px 0 ${r ? "#050506" : "var(--nami-style-ink-color)"}` : `0 8px 24px ${i("var(--nami-color-primary)", 78)}`,
     "--nami-top-progress-z-index": "2147483647",
     "--nami-illus-primary": "var(--nami-color-primary)",
-    "--nami-illus-secondary": a ? s("var(--nami-color-primary)", "#fff", r ? 38 : 58) : "var(--nami-accent-20)",
+    "--nami-illus-secondary": a ? o("var(--nami-color-primary)", "#fff", r ? 38 : 58) : "var(--nami-accent-20)",
     "--nami-illus-accent": r ? "#ffd166" : "#f5b84b",
-    "--nami-illus-muted": a ? e("var(--nami-style-on-paper-muted)", r ? 24 : 44) : e("var(--nami-text-muted)", 48),
-    "--nami-illus-line": a ? "var(--nami-style-stroke-color)" : e("var(--nami-text)", 36),
-    "--nami-illus-bg": a ? e("var(--nami-color-primary)", r ? 84 : 90) : "var(--nami-color-primary-muted)",
+    "--nami-illus-muted": a ? i("var(--nami-style-on-paper-muted)", r ? 24 : 44) : i("var(--nami-text-muted)", 48),
+    "--nami-illus-line": a ? "var(--nami-style-stroke-color)" : i("var(--nami-text)", 36),
+    "--nami-illus-bg": a ? i("var(--nami-color-primary)", r ? 84 : 90) : "var(--nami-color-primary-muted)",
     "--nami-illus-size-sm": "92px",
     "--nami-illus-size-md": "140px",
     "--nami-illus-size-lg": "184px",
@@ -432,33 +452,38 @@ function G(t) {
     "--nami-grid-gap": "var(--nami-layout-gutter)",
     "--nami-split-min": "18rem",
     "--nami-split-gap": "var(--nami-layout-gutter)",
+    "--nami-divider-color": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
+    "--nami-divider-thickness": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
+    "--nami-divider-gap": "var(--nami-space-3)",
+    "--nami-divider-label-color": a ? "var(--nami-style-on-paper-muted)" : "var(--nami-text-muted)",
+    "--nami-divider-min-size": "2rem",
     "--nami-checkbox-bg": a ? "var(--nami-style-control-bg)" : "transparent",
     "--nami-checkbox-border": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
-    "--nami-checkbox-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-checkbox-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-checkbox-radius": t.radius === "round" ? "6px" : "var(--nami-radius-tight)",
     "--nami-checkbox-indicator-color": "#fff",
     "--nami-textarea-bg": a ? "var(--nami-style-control-bg)" : "transparent",
     "--nami-textarea-border": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
-    "--nami-textarea-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-textarea-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-textarea-radius": a ? "12px" : "var(--nami-radius-surface)",
     "--nami-textarea-shadow": a ? `3px 3px 0 ${r ? "#050506" : "#2f2f2f"}` : "none",
     "--nami-form-field-gap": "var(--nami-space-2)",
     "--nami-alert-bg": a ? "var(--nami-style-control-bg)" : "var(--nami-surface-raised)",
     "--nami-alert-border": a ? "var(--nami-style-stroke-color)" : "var(--nami-border)",
-    "--nami-alert-border-width": a ? "var(--nami-style-stroke-width)" : i ? "2px" : "1px",
+    "--nami-alert-border-width": a ? "var(--nami-style-stroke-width)" : e ? "2px" : "1px",
     "--nami-alert-radius": a ? "var(--nami-style-border-radius)" : "var(--nami-radius-surface)",
     "--nami-alert-shadow": a ? "var(--nami-style-offset-shadow)" : "none",
-    "--nami-skeleton-bg": a ? e("var(--nami-style-on-paper-muted)", 82) : "var(--nami-hover-overlay)",
-    "--nami-skeleton-highlight": a ? e("var(--nami-style-paper-bg)", 18) : e("#fff", r ? 82 : 18),
-    "--nami-progress-track-bg": a ? r ? s("var(--nami-color-primary)", "var(--nami-style-panel-bg)", 72) : s("var(--nami-color-primary)", "#fff", 84) : "color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 82%)",
+    "--nami-skeleton-bg": a ? i("var(--nami-style-on-paper-muted)", 82) : "var(--nami-hover-overlay)",
+    "--nami-skeleton-highlight": a ? i("var(--nami-style-paper-bg)", 18) : i("#fff", r ? 82 : 18),
+    "--nami-progress-track-bg": a ? r ? o("var(--nami-color-primary)", "var(--nami-style-panel-bg)", 72) : o("var(--nami-color-primary)", "#fff", 84) : "color-mix(in oklab, var(--nami-color-primary), var(--nami-surface) 82%)",
     "--nami-progress-fill-bg": "var(--nami-color-primary)",
     "--nami-progress-height": "8px",
     "--nami-progress-radius": "var(--nami-radius-control)"
   };
 }
 function Z(t = {}) {
-  const a = E(t), r = R(t), i = Q(a), n = N(a), o = a.stylePreset === "illustration" ? q(a) : _(a), l = G(a), u = {
-    ...i,
+  const a = E(t), r = R(t), e = Q(a), n = N(a), s = a.stylePreset === "illustration" ? q(a) : _(a), l = G(a), u = {
+    ...e,
     ...X(a),
     ...H(),
     "--nami-contrast-level": a.contrast,
@@ -466,15 +491,15 @@ function Z(t = {}) {
     ...W(a),
     ...K(a),
     ...n,
-    ...o,
+    ...s,
     ...l
   };
   return {
     seed: a,
-    palette: i,
+    palette: e,
     semantic: n,
     component: l,
-    style: o,
+    style: s,
     cssVars: u,
     diagnostics: r
   };
@@ -504,12 +529,12 @@ function y(t) {
   ]));
 }
 function aa(t = {}) {
-  const a = J(t), r = Z(a.seed ?? {}), i = {
+  const a = J(t), r = Z(a.seed ?? {}), e = {
     ...r.cssVars,
     ...F(a, r)
   }, n = {
     ...r,
-    cssVars: i
+    cssVars: e
   };
   return {
     ...n,
@@ -517,28 +542,28 @@ function aa(t = {}) {
     conditions: a.conditions ?? {},
     recipes: a.recipes ?? {},
     slotRecipes: a.slotRecipes ?? {},
-    token: (o, l = "") => i[$(o)] ?? l,
-    tokenVar: (o, l = "") => {
-      const u = $(o);
-      return u in i ? `var(${u})` : l;
+    token: (s, l = "") => e[$(s)] ?? l,
+    tokenVar: (s, l = "") => {
+      const u = $(s);
+      return u in e ? `var(${u})` : l;
     },
-    cssText: (o = ":root") => ta(n, o),
+    cssText: (s = ":root") => ta(n, s),
     dtcg: () => ra(n)
   };
 }
 function ta(t, a = ":root") {
-  const r = Object.entries(t.cssVars).sort(([i], [n]) => i.localeCompare(n)).map(([i, n]) => `  ${i}: ${n};`).join(`
+  const r = Object.entries(t.cssVars).sort(([e], [n]) => e.localeCompare(n)).map(([e, n]) => `  ${e}: ${n};`).join(`
 `);
   return `${a} {
 ${r}
 }`;
 }
 function ra(t) {
-  const a = Object.fromEntries(Object.entries(t.seed).map(([r, i]) => [
+  const a = Object.fromEntries(Object.entries(t.seed).map(([r, e]) => [
     r,
     {
       $type: r === "accent" ? "color" : "string",
-      $value: i
+      $value: e
     }
   ]));
   return {
@@ -557,7 +582,7 @@ function ra(t) {
     cssVars: y(t.cssVars)
   };
 }
-const b = class b extends V {
+const g = class g extends V {
   constructor() {
     super(), this.appliedThemeVars = /* @__PURE__ */ new Set(), this.systemQuery = null, this.handleSystemThemeChange = () => {
       this.theme === "system" && this.applyTheme();
@@ -579,12 +604,12 @@ const b = class b extends V {
     return !!(this.config || this.accent || this.hasAttribute("theme") || this.hasAttribute("density") || this.hasAttribute("size") || this.hasAttribute("motion") || this.hasAttribute("style-preset") || this.hasAttribute("radius") || this.hasAttribute("contrast"));
   }
   applyTheme() {
-    const a = this.config?.seed ?? {}, r = this.stylePreset === "ant-illustration" ? "illustration" : this.stylePreset, i = this.hasAttribute("theme") ? this.resolvedThemeMode : a.mode ?? this.resolvedThemeMode, n = this.hasAttribute("style-preset") ? r : a.stylePreset ?? r, o = this.hasAttribute("density") ? this.density : a.density ?? this.density, l = this.hasAttribute("size") ? this.size : a.size ?? this.size, u = this.hasAttribute("motion") ? this.motion : a.motion ?? this.motion, x = this.hasAttribute("radius") ? this.radius : a.radius ?? this.radius, k = this.hasAttribute("contrast") ? this.contrast : a.contrast ?? this.contrast, j = {
+    const a = this.config?.seed ?? {}, r = this.stylePreset === "ant-illustration" ? "illustration" : this.stylePreset, e = this.hasAttribute("theme") ? this.resolvedThemeMode : a.mode ?? this.resolvedThemeMode, n = this.hasAttribute("style-preset") ? r : a.stylePreset ?? r, s = this.hasAttribute("density") ? this.density : a.density ?? this.density, l = this.hasAttribute("size") ? this.size : a.size ?? this.size, u = this.hasAttribute("motion") ? this.motion : a.motion ?? this.motion, x = this.hasAttribute("radius") ? this.radius : a.radius ?? this.radius, k = this.hasAttribute("contrast") ? this.contrast : a.contrast ?? this.contrast, j = {
       ...a,
       accent: this.accent || a.accent,
-      mode: i,
+      mode: e,
       stylePreset: n,
-      density: o,
+      density: s,
       size: l,
       motion: u,
       radius: x,
@@ -605,13 +630,13 @@ const b = class b extends V {
         this.style.removeProperty(v);
       this.appliedThemeVars.clear();
     }
-    this.dataset.namiTheme = i, this.dataset.namiThemeRequested = this.theme, this.dataset.namiDensity = o, this.dataset.namiSize = l, this.dataset.namiMotion = u, this.dataset.namiStyle = n, this.dataset.namiRadius = x, this.dataset.namiContrast = k;
+    this.dataset.namiTheme = e, this.dataset.namiThemeRequested = this.theme, this.dataset.namiDensity = s, this.dataset.namiSize = l, this.dataset.namiMotion = u, this.dataset.namiStyle = n, this.dataset.namiRadius = x, this.dataset.namiContrast = k;
   }
   render() {
     return D`<slot></slot>`;
   }
 };
-b.properties = {
+g.properties = {
   theme: { reflect: !0, useDefault: !0 },
   density: { reflect: !0, useDefault: !0 },
   size: { reflect: !0, useDefault: !0 },
@@ -622,7 +647,7 @@ b.properties = {
   accent: { reflect: !0, useDefault: !0 },
   inherit: { type: Boolean, reflect: !0 },
   config: { attribute: !1 }
-}, b.styles = [
+}, g.styles = [
   M,
   A`
       :host {
@@ -666,7 +691,7 @@ b.properties = {
       }
     `
 ];
-let S = b;
+let S = g;
 export {
   S as NamiTheme
 };

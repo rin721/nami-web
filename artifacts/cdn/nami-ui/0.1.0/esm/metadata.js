@@ -252,12 +252,38 @@ const n = [
     name: "nami-switch",
     summary: "Form-associated switch control.",
     usage: "<nami-switch checked>Enabled</nami-switch>",
-    attributes: ["name", "value", "checked", "disabled"],
-    properties: ["name", "value", "checked", "disabled"],
+    attributes: ["name", "value", "checked", "default-checked", "disabled"],
+    properties: ["name", "value", "checked", "defaultChecked", "disabled"],
     events: ["nami-change"],
     slots: ["default"],
     parts: ["base", "control", "indicator", "label"],
     tokens: ["--nami-switch-track-bg", "--nami-switch-border-width", "--nami-switch-border-color", "--nami-switch-thumb-bg", "--nami-switch-thumb-shadow", "--nami-color-primary", "--nami-border", "--nami-focus-ring"]
+  },
+  {
+    name: "nami-radio-item",
+    summary: "Radio option item for mutually exclusive choices.",
+    usage: '<nami-radio-item value="compact">Compact</nami-radio-item>',
+    attributes: ["value", "checked", "disabled", "description"],
+    properties: ["value", "checked", "disabled", "description"],
+    events: ["nami-select", "nami-change"],
+    slots: ["default", "description"],
+    parts: ["base", "control", "indicator", "label", "description"],
+    tokens: ["--nami-radio-item-bg", "--nami-radio-item-border-width", "--nami-radio-item-border-color", "--nami-radio-item-indicator-color", "--nami-radio-item-size", "--nami-radio-item-gap", "--nami-radio-item-padding", "--nami-radio-item-description-color"],
+    category: "form",
+    states: ["unchecked", "checked", "disabled", "focus-visible"]
+  },
+  {
+    name: "nami-radio-group",
+    summary: "Form-associated radio group with roving keyboard navigation.",
+    usage: '<nami-radio-group name="density" value="comfortable"><nami-radio-item value="comfortable">Comfortable</nami-radio-item><nami-radio-item value="compact">Compact</nami-radio-item></nami-radio-group>',
+    attributes: ["name", "value", "default-value", "orientation", "disabled", "required", "error"],
+    properties: ["name", "value", "defaultValue", "orientation", "disabled", "required", "error"],
+    events: ["nami-select", "nami-change"],
+    slots: ["default", "label"],
+    parts: ["base", "label", "items", "error"],
+    tokens: ["--nami-radio-group-gap", "--nami-color-danger"],
+    category: "form",
+    states: ["empty", "selected", "disabled", "error"]
   },
   {
     name: "nami-radio-card",
@@ -302,6 +328,19 @@ const n = [
     slots: ["default", "label", "actions"],
     parts: ["base", "control", "backdrop", "label"],
     tokens: ["--nami-drawer-bg", "--nami-drawer-border-width", "--nami-drawer-border-color", "--nami-drawer-shadow", "--nami-overlay-backdrop", "--nami-surface-overlay", "--nami-border"]
+  },
+  {
+    name: "nami-tooltip",
+    summary: "Short non-interactive hint attached to a trigger slot.",
+    usage: '<nami-tooltip><nami-icon-button slot="trigger" label="Save">S</nami-icon-button><span slot="content">Save changes</span></nami-tooltip>',
+    attributes: ["open", "placement", "disabled"],
+    properties: ["open", "placement", "disabled"],
+    events: ["nami-open", "nami-close"],
+    slots: ["trigger", "content"],
+    parts: ["trigger", "base", "content"],
+    tokens: ["--nami-tooltip-bg", "--nami-tooltip-fg", "--nami-tooltip-border-width", "--nami-tooltip-border-color", "--nami-tooltip-radius", "--nami-tooltip-shadow", "--nami-tooltip-offset", "--nami-tooltip-font-size", "--nami-tooltip-padding-x", "--nami-tooltip-padding-y", "--nami-tooltip-z-index"],
+    category: "overlay",
+    states: ["closed", "open", "disabled"]
   },
   {
     name: "nami-toast",
@@ -381,6 +420,19 @@ const n = [
     tokens: ["--nami-split-min", "--nami-split-gap", "--nami-layout-gutter"]
   },
   {
+    name: "nami-divider",
+    summary: "Separator for content and action groups.",
+    usage: "<nami-divider>Section</nami-divider>",
+    attributes: ["orientation"],
+    properties: ["orientation"],
+    events: [],
+    slots: ["default"],
+    parts: ["base", "line", "label"],
+    tokens: ["--nami-divider-color", "--nami-divider-thickness", "--nami-divider-gap", "--nami-divider-label-color", "--nami-divider-min-size"],
+    category: "layout",
+    states: ["horizontal", "vertical"]
+  },
+  {
     name: "nami-checkbox",
     summary: "Form-associated checkbox with token-driven state styling.",
     usage: '<nami-checkbox name="terms" required>Accept terms</nami-checkbox>',
@@ -455,6 +507,7 @@ const n = [
   ["nami-cluster", "layout"],
   ["nami-grid", "layout"],
   ["nami-split", "layout"],
+  ["nami-divider", "layout"],
   ["nami-card", "layout"],
   ["nami-button", "action"],
   ["nami-icon-button", "action"],
@@ -466,6 +519,8 @@ const n = [
   ["nami-textarea", "form"],
   ["nami-form-field", "form"],
   ["nami-switch", "form"],
+  ["nami-radio-item", "form"],
+  ["nami-radio-group", "form"],
   ["nami-radio-card", "form"],
   ["nami-alert", "feedback"],
   ["nami-skeleton", "feedback"],
@@ -479,6 +534,7 @@ const n = [
   ["nami-result", "feedback"],
   ["nami-dialog", "overlay"],
   ["nami-drawer", "overlay"],
+  ["nami-tooltip", "overlay"],
   ["nami-toast", "overlay"]
 ]), o = {
   configuration: ["default"],
@@ -502,6 +558,10 @@ const n = [
   ["footer", "Footer region for secondary content."],
   ["body", "Main content region."],
   ["track", "Progress track for route and reveal transitions."],
+  ["line", "Separator line segment."],
+  ["items", "Grouped collection of selectable items."],
+  ["trigger", "Element that opens or anchors a disclosure surface."],
+  ["content", "Floating or disclosed content surface."],
   ["brand", "Brand mark region for first-paint reveal transitions."],
   ["panel", "Raised inner surface for grouped transition content."],
   ["illustration", "Illustration container."],
@@ -512,32 +572,32 @@ const n = [
   ["bottom", "Mobile bottom navigation slot."]
 ]);
 function l(e) {
-  return e.map((t) => ({
-    part: t,
-    description: s.get(t) ?? "Named style part exposed as public component anatomy."
+  return e.map((i) => ({
+    part: i,
+    description: s.get(i) ?? "Named style part exposed as public component anatomy."
   }));
 }
-function m(e, t) {
-  return t === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : t === "selected" || t === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : t === "hover" ? e.filter((a) => a.includes("hover")) : t === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : t === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : t === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
+function m(e, i) {
+  return i === "focus-visible" ? e.filter((a) => a.includes("focus") || a.includes("ring")) : i === "selected" || i === "checked" ? e.filter((a) => a.includes("selected") || a.includes("primary") || a.includes("checked")) : i === "hover" ? e.filter((a) => a.includes("hover")) : i === "loading" ? e.filter((a) => a.includes("spinner") || a.includes("motion")) : i === "open" ? e.filter((a) => a.includes("dialog") || a.includes("drawer") || a.includes("toast") || a.includes("overlay")) : i === "error" ? e.filter((a) => a.includes("error") || a.includes("danger")) : e;
 }
-function c(e, t) {
+function d(e, i) {
   const a = e.parts.includes("control") ? "control" : e.parts[0] ?? "base";
-  return t.map((i) => ({
+  return i.map((t) => ({
     part: a,
-    state: i,
-    tokens: m(e.tokens, i)
-  })).filter((i) => i.tokens.length > 0);
+    state: t,
+    tokens: m(e.tokens, t)
+  })).filter((t) => t.tokens.length > 0);
 }
-const d = n.map((e) => {
-  const t = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[t];
+const c = n.map((e) => {
+  const i = e.category ?? r.get(e.name) ?? "status", a = e.states ?? o[i];
   return {
     ...e,
-    category: t,
+    category: i,
     anatomy: e.anatomy ?? l(e.parts),
     states: a,
-    styleHooks: e.styleHooks ?? c(e, a)
+    styleHooks: e.styleHooks ?? d(e, a)
   };
 });
 export {
-  d as namiComponentMetadata
+  c as namiComponentMetadata
 };

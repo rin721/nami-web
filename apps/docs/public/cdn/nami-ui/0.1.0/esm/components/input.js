@@ -1,17 +1,23 @@
-import { i as l, a as o, A as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
-import { a as d, s as h, b as u } from "../chunks/form-associated-CbqAj2Is.js";
-import { n as m } from "../chunks/ids-BBzulDVF.js";
-import { e as s } from "../chunks/events-DtyLzvDt.js";
-import { c } from "../chunks/styles-C6m3uqJJ.js";
-const t = class t extends l {
+import { i as o, a as d, A as i, b as r } from "../chunks/lit-element-GeMXvhiH.js";
+import { a as h, s as u, b as m, c as s } from "../chunks/form-associated-BOUCekea.js";
+import { n as c } from "../chunks/ids-BBzulDVF.js";
+import { s as p } from "../chunks/selection-CrKkvo5N.js";
+import { e as l } from "../chunks/events-DtyLzvDt.js";
+import { c as v } from "../chunks/styles-C6m3uqJJ.js";
+const t = class t extends o {
   constructor() {
-    super(), this.internals = d(this), this.metaId = `${m("nami-input")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.type = "text", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1;
+    super(), this.internals = h(this), this.metaId = `${c("nami-input")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.type = "text", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1;
   }
   get inputElement() {
     return this.renderRoot.querySelector("input");
   }
   updated() {
-    h(this.internals, this.disabled ? null : this.value), u(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? void 0);
+    const e = !this.disabled && !!(this.error || this.required && !this.value);
+    p(this, {
+      state: e ? "invalid" : "valid",
+      disabled: this.disabled,
+      invalid: e
+    }), u(this.internals, this.disabled ? null : this.value), m(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? void 0);
   }
   formResetCallback() {
     this.value = this.defaultValue;
@@ -35,25 +41,25 @@ const t = class t extends l {
     return !this.disabled;
   }
   get validityFlags() {
-    return this.disabled ? {} : this.error ? { customError: !0 } : this.required && !this.value ? { valueMissing: !0 } : {};
+    return this.disabled ? {} : this.error ? { customError: !0 } : this.required ? s(this.value, this.label || this.name || "Field").flags : {};
   }
   get validityMessage() {
     if (!this.disabled) {
       if (this.error) return this.error;
-      if (this.required && !this.value) return `${this.label || this.name || "Field"} is required`;
+      if (this.required) return s(this.value, this.label || this.name || "Field").message;
     }
   }
   handleInput(e) {
-    this.value = e.target.value, s(this, "nami-input", { value: this.value, sourceEvent: e });
+    this.value = e.target.value, l(this, "nami-input", { value: this.value, sourceEvent: e });
   }
   handleChange(e) {
-    s(this, "nami-change", { value: this.value, sourceEvent: e });
+    l(this, "nami-change", { value: this.value, sourceEvent: e });
   }
   render() {
     const e = this.id ? `${this.id}-meta` : this.metaId, a = this.error || this.helperText;
-    return i`
+    return r`
       <label part="base">
-        ${this.label ? i`<span class="label" part="label">${this.label}${this.required ? " *" : ""}</span>` : r}
+        ${this.label ? r`<span class="label" part="label">${this.label}${this.required ? " *" : ""}</span>` : i}
         <span class="control" part="control">
           <slot name="icon" part="icon"></slot>
           <input
@@ -64,14 +70,14 @@ const t = class t extends l {
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-invalid=${this.error ? "true" : "false"}
-            aria-describedby=${a ? e : r}
+            aria-describedby=${a ? e : i}
             @input=${this.handleInput}
             @change=${this.handleChange}
           />
           <slot name="actions"></slot>
         </span>
       </label>
-      ${a ? i`<div id=${e} class="meta ${this.error ? "error" : ""}" part=${this.error ? "error" : "description"}>${a}</div>` : r}
+      ${a ? r`<div id=${e} class="meta ${this.error ? "error" : ""}" part=${this.error ? "error" : "description"}>${a}</div>` : i}
     `;
   }
 };
@@ -87,8 +93,8 @@ t.formAssociated = !0, t.properties = {
   disabled: { type: Boolean, reflect: !0 },
   required: { type: Boolean, reflect: !0 }
 }, t.styles = [
-  c,
-  o`
+  v,
+  d`
       :host {
         display: block;
       }

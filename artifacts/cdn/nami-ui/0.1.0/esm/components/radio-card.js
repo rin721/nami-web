@@ -1,15 +1,22 @@
-import { i, a as s, A as n, b as r } from "../chunks/lit-element-GeMXvhiH.js";
-import { e as t } from "../chunks/events-DtyLzvDt.js";
+import { i as o, a as i, A as n, b as t } from "../chunks/lit-element-GeMXvhiH.js";
+import { e as r } from "../chunks/events-DtyLzvDt.js";
 import { c as d } from "../chunks/styles-C6m3uqJJ.js";
-const a = class a extends i {
+import { s as l, a as c } from "../chunks/selection-CrKkvo5N.js";
+const a = class a extends o {
   constructor() {
     super(), this.value = "", this.label = "", this.description = "", this.selected = !1, this.disabled = !1;
   }
+  updated() {
+    l(this, {
+      state: c(this.selected),
+      disabled: this.disabled
+    });
+  }
   select(e) {
-    this.disabled || this.selected || (this.selected = !0, t(this, "nami-select", { selected: !0, value: this.value, sourceEvent: e }), t(this, "nami-change", { selected: !0, value: this.value, sourceEvent: e }));
+    this.disabled || this.selected || (this.selected = !0, r(this, "nami-select", { selected: !0, value: this.value, sourceEvent: e }), r(this, "nami-change", { selected: !0, value: this.value, sourceEvent: e }));
   }
   render() {
-    return r`
+    return t`
       <button
         part="base control"
         type="button"
@@ -21,7 +28,7 @@ const a = class a extends i {
         <span class="indicator" part="indicator"></span>
         <slot name="icon" part="icon"></slot>
         <span class="label" part="label"><slot name="label">${this.label}</slot></span>
-        ${this.description ? r`<span class="description" part="description"><slot name="description">${this.description}</slot></span>` : n}
+        ${this.description ? t`<span class="description" part="description"><slot name="description">${this.description}</slot></span>` : n}
         <slot name="actions"></slot>
       </button>
     `;
@@ -35,7 +42,7 @@ a.properties = {
   disabled: { type: Boolean, reflect: !0 }
 }, a.styles = [
   d,
-  s`
+  i`
       :host {
         display: block;
       }
@@ -131,7 +138,7 @@ a.properties = {
       }
     `
 ];
-let o = a;
+let s = a;
 export {
-  o as NamiRadioCard
+  s as NamiRadioCard
 };

@@ -27,3 +27,18 @@ export function setSafeValidity(
     internals.setValidity(validity, message, anchor);
   }
 }
+
+export function requiredTextValidity(value: string, label = 'Field') {
+  const missing = value.length === 0;
+  return {
+    flags: missing ? { valueMissing: true } : {},
+    message: missing ? `${label} is required` : undefined
+  } satisfies { flags: ValidityStateFlags; message?: string };
+}
+
+export function requiredCheckedValidity(checked: boolean, message = 'This field is required') {
+  return {
+    flags: checked ? {} : { valueMissing: true },
+    message: checked ? undefined : message
+  } satisfies { flags: ValidityStateFlags; message?: string };
+}

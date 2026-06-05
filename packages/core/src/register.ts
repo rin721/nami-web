@@ -16,6 +16,8 @@ import { NamiIconButton } from './components/icon-button';
 import { NamiIllustration } from './components/illustration';
 import { NamiInput } from './components/input';
 import { NamiProgress } from './components/progress';
+import { NamiRadioGroup } from './components/radio-group';
+import { NamiRadioItem } from './components/radio-item';
 import { NamiRadioCard } from './components/radio-card';
 import { NamiResult } from './components/result';
 import { NamiScrollSmoother } from './components/scroll-smoother';
@@ -28,9 +30,11 @@ import { NamiSwitch } from './components/switch';
 import { NamiTabBar } from './components/tab-bar';
 import { NamiTextarea } from './components/textarea';
 import { NamiTheme } from './components/theme';
+import { NamiTooltip } from './components/tooltip';
 import { NamiToast } from './components/toast';
 import { NamiTopProgress } from './components/top-progress';
 import { NamiAlert } from './components/alert';
+import { NamiDivider } from './components/divider';
 import { defineElement } from './internal/define';
 
 export function registerNamiElements() {
@@ -50,10 +54,13 @@ export function registerNamiElements() {
   defineElement('nami-chip', NamiChip);
   defineElement('nami-input', NamiInput);
   defineElement('nami-switch', NamiSwitch);
+  defineElement('nami-radio-item', NamiRadioItem);
+  defineElement('nami-radio-group', NamiRadioGroup);
   defineElement('nami-radio-card', NamiRadioCard);
   defineElement('nami-tab-bar', NamiTabBar);
   defineElement('nami-dialog', NamiDialog);
   defineElement('nami-drawer', NamiDrawer);
+  defineElement('nami-tooltip', NamiTooltip);
   defineElement('nami-toast', NamiToast);
   defineElement('nami-app-shell', NamiAppShell);
   defineElement('nami-container', NamiContainer);
@@ -61,6 +68,7 @@ export function registerNamiElements() {
   defineElement('nami-cluster', NamiCluster);
   defineElement('nami-grid', NamiGrid);
   defineElement('nami-split', NamiSplit);
+  defineElement('nami-divider', NamiDivider);
   defineElement('nami-checkbox', NamiCheckbox);
   defineElement('nami-textarea', NamiTextarea);
   defineElement('nami-form-field', NamiFormField);

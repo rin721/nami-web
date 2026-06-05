@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { getNextRovingIndex, getRovingValue } from '../foundation/roving-tabindex';
+import { syncHostState } from '../foundation/selection';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -71,6 +72,9 @@ export class NamiTabBar extends LitElement {
 
   updated() {
     this.syncItems();
+    syncHostState(this, {
+      state: this.value ? 'selected' : 'default'
+    });
   }
 
   private syncItems() {

@@ -1,11 +1,11 @@
-import { i as s, a as i, b as l } from "../chunks/lit-element-GeMXvhiH.js";
-import { g as o, t as c, r as d } from "../chunks/focus-BSADow8U.js";
-import { e as n } from "../chunks/events-DtyLzvDt.js";
-import { c as p } from "../chunks/styles-C6m3uqJJ.js";
-const a = class a extends s {
+import { i as n, a as i, b as l } from "../chunks/lit-element-GeMXvhiH.js";
+import { b as p, o as c, c as d, a as m, g as o, t as u, r as h } from "../chunks/overlay-s5986HiD.js";
+import { e as s } from "../chunks/events-DtyLzvDt.js";
+import { c as v } from "../chunks/styles-C6m3uqJJ.js";
+const a = class a extends n {
   constructor() {
     super(), this.previousActiveElement = null, this.handleKeydown = (e) => {
-      e.key === "Escape" && this.open && this.close(e);
+      p(e) && this.open && this.close(e);
     }, this.open = !1, this.placement = "left";
   }
   connectedCallback() {
@@ -18,9 +18,9 @@ const a = class a extends s {
     this.open && (this.closeSourceEvent = e, this.open = !1);
   }
   updated(e) {
-    if (!e.has("open")) return;
+    if (this.dataset.state = c(this.open), !e.has("open")) return;
     const t = e.get("open") === !0;
-    this.open ? (this.previousActiveElement = document.activeElement, requestAnimationFrame(() => this.focusInitialElement()), n(this, "nami-open", void 0)) : t && (this.restoreFocus(), n(this, "nami-close", this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : void 0), this.closeSourceEvent = void 0);
+    this.open ? (this.previousActiveElement = d(), requestAnimationFrame(() => this.focusInitialElement()), s(this, "nami-open", void 0)) : t && (this.restoreFocus(), s(this, "nami-close", m(this.closeSourceEvent)), this.closeSourceEvent = void 0);
   }
   get panelElement() {
     return this.renderRoot.querySelector(".panel");
@@ -37,11 +37,11 @@ const a = class a extends s {
         e.preventDefault(), t.focus();
         return;
       }
-      c(e, t);
+      u(e, t);
     }
   }
   restoreFocus() {
-    d(this.previousActiveElement), this.previousActiveElement = null;
+    h(this.previousActiveElement), this.previousActiveElement = null;
   }
   render() {
     return l`
@@ -67,7 +67,7 @@ a.properties = {
   open: { type: Boolean, reflect: !0 },
   placement: { reflect: !0 }
 }, a.styles = [
-  p,
+  v,
   i`
       :host {
         display: contents;

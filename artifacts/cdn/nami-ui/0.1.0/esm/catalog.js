@@ -16,7 +16,7 @@ const r = [
       "zh-CN": "应用外壳、容器和布局原语，负责页面结构、间距与响应式组织。",
       "en-US": "Application shell, containers, and layout primitives for page structure, spacing, and responsive flow."
     },
-    names: ["nami-app-shell", "nami-container", "nami-stack", "nami-cluster", "nami-grid", "nami-split"]
+    names: ["nami-app-shell", "nami-container", "nami-stack", "nami-cluster", "nami-grid", "nami-split", "nami-divider"]
   },
   {
     id: "navigation",
@@ -34,7 +34,7 @@ const r = [
       "zh-CN": "参与表单提交、验证、键盘操作和错误状态的输入组件。",
       "en-US": "Inputs with form participation, validation, keyboard behavior, and error states."
     },
-    names: ["nami-input", "nami-textarea", "nami-checkbox", "nami-switch", "nami-radio-card", "nami-form-field"]
+    names: ["nami-input", "nami-textarea", "nami-checkbox", "nami-switch", "nami-radio-item", "nami-radio-group", "nami-radio-card", "nami-form-field"]
   },
   {
     id: "data-display",
@@ -52,7 +52,7 @@ const r = [
       "zh-CN": "加载、提醒、弹层、抽屉和通知，用于异步反馈与焦点管理。",
       "en-US": "Loading, alerts, dialogs, drawers, and toasts for async feedback and focus management."
     },
-    names: ["nami-spinner", "nami-alert", "nami-dialog", "nami-drawer", "nami-toast"]
+    names: ["nami-spinner", "nami-alert", "nami-tooltip", "nami-dialog", "nami-drawer", "nami-toast"]
   },
   {
     id: "system",
@@ -63,7 +63,7 @@ const r = [
     },
     names: ["nami-config", "nami-theme"]
   }
-], p = new Map(c.map((a) => [a.name, a])), v = /* @__PURE__ */ new Map([
+], m = new Map(c.map((a) => [a.name, a])), v = /* @__PURE__ */ new Map([
   ["nami-config", '<nami-config locale="zh-CN"><nami-empty compact></nami-empty></nami-config>'],
   ["nami-theme", '<nami-theme accent="#14b8a6" style-preset="illustration"><nami-button>Scoped theme</nami-button></nami-theme>'],
   ["nami-app-shell", '<div class="mini-shell"><span>Rail</span><strong>App shell</strong><small>Responsive layout slots</small></div>'],
@@ -72,6 +72,7 @@ const r = [
   ["nami-cluster", '<nami-cluster gap="sm"><nami-chip>Alpha</nami-chip><nami-chip>Beta</nami-chip><nami-chip>Gamma</nami-chip></nami-cluster>'],
   ["nami-grid", '<nami-grid min="8rem"><nami-card>One</nami-card><nami-card>Two</nami-card></nami-grid>'],
   ["nami-split", '<nami-split min="10rem"><nami-card>Aside</nami-card><nami-card>Main</nami-card></nami-split>'],
+  ["nami-divider", "<nami-divider>Details</nami-divider>"],
   ["nami-card", '<nami-card><nami-badge slot="header" variant="primary">Card</nami-badge><p>Grouped content surface.</p></nami-card>'],
   ["nami-button", '<nami-button>Primary</nami-button><nami-button variant="soft">Soft</nami-button>'],
   ["nami-icon-button", '<nami-icon-button label="Favorite" selected><span slot="icon">F</span></nami-icon-button>'],
@@ -83,11 +84,14 @@ const r = [
   ["nami-checkbox", "<nami-checkbox checked>Use scoped theme</nami-checkbox>"],
   ["nami-form-field", '<nami-form-field label="Wrapped control" helper-text="Composes with custom elements"><nami-input placeholder="Value"></nami-input></nami-form-field>'],
   ["nami-switch", "<nami-switch checked>Enabled</nami-switch>"],
+  ["nami-radio-item", '<nami-radio-item value="compact" checked>Compact</nami-radio-item>'],
+  ["nami-radio-group", '<nami-radio-group name="density" value="comfortable"><nami-radio-item value="comfortable">Comfortable</nami-radio-item><nami-radio-item value="compact">Compact</nami-radio-item></nami-radio-group>'],
   ["nami-radio-card", '<nami-radio-card selected label="Token driven" description="Selected state follows accent."></nami-radio-card>'],
   ["nami-spinner", '<nami-spinner size="md" label="Loading"></nami-spinner>'],
   ["nami-skeleton", '<nami-stack gap="sm"><nami-skeleton variant="text"></nami-skeleton><nami-skeleton></nami-skeleton></nami-stack>'],
   ["nami-progress", '<nami-progress value="64" label="Uploading"></nami-progress>'],
   ["nami-alert", '<nami-alert variant="warning" title="Check settings">Review the configuration.</nami-alert>'],
+  ["nami-tooltip", '<nami-tooltip open><nami-icon-button slot="trigger" label="Help">?</nami-icon-button><span slot="content">Short hint</span></nami-tooltip>'],
   ["nami-page-transition", '<div class="component-preview-frame"><nami-page-transition active variant="inline" appearance="veil" duration="0"></nami-page-transition></div>'],
   ["nami-top-progress", '<div class="component-preview-frame progress-preview-frame"><nami-top-progress active variant="inline" progress="64" height="12" duration="0"></nami-top-progress></div>'],
   ["nami-scroll-smoother", '<nami-card><nami-badge slot="header" variant="primary">Smooth scroll</nami-badge><p>Lenis resistance for document scrolling.</p></nami-card>'],
@@ -327,6 +331,10 @@ const r = [
   ["nami-app-shell", '<nami-app-shell rail-width="64" mobile-bar-height="60" sticky safe-area><nav slot="rail">Nav</nav><main>Content</main></nami-app-shell>'],
   ["nami-grid", '<nami-grid min="12rem" gap="lg"><nami-card>Metric</nami-card><nami-card>Trend</nami-card><nami-card>Task</nami-card></nami-grid>'],
   ["nami-split", '<nami-split ratio="sidebar-main" min="16rem"><aside>Filters</aside><main>Results</main></nami-split>'],
+  ["nami-divider", '<nami-stack gap="md"><span>Profile</span><nami-divider></nami-divider><span>Security</span></nami-stack>'],
+  ["nami-radio-item", '<nami-radio-item value="comfortable" checked description="Default density">Comfortable</nami-radio-item>'],
+  ["nami-radio-group", '<nami-radio-group name="density" value="comfortable" required><span slot="label">Density</span><nami-radio-item value="comfortable" description="Default density">Comfortable</nami-radio-item><nami-radio-item value="compact">Compact</nami-radio-item></nami-radio-group>'],
+  ["nami-tooltip", '<nami-tooltip placement="bottom"><nami-icon-button slot="trigger" label="Token help">?</nami-icon-button><span slot="content">Token-aware short hint</span></nami-tooltip>'],
   ["nami-empty", '<nami-empty title="No projects" description="Create the first project to continue"><nami-button slot="actions">Create</nami-button></nami-empty>'],
   ["nami-result", '<nami-result status="error" title="Payment failed" sub-title="The card could not be charged"><nami-button slot="actions">Retry</nami-button></nami-result>'],
   ["nami-progress", '<nami-progress indeterminate label="Syncing"></nami-progress>'],
@@ -356,7 +364,7 @@ function S(a, n) {
 }`
   };
 }
-function s(a) {
+function l(a) {
   return a.replace(/^nami-/, "").split("-").map((n) => n[0]?.toUpperCase() + n.slice(1)).join("");
 }
 function N(a) {
@@ -368,34 +376,34 @@ function P(a) {
 function T(a) {
   return `nami-${a}`;
 }
-function A(a, n) {
+function D(a, n) {
   return a.title[n];
 }
-function D(a, n) {
+function A(a, n) {
   return a.description[n];
 }
-function m(a, n) {
-  return n === "zh-CN" ? C.get(a) ?? s(a) : s(a);
+function s(a, n) {
+  return n === "zh-CN" ? C.get(a) ?? l(a) : l(a);
 }
 function o(a, n) {
-  const e = p.get(a);
+  const e = m.get(a);
   return n === "zh-CN" ? f.get(a) ?? e?.summary ?? a : e?.summary ?? a;
 }
-function l(a) {
-  return v.get(a) ?? p.get(a)?.usage ?? "";
+function p(a) {
+  return v.get(a) ?? m.get(a)?.usage ?? "";
 }
 function z(a) {
   return {
     title: d(a, "basic"),
     description: u("basic"),
-    code: p.get(a)?.usage ?? l(a)
+    code: m.get(a)?.usage ?? p(a)
   };
 }
 function U(a) {
   return {
     title: d(a, "advanced"),
     description: u("advanced"),
-    code: k.get(a) ?? l(a)
+    code: k.get(a) ?? p(a)
   };
 }
 function M(a, n) {
@@ -408,22 +416,22 @@ function h(a) {
     groupId: t,
     status: "available",
     displayName: {
-      "zh-CN": m(a, "zh-CN"),
-      "en-US": m(a, "en-US")
+      "zh-CN": s(a, "zh-CN"),
+      "en-US": s(a, "en-US")
     },
-    preview: l(a),
+    preview: p(a),
     useCase: {
       "zh-CN": o(a, "zh-CN"),
       "en-US": o(a, "en-US")
     },
     priority: i,
-    keywords: [a, s(a), m(a, "zh-CN"), o(a, "zh-CN"), o(a, "en-US")],
+    keywords: [a, l(a), s(a, "zh-CN"), o(a, "zh-CN"), o(a, "en-US")],
     basic: n,
     advanced: e,
     frameworks: S(a, n.code)
   };
 }
-const g = c.map((a) => h(a.name)), x = w, b = [
+const g = c.map((a) => h(a.name)), x = w.filter((a) => !m.has(a.name)), b = [
   ...g,
   ...x
 ].sort((a, n) => {
@@ -445,12 +453,12 @@ export {
   z as componentBasicExample,
   h as componentCatalogEntry,
   E as componentCatalogItemsForGroup,
-  m as componentDisplayName,
+  s as componentDisplayName,
   M as componentFrameworkExample,
-  D as componentGroupDescription,
-  A as componentGroupTitle,
+  A as componentGroupDescription,
+  D as componentGroupTitle,
   T as componentNameFromSlug,
-  l as componentPreview,
+  p as componentPreview,
   P as componentSlug,
   o as componentUseCase,
   g as namiComponentCatalog,
@@ -458,6 +466,6 @@ export {
   b as namiComponentCatalogItems,
   R as namiComponentExamples,
   v as namiComponentPreviews,
-  p as namiMetadataByName,
+  m as namiMetadataByName,
   x as namiPlannedComponentCatalog
 };

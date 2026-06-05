@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
+import { activeState, syncHostState } from '../foundation/selection';
 import { componentHostStyles } from '../internal/styles';
 
 export type NamiTopProgressVariant = 'fixed' | 'inline';
@@ -368,6 +369,10 @@ export class NamiTopProgress extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    syncHostState(this, {
+      state: activeState(this.active),
+      loading: this.active
+    });
     if (changed.has('progress')) this.syncProgressStyle();
     if (changed.has('appear') && !this.appear) {
       window.clearTimeout(this.enterTimer);

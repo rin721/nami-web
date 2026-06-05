@@ -1,21 +1,29 @@
-import { i as r, a as i, A as e, b as o } from "../chunks/lit-element-GeMXvhiH.js";
+import { i, a as r, A as e, b as a } from "../chunks/lit-element-GeMXvhiH.js";
 import { m as s } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as l } from "../chunks/localized-controller-BapUPJ8o.js";
-import { e as m } from "../chunks/events-DtyLzvDt.js";
-import { d } from "../chunks/define-BpqXLfIT.js";
+import { u as d } from "../chunks/localized-controller-BapUPJ8o.js";
+import { e as l } from "../chunks/events-DtyLzvDt.js";
+import { d as m } from "../chunks/define-BpqXLfIT.js";
 import { c as u } from "../chunks/styles-C6m3uqJJ.js";
+import { s as h } from "../chunks/selection-CrKkvo5N.js";
 import { NamiSpinner as c } from "./spinner.js";
-d("nami-spinner", c);
-const a = class a extends r {
+m("nami-spinner", c);
+const o = class o extends i {
   constructor() {
-    super(), l(this), this.variant = "solid", this.disabled = !1, this.loading = !1, this.type = "button";
+    super(), d(this), this.variant = "solid", this.disabled = !1, this.loading = !1, this.type = "button";
+  }
+  updated() {
+    h(this, {
+      state: this.loading ? "loading" : this.disabled ? "disabled" : "default",
+      disabled: this.disabled,
+      loading: this.loading
+    });
   }
   handleClick(t) {
     if (this.disabled || this.loading) {
       t.preventDefault(), t.stopImmediatePropagation();
       return;
     }
-    if (!m(this, "nami-click", { sourceEvent: t }, { cancelable: !0 })) {
+    if (!l(this, "nami-click", { sourceEvent: t }, { cancelable: !0 })) {
       t.preventDefault();
       return;
     }
@@ -26,7 +34,7 @@ const a = class a extends r {
     t && (this.type === "submit" ? t.requestSubmit() : this.type === "reset" && t.reset());
   }
   render() {
-    return o`
+    return a`
       <button
         part="base control"
         type=${this.type}
@@ -34,22 +42,22 @@ const a = class a extends r {
         aria-busy=${this.loading ? "true" : "false"}
         @click=${this.handleClick}
       >
-        ${this.loading ? o`<nami-spinner size="sm" label=${s("Loading", { id: "nami.spinner.loading" })} part="indicator"></nami-spinner>` : o`<slot name="icon" part="icon"></slot>`}
+        ${this.loading ? a`<nami-spinner size="sm" label=${s("Loading", { id: "nami.spinner.loading" })} part="indicator"></nami-spinner>` : a`<slot name="icon" part="icon"></slot>`}
         <span part="label"><slot></slot></span>
-        ${this.loading ? e : o`<slot name="actions"></slot>`}
+        ${this.loading ? e : a`<slot name="actions"></slot>`}
       </button>
     `;
   }
 };
-a.properties = {
+o.properties = {
   variant: { reflect: !0 },
   size: { reflect: !0 },
   disabled: { type: Boolean, reflect: !0 },
   loading: { type: Boolean, reflect: !0 },
   type: {}
-}, a.styles = [
+}, o.styles = [
   u,
-  i`
+  r`
       :host {
         --button-height: var(--nami-control-height, var(--nami-control-height-md, 40px));
         --button-padding: var(--nami-control-padding-x, 16px);
@@ -160,7 +168,7 @@ a.properties = {
       }
     `
 ];
-let n = a;
+let n = o;
 export {
   n as NamiButton
 };

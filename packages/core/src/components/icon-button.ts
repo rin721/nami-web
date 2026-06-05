@@ -3,6 +3,7 @@ import { msg, updateWhenLocaleChanges } from '@lit/localize';
 import { emit } from '../internal/events';
 import { defineElement } from '../internal/define';
 import { componentHostStyles, softControlStyles } from '../internal/styles';
+import { selectedState, syncHostState } from '../foundation/selection';
 import { NamiSpinner } from './spinner';
 
 defineElement('nami-spinner', NamiSpinner);
@@ -60,6 +61,14 @@ export class NamiIconButton extends LitElement {
     this.disabled = false;
     this.selected = false;
     this.loading = false;
+  }
+
+  updated() {
+    syncHostState(this, {
+      state: this.loading ? 'loading' : selectedState(this.selected),
+      disabled: this.disabled,
+      loading: this.loading
+    });
   }
 
   private handleClick(event: MouseEvent) {

@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
+import { selectedState, syncHostState } from '../foundation/selection';
 
 export class NamiRadioCard extends LitElement {
   static properties = {
@@ -123,6 +124,13 @@ export class NamiRadioCard extends LitElement {
     this.description = '';
     this.selected = false;
     this.disabled = false;
+  }
+
+  updated() {
+    syncHostState(this, {
+      state: selectedState(this.selected),
+      disabled: this.disabled
+    });
   }
 
   private select(event: MouseEvent) {

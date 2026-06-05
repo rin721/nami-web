@@ -13,6 +13,8 @@ const publicBaseUrl = `https://nami-web.iqwq.com/cdn/nami-ui/${version}/`;
 const files = {
   global: 'nami-ui.global.js',
   esmRegister: 'esm/register.js',
+  esmComponent: 'esm/{component}.js',
+  esmComponentImplementation: 'esm/components/{component}.js',
   css: {
     default: 'css/default.css',
     antIllustration: 'css/ant-illustration.css',
@@ -54,6 +56,10 @@ const manifest = {
     esm: {
       css: `${publicBaseUrl}${files.css.default}`,
       script: `${publicBaseUrl}${files.esmRegister}`
+    },
+    esmComponent: {
+      css: `${publicBaseUrl}${files.css.default}`,
+      import: `${publicBaseUrl}esm/button.js`
     }
   }
 };

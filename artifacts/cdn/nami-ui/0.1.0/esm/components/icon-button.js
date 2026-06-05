@@ -1,21 +1,29 @@
-import { i as o, a, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { i as a, a as o, b as i } from "../chunks/lit-element-GeMXvhiH.js";
 import { m as n } from "../chunks/runtime-4rCsJ4EI.js";
 import { u as l } from "../chunks/localized-controller-BapUPJ8o.js";
 import { e as r } from "../chunks/events-DtyLzvDt.js";
-import { d as m } from "../chunks/define-BpqXLfIT.js";
-import { c, s as h } from "../chunks/styles-C6m3uqJJ.js";
-import { NamiSpinner as d } from "./spinner.js";
-m("nami-spinner", d);
-const e = class e extends o {
+import { d } from "../chunks/define-BpqXLfIT.js";
+import { c as h, s as m } from "../chunks/styles-C6m3uqJJ.js";
+import { s as c, a as p } from "../chunks/selection-CrKkvo5N.js";
+import { NamiSpinner as b } from "./spinner.js";
+d("nami-spinner", b);
+const t = class t extends a {
   constructor() {
     super(), l(this), this.label = "", this.disabled = !1, this.selected = !1, this.loading = !1;
   }
-  handleClick(t) {
+  updated() {
+    c(this, {
+      state: this.loading ? "loading" : p(this.selected),
+      disabled: this.disabled,
+      loading: this.loading
+    });
+  }
+  handleClick(e) {
     if (this.disabled || this.loading) {
-      t.preventDefault(), t.stopImmediatePropagation();
+      e.preventDefault(), e.stopImmediatePropagation();
       return;
     }
-    r(this, "nami-click", { sourceEvent: t, selected: this.selected });
+    r(this, "nami-click", { sourceEvent: e, selected: this.selected });
   }
   render() {
     return i`
@@ -36,16 +44,16 @@ const e = class e extends o {
     `;
   }
 };
-e.properties = {
+t.properties = {
   label: {},
   size: { reflect: !0 },
   disabled: { type: Boolean, reflect: !0 },
   selected: { type: Boolean, reflect: !0 },
   loading: { type: Boolean, reflect: !0 }
-}, e.styles = [
-  c,
+}, t.styles = [
   h,
-  a`
+  m,
+  o`
       :host {
         display: inline-flex;
       }
@@ -72,7 +80,7 @@ e.properties = {
       }
     `
 ];
-let s = e;
+let s = t;
 export {
   s as NamiIconButton
 };

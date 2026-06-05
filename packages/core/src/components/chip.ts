@@ -1,6 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
+import { selectedState, syncHostState } from '../foundation/selection';
 
 export class NamiChip extends LitElement {
   static properties = {
@@ -77,6 +78,13 @@ export class NamiChip extends LitElement {
     this.selected = false;
     this.checkbox = false;
     this.disabled = false;
+  }
+
+  updated() {
+    syncHostState(this, {
+      state: selectedState(this.selected),
+      disabled: this.disabled
+    });
   }
 
   private handleClick(event: MouseEvent) {

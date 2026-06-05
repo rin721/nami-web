@@ -1,10 +1,11 @@
 import { i as l, a as h, A as o, b as m } from "../chunks/lit-element-GeMXvhiH.js";
-import { m as u } from "../chunks/runtime-4rCsJ4EI.js";
-import { u as c } from "../chunks/localized-controller-BapUPJ8o.js";
-import { c as g } from "../chunks/styles-C6m3uqJJ.js";
+import { m as c } from "../chunks/runtime-4rCsJ4EI.js";
+import { u } from "../chunks/localized-controller-BapUPJ8o.js";
+import { s as g, b as d } from "../chunks/selection-CrKkvo5N.js";
+import { c as f } from "../chunks/styles-C6m3uqJJ.js";
 const t = class t extends l {
   constructor() {
-    super(), this.enterTimer = 0, this.hideTimer = 0, this.shownAt = 0, c(this), this.active = !1, this.appear = !0, this.appearDuration = 360, this.duration = 220, this.effect = "flow", this.entering = !1, this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
+    super(), this.enterTimer = 0, this.hideTimer = 0, this.shownAt = 0, u(this), this.active = !1, this.appear = !0, this.appearDuration = 360, this.duration = 220, this.effect = "flow", this.entering = !1, this.height = 4, this.label = "", this.progress = void 0, this.variant = "fixed", this.visible = !1;
   }
   connectedCallback() {
     super.connectedCallback(), this.active && (this.visible = !0, this.shownAt = Date.now(), this.beginEnter());
@@ -13,7 +14,10 @@ const t = class t extends l {
     window.clearTimeout(this.enterTimer), window.clearTimeout(this.hideTimer), this.hideResolver?.(), super.disconnectedCallback();
   }
   updated(e) {
-    if (e.has("progress") && this.syncProgressStyle(), e.has("appear") && !this.appear && (window.clearTimeout(this.enterTimer), this.entering = !1), e.has("appearDuration") && this.syncAppearDurationStyle(), e.has("height") && this.syncHeightStyle(), e.has("duration") && this.syncDurationStyle(), !e.has("active")) return;
+    if (g(this, {
+      state: d(this.active),
+      loading: this.active
+    }), e.has("progress") && this.syncProgressStyle(), e.has("appear") && !this.appear && (window.clearTimeout(this.enterTimer), this.entering = !1), e.has("appearDuration") && this.syncAppearDurationStyle(), e.has("height") && this.syncHeightStyle(), e.has("duration") && this.syncDurationStyle(), !e.has("active")) return;
     if (window.clearTimeout(this.hideTimer), this.active) {
       this.hideResolver?.(), this.hideComplete = void 0, this.visible = !0, this.shownAt = Date.now(), this.beginEnter();
       return;
@@ -96,7 +100,7 @@ const t = class t extends l {
     this.style.setProperty("--nami-top-progress-duration", `${Number(this.duration)}ms`);
   }
   get fallbackLabel() {
-    return this.label || u("Navigating", { id: "nami.topProgress.navigating" });
+    return this.label || c("Navigating", { id: "nami.topProgress.navigating" });
   }
   render() {
     if (!this.visible) return o;
@@ -137,7 +141,7 @@ t.properties = {
   variant: { reflect: !0 },
   visible: { state: !0 }
 }, t.styles = [
-  g,
+  f,
   h`
       :host {
         --top-progress-height: var(--nami-top-progress-height, var(--nami-transition-progress-height, 4px));

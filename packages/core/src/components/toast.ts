@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
+import { overlayCloseDetail, overlayState } from '../foundation/overlay';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -120,6 +121,7 @@ export class NamiToast extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    this.dataset.state = overlayState(this.open);
     if (!changed.has('open')) return;
     if (this.open) {
       emit(this, 'nami-open', undefined);
@@ -129,7 +131,7 @@ export class NamiToast extends LitElement {
       }
     } else if (changed.get('open') === true) {
       window.clearTimeout(this.timer);
-      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', overlayCloseDetail(this.closeSourceEvent));
       this.closeSourceEvent = undefined;
     }
   }

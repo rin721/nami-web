@@ -1,25 +1,20 @@
-import { i as h, a as m, b } from "../chunks/lit-element-GeMXvhiH.js";
-import { e as c } from "../chunks/events-DtyLzvDt.js";
-import { c as v } from "../chunks/styles-C6m3uqJJ.js";
-function o(i) {
-  return i.getAttribute("value") || i.dataset.value || i.textContent?.trim() || "";
-}
-function f(i, t, r, s) {
-  const e = s === "vertical" ? ["ArrowDown"] : ["ArrowRight"], n = s === "vertical" ? ["ArrowUp"] : ["ArrowLeft"];
-  return i === "Home" ? 0 : i === "End" ? r - 1 : e.includes(i) ? (t + 1) % r : n.includes(i) ? (t - 1 + r) % r : t;
-}
-const l = class l extends h {
+import { i as h, a as m, b as u } from "../chunks/lit-element-GeMXvhiH.js";
+import { g as b, a as r } from "../chunks/roving-tabindex-BIO4J81E.js";
+import { s as v } from "../chunks/selection-CrKkvo5N.js";
+import { e as d } from "../chunks/events-DtyLzvDt.js";
+import { c as g } from "../chunks/styles-C6m3uqJJ.js";
+const n = class n extends h {
   constructor() {
     super(), this.handleItemClick = (t) => {
-      const r = t.currentTarget;
-      this.isItemDisabled(r) || this.selectItem(r, t);
+      const a = t.currentTarget;
+      this.isItemDisabled(a) || this.selectItem(a, t);
     }, this.handleItemKeydown = (t) => {
       if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"].includes(t.key)) return;
       t.preventDefault();
-      const r = t.currentTarget, s = this.enabledItems, e = s.indexOf(r);
+      const a = t.currentTarget, s = this.enabledItems, e = s.indexOf(a);
       if (e < 0 || s.length === 0) return;
-      const n = f(t.key, e, s.length, this.orientation), a = s[n];
-      a?.focus(), a && this.selectItem(a, t);
+      const o = b(t.key, e, s.length, this.orientation), i = s[o];
+      i?.focus(), i && this.selectItem(i, t);
     }, this.value = "", this.orientation = "horizontal";
   }
   get items() {
@@ -32,7 +27,9 @@ const l = class l extends h {
     this.syncItems();
   }
   updated() {
-    this.syncItems();
+    this.syncItems(), v(this, {
+      state: this.value ? "selected" : "default"
+    });
   }
   syncItems() {
     const t = this.enabledItems;
@@ -42,32 +39,32 @@ const l = class l extends h {
       });
       return;
     }
-    const s = t.some((e) => o(e) === this.value) ? this.value : o(t[0]) || "";
+    const s = t.some((e) => r(e) === this.value) ? this.value : r(t[0]) || "";
     this.value !== s && (this.value = s), this.items.forEach((e) => {
-      const n = o(e), a = this.isItemDisabled(e), d = !a && n === s;
-      e.setAttribute("role", "tab"), e.setAttribute("aria-selected", String(d)), a ? e.setAttribute("aria-disabled", "true") : e.removeAttribute("aria-disabled"), e.setAttribute("tabindex", d ? "0" : "-1"), e.removeEventListener("click", this.handleItemClick), e.removeEventListener("keydown", this.handleItemKeydown), e.addEventListener("click", this.handleItemClick), e.addEventListener("keydown", this.handleItemKeydown);
+      const o = r(e), i = this.isItemDisabled(e), l = !i && o === s;
+      e.setAttribute("role", "tab"), e.setAttribute("aria-selected", String(l)), i ? e.setAttribute("aria-disabled", "true") : e.removeAttribute("aria-disabled"), e.setAttribute("tabindex", l ? "0" : "-1"), e.removeEventListener("click", this.handleItemClick), e.removeEventListener("keydown", this.handleItemKeydown), e.addEventListener("click", this.handleItemClick), e.addEventListener("keydown", this.handleItemKeydown);
     });
   }
   isItemDisabled(t) {
     return t.hasAttribute("disabled") || t.getAttribute("aria-disabled") === "true" || !!t.disabled;
   }
-  selectItem(t, r) {
-    const s = o(t);
-    !s || s === this.value || (this.value = s, this.syncItems(), c(this, "nami-select", { value: s, sourceEvent: r }), c(this, "nami-change", { value: s, sourceEvent: r }));
+  selectItem(t, a) {
+    const s = r(t);
+    !s || s === this.value || (this.value = s, this.syncItems(), d(this, "nami-select", { value: s, sourceEvent: a }), d(this, "nami-change", { value: s, sourceEvent: a }));
   }
   render() {
-    return b`
+    return u`
       <div class="base" part="base" role="tablist" aria-orientation=${this.orientation}>
         <slot @slotchange=${() => this.syncItems()}></slot>
       </div>
     `;
   }
 };
-l.properties = {
+n.properties = {
   value: {},
   orientation: { reflect: !0 }
-}, l.styles = [
-  v,
+}, n.styles = [
+  g,
   m`
       :host {
         display: block;
@@ -103,7 +100,7 @@ l.properties = {
       }
     `
 ];
-let u = l;
+let c = n;
 export {
-  u as NamiTabBar
+  c as NamiTabBar
 };

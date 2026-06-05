@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit';
-import { getFocusableElements, restoreFocus, trapFocus } from '../foundation/focus';
+import { getFocusableElements, trapFocus } from '../foundation/focus';
+import { captureOverlayFocus, isEscapeKey, overlayCloseDetail, overlayState, restoreOverlayFocus } from '../foundation/overlay';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -113,7 +114,7 @@ export class NamiDrawer extends LitElement {
   }
 
   private handleKeydown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && this.open) this.close(event);
+    if (isEscapeKey(event) && this.open) this.close(event);
   };
 
   private close(sourceEvent?: Event) {
@@ -123,16 +124,17 @@ export class NamiDrawer extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    this.dataset.state = overlayState(this.open);
     if (!changed.has('open')) return;
     const wasOpen = changed.get('open') === true;
 
     if (this.open) {
-      this.previousActiveElement = document.activeElement;
+      this.previousActiveElement = captureOverlayFocus();
       requestAnimationFrame(() => this.focusInitialElement());
       emit(this, 'nami-open', undefined);
     } else if (wasOpen) {
       this.restoreFocus();
-      emit(this, 'nami-close', this.closeSourceEvent ? { sourceEvent: this.closeSourceEvent } : undefined);
+      emit(this, 'nami-close', overlayCloseDetail(this.closeSourceEvent));
       this.closeSourceEvent = undefined;
     }
   }
@@ -160,7 +162,7 @@ export class NamiDrawer extends LitElement {
   }
 
   private restoreFocus() {
-    restoreFocus(this.previousActiveElement);
+    restoreOverlayFocus(this.previousActiveElement);
     this.previousActiveElement = null;
   }
 

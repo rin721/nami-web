@@ -1,17 +1,23 @@
-import { i as o, a as n, A as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
-import { a as d, s as h, b as u } from "../chunks/form-associated-CbqAj2Is.js";
-import { n as m } from "../chunks/ids-BBzulDVF.js";
-import { e as s } from "../chunks/events-DtyLzvDt.js";
-import { c } from "../chunks/styles-C6m3uqJJ.js";
-const t = class t extends o {
+import { i as n, a as d, A as r, b as i } from "../chunks/lit-element-GeMXvhiH.js";
+import { a as h, s as m, b as u, c as s } from "../chunks/form-associated-BOUCekea.js";
+import { n as c } from "../chunks/ids-BBzulDVF.js";
+import { s as v } from "../chunks/selection-CrKkvo5N.js";
+import { e as l } from "../chunks/events-DtyLzvDt.js";
+import { c as p } from "../chunks/styles-C6m3uqJJ.js";
+const t = class t extends n {
   constructor() {
-    super(), this.internals = d(this), this.metaId = `${m("nami-textarea")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1, this.rows = 4;
+    super(), this.internals = h(this), this.metaId = `${c("nami-textarea")}-meta`, this.name = "", this.value = "", this.defaultValue = "", this.placeholder = "", this.label = "", this.helperText = "", this.error = "", this.disabled = !1, this.required = !1, this.rows = 4;
   }
   get textareaElement() {
     return this.renderRoot.querySelector("textarea");
   }
   updated() {
-    this.dataset.state = this.error ? "invalid" : "valid", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!this.error), h(this.internals, this.disabled ? null : this.value), u(this.internals, this.validityFlags, this.validityMessage, this.textareaElement ?? void 0);
+    const e = !this.disabled && !!(this.error || this.required && !this.value);
+    v(this, {
+      state: e ? "invalid" : "valid",
+      disabled: this.disabled,
+      invalid: e
+    }), m(this.internals, this.disabled ? null : this.value), u(this.internals, this.validityFlags, this.validityMessage, this.textareaElement ?? void 0);
   }
   formResetCallback() {
     this.value = this.defaultValue;
@@ -26,19 +32,19 @@ const t = class t extends o {
     return this.textareaElement?.reportValidity() ?? this.checkValidity();
   }
   get validityFlags() {
-    return this.disabled ? {} : this.error ? { customError: !0 } : this.required && !this.value ? { valueMissing: !0 } : {};
+    return this.disabled ? {} : this.error ? { customError: !0 } : this.required ? s(this.value, this.label || this.name || "Field").flags : {};
   }
   get validityMessage() {
     if (!this.disabled) {
       if (this.error) return this.error;
-      if (this.required && !this.value) return `${this.label || this.name || "Field"} is required`;
+      if (this.required) return s(this.value, this.label || this.name || "Field").message;
     }
   }
   handleInput(e) {
-    this.value = e.target.value, s(this, "nami-input", { value: this.value, sourceEvent: e });
+    this.value = e.target.value, l(this, "nami-input", { value: this.value, sourceEvent: e });
   }
   handleChange(e) {
-    s(this, "nami-change", { value: this.value, sourceEvent: e });
+    l(this, "nami-change", { value: this.value, sourceEvent: e });
   }
   render() {
     const e = this.id ? `${this.id}-meta` : this.metaId, a = this.error || this.helperText;
@@ -75,8 +81,8 @@ t.formAssociated = !0, t.properties = {
   required: { type: Boolean, reflect: !0 },
   rows: { type: Number, reflect: !0 }
 }, t.styles = [
-  c,
-  n`
+  p,
+  d`
       :host {
         display: block;
       }
@@ -140,7 +146,7 @@ t.formAssociated = !0, t.properties = {
       }
     `
 ];
-let l = t;
+let o = t;
 export {
-  l as NamiTextarea
+  o as NamiTextarea
 };

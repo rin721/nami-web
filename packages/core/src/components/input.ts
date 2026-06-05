@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from 'lit';
-import { attachInternalsSafe, setSafeFormValue, setSafeValidity, type SafeElementInternals } from '../foundation/form-associated';
+import { attachInternalsSafe, requiredTextValidity, setSafeFormValue, setSafeValidity, type SafeElementInternals } from '../foundation/form-associated';
 import { nextId } from '../foundation/ids';
+import { syncHostState } from '../foundation/selection';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -131,6 +132,12 @@ export class NamiInput extends LitElement {
   private metaId = `${nextId('nami-input')}-meta`;
 
   updated() {
+    const invalid = !this.disabled && Boolean(this.error || (this.required && !this.value));
+    syncHostState(this, {
+      state: invalid ? 'invalid' : 'valid',
+      disabled: this.disabled,
+      invalid
+    });
     setSafeFormValue(this.internals, this.disabled ? null : this.value);
     setSafeValidity(this.internals, this.validityFlags, this.validityMessage, this.inputElement ?? undefined);
   }
@@ -166,14 +173,14 @@ export class NamiInput extends LitElement {
   private get validityFlags(): ValidityStateFlags {
     if (this.disabled) return {};
     if (this.error) return { customError: true };
-    if (this.required && !this.value) return { valueMissing: true };
+    if (this.required) return requiredTextValidity(this.value, this.label || this.name || 'Field').flags;
     return {};
   }
 
   private get validityMessage() {
     if (this.disabled) return undefined;
     if (this.error) return this.error;
-    if (this.required && !this.value) return `${this.label || this.name || 'Field'} is required`;
+    if (this.required) return requiredTextValidity(this.value, this.label || this.name || 'Field').message;
     return undefined;
   }
 

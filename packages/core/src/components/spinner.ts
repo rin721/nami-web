@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
+import { syncHostState } from '../foundation/selection';
 import { componentHostStyles } from '../internal/styles';
 
 export type NamiSpinnerSize = 'sm' | 'md' | 'lg';
@@ -63,6 +64,10 @@ export class NamiSpinner extends LitElement {
     super();
     updateWhenLocaleChanges(this);
     this.label = '';
+  }
+
+  updated() {
+    syncHostState(this, { state: 'loading', loading: true });
   }
 
   render() {

@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit';
 import { attachInternalsSafe, setSafeFormValue, type SafeElementInternals } from '../foundation/form-associated';
+import { checkedState, syncHostState } from '../foundation/selection';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -9,6 +10,7 @@ export class NamiSwitch extends LitElement {
     name: {},
     value: {},
     checked: { type: Boolean, reflect: true },
+    defaultChecked: { attribute: 'default-checked', type: Boolean },
     disabled: { type: Boolean, reflect: true }
   };
 
@@ -85,6 +87,7 @@ export class NamiSwitch extends LitElement {
   declare name: string;
   declare value: string;
   declare checked: boolean;
+  declare defaultChecked: boolean;
   declare disabled: boolean;
 
   constructor() {
@@ -92,17 +95,22 @@ export class NamiSwitch extends LitElement {
     this.name = '';
     this.value = 'on';
     this.checked = false;
+    this.defaultChecked = false;
     this.disabled = false;
   }
 
   private internals: SafeElementInternals | null = attachInternalsSafe(this);
 
   updated() {
+    syncHostState(this, {
+      state: checkedState(this.checked),
+      disabled: this.disabled
+    });
     setSafeFormValue(this.internals, !this.disabled && this.checked ? this.value : null);
   }
 
   formResetCallback() {
-    this.checked = false;
+    this.checked = this.defaultChecked;
   }
 
   private toggle(event: MouseEvent) {

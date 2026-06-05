@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { msg, updateWhenLocaleChanges } from '@lit/localize';
+import { activeState, syncHostState } from '../foundation/selection';
 import { componentHostStyles } from '../internal/styles';
 import { defineElement } from '../internal/define';
 import { NamiSpinner } from './spinner';
@@ -259,6 +260,10 @@ export class NamiPageTransition extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
+    syncHostState(this, {
+      state: activeState(this.active),
+      loading: this.active
+    });
     if (!changed.has('active')) return;
     window.clearTimeout(this.hideTimer);
     if (this.active) {

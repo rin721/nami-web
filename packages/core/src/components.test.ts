@@ -14,6 +14,7 @@ import type { NamiChip } from './components/chip';
 import type { NamiCheckbox } from './components/checkbox';
 import type { NamiConfig } from './components/config';
 import type { NamiDialog } from './components/dialog';
+import type { NamiDivider } from './components/divider';
 import type { NamiDrawer } from './components/drawer';
 import type { NamiEmpty } from './components/empty';
 import type { NamiFormField } from './components/form-field';
@@ -23,12 +24,15 @@ import type { NamiInput } from './components/input';
 import type { NamiPageTransition } from './components/page-transition';
 import type { NamiProgress } from './components/progress';
 import type { NamiRadioCard } from './components/radio-card';
+import type { NamiRadioGroup } from './components/radio-group';
+import type { NamiRadioItem } from './components/radio-item';
 import type { NamiResult } from './components/result';
 import type { NamiScrollSmoother } from './components/scroll-smoother';
 import type { NamiSwitch } from './components/switch';
 import type { NamiTabBar } from './components/tab-bar';
 import type { NamiTextarea } from './components/textarea';
 import type { NamiTheme } from './components/theme';
+import type { NamiTooltip } from './components/tooltip';
 import type { NamiToast } from './components/toast';
 import type { NamiTopProgress } from './components/top-progress';
 import { getLocale, setLocale } from './localize';
@@ -697,10 +701,13 @@ describe('@nami-web/ui components', () => {
       'nami-chip',
       'nami-input',
       'nami-switch',
+      'nami-radio-item',
+      'nami-radio-group',
       'nami-radio-card',
       'nami-tab-bar',
       'nami-dialog',
       'nami-drawer',
+      'nami-tooltip',
       'nami-toast',
       'nami-app-shell',
       'nami-container',
@@ -708,6 +715,7 @@ describe('@nami-web/ui components', () => {
       'nami-cluster',
       'nami-grid',
       'nami-split',
+      'nami-divider',
       'nami-checkbox',
       'nami-textarea',
       'nami-form-field',
@@ -748,6 +756,275 @@ describe('@nami-web/ui components', () => {
     expect(namiComponentCatalogGroups.flatMap((group) => componentCatalogItemsForGroup(group.id)).map((item) => item.name).sort()).toEqual([...catalogItemNames].sort());
     expect(metadataNames.every((name) => componentAvailability(name) === 'available')).toBe(true);
     expect(plannedItems.every((item) => componentAvailability(item.name) === 'planned')).toBe(true);
+  });
+
+  it('publishes on-demand registration entry contracts for every metadata component', () => {
+    const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8')) as {
+      exports: Record<string, unknown>;
+    };
+    const registerFiles = new Set(readdirSync(join(process.cwd(), 'src', 'register')));
+    const componentNames = namiComponentMetadata.map((item) => item.name);
+
+    expect(packageJson.exports['./*']).toEqual({
+      types: './dist/register/*.d.ts',
+      default: './dist/*.js'
+    });
+    expect(packageJson.exports['./*/register']).toEqual({
+      types: './dist/register/*.d.ts',
+      default: './dist/register/*.js'
+    });
+    expect(packageJson.exports['./components/*']).toEqual({
+      types: './dist/components/*.d.ts',
+      default: './dist/components/*.js'
+    });
+
+    for (const name of componentNames) {
+      const slug = name.replace(/^nami-/, '');
+      expect(registerFiles.has(`${slug}.ts`), `${name} must have a register entry`).toBe(true);
+      const source = readFileSync(join(process.cwd(), 'src', 'register', `${slug}.ts`), 'utf8');
+      expect(source).toContain(`defineElement('${name}'`);
+      expect(source).toContain('export { Nami');
+    }
+  });
+
+  it('syncs host data-state attributes for public interaction contracts', async () => {
+    HTMLDialogElement.prototype.showModal = function showModal() {
+      this.open = true;
+    };
+    HTMLDialogElement.prototype.close = function close() {
+      this.open = false;
+    };
+
+    const button = document.createElement('nami-button') as NamiButton;
+    const iconButton = document.createElement('nami-icon-button') as NamiIconButton;
+    const chip = document.createElement('nami-chip') as NamiChip;
+    const input = document.createElement('nami-input') as NamiInput;
+    const checkbox = document.createElement('nami-checkbox') as NamiCheckbox;
+    const toggle = document.createElement('nami-switch') as NamiSwitch;
+    const textarea = document.createElement('nami-textarea') as NamiTextarea;
+    const formField = document.createElement('nami-form-field') as NamiFormField;
+    const radioCard = document.createElement('nami-radio-card') as NamiRadioCard;
+    const tabs = document.createElement('nami-tab-bar') as NamiTabBar;
+    const tab = document.createElement('button');
+    const dialog = document.createElement('nami-dialog') as NamiDialog;
+    const drawer = document.createElement('nami-drawer') as NamiDrawer;
+    const toast = document.createElement('nami-toast') as NamiToast;
+    const transition = document.createElement('nami-page-transition') as NamiPageTransition;
+    const topProgress = document.createElement('nami-top-progress') as NamiTopProgress;
+
+    button.loading = true;
+    iconButton.selected = true;
+    chip.selected = true;
+    input.required = true;
+    checkbox.required = true;
+    toggle.defaultChecked = true;
+    textarea.required = true;
+    formField.error = 'Error';
+    radioCard.selected = true;
+    tab.value = 'Overview';
+    tab.textContent = 'Overview';
+    tabs.append(tab);
+    toast.duration = 0;
+    transition.duration = 0;
+    topProgress.duration = 0;
+    document.body.append(button, iconButton, chip, input, checkbox, toggle, textarea, formField, radioCard, tabs, dialog, drawer, toast, transition, topProgress);
+
+    await Promise.all([
+      button.updateComplete,
+      iconButton.updateComplete,
+      chip.updateComplete,
+      input.updateComplete,
+      checkbox.updateComplete,
+      toggle.updateComplete,
+      textarea.updateComplete,
+      formField.updateComplete,
+      radioCard.updateComplete,
+      tabs.updateComplete,
+      dialog.updateComplete,
+      drawer.updateComplete,
+      toast.updateComplete,
+      transition.updateComplete,
+      topProgress.updateComplete
+    ]);
+    await tabs.updateComplete;
+
+    expect(button.dataset.state).toBe('loading');
+    expect(button.hasAttribute('data-loading')).toBe(true);
+    expect(iconButton.dataset.state).toBe('selected');
+    expect(chip.dataset.state).toBe('selected');
+    expect(input.dataset.state).toBe('invalid');
+    expect(input.hasAttribute('data-invalid')).toBe(true);
+    expect(checkbox.dataset.state).toBe('unchecked');
+    expect(checkbox.hasAttribute('data-invalid')).toBe(true);
+    expect(textarea.dataset.state).toBe('invalid');
+    expect(formField.dataset.state).toBe('invalid');
+    expect(radioCard.dataset.state).toBe('selected');
+    expect(tabs.dataset.state).toBe('selected');
+    expect(dialog.dataset.state).toBe('closed');
+    expect(drawer.dataset.state).toBe('closed');
+
+    toggle.checked = false;
+    toggle.formResetCallback();
+    input.value = 'tokens';
+    checkbox.checked = true;
+    textarea.value = 'notes';
+    dialog.open = true;
+    drawer.open = true;
+    toast.open = true;
+    transition.active = true;
+    topProgress.active = true;
+    await Promise.all([
+      toggle.updateComplete,
+      input.updateComplete,
+      checkbox.updateComplete,
+      textarea.updateComplete,
+      dialog.updateComplete,
+      drawer.updateComplete,
+      toast.updateComplete,
+      transition.updateComplete,
+      topProgress.updateComplete
+    ]);
+
+    expect(toggle.dataset.state).toBe('checked');
+    expect(input.dataset.state).toBe('valid');
+    expect(input.hasAttribute('data-invalid')).toBe(false);
+    expect(checkbox.dataset.state).toBe('checked');
+    expect(checkbox.hasAttribute('data-invalid')).toBe(false);
+    expect(textarea.dataset.state).toBe('valid');
+    expect(dialog.dataset.state).toBe('open');
+    expect(drawer.dataset.state).toBe('open');
+    expect(toast.dataset.state).toBe('open');
+    expect(transition.dataset.state).toBe('active');
+    expect(topProgress.dataset.state).toBe('active');
+
+    button.remove();
+    iconButton.remove();
+    chip.remove();
+    input.remove();
+    checkbox.remove();
+    toggle.remove();
+    textarea.remove();
+    formField.remove();
+    radioCard.remove();
+    tabs.remove();
+    dialog.remove();
+    drawer.remove();
+    toast.remove();
+    transition.remove();
+    topProgress.remove();
+  });
+
+  it('implements divider, tooltip, and radio group first-batch contracts', async () => {
+    const divider = document.createElement('nami-divider') as NamiDivider;
+    document.body.append(divider);
+    await divider.updateComplete;
+
+    const separator = divider.shadowRoot?.querySelector('[role="separator"]');
+    expect(divider.dataset.state).toBe('horizontal');
+    expect(separator?.getAttribute('aria-orientation')).toBe('horizontal');
+
+    divider.orientation = 'vertical';
+    await divider.updateComplete;
+    expect(divider.dataset.state).toBe('vertical');
+    expect(separator?.getAttribute('aria-orientation')).toBe('vertical');
+
+    const tooltip = document.createElement('nami-tooltip') as NamiTooltip;
+    const trigger = document.createElement('button');
+    const content = document.createElement('span');
+    const openSpy = vi.fn();
+    const closeSpy = vi.fn();
+    trigger.slot = 'trigger';
+    trigger.textContent = 'Help';
+    content.slot = 'content';
+    content.textContent = 'Short hint';
+    tooltip.append(trigger, content);
+    tooltip.addEventListener('nami-open', openSpy);
+    tooltip.addEventListener('nami-close', closeSpy);
+    document.body.append(tooltip);
+    await tooltip.updateComplete;
+
+    expect(tooltip.dataset.state).toBe('closed');
+    expect(trigger.getAttribute('aria-describedby')).toBeTruthy();
+
+    trigger.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true, composed: true }));
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    expect(tooltip.dataset.state).toBe('open');
+    expect(openSpy).toHaveBeenCalledTimes(1);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
+    expect(tooltip.dataset.state).toBe('closed');
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+
+    tooltip.disabled = true;
+    await tooltip.updateComplete;
+    expect(tooltip.hasAttribute('data-disabled')).toBe(true);
+    expect(trigger.hasAttribute('aria-describedby')).toBe(false);
+
+    const group = document.createElement('nami-radio-group') as NamiRadioGroup;
+    const comfortable = document.createElement('nami-radio-item') as NamiRadioItem;
+    const compact = document.createElement('nami-radio-item') as NamiRadioItem;
+    const selectSpy = vi.fn();
+    const changeSpy = vi.fn();
+    group.name = 'density';
+    group.value = 'comfortable';
+    group.defaultValue = 'comfortable';
+    comfortable.value = 'comfortable';
+    comfortable.textContent = 'Comfortable';
+    compact.value = 'compact';
+    compact.textContent = 'Compact';
+    group.append(comfortable, compact);
+    group.addEventListener('nami-select', selectSpy);
+    group.addEventListener('nami-change', changeSpy);
+    document.body.append(group);
+    await Promise.all([group.updateComplete, comfortable.updateComplete, compact.updateComplete]);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await Promise.all([comfortable.updateComplete, compact.updateComplete]);
+
+    expect(group.dataset.state).toBe('selected');
+    expect(comfortable.checked).toBe(true);
+    expect(compact.checked).toBe(false);
+    expect(comfortable.tabIndex).toBe(0);
+    expect(compact.tabIndex).toBe(-1);
+
+    compact.shadowRoot?.querySelector('.base')?.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+    await Promise.all([group.updateComplete, comfortable.updateComplete, compact.updateComplete]);
+    expect(group.value).toBe('compact');
+    expect(comfortable.checked).toBe(false);
+    expect(compact.checked).toBe(true);
+    expect(selectSpy).toHaveBeenCalledTimes(1);
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(selectSpy.mock.calls[0]?.[0].detail.previousValue).toBe('comfortable');
+
+    compact.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, composed: true }));
+    await Promise.all([group.updateComplete, comfortable.updateComplete, compact.updateComplete]);
+    expect(group.value).toBe('comfortable');
+    expect(comfortable.checked).toBe(true);
+
+    group.required = true;
+    group.value = '';
+    await group.updateComplete;
+    expect(group.dataset.state).toBe('empty');
+    expect(group.hasAttribute('data-invalid')).toBe(true);
+    expect(group.checkValidity()).toBe(false);
+
+    group.value = 'compact';
+    group.formResetCallback();
+    await Promise.all([group.updateComplete, comfortable.updateComplete, compact.updateComplete]);
+    expect(group.value).toBe('comfortable');
+    expect(comfortable.checked).toBe(true);
+
+    group.disabled = true;
+    await Promise.all([group.updateComplete, comfortable.updateComplete, compact.updateComplete]);
+    expect(group.hasAttribute('data-disabled')).toBe(true);
+    expect(comfortable.hasAttribute('data-disabled')).toBe(true);
+    expect(comfortable.tabIndex).toBe(-1);
+
+    divider.remove();
+    tooltip.remove();
+    group.remove();
   });
 
   it('lets global theme size drive defaults while explicit component size remains available', async () => {
@@ -813,6 +1090,29 @@ describe('@nami-web/ui components', () => {
       if (item.name === 'nami-radio-card') {
         (element as NamiRadioCard).label = 'Radio';
         (element as NamiRadioCard).description = 'Description';
+      }
+      if (item.name === 'nami-radio-item') {
+        (element as NamiRadioItem).value = 'radio';
+        (element as NamiRadioItem).description = 'Description';
+      }
+      if (item.name === 'nami-radio-group') {
+        (element as NamiRadioGroup).error = 'Error';
+        const radio = document.createElement('nami-radio-item') as NamiRadioItem;
+        radio.value = 'radio';
+        radio.textContent = 'Radio';
+        element.append(radio);
+      }
+      if (item.name === 'nami-tooltip') {
+        const trigger = document.createElement('button');
+        const content = document.createElement('span');
+        trigger.slot = 'trigger';
+        trigger.textContent = 'Trigger';
+        content.slot = 'content';
+        content.textContent = 'Content';
+        element.append(trigger, content);
+      }
+      if (item.name === 'nami-divider') {
+        element.textContent = 'Divider';
       }
       if (item.name === 'nami-button') {
         (element as NamiButton).loading = true;

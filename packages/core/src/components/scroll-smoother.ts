@@ -6,6 +6,7 @@ import Lenis, {
   type ScrollToOptions as LenisScrollToOptions
 } from 'lenis';
 import { LitElement, css, nothing } from 'lit';
+import { activeState, syncHostState } from '../foundation/selection';
 import { emit } from '../internal/events';
 
 export type NamiScrollSmootherPreset = 'gentle' | 'balanced' | 'strong';
@@ -225,6 +226,7 @@ export class NamiScrollSmoother extends LitElement {
   }
 
   protected updated(changed: Map<string, unknown>) {
+    this.syncState();
     if (changed.has('config') && this.config) {
       this.applyConfig(this.config, { persist: false, respectAttributes: true });
       return;
@@ -513,6 +515,7 @@ export class NamiScrollSmoother extends LitElement {
   };
 
   private emitState() {
+    this.syncState();
     emit<NamiScrollSmootherDetail>(this, 'nami-scroll-smoother-state', {
       scroll: this.lenis?.scroll ?? window.scrollY,
       limit: this.lenis?.limit ?? Math.max(0, document.documentElement.scrollHeight - window.innerHeight),
@@ -521,6 +524,13 @@ export class NamiScrollSmoother extends LitElement {
       direction: this.lenis?.direction ?? 0,
       preset: this.preset,
       reducedMotion: this.reducedMotion
+    });
+  }
+
+  private syncState() {
+    syncHostState(this, {
+      state: this.reducedMotion ? 'reduced-motion' : this.disabled ? 'disabled' : activeState(this.active),
+      disabled: this.disabled
     });
   }
 }

@@ -1,5 +1,6 @@
 import { css, html, LitElement } from 'lit';
-import { attachInternalsSafe, setSafeFormValue, setSafeValidity, type SafeElementInternals } from '../foundation/form-associated';
+import { attachInternalsSafe, requiredCheckedValidity, setSafeFormValue, setSafeValidity, type SafeElementInternals } from '../foundation/form-associated';
+import { checkedState, syncHostState } from '../foundation/selection';
 import { emit } from '../internal/events';
 import { componentHostStyles } from '../internal/styles';
 
@@ -109,9 +110,12 @@ export class NamiCheckbox extends LitElement {
   }
 
   updated() {
-    this.dataset.state = this.checked ? 'checked' : 'unchecked';
-    this.toggleAttribute('data-disabled', this.disabled);
-    this.toggleAttribute('data-invalid', Boolean(this.error || (this.required && !this.checked)));
+    const invalid = !this.disabled && Boolean(this.error || (this.required && !this.checked));
+    syncHostState(this, {
+      state: checkedState(this.checked),
+      disabled: this.disabled,
+      invalid
+    });
     setSafeFormValue(this.internals, !this.disabled && this.checked ? this.value : null);
     setSafeValidity(this.internals, this.validityFlags, this.validationMessage || undefined);
   }
@@ -131,14 +135,14 @@ export class NamiCheckbox extends LitElement {
   get validationMessage() {
     if (this.disabled) return '';
     if (this.error) return this.error;
-    if (this.required && !this.checked) return 'This field is required';
+    if (this.required) return requiredCheckedValidity(this.checked).message ?? '';
     return '';
   }
 
   private get validityFlags(): ValidityStateFlags {
     if (this.disabled) return {};
     if (this.error) return { customError: true };
-    if (this.required && !this.checked) return { valueMissing: true };
+    if (this.required) return requiredCheckedValidity(this.checked).flags;
     return {};
   }
 

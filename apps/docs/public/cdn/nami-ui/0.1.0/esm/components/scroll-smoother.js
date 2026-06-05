@@ -1,19 +1,20 @@
 import { i as _, a as B, A } from "../chunks/lit-element-GeMXvhiH.js";
+import { s as P, b as Y } from "../chunks/selection-CrKkvo5N.js";
 import { e as M } from "../chunks/events-DtyLzvDt.js";
 var N = "1.3.23";
 function x(t, e, i) {
   return Math.max(t, Math.min(e, i));
 }
-function P(t, e, i) {
+function D(t, e, i) {
   return (1 - i) * t + i * e;
 }
-function Y(t, e, i, o) {
-  return P(t, e, 1 - Math.exp(-i * o));
+function X(t, e, i, o) {
+  return D(t, e, 1 - Math.exp(-i * o));
 }
-function D(t, e) {
+function F(t, e) {
   return (t % e + e) % e;
 }
-var X = class {
+var q = class {
   isRunning = !1;
   value = 0;
   from = 0;
@@ -37,7 +38,7 @@ var X = class {
       e = i >= 1;
       const o = e ? 1 : this.easing(i);
       this.value = this.from + (this.to - this.from) * o;
-    } else this.lerp ? (this.value = Y(this.value, this.to, this.lerp * 60, t), Math.round(this.value) === Math.round(this.to) && (this.value = this.to, e = !0)) : (this.value = this.to, e = !0);
+    } else this.lerp ? (this.value = X(this.value, this.to, this.lerp * 60, t), Math.round(this.value) === Math.round(this.to) && (this.value = this.to, e = !0)) : (this.value = this.to, e = !0);
     e && this.stop(), this.onUpdate?.(this.value, e);
   }
   /** Stop the animation */
@@ -56,7 +57,7 @@ var X = class {
     this.from = this.value = t, this.to = e, this.lerp = i, this.duration = o, this.easing = s, this.currentTime = 0, this.isRunning = !0, n?.(), this.onUpdate = h;
   }
 };
-function F(t, e) {
+function U(t, e) {
   let i;
   return function(...o) {
     clearTimeout(i), i = setTimeout(() => {
@@ -64,7 +65,7 @@ function F(t, e) {
     }, e);
   };
 }
-var q = class {
+var Q = class {
   width = 0;
   height = 0;
   scrollHeight = 0;
@@ -73,7 +74,7 @@ var q = class {
   wrapperResizeObserver;
   contentResizeObserver;
   constructor(t, e, { autoResize: i = !0, debounce: o = 250 } = {}) {
-    this.wrapper = t, this.content = e, i && (this.debouncedResize = F(this.resize, o), this.wrapper instanceof Window ? window.addEventListener("resize", this.debouncedResize) : (this.wrapperResizeObserver = new ResizeObserver(this.debouncedResize), this.wrapperResizeObserver.observe(this.wrapper)), this.contentResizeObserver = new ResizeObserver(this.debouncedResize), this.contentResizeObserver.observe(this.content)), this.resize();
+    this.wrapper = t, this.content = e, i && (this.debouncedResize = U(this.resize, o), this.wrapper instanceof Window ? window.addEventListener("resize", this.debouncedResize) : (this.wrapperResizeObserver = new ResizeObserver(this.debouncedResize), this.wrapperResizeObserver.observe(this.wrapper)), this.contentResizeObserver = new ResizeObserver(this.debouncedResize), this.contentResizeObserver.observe(this.content)), this.resize();
   }
   destroy() {
     this.wrapperResizeObserver?.disconnect(), this.contentResizeObserver?.disconnect(), this.wrapper === window && this.debouncedResize && window.removeEventListener("resize", this.debouncedResize);
@@ -130,11 +131,11 @@ var q = class {
     this.events = {};
   }
 };
-const U = 100 / 6, b = { passive: !1 };
+const j = 100 / 6, b = { passive: !1 };
 function R(t, e) {
-  return t === 1 ? U : t === 2 ? e : 1;
+  return t === 1 ? j : t === 2 ? e : 1;
 }
-var Q = class {
+var K = class {
   touchStart = {
     x: 0,
     y: 0
@@ -220,7 +221,7 @@ var Q = class {
   };
 };
 const O = (t) => Math.min(1, 1.001 - 2 ** (-10 * t));
-var j = class {
+var G = class {
   _isScrolling = !1;
   _isStopped = !1;
   _isLocked = !1;
@@ -270,7 +271,7 @@ var j = class {
   * The animated scroll value
   */
   animatedScroll;
-  animate = new X();
+  animate = new q();
   emitter = new H();
   dimensions;
   virtualScroll;
@@ -301,7 +302,7 @@ var j = class {
       allowNestedScroll: E,
       naiveDimensions: k,
       stopInertiaOnNavigate: I
-    }, this.dimensions = new q(t, e, { autoResize: m }), this.updateClassName(), this.targetScroll = this.animatedScroll = this.actualScroll, this.options.wrapper.addEventListener("scroll", this.onNativeScroll), this.options.wrapper.addEventListener("scrollend", this.onScrollEnd, { capture: !0 }), (this.options.anchors || this.options.stopInertiaOnNavigate) && this.options.wrapper.addEventListener("click", this.onClick), this.options.wrapper.addEventListener("pointerdown", this.onPointerDown), this.virtualScroll = new Q(i, {
+    }, this.dimensions = new Q(t, e, { autoResize: m }), this.updateClassName(), this.targetScroll = this.animatedScroll = this.actualScroll, this.options.wrapper.addEventListener("scroll", this.onNativeScroll), this.options.wrapper.addEventListener("scrollend", this.onScrollEnd, { capture: !0 }), (this.options.anchors || this.options.stopInertiaOnNavigate) && this.options.wrapper.addEventListener("click", this.onClick), this.options.wrapper.addEventListener("pointerdown", this.onPointerDown), this.virtualScroll = new K(i, {
       touchMultiplier: p,
       wheelMultiplier: l
     }), this.virtualScroll.on("scroll", this.onVirtualScroll), this.options.autoToggle && (this.checkOverflow(), this.rootElement.addEventListener("transitionend", this.onTransitionEnd)), this.options.autoRaf && (this._rafId = requestAnimationFrame(this.raf));
@@ -613,7 +614,7 @@ var j = class {
   * The current scroll value
   */
   get scroll() {
-    return this.options.infinite ? D(this.animatedScroll, this.limit) : this.animatedScroll;
+    return this.options.infinite ? F(this.animatedScroll, this.limit) : this.animatedScroll;
   }
   /**
   * The progress of the scroll relative to the limit
@@ -670,7 +671,7 @@ var j = class {
     for (const t of Array.from(this.rootElement.classList)) (t === "lenis" || t.startsWith("lenis-")) && this.rootElement.classList.remove(t);
   }
 };
-const K = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), C = "nami-scroll-smoother-global-style", L = {
+const $ = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), C = "nami-scroll-smoother-global-style", L = {
   gentle: {
     duration: 0.8,
     touchMultiplier: 1.4,
@@ -687,7 +688,7 @@ const K = (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), C = "nami-scroll-smo
     wheelMultiplier: 0.85
   }
 };
-function G() {
+function J() {
   if (typeof document > "u" || document.getElementById(C)) return;
   const t = document.createElement("style");
   t.id = C, t.textContent = `
@@ -714,10 +715,10 @@ html.lenis body {
 }
 `, document.head.append(t);
 }
-function $() {
+function Z() {
   return typeof window < "u" && typeof document < "u" && typeof window.requestAnimationFrame == "function" && typeof window.ResizeObserver == "function";
 }
-function J(t) {
+function tt(t) {
   if (typeof t == "number") return t;
   const e = typeof t == "string" ? document.querySelector(t) : t;
   if (e)
@@ -725,7 +726,7 @@ function J(t) {
 }
 const T = class T extends _ {
   constructor() {
-    super(), this.easing = K, this.pendingResize = 0, this.handleLoad = () => {
+    super(), this.easing = $, this.pendingResize = 0, this.handleLoad = () => {
       this.resizeOnLoad && this.queueResize();
     }, this.handleNavigation = () => {
       this.lenis && (this.stopInertiaOnNavigate && this.lenis.stop(), this.queueResize(), window.requestAnimationFrame(() => this.lenis?.start()));
@@ -750,7 +751,7 @@ const T = class T extends _ {
     window.removeEventListener("load", this.handleLoad), window.removeEventListener("hashchange", this.handleNavigation), window.removeEventListener("popstate", this.handleNavigation), document.removeEventListener("astro:page-load", this.handleNavigation), this.motionQuery?.removeEventListener("change", this.handleMotionPreference), this.motionQuery = void 0, this.destroyLenis(), super.disconnectedCallback();
   }
   updated(e) {
-    if (e.has("config") && this.config) {
+    if (this.syncState(), e.has("config") && this.config) {
       this.applyConfig(this.config, { persist: !1, respectAttributes: !0 });
       return;
     }
@@ -842,7 +843,7 @@ const T = class T extends _ {
       });
       return;
     }
-    const o = J(e);
+    const o = tt(e);
     typeof o == "number" && window.scrollTo({ top: o, behavior: "auto" });
   }
   installMotionListener() {
@@ -851,11 +852,11 @@ const T = class T extends _ {
   configure() {
     if (!this.isConnected) return;
     const e = this.shouldReduceMotion();
-    if (this.reducedMotion = e, this.destroyLenis(), this.disabled || e || !$()) {
+    if (this.reducedMotion = e, this.destroyLenis(), this.disabled || e || !Z()) {
       this.active = !1, this.emitState();
       return;
     }
-    G();
+    J();
     const i = {
       allowNestedScroll: this.allowNestedScroll,
       anchors: this.anchorOptions ?? this.anchors,
@@ -875,7 +876,7 @@ const T = class T extends _ {
       virtualScroll: this.virtualScroll,
       wheelMultiplier: this.wheelMultiplier
     };
-    typeof this.lerp == "number" && (i.lerp = this.lerp), typeof this.syncTouchLerp == "number" && (i.syncTouchLerp = this.syncTouchLerp), typeof this.touchInertiaExponent == "number" && (i.touchInertiaExponent = this.touchInertiaExponent), this.lenis = new j(i), this.unsubscribeScroll = this.lenis.on("scroll", this.handleScroll), this.active = !0, this.emitState(), this.queueResize(), this.queueFontResize();
+    typeof this.lerp == "number" && (i.lerp = this.lerp), typeof this.syncTouchLerp == "number" && (i.syncTouchLerp = this.syncTouchLerp), typeof this.touchInertiaExponent == "number" && (i.touchInertiaExponent = this.touchInertiaExponent), this.lenis = new G(i), this.unsubscribeScroll = this.lenis.on("scroll", this.handleScroll), this.active = !0, this.emitState(), this.queueResize(), this.queueFontResize();
   }
   destroyLenis() {
     this.pendingResize && (window.cancelAnimationFrame(this.pendingResize), this.pendingResize = 0), this.unsubscribeScroll?.(), this.unsubscribeScroll = void 0, this.lenis?.destroy(), this.lenis = void 0, this.active = !1;
@@ -899,7 +900,7 @@ const T = class T extends _ {
     });
   }
   emitState() {
-    M(this, "nami-scroll-smoother-state", {
+    this.syncState(), M(this, "nami-scroll-smoother-state", {
       scroll: this.lenis?.scroll ?? window.scrollY,
       limit: this.lenis?.limit ?? Math.max(0, document.documentElement.scrollHeight - window.innerHeight),
       progress: this.lenis?.progress ?? 0,
@@ -907,6 +908,12 @@ const T = class T extends _ {
       direction: this.lenis?.direction ?? 0,
       preset: this.preset,
       reducedMotion: this.reducedMotion
+    });
+  }
+  syncState() {
+    P(this, {
+      state: this.reducedMotion ? "reduced-motion" : this.disabled ? "disabled" : Y(this.active),
+      disabled: this.disabled
     });
   }
 };

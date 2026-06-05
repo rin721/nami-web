@@ -5,6 +5,57 @@ import { defineConfig } from 'vite';
 const packageJson = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf8')) as { version: string };
 const cdnOutDir = resolve(__dirname, '../../artifacts/cdn/nami-ui', packageJson.version);
 
+const componentSlugs = [
+  'config',
+  'theme',
+  'spinner',
+  'page-transition',
+  'top-progress',
+  'scroll-smoother',
+  'illustration',
+  'empty',
+  'result',
+  'card',
+  'badge',
+  'button',
+  'icon-button',
+  'chip',
+  'input',
+  'switch',
+  'radio-item',
+  'radio-group',
+  'radio-card',
+  'tab-bar',
+  'dialog',
+  'drawer',
+  'tooltip',
+  'toast',
+  'app-shell',
+  'container',
+  'stack',
+  'cluster',
+  'grid',
+  'split',
+  'divider',
+  'checkbox',
+  'textarea',
+  'form-field',
+  'alert',
+  'skeleton',
+  'progress'
+];
+
+const componentEntries = Object.fromEntries(
+  componentSlugs.map((slug) => [`components/${slug}`, resolve(__dirname, `src/components/${slug}.ts`)])
+);
+
+const componentRegisterEntries = Object.fromEntries(
+  componentSlugs.flatMap((slug) => [
+    [slug, resolve(__dirname, `src/register/${slug}.ts`)],
+    [`register/${slug}`, resolve(__dirname, `src/register/${slug}.ts`)]
+  ])
+);
+
 const entries = {
   index: resolve(__dirname, 'src/index.ts'),
   events: resolve(__dirname, 'src/events.ts'),
@@ -14,40 +65,8 @@ const entries = {
   anatomy: resolve(__dirname, 'src/anatomy.ts'),
   catalog: resolve(__dirname, 'src/catalog.ts'),
   localize: resolve(__dirname, 'src/localize.ts'),
-  'register/button': resolve(__dirname, 'src/register/button.ts'),
-  'components/config': resolve(__dirname, 'src/components/config.ts'),
-  'components/theme': resolve(__dirname, 'src/components/theme.ts'),
-  'components/spinner': resolve(__dirname, 'src/components/spinner.ts'),
-  'components/page-transition': resolve(__dirname, 'src/components/page-transition.ts'),
-  'components/top-progress': resolve(__dirname, 'src/components/top-progress.ts'),
-  'components/scroll-smoother': resolve(__dirname, 'src/components/scroll-smoother.ts'),
-  'components/illustration': resolve(__dirname, 'src/components/illustration.ts'),
-  'components/empty': resolve(__dirname, 'src/components/empty.ts'),
-  'components/result': resolve(__dirname, 'src/components/result.ts'),
-  'components/card': resolve(__dirname, 'src/components/card.ts'),
-  'components/badge': resolve(__dirname, 'src/components/badge.ts'),
-  'components/button': resolve(__dirname, 'src/components/button.ts'),
-  'components/icon-button': resolve(__dirname, 'src/components/icon-button.ts'),
-  'components/chip': resolve(__dirname, 'src/components/chip.ts'),
-  'components/input': resolve(__dirname, 'src/components/input.ts'),
-  'components/switch': resolve(__dirname, 'src/components/switch.ts'),
-  'components/radio-card': resolve(__dirname, 'src/components/radio-card.ts'),
-  'components/tab-bar': resolve(__dirname, 'src/components/tab-bar.ts'),
-  'components/dialog': resolve(__dirname, 'src/components/dialog.ts'),
-  'components/drawer': resolve(__dirname, 'src/components/drawer.ts'),
-  'components/toast': resolve(__dirname, 'src/components/toast.ts'),
-  'components/app-shell': resolve(__dirname, 'src/components/app-shell.ts'),
-  'components/container': resolve(__dirname, 'src/components/container.ts'),
-  'components/stack': resolve(__dirname, 'src/components/stack.ts'),
-  'components/cluster': resolve(__dirname, 'src/components/cluster.ts'),
-  'components/grid': resolve(__dirname, 'src/components/grid.ts'),
-  'components/split': resolve(__dirname, 'src/components/split.ts'),
-  'components/checkbox': resolve(__dirname, 'src/components/checkbox.ts'),
-  'components/textarea': resolve(__dirname, 'src/components/textarea.ts'),
-  'components/form-field': resolve(__dirname, 'src/components/form-field.ts'),
-  'components/alert': resolve(__dirname, 'src/components/alert.ts'),
-  'components/skeleton': resolve(__dirname, 'src/components/skeleton.ts'),
-  'components/progress': resolve(__dirname, 'src/components/progress.ts')
+  ...componentRegisterEntries,
+  ...componentEntries
 };
 
 export default defineConfig(({ mode }) => {

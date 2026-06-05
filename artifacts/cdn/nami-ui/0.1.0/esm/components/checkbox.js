@@ -1,13 +1,19 @@
-import { i as r, a as i, b as s } from "../chunks/lit-element-GeMXvhiH.js";
-import { a as o, s as n, b as d } from "../chunks/form-associated-CbqAj2Is.js";
-import { e as l } from "../chunks/events-DtyLzvDt.js";
-import { c } from "../chunks/styles-C6m3uqJJ.js";
-const e = class e extends r {
+import { i, a as s, b as o } from "../chunks/lit-element-GeMXvhiH.js";
+import { a as n, s as d, b as c, r as t } from "../chunks/form-associated-BOUCekea.js";
+import { s as l, c as h } from "../chunks/selection-CrKkvo5N.js";
+import { e as u } from "../chunks/events-DtyLzvDt.js";
+import { c as m } from "../chunks/styles-C6m3uqJJ.js";
+const e = class e extends i {
   constructor() {
-    super(), this.internals = o(this), this.name = "", this.value = "on", this.checked = !1, this.defaultChecked = !1, this.disabled = !1, this.required = !1, this.error = "";
+    super(), this.internals = n(this), this.name = "", this.value = "on", this.checked = !1, this.defaultChecked = !1, this.disabled = !1, this.required = !1, this.error = "";
   }
   updated() {
-    this.dataset.state = this.checked ? "checked" : "unchecked", this.toggleAttribute("data-disabled", this.disabled), this.toggleAttribute("data-invalid", !!(this.error || this.required && !this.checked)), n(this.internals, !this.disabled && this.checked ? this.value : null), d(this.internals, this.validityFlags, this.validationMessage || void 0);
+    const a = !this.disabled && !!(this.error || this.required && !this.checked);
+    l(this, {
+      state: h(this.checked),
+      disabled: this.disabled,
+      invalid: a
+    }), d(this.internals, !this.disabled && this.checked ? this.value : null), c(this.internals, this.validityFlags, this.validationMessage || void 0);
   }
   formResetCallback() {
     this.checked = this.defaultChecked;
@@ -19,16 +25,16 @@ const e = class e extends r {
     return this.checkValidity();
   }
   get validationMessage() {
-    return this.disabled ? "" : this.error ? this.error : this.required && !this.checked ? "This field is required" : "";
+    return this.disabled ? "" : this.error ? this.error : this.required ? t(this.checked).message ?? "" : "";
   }
   get validityFlags() {
-    return this.disabled ? {} : this.error ? { customError: !0 } : this.required && !this.checked ? { valueMissing: !0 } : {};
+    return this.disabled ? {} : this.error ? { customError: !0 } : this.required ? t(this.checked).flags : {};
   }
   toggle(a) {
-    this.disabled || (this.checked = !this.checked, l(this, "nami-change", { checked: this.checked, value: this.value, sourceEvent: a }));
+    this.disabled || (this.checked = !this.checked, u(this, "nami-change", { checked: this.checked, value: this.value, sourceEvent: a }));
   }
   render() {
-    return s`
+    return o`
       <button
         part="base control"
         type="button"
@@ -53,8 +59,8 @@ e.formAssociated = !0, e.properties = {
   required: { type: Boolean, reflect: !0 },
   error: { reflect: !0, useDefault: !0 }
 }, e.styles = [
-  c,
-  i`
+  m,
+  s`
       :host {
         display: inline-flex;
       }
@@ -123,7 +129,7 @@ e.formAssociated = !0, e.properties = {
       }
     `
 ];
-let t = e;
+let r = e;
 export {
-  t as NamiCheckbox
+  r as NamiCheckbox
 };

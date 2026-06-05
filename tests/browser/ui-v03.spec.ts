@@ -206,9 +206,13 @@ test('component catalog and reference pages are driven by catalog plus metadata'
   await expect(page.locator('#component-docs')).toContainText('反馈');
   await expect(page.locator('#component-docs')).toContainText('系统');
   await expect(page.locator('a[data-component-card="nami-button"]')).toContainText('Button 按钮');
-  await expect(page.locator('[data-component-card="nami-radio-group"]')).toContainText('规划中');
+  await expect(page.locator('a[data-component-card="nami-radio-group"]')).toBeVisible();
+  await expect(page.locator('a[data-component-card="nami-tooltip"]')).toBeVisible();
+  await expect(page.locator('a[data-component-card="nami-divider"]')).toBeVisible();
   await expect(page.locator('a[data-component-card="nami-button"]')).toHaveAttribute('href', /\/zh-CN\/components\/button\//);
-  await expect(page.locator('article[data-component-card="nami-radio-group"]')).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.locator('a[data-component-card="nami-radio-group"]')).toHaveAttribute('href', /\/zh-CN\/components\/radio-group\//);
+  await expect(page.locator('a[data-component-card="nami-tooltip"]')).toHaveAttribute('href', /\/zh-CN\/components\/tooltip\//);
+  await expect(page.locator('a[data-component-card="nami-divider"]')).toHaveAttribute('href', /\/zh-CN\/components\/divider\//);
 
   await page.locator('[data-component-search-input]').fill('button');
   await expect(page.locator('a[data-component-card="nami-button"]')).toBeVisible();
@@ -225,8 +229,8 @@ test('component catalog and reference pages are driven by catalog plus metadata'
   await expectDocsFrame(page);
   await expectArticleBlocksDoNotOverlapToc(page);
   await expect(page.locator('h1')).toHaveText('Button 按钮');
-  await expect(page.locator('.docs-side-nav')).toContainText('RadioGroup 单选组');
-  await expect(page.locator('.docs-side-nav .docs-nav-disabled').filter({ hasText: 'RadioGroup 单选组' })).toContainText('规划中');
+  await expect(page.locator('.docs-side-nav')).toContainText('RadioGroup');
+  await expect(page.locator('.docs-side-nav a[href*="/components/radio-group/"]')).toBeVisible();
   for (const id of ['overview', 'install', 'examples', 'api', 'events', 'slots', 'parts', 'tokens', 'anatomy', 'accessibility', 'related']) {
     await expect(page.locator(`#${id}`)).toBeVisible();
   }

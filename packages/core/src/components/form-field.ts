@@ -1,5 +1,6 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { nextId } from '../foundation/ids';
+import { syncHostState } from '../foundation/selection';
 import { componentHostStyles } from '../internal/styles';
 
 export class NamiFormField extends LitElement {
@@ -67,9 +68,12 @@ export class NamiFormField extends LitElement {
   }
 
   updated() {
-    this.dataset.state = this.error ? 'invalid' : 'valid';
-    this.toggleAttribute('data-disabled', this.disabled);
-    this.toggleAttribute('data-invalid', Boolean(this.error));
+    const invalid = !this.disabled && Boolean(this.error);
+    syncHostState(this, {
+      state: invalid ? 'invalid' : 'valid',
+      disabled: this.disabled,
+      invalid
+    });
   }
 
   private focusControl() {

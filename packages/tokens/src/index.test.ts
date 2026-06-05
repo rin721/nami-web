@@ -27,7 +27,11 @@ describe('@nami-web/tokens', () => {
     expect(componentTokens).toContain('--nami-card-bg');
     expect(componentTokens).toContain('--nami-badge-bg');
     expect(componentTokens).toContain('--nami-radio-card-selected-shadow');
+    expect(componentTokens).toContain('--nami-radio-item-indicator-color');
+    expect(componentTokens).toContain('--nami-radio-group-gap');
     expect(componentTokens).toContain('--nami-soft-control-color');
+    expect(componentTokens).toContain('--nami-tooltip-bg');
+    expect(componentTokens).toContain('--nami-divider-color');
     expect(componentTokens).toContain('--nami-switch-thumb-bg');
     expect(componentTokens).toContain('--nami-switch-thumb-shadow');
     expect(componentTokens).toContain('--nami-spinner-track-color');
@@ -113,6 +117,9 @@ describe('@nami-web/tokens', () => {
     expect(defaultTheme.cssVars['--nami-radius-control']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-contrast-level']).toBe('high');
     expect(defaultTheme.cssVars['--nami-button-border-width']).toBe('2px');
+    expect(defaultTheme.cssVars['--nami-radio-item-border-width']).toBe('2px');
+    expect(defaultTheme.cssVars['--nami-divider-thickness']).toBe('2px');
+    expect(defaultTheme.cssVars['--nami-tooltip-bg']).toBe('var(--nami-text)');
     expect(defaultTheme.cssVars['--nami-transition-progress-height']).toBe('4px');
     expect(defaultTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(defaultTheme.cssVars['--nami-top-progress-duration']).toBe('1ms');
@@ -127,6 +134,8 @@ describe('@nami-web/tokens', () => {
     expect(illustrationTheme.cssVars['--nami-top-progress-height']).toBe('var(--nami-transition-progress-height)');
     expect(illustrationTheme.cssVars['--nami-style-on-paper']).toBe('#29221f');
     expect(illustrationTheme.cssVars['--nami-card-bg']).toBe('var(--nami-style-control-bg)');
+    expect(illustrationTheme.cssVars['--nami-radio-item-bg']).toBe('var(--nami-style-control-bg)');
+    expect(illustrationTheme.cssVars['--nami-tooltip-shadow']).toBe('var(--nami-style-offset-shadow)');
     expect(illustrationTheme.cssVars['--nami-style-background-pattern']).toContain('radial-gradient');
   });
 
